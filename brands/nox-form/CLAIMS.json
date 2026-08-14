@@ -1,0 +1,37 @@
+{
+  "brand_id": "NOX_FORM",
+  "module": "claims",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "approved_claims": {
+    "status": "MISSING",
+    "notes": "No approved claims yet"
+  },
+  "claims_requiring_evidence": {
+    "status": "MISSING"
+  },
+  "prohibited_claims": {
+    "status": "UNVERIFIED",
+    "value": [
+      "Do not invent completed projects, awards, or client names",
+      "Do not fabricate timelines or budgets"
+    ],
+    "notes": "Precautionary restrictions from Phase 1/brief — expand with legal review",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "regulatory_considerations": {
+    "status": "MISSING"
+  },
+  "pricing_restrictions": {
+    "status": "MISSING"
+  },
+  "investment_financial_restrictions": {
+    "status": "MISSING"
+  },
+  "client_confidentiality_restrictions": {
+    "status": "MISSING"
+  }
+}

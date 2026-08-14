@@ -1,0 +1,135 @@
+{
+  "brand_id": "NOX_FORM",
+  "module": "offerings",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "items": [
+    {
+      "id": "offer-1",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "architecture",
+        "notes": "Offer label from brief — not a verified catalog item",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "MISSING"
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "pricing": {
+        "status": "MISSING",
+        "notes": "Pricing must be verified; time-sensitive"
+      },
+      "cta": {
+        "status": "MISSING"
+      }
+    },
+    {
+      "id": "offer-2",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "interior design",
+        "notes": "Offer label from brief — not a verified catalog item",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "MISSING"
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "pricing": {
+        "status": "MISSING",
+        "notes": "Pricing must be verified; time-sensitive"
+      },
+      "cta": {
+        "status": "MISSING"
+      }
+    },
+    {
+      "id": "offer-3",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "project acquisition",
+        "notes": "Offer label from brief — not a verified catalog item",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "MISSING"
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "pricing": {
+        "status": "MISSING",
+        "notes": "Pricing must be verified; time-sensitive"
+      },
+      "cta": {
+        "status": "MISSING"
+      }
+    },
+    {
+      "id": "offer-4",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "design expertise",
+        "notes": "Offer label from brief — not a verified catalog item",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "MISSING"
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "pricing": {
+        "status": "MISSING",
+        "notes": "Pricing must be verified; time-sensitive"
+      },
+      "cta": {
+        "status": "MISSING"
+      }
+    }
+  ]
+}

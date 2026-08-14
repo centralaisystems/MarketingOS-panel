@@ -1,0 +1,58 @@
+{
+  "brand_id": "VILLA_GLORY",
+  "module": "identity",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "official_name": {
+    "status": "UNVERIFIED",
+    "value": "Villa Glory",
+    "notes": "Display name from brief only — legal name MISSING",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "short_name": {
+    "status": "UNVERIFIED",
+    "value": "Villa Glory",
+    "notes": "Short name assumed from display — unverified",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "legal_operating_relationship": {
+    "status": "MISSING",
+    "notes": "Legal/operating relationship unknown"
+  },
+  "description": {
+    "status": "MISSING",
+    "notes": "Approved brand description required"
+  },
+  "location_markets": {
+    "status": "MISSING",
+    "notes": "Markets unknown"
+  },
+  "website": {
+    "status": "MISSING",
+    "notes": "Official website URL required"
+  },
+  "contact_channels": {
+    "status": "MISSING",
+    "notes": "Contact channels unknown"
+  },
+  "languages": {
+    "status": "UNVERIFIED",
+    "value": [
+      "en",
+      "ar"
+    ],
+    "notes": "Default locales from brief orientation",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  }
+}

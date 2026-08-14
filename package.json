@@ -15,7 +15,9 @@
     "demo": "tsx scripts/demo-scenarios.ts",
     "run-objective": "tsx scripts/run-objective.ts",
     "verify-output": "tsx scripts/verify-output.ts",
-    "onboard-brand": "tsx scripts/onboard-brand.ts"
+    "onboard-brand": "tsx scripts/onboard-brand.ts",
+    "onboard-all": "tsx scripts/onboard-all-brands.ts",
+    "generate-brand-packs": "tsx scripts/generate-brand-packs.ts"
   },
   "dependencies": {
     "@marketing-os/contracts": "workspace:*",

@@ -1,13 +1,29 @@
-# LOTIN — onboarding gaps (Phase 1)
+# LOTIN — Brand Intelligence gaps (Phase 2)
 
-All fields marked `MISSING` or `UNVERIFIED` in `profile.json` require Phase 2 brand intelligence.
+## Orientation (not verified)
 
-Do **not** invent:
+Real estate, investment opportunities, buyers/investors, sellers, developers, market intelligence and qualified lead generation. Orientation only — not verified.
 
-- Legal entity / licensing details
-- Inventory, pricing, or ROI claims
-- Partner/developer relationships
-- Tone of voice or visual system
-- Verified competitor list
 
-Use `pnpm onboard-brand -- LOTIN` to list gaps.
+
+## Do not invent
+
+- Official legal identity, website, contacts
+- Positioning statement and differentiation
+- Product/service catalog details, pricing, stock
+- Personas (unless supplied and verified)
+- Visual design system
+- Channel handles/URLs
+- Historical performance learnings
+- Competitor list without evidence
+
+## Next inputs needed
+
+1. Internal brand/legal identity sheet
+2. Approved messaging / positioning
+3. Current offerings with CTAs
+4. Tone & visual kits if they exist
+5. Active channels
+6. Compliance/claims list signed by an operator
+
+Run: `pnpm onboard-brand -- LOTIN`

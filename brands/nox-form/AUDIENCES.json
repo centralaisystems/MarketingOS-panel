@@ -1,0 +1,116 @@
+{
+  "brand_id": "NOX_FORM",
+  "module": "audiences",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "segments": [
+    {
+      "id": "aud-1",
+      "role": "PRIMARY",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "project clients",
+        "notes": "Audience label from brief — not persona-validated",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "needs": {
+        "status": "MISSING"
+      },
+      "pain_points": {
+        "status": "MISSING"
+      },
+      "motivations": {
+        "status": "MISSING"
+      },
+      "objections": {
+        "status": "MISSING"
+      },
+      "buying_triggers": {
+        "status": "MISSING"
+      },
+      "preferred_channels": {
+        "status": "MISSING"
+      }
+    },
+    {
+      "id": "aud-2",
+      "role": "SECONDARY",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "residential prospects",
+        "notes": "Audience label from brief — not persona-validated",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "needs": {
+        "status": "MISSING"
+      },
+      "pain_points": {
+        "status": "MISSING"
+      },
+      "motivations": {
+        "status": "MISSING"
+      },
+      "objections": {
+        "status": "MISSING"
+      },
+      "buying_triggers": {
+        "status": "MISSING"
+      },
+      "preferred_channels": {
+        "status": "MISSING"
+      }
+    },
+    {
+      "id": "aud-3",
+      "role": "SECONDARY",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "commercial prospects",
+        "notes": "Audience label from brief — not persona-validated",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "needs": {
+        "status": "MISSING"
+      },
+      "pain_points": {
+        "status": "MISSING"
+      },
+      "motivations": {
+        "status": "MISSING"
+      },
+      "objections": {
+        "status": "MISSING"
+      },
+      "buying_triggers": {
+        "status": "MISSING"
+      },
+      "preferred_channels": {
+        "status": "MISSING"
+      }
+    }
+  ],
+  "personas": {
+    "status": "MISSING",
+    "notes": "Do not fabricate personas"
+  }
+}

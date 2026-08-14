@@ -1,0 +1,79 @@
+{
+  "brand_id": "VILLA_GLORY",
+  "module": "cta",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "items": [
+    {
+      "id": "product_enquiry",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Product enquiry",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "sales",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "whatsapp",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "WhatsApp",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "conversation",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "consultation",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Consultation",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "appointment",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    }
+  ]
+}

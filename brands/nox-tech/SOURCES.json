@@ -1,0 +1,15 @@
+{
+  "brand_id": "NOX_TECH",
+  "module": "sources",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "sources": [
+    {
+      "id": "src-brief",
+      "title": "Marketing OS master build / Phase 2 orientation brief",
+      "source_type": "AI_INFERENCE",
+      "reference": "internal://marketing-os/orientation",
+      "observed_at": "2026-08-14T08:00:00.000Z",
+      "notes": "Orientation only — not verified company documentation"
+    }
+  ]
+}

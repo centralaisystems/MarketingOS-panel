@@ -1,5 +1,6 @@
 export * from "./ids.js";
 export * from "./evidence.js";
+export * from "./provenance.js";
 export * from "./approval.js";
 export * from "./capabilities.js";
 export * from "./workflow.js";
@@ -7,6 +8,10 @@ export * from "./task.js";
 export * from "./agent-result.js";
 export * from "./memory.js";
 export * from "./brand.js";
+export * from "./brand-intelligence.js";
+export * from "./onboarding.js";
+export * from "./relationships.js";
+export * from "./ingestion.js";
 export * from "./utm.js";
 export * from "./localization.js";
 export * from "./pii.js";

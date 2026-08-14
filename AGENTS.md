@@ -8,7 +8,7 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 
 ## Phase
 
-**Phase 1 — Marketing Core.** No production integrations. No publishing. No ads. No customer contact.
+**Phase 2 — Brand Intelligence.** Provenance-enforced brand packs. No production integrations. No publishing. No ads. No customer contact. Do not start Phase 3 without approval.
 
 ## Required workflow
 

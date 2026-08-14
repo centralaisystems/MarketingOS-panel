@@ -1,70 +1,60 @@
 #!/usr/bin/env tsx
 /**
- * onboard-brand — list MISSING / UNVERIFIED fields for a brand brain.
- * Phase 1 identifies gaps only (Phase 2 populates).
+ * onboard-brand — Phase 2 brand intelligence onboarding report.
+ * Never invents answers.
  */
-import { BrandIdSchema, listMissingKnowledge } from "@marketing-os/contracts";
-import { InMemoryAuditSink, loadBrandContext } from "@marketing-os/runtime";
+import { writeFileSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
+import { BrandIdSchema } from "@marketing-os/contracts";
+import { InMemoryAuditSink, runBrandOnboarding } from "@marketing-os/runtime";
 
-const brandRaw = process.argv[2] ?? process.argv[process.argv.indexOf("--") + 1];
-const cleaned = brandRaw?.startsWith("--")
-  ? process.argv[process.argv.indexOf(brandRaw) + 1]
-  : brandRaw;
-
-if (!cleaned || cleaned.startsWith("-")) {
-  // also support: pnpm onboard-brand -- LOTIN  OR --brand LOTIN
-  const idx = process.argv.indexOf("--brand");
-  const fromFlag = idx >= 0 ? process.argv[idx + 1] : process.argv.find((a) =>
+function resolveBrandArg(): string {
+  const idxBrand = process.argv.indexOf("--brand");
+  if (idxBrand >= 0 && process.argv[idxBrand + 1]) {
+    return process.argv[idxBrand + 1]!;
+  }
+  const known = process.argv.find((a) =>
     ["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"].includes(a),
   );
-  if (!fromFlag) {
-    console.error("Usage: pnpm onboard-brand -- LOTIN");
-    process.exit(1);
-  }
-  run(fromFlag);
-} else {
-  run(cleaned);
+  if (known) return known;
+  console.error("Usage: pnpm onboard-brand -- LOTIN");
+  process.exit(1);
 }
 
-function run(brandRaw: string) {
-  const brand_id = BrandIdSchema.parse(brandRaw);
-  const audit = new InMemoryAuditSink();
-  const { profile, missing } = loadBrandContext(brand_id, audit);
+const brand_id = BrandIdSchema.parse(resolveBrandArg());
+const audit = new InMemoryAuditSink();
+const result = runBrandOnboarding(brand_id, { audit });
 
-  const unverified = (
-    [
-      "identity",
-      "positioning",
-      "products_services",
-      "audiences",
-      "personas",
-      "markets",
-      "competitors",
-      "tone",
-      "visual_guidelines",
-      "content_pillars",
-      "channels",
-      "seo",
-      "paid_media",
-      "cta_library",
-      "claims_restrictions",
-      "historical_learnings",
-    ] as const
-  ).filter((k) => profile[k].status === "UNVERIFIED");
+const summary = {
+  brand_id: result.report.brand_id,
+  readiness_status: result.report.readiness_status,
+  overall_score: result.report.overall_score,
+  onboarding_state: result.report.onboarding_state,
+  guardian_passed: result.report.guardian_passed,
+  guardian_reasons: result.report.guardian_reasons,
+  verified_count: result.report.verified.length,
+  unverified_count: result.report.unverified.length,
+  missing_count: result.report.missing.length,
+  conflicting_count: result.report.conflicting.length,
+  stale_count: result.report.stale.length,
+  verified: result.report.verified,
+  unverified: result.report.unverified,
+  missing: result.report.missing,
+  conflicting: result.report.conflicting,
+  stale: result.report.stale,
+  critical_blockers: result.report.critical_blockers,
+  recommended_documents: result.report.recommended_documents,
+  recommended_human_questions: result.report.recommended_human_questions,
+  next_actions: result.report.next_actions,
+  areas: result.report.areas,
+  related_brand_ids: result.related_brand_ids,
+  relationships_do_not_merge_memory: result.relationships_do_not_merge_memory,
+  note: "Phase 2 onboarding does not invent brand facts. Feed verified documents next.",
+};
 
-  console.log(
-    JSON.stringify(
-      {
-        brand_id,
-        display_name: profile.display_name,
-        missing: listMissingKnowledge(profile),
-        unverified,
-        missing_count: missing.length,
-        default_locales: profile.default_locales,
-        note: "Phase 1 identifies gaps only. Do not invent values. Phase 2 populates.",
-      },
-      null,
-      2,
-    ),
-  );
-}
+console.log(JSON.stringify(summary, null, 2));
+
+mkdirSync("reports/onboarding", { recursive: true });
+const out = join("reports/onboarding", `${brand_id}.json`);
+writeFileSync(out, JSON.stringify(summary, null, 2) + "\n");
+console.error(`Wrote ${out}`);

@@ -29,6 +29,9 @@ coverage/
 .tmp/
 *.local.json
 
+# Generated onboarding reports (optional local)
+# reports/ is committed for Phase 2 gap snapshot — keep JSON only
+
 # Large marketing assets (never commit binaries)
 assets/binaries/
 **/*.mp4

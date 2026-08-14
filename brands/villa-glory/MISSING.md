@@ -1,6 +1,32 @@
-# Villa Glory — onboarding gaps (Phase 1)
+# Villa Glory — Brand Intelligence gaps (Phase 2)
 
-Phase 2 should import verified facts from approved brand materials only.
-Sibling product repos must not be modified from Marketing OS.
+## Orientation (not verified)
 
-Do not invent collections, prices, or lifestyle claims.
+Furniture, interiors, collections/products, craftsmanship, lifestyle inspiration and enquiries/sales. Product/furniture/lifestyle-led. Keep separate from NOX FORM (design/project studio).
+
+## Separation
+
+Keep separate from NOX FORM. Villa Glory is product/furniture/lifestyle-led; NOX FORM is design/project/expertise-led.
+
+
+## Do not invent
+
+- Official legal identity, website, contacts
+- Positioning statement and differentiation
+- Product/service catalog details, pricing, stock
+- Personas (unless supplied and verified)
+- Visual design system
+- Channel handles/URLs
+- Historical performance learnings
+- Competitor list without evidence
+
+## Next inputs needed
+
+1. Internal brand/legal identity sheet
+2. Approved messaging / positioning
+3. Current offerings with CTAs
+4. Tone & visual kits if they exist
+5. Active channels
+6. Compliance/claims list signed by an operator
+
+Run: `pnpm onboard-brand -- VILLA_GLORY`

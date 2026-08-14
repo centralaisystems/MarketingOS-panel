@@ -1,0 +1,50 @@
+{
+  "brand_id": "LOTIN",
+  "module": "claims",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "approved_claims": {
+    "status": "MISSING",
+    "notes": "No approved claims yet"
+  },
+  "claims_requiring_evidence": {
+    "status": "MISSING"
+  },
+  "prohibited_claims": {
+    "status": "UNVERIFIED",
+    "value": [
+      "Do not invent ROI or guaranteed returns",
+      "Do not fabricate inventory, pricing, or developer partnerships",
+      "Time-sensitive property facts require fresh evidence",
+      "Avoid unlicensed financial/regulatory claims"
+    ],
+    "notes": "Precautionary restrictions from Phase 1/brief — expand with legal review",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "regulatory_considerations": {
+    "status": "MISSING"
+  },
+  "pricing_restrictions": {
+    "status": "MISSING"
+  },
+  "investment_financial_restrictions": {
+    "status": "UNVERIFIED",
+    "value": [
+      "No ROI guarantees",
+      "No fabricated returns",
+      "Fresh evidence for property facts"
+    ],
+    "notes": "LOTIN financial claim care from brief",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "client_confidentiality_restrictions": {
+    "status": "MISSING"
+  }
+}

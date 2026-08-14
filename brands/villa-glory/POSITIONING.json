@@ -1,0 +1,42 @@
+{
+  "brand_id": "VILLA_GLORY",
+  "module": "positioning",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "category": {
+    "status": "UNVERIFIED",
+    "value": "furniture_interiors_lifestyle",
+    "notes": "Category orientation from master brief",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "positioning_statement": {
+    "status": "MISSING",
+    "notes": "Approved positioning statement required"
+  },
+  "differentiation": {
+    "status": "MISSING"
+  },
+  "value_proposition": {
+    "status": "MISSING"
+  },
+  "desired_perception": {
+    "status": "MISSING"
+  },
+  "market_level": {
+    "status": "UNVERIFIED",
+    "value": "premium_hint",
+    "notes": "Hint from brief only — not a verified market level",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "geographic_positioning": {
+    "status": "MISSING"
+  },
+  "marketing_direction_note": "Furniture, interiors, collections/products, craftsmanship, lifestyle inspiration and enquiries/sales. Product/furniture/lifestyle-led. Keep separate from NOX FORM (design/project studio). Keep separate from NOX FORM. Villa Glory is product/furniture/lifestyle-led; NOX FORM is design/project/expertise-led."
+}

@@ -1,0 +1,103 @@
+{
+  "brand_id": "LOTIN",
+  "module": "cta",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "items": [
+    {
+      "id": "enquiry",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Enquire",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "general enquiry",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "whatsapp",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "WhatsApp",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "conversation",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "investor_report",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Request investor report",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "lead magnet",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "viewing",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Property viewing",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "appointment",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    }
+  ]
+}

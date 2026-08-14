@@ -1,0 +1,79 @@
+{
+  "brand_id": "NOX_TECH",
+  "module": "cta",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "items": [
+    {
+      "id": "demo",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Request demo",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "product",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "discovery_call",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Discovery call",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "qualification",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    },
+    {
+      "id": "enquiry",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Contact",
+        "notes": "CTA hint — confirm brand-appropriate wording",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "intent": {
+        "status": "UNVERIFIED",
+        "value": "general",
+        "notes": "Intent orientation",
+        "source_type": "AI_INFERENCE",
+        "source_reference": "marketing_os_master_brief_orientation",
+        "confidence": "LOW",
+        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      },
+      "brand_appropriate": true
+    }
+  ]
+}

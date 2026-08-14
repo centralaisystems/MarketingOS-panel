@@ -1,9 +1,10 @@
-# Onboard brand gaps
+# Onboard brand (Phase 2)
 
-List MISSING / UNVERIFIED knowledge fields for a brand brain.
+Inspect one brand brain: readiness, verified/unverified/missing/conflicts/stale, blockers, questions.
 
 ```bash
 pnpm onboard-brand -- LOTIN
+pnpm onboard-all
 ```
 
-Phase 1 identifies gaps only. Population is Phase 2.
+Never invent answers. Feed verified documents next; use ingestion envelopes for operator JSON/markdown later.

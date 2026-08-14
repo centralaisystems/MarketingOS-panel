@@ -1,0 +1,45 @@
+{
+  "brand_id": "LOTIN",
+  "module": "positioning",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "category": {
+    "status": "UNVERIFIED",
+    "value": "real_estate",
+    "notes": "Category orientation from master brief",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "positioning_statement": {
+    "status": "MISSING",
+    "notes": "Approved positioning statement required"
+  },
+  "differentiation": {
+    "status": "MISSING"
+  },
+  "value_proposition": {
+    "status": "MISSING"
+  },
+  "desired_perception": {
+    "status": "MISSING"
+  },
+  "market_level": {
+    "status": "MISSING"
+  },
+  "geographic_positioning": {
+    "status": "UNVERIFIED",
+    "value": [
+      "Dubai",
+      "UAE"
+    ],
+    "notes": "From brief orientation",
+    "source_type": "AI_INFERENCE",
+    "source_reference": "marketing_os_master_brief_orientation",
+    "confidence": "LOW",
+    "observed_at": "2026-08-14T08:00:00.000Z",
+    "time_sensitive": false
+  },
+  "marketing_direction_note": "Real estate, investment opportunities, buyers/investors, sellers, developers, market intelligence and qualified lead generation. Orientation only — not verified."
+}

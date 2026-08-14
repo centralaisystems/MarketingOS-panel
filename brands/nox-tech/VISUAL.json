@@ -1,0 +1,30 @@
+{
+  "brand_id": "NOX_TECH",
+  "module": "visual",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "logo": {
+    "status": "MISSING",
+    "notes": "Do not manufacture a design system"
+  },
+  "colors": {
+    "status": "MISSING"
+  },
+  "typography": {
+    "status": "MISSING"
+  },
+  "imagery": {
+    "status": "MISSING"
+  },
+  "photography": {
+    "status": "MISSING"
+  },
+  "graphic_style": {
+    "status": "MISSING"
+  },
+  "layout_characteristics": {
+    "status": "MISSING"
+  },
+  "prohibited_treatments": {
+    "status": "MISSING"
+  }
+}

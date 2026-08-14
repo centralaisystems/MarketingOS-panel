@@ -1,0 +1,31 @@
+{
+  "brand_id": "VILLA_GLORY",
+  "module": "voice",
+  "updated_at": "2026-08-14T08:00:00.000Z",
+  "personality": {
+    "status": "MISSING"
+  },
+  "tone": {
+    "status": "MISSING"
+  },
+  "vocabulary": {
+    "status": "MISSING"
+  },
+  "preferred_terminology": {
+    "status": "MISSING"
+  },
+  "prohibited_terminology": {
+    "status": "MISSING"
+  },
+  "writing_examples": {
+    "status": "MISSING"
+  },
+  "cta_style": {
+    "status": "MISSING"
+  },
+  "language_differences": {
+    "status": "MISSING",
+    "notes": "EN/AR/TR tone differences unknown"
+  },
+  "locale_guidance": []
+}
