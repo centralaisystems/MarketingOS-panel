@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.tsbuildinfo
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+**/secrets/**
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Test / coverage
+coverage/
+.vitest/
+
+# Local runtime scratch (Phase 1 — not durable SoT)
+.runtime/
+.tmp/
+*.local.json
+
+# Large marketing assets (never commit binaries)
+assets/binaries/
+**/*.mp4
+**/*.mov
+**/*.psd
+**/*.ai
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

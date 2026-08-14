@@ -1,0 +1,14 @@
+{
+  "agent_id": "A04_COMPETITOR_INTELLIGENCE",
+  "name": "Competitor Intelligence",
+  "responsibility": "Competitor database, positioning, content, SEO, strengths/weaknesses.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","READ_COMPETITORS","PRODUCE_INTERNAL_ANALYSIS","REQUEST_EXTERNAL_RESEARCH"],
+  "forbidden_actions": ["Fabricate competitor facts","LAUNCH_AD","PUBLISH_SOCIAL","CONTACT_CUSTOMER"],
+  "default_approval_level": "LEVEL_0",
+  "max_approval_level": "LEVEL_0",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

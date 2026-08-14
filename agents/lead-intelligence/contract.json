@@ -1,0 +1,14 @@
+{
+  "agent_id": "A12_CRM_LEAD_INTELLIGENCE",
+  "name": "CRM / Lead Intelligence",
+  "responsibility": "Lead sources, UTM attribution, qualification, lifecycle, revenue attribution.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","READ_ANALYTICS","PRODUCE_INTERNAL_ANALYSIS"],
+  "forbidden_actions": ["CONTACT_CUSTOMER","EXPORT_PII","STORE_REAL_LEADS_IN_PHASE_1"],
+  "default_approval_level": "LEVEL_0",
+  "max_approval_level": "LEVEL_0",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

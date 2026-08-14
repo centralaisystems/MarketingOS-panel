@@ -1,0 +1,14 @@
+{
+  "agent_id": "A13_ANALYTICS_OPS",
+  "name": "Analytics / Marketing Operations",
+  "responsibility": "Analytics, attribution, CPL/CPA/ROAS, tracking health, naming conventions.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","READ_ANALYTICS","PRODUCE_INTERNAL_ANALYSIS"],
+  "forbidden_actions": ["LAUNCH_AD","CHANGE_AD_BUDGET","EXPORT_PII","MODIFY_WEBSITE"],
+  "default_approval_level": "LEVEL_0",
+  "max_approval_level": "LEVEL_0",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

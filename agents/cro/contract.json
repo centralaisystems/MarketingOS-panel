@@ -1,0 +1,14 @@
+{
+  "agent_id": "A11_WEBSITE_CRO",
+  "name": "Website / CRO",
+  "responsibility": "Landing pages, funnels, CTA optimization, A/B recommendations.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","PRODUCE_DRAFT_CONTENT","PRODUCE_INTERNAL_ANALYSIS"],
+  "forbidden_actions": ["MODIFY_WEBSITE","PUBLISH_SOCIAL","CONTACT_CUSTOMER"],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

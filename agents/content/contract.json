@@ -1,0 +1,23 @@
+{
+  "agent_id": "A05_CONTENT_COPY",
+  "name": "Content & Copy",
+  "responsibility": "Draft campaign messaging and copy using brand tone; no invented claims.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["draft_copy_pack", "CTA usage notes", "assumptions"],
+  "capabilities": [
+    "READ_BRAND_CONTEXT",
+    "PRODUCE_DRAFT_CONTENT",
+    "PRODUCE_INTERNAL_ANALYSIS"
+  ],
+  "forbidden_actions": [
+    "Invent brand claims",
+    "PUBLISH_SOCIAL",
+    "SEND_EMAIL",
+    "MODIFY_WEBSITE"
+  ],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": ["A02_BRAND_STRATEGIST"],
+  "phase1_implemented": true,
+  "brand_scoped": true
+}

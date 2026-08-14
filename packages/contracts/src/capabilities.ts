@@ -1,0 +1,145 @@
+import { z } from "zod";
+import type { AgentId } from "./ids.js";
+
+/**
+ * Explicit capabilities. Enforced in code — not prompt-only.
+ * Phase 1: all WRITE_EXTERNAL / publish / contact / ad capabilities are disabled.
+ */
+export const CapabilitySchema = z.enum([
+  "READ_BRAND_CONTEXT",
+  "READ_RESEARCH",
+  "READ_COMPETITORS",
+  "READ_ANALYTICS",
+  "READ_ASSETS",
+  "PRODUCE_INTERNAL_ANALYSIS",
+  "PRODUCE_DRAFT_CONTENT",
+  "PRODUCE_CREATIVE_BRIEF",
+  "PRODUCE_STRATEGY",
+  "REQUEST_EXTERNAL_RESEARCH",
+  "VERIFY_OUTPUT",
+  "CREATE_TASK",
+  "ROUTE_TASK",
+  "WRITE_BRAND_MEMORY_DRAFT",
+  "PROMOTE_MEMORY_GLOBAL",
+  "PUBLISH_SOCIAL",
+  "MODIFY_WEBSITE",
+  "SEND_EMAIL",
+  "CONTACT_CUSTOMER",
+  "LAUNCH_AD",
+  "CHANGE_AD_BUDGET",
+  "DELETE_PUBLIC_CONTENT",
+  "EXPORT_PII",
+]);
+export type Capability = z.infer<typeof CapabilitySchema>;
+
+/** Capabilities that imply external side effects — blocked in Phase 1. */
+export const EXTERNAL_WRITE_CAPABILITIES: readonly Capability[] = [
+  "PUBLISH_SOCIAL",
+  "MODIFY_WEBSITE",
+  "SEND_EMAIL",
+  "CONTACT_CUSTOMER",
+  "LAUNCH_AD",
+  "CHANGE_AD_BUDGET",
+  "DELETE_PUBLIC_CONTENT",
+  "EXPORT_PII",
+  "PROMOTE_MEMORY_GLOBAL",
+] as const;
+
+export const AGENT_CAPABILITIES: Record<AgentId, readonly Capability[]> = {
+  A01_MARKETING_DIRECTOR: [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "READ_ANALYTICS",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    "PRODUCE_STRATEGY",
+    "CREATE_TASK",
+    "ROUTE_TASK",
+    "VERIFY_OUTPUT",
+    "REQUEST_EXTERNAL_RESEARCH",
+  ],
+  A02_BRAND_STRATEGIST: [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "PRODUCE_STRATEGY",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+  A03_RESEARCH_INTELLIGENCE: [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    "REQUEST_EXTERNAL_RESEARCH",
+  ],
+  A04_COMPETITOR_INTELLIGENCE: [
+    "READ_BRAND_CONTEXT",
+    "READ_COMPETITORS",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    "REQUEST_EXTERNAL_RESEARCH",
+  ],
+  A05_CONTENT_COPY: [
+    "READ_BRAND_CONTEXT",
+    "PRODUCE_DRAFT_CONTENT",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+  A06_SOCIAL_MANAGER: [
+    "READ_BRAND_CONTEXT",
+    "PRODUCE_DRAFT_CONTENT",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+  A07_CREATIVE_DIRECTOR: [
+    "READ_BRAND_CONTEXT",
+    "READ_ASSETS",
+    "PRODUCE_CREATIVE_BRIEF",
+  ],
+  A08_VIDEO_REELS: [
+    "READ_BRAND_CONTEXT",
+    "READ_ASSETS",
+    "PRODUCE_CREATIVE_BRIEF",
+    "PRODUCE_DRAFT_CONTENT",
+  ],
+  A09_SEO: [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    "PRODUCE_DRAFT_CONTENT",
+  ],
+  A10_PAID_GROWTH: [
+    "READ_BRAND_CONTEXT",
+    "READ_ANALYTICS",
+    "PRODUCE_STRATEGY",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    // LAUNCH_AD / CHANGE_AD_BUDGET intentionally omitted in Phase 1 matrix
+  ],
+  A11_WEBSITE_CRO: [
+    "READ_BRAND_CONTEXT",
+    "PRODUCE_DRAFT_CONTENT",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+  A12_CRM_LEAD_INTELLIGENCE: [
+    "READ_BRAND_CONTEXT",
+    "READ_ANALYTICS",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+  A13_ANALYTICS_OPS: [
+    "READ_BRAND_CONTEXT",
+    "READ_ANALYTICS",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+  A14_BRAND_GUARDIAN: [
+    "READ_BRAND_CONTEXT",
+    "VERIFY_OUTPUT",
+    "PRODUCE_INTERNAL_ANALYSIS",
+  ],
+};
+
+export function agentHasCapability(
+  agentId: AgentId,
+  capability: Capability,
+): boolean {
+  return AGENT_CAPABILITIES[agentId].includes(capability);
+}
+
+export function isExternalWriteCapability(capability: Capability): boolean {
+  return (EXTERNAL_WRITE_CAPABILITIES as readonly string[]).includes(
+    capability,
+  );
+}

@@ -1,0 +1,24 @@
+{
+  "agent_id": "A02_BRAND_STRATEGIST",
+  "name": "Brand Strategist",
+  "responsibility": "Positioning, audience, messaging, offer, campaign and channel direction from known brand facts.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["strategy outline", "assumptions", "missing fields"],
+  "capabilities": [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "PRODUCE_STRATEGY",
+    "PRODUCE_INTERNAL_ANALYSIS"
+  ],
+  "forbidden_actions": [
+    "Invent positioning or offers",
+    "PUBLISH_SOCIAL",
+    "LAUNCH_AD",
+    "CONTACT_CUSTOMER"
+  ],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": [],
+  "phase1_implemented": true,
+  "brand_scoped": true
+}

@@ -1,0 +1,44 @@
+{
+  "brand_id": "NOX_TECH",
+  "slug": "nox-tech",
+  "display_name": "NOX TECH",
+  "identity": {
+    "status": "UNVERIFIED",
+    "value": {
+      "category": "ai_software_automation_b2b",
+      "source": "master_build_prompt"
+    },
+    "notes": "Category from brief. Product catalog not imported in Phase 1."
+  },
+  "positioning": { "status": "MISSING" },
+  "products_services": {
+    "status": "UNVERIFIED",
+    "value": ["AI", "software", "automation", "B2B technology services/products"],
+    "notes": "Labels from brief only"
+  },
+  "audiences": {
+    "status": "UNVERIFIED",
+    "value": ["B2B buyers", "technology decision-makers"],
+    "notes": "Provisional"
+  },
+  "personas": { "status": "MISSING" },
+  "markets": { "status": "MISSING" },
+  "competitors": { "status": "MISSING" },
+  "tone": { "status": "MISSING" },
+  "visual_guidelines": { "status": "MISSING" },
+  "content_pillars": { "status": "MISSING" },
+  "channels": { "status": "MISSING" },
+  "seo": { "status": "MISSING" },
+  "paid_media": { "status": "MISSING" },
+  "cta_library": { "status": "MISSING" },
+  "claims_restrictions": {
+    "status": "UNVERIFIED",
+    "value": [
+      "Do not invent product capabilities, SLAs, or customer logos",
+      "Do not claim AI performance metrics without evidence"
+    ]
+  },
+  "historical_learnings": { "status": "MISSING" },
+  "default_locales": ["en", "ar", "tr"],
+  "updated_at": "2026-08-14T07:15:51Z"
+}

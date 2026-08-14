@@ -1,0 +1,14 @@
+{
+  "agent_id": "A06_SOCIAL_MANAGER",
+  "name": "Social Manager",
+  "responsibility": "Content calendars, channel selection, captions, repurposing, scheduling recommendations.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","PRODUCE_DRAFT_CONTENT","PRODUCE_INTERNAL_ANALYSIS"],
+  "forbidden_actions": ["PUBLISH_SOCIAL","CONTACT_CUSTOMER","LAUNCH_AD"],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

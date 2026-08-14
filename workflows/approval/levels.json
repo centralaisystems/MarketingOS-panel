@@ -1,0 +1,11 @@
+{
+  "phase": 1,
+  "max_executable_level": "LEVEL_1",
+  "levels": {
+    "LEVEL_0": { "executable": true, "description": "Internal research, analytics, monitoring, audits" },
+    "LEVEL_1": { "executable": true, "description": "Draft creation and internal preparation" },
+    "LEVEL_2": { "executable": false, "description": "Public publishing, website production, distribution" },
+    "LEVEL_3": { "executable": false, "description": "Ad spend, budget changes, customer contact, deletion, sensitive statements" }
+  },
+  "external_writes_enabled": false
+}

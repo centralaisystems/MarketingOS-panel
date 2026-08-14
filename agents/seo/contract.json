@@ -1,0 +1,14 @@
+{
+  "agent_id": "A09_SEO",
+  "name": "SEO Agent",
+  "responsibility": "Keyword research, clusters, metadata, technical SEO recommendations.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","READ_RESEARCH","PRODUCE_INTERNAL_ANALYSIS","PRODUCE_DRAFT_CONTENT"],
+  "forbidden_actions": ["MODIFY_WEBSITE","PUBLISH_SOCIAL"],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

@@ -1,0 +1,30 @@
+{
+  "name": "marketing-os",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Multi-brand AI Marketing Operating System — Phase 1 core",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "demo": "tsx scripts/demo-scenarios.ts",
+    "run-objective": "tsx scripts/run-objective.ts",
+    "verify-output": "tsx scripts/verify-output.ts",
+    "onboard-brand": "tsx scripts/onboard-brand.ts"
+  },
+  "dependencies": {
+    "@marketing-os/contracts": "workspace:*",
+    "@marketing-os/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8"
+  }
+}

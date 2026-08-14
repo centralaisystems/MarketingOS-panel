@@ -1,0 +1,23 @@
+{
+  "agent_id": "A14_BRAND_GUARDIAN",
+  "name": "Brand Guardian / Verifier",
+  "responsibility": "Reject contaminated, unsupported, or high-risk outputs before external use.",
+  "accepted_inputs": ["AgentResult", "brand profile"],
+  "outputs": ["pass/fail verdict", "reasons", "required approval level"],
+  "capabilities": [
+    "READ_BRAND_CONTEXT",
+    "VERIFY_OUTPUT",
+    "PRODUCE_INTERNAL_ANALYSIS"
+  ],
+  "forbidden_actions": [
+    "Rubber-stamp without checks",
+    "PUBLISH_SOCIAL",
+    "LAUNCH_AD",
+    "Auto-approve Level 2/3"
+  ],
+  "default_approval_level": "LEVEL_0",
+  "max_approval_level": "LEVEL_0",
+  "dependencies": [],
+  "phase1_implemented": true,
+  "brand_scoped": true
+}

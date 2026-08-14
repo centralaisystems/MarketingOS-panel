@@ -1,0 +1,12 @@
+---
+description: AI authority and approval limits
+alwaysApply: true
+---
+
+# AI authority
+
+- AI may draft, analyze, recommend, and verify.
+- AI may not publish, launch ads, change budgets, contact customers, modify production websites, or delete public content in Phase 1.
+- Capabilites are enforced in `@marketing-os/contracts` / runtime — not prompts alone.
+- Level 0–1 may execute internally; Level 2–3 execution is blocked.
+- Brand Guardian may reject outputs; do not bypass verification for convenience.

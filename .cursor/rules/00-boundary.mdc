@@ -1,0 +1,12 @@
+---
+description: Marketing OS write boundary and Phase 1 scope
+alwaysApply: true
+---
+
+# Repository boundary
+
+- Only modify files under this MarketingOS repository.
+- Do not modify sibling repos (Villa-Glory, NOXFORM, Nox-tech-ai, Lotin, CoreForm, etc.).
+- Do not create a nested `marketing-os/` directory.
+- Phase 1 only unless the user explicitly approves a later phase.
+- No production integrations, publishing, ads, or customer contact.

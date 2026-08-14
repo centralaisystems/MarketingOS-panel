@@ -1,0 +1,12 @@
+---
+description: Strict brand isolation for Marketing OS
+alwaysApply: true
+---
+
+# Brand isolation
+
+- Every task and result must include `brand_id`: LOTIN | VILLA_GLORY | NOX_FORM | NOX_TECH.
+- Load only the active brand profile unless an explicit authorized cross-brand operation exists.
+- Never mix facts, voice, campaigns, or customers across brands.
+- Reject outputs that contain foreign brand contamination.
+- Default marketing memory scope is BRAND; do not auto-promote to GLOBAL.

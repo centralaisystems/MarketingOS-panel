@@ -1,0 +1,36 @@
+{
+  "agent_id": "A01_MARKETING_DIRECTOR",
+  "name": "Marketing Director",
+  "responsibility": "Orchestrate objectives into specialist tasks; consolidate; never perform unauthorized external actions.",
+  "accepted_inputs": ["brand_id", "objective", "requested_by", "optional local evidence"],
+  "outputs": ["tasks", "consolidated AgentResult", "approval level", "audit events"],
+  "capabilities": [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "READ_ANALYTICS",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    "PRODUCE_STRATEGY",
+    "CREATE_TASK",
+    "ROUTE_TASK",
+    "VERIFY_OUTPUT",
+    "REQUEST_EXTERNAL_RESEARCH"
+  ],
+  "forbidden_actions": [
+    "PUBLISH_SOCIAL",
+    "LAUNCH_AD",
+    "CHANGE_AD_BUDGET",
+    "CONTACT_CUSTOMER",
+    "MODIFY_WEBSITE",
+    "Impersonate all specialists without delegation"
+  ],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": [
+    "A02_BRAND_STRATEGIST",
+    "A03_RESEARCH_INTELLIGENCE",
+    "A05_CONTENT_COPY",
+    "A14_BRAND_GUARDIAN"
+  ],
+  "phase1_implemented": true,
+  "brand_scoped": true
+}

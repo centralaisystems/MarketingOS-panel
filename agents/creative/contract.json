@@ -1,0 +1,14 @@
+{
+  "agent_id": "A07_CREATIVE_DIRECTOR",
+  "name": "Creative Director",
+  "responsibility": "Campaign creative direction, visual concepts, generation briefs, brand treatment.",
+  "accepted_inputs": ["task", "brand profile"],
+  "outputs": ["structured AgentResult (future)"],
+  "capabilities": ["READ_BRAND_CONTEXT","READ_ASSETS","PRODUCE_CREATIVE_BRIEF"],
+  "forbidden_actions": ["PUBLISH_SOCIAL","MODIFY_WEBSITE","LAUNCH_AD"],
+  "default_approval_level": "LEVEL_1",
+  "max_approval_level": "LEVEL_1",
+  "dependencies": [],
+  "phase1_implemented": false,
+  "brand_scoped": true
+}

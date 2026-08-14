@@ -1,0 +1,27 @@
+{
+  "agent_id": "A03_RESEARCH_INTELLIGENCE",
+  "name": "Research Intelligence",
+  "responsibility": "Evidence review, research questions, gap detection, source tracking — no fabrication.",
+  "accepted_inputs": ["task", "brand profile", "optional local evidence"],
+  "outputs": ["evidence review", "research_requirements", "labeled statements"],
+  "capabilities": [
+    "READ_BRAND_CONTEXT",
+    "READ_RESEARCH",
+    "PRODUCE_INTERNAL_ANALYSIS",
+    "REQUEST_EXTERNAL_RESEARCH"
+  ],
+  "forbidden_actions": [
+    "Fabricate market facts",
+    "Call production research APIs (Phase 1)",
+    "PUBLISH_SOCIAL",
+    "LAUNCH_AD",
+    "CHANGE_AD_BUDGET",
+    "CONTACT_CUSTOMER",
+    "MODIFY_WEBSITE"
+  ],
+  "default_approval_level": "LEVEL_0",
+  "max_approval_level": "LEVEL_0",
+  "dependencies": [],
+  "phase1_implemented": true,
+  "brand_scoped": true
+}
