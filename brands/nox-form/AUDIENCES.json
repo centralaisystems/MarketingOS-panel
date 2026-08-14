@@ -1,23 +1,33 @@
 {
   "brand_id": "NOX_FORM",
   "module": "audiences",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.713Z",
   "segments": [
     {
-      "id": "aud-1",
+      "id": "private-villas-residences",
       "role": "PRIMARY",
       "label": {
         "status": "UNVERIFIED",
-        "value": "project clients",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Private villa / residence clients",
+        "notes": "From siteConfig.description.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "needs": {
         "status": "MISSING"
@@ -35,55 +45,31 @@
         "status": "MISSING"
       },
       "preferred_channels": {
-        "status": "MISSING"
-      }
-    },
-    {
-      "id": "aud-2",
-      "role": "SECONDARY",
-      "label": {
         "status": "UNVERIFIED",
-        "value": "residential prospects",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
+        "value": [
+          "contact",
+          "WhatsApp",
+          "email"
+        ],
+        "notes": "Public CTAs/channels.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
         "time_sensitive": false
-      },
-      "geography": {
-        "status": "MISSING"
-      },
-      "needs": {
-        "status": "MISSING"
-      },
-      "pain_points": {
-        "status": "MISSING"
-      },
-      "motivations": {
-        "status": "MISSING"
-      },
-      "objections": {
-        "status": "MISSING"
-      },
-      "buying_triggers": {
-        "status": "MISSING"
-      },
-      "preferred_channels": {
-        "status": "MISSING"
       }
     },
     {
-      "id": "aud-3",
+      "id": "hospitality",
       "role": "SECONDARY",
       "label": {
         "status": "UNVERIFIED",
-        "value": "commercial prospects",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Hospitality space clients",
+        "notes": "Named in siteConfig.description.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "geography": {

@@ -1,16 +1,37 @@
 {
   "brand_id": "NOX_FORM",
   "module": "visual",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.714Z",
   "logo": {
     "status": "MISSING",
     "notes": "Do not manufacture a design system"
   },
   "colors": {
-    "status": "MISSING"
+    "status": "UNVERIFIED",
+    "value": {
+      "noir": "#15110f",
+      "bronze": "#9a7b4f",
+      "note": "Default --brand-* tokens from brand-kit / globals.css"
+    },
+    "notes": "NOX FORM default brand palette tokens.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "NOXFORM:src/lib/branding/brand-kit.ts",
+    "observed_at": "2026-08-14T07:54:29.709Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "typography": {
-    "status": "MISSING"
+    "status": "UNVERIFIED",
+    "value": {
+      "primary": "Archivo",
+      "editorial": "Fraunces"
+    },
+    "notes": "Brand typography defaults in brand-kit.ts / layout fonts.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "NOXFORM:src/lib/branding/brand-kit.ts",
+    "observed_at": "2026-08-14T07:54:29.709Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "imagery": {
     "status": "MISSING"

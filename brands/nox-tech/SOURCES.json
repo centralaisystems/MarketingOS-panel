@@ -1,7 +1,7 @@
 {
   "brand_id": "NOX_TECH",
   "module": "sources",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.724Z",
   "sources": [
     {
       "id": "src-brief",
@@ -10,6 +10,86 @@
       "reference": "internal://marketing-os/orientation",
       "observed_at": "2026-08-14T08:00:00.000Z",
       "notes": "Orientation only — not verified company documentation"
+    },
+    {
+      "id": "ev-nt-1",
+      "title": "README title NOX TECH AI.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:README.md",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Internal product identity."
+    },
+    {
+      "id": "ev-nt-2",
+      "title": "README product one-liner.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:README.md",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Documented product story — not yet marketing-approved."
+    },
+    {
+      "id": "ev-nt-3",
+      "title": "README features framing.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:README.md",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "DOCUMENTED internally; MARKETING_APPROVED still required for external claims."
+    },
+    {
+      "id": "ev-nt-4",
+      "title": "Capability vs claim policy.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "MarketingOS:docs/phase-0/CRITICAL_REVIEW.md",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Policy guardrails for NOX TECH claims."
+    },
+    {
+      "id": "ev-nt-mod-0",
+      "title": "Seeded module name \"CRM Core\" in all-modules.json.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "OBSERVED_IN_CODE / seed data — not a marketing-approved commercial offer."
+    },
+    {
+      "id": "ev-nt-mod-1",
+      "title": "Seeded module name \"Sales Pipeline\" in all-modules.json.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "OBSERVED_IN_CODE / seed data — not a marketing-approved commercial offer."
+    },
+    {
+      "id": "ev-nt-mod-2",
+      "title": "Seeded module name \"Lead Management\" in all-modules.json.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "OBSERVED_IN_CODE / seed data — not a marketing-approved commercial offer."
+    },
+    {
+      "id": "ev-nt-mod-3",
+      "title": "Seeded module name \"Solution Builder\" in all-modules.json.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "OBSERVED_IN_CODE / seed data — not a marketing-approved commercial offer."
+    },
+    {
+      "id": "ev-nt-mod-4",
+      "title": "Seeded module name \"Proposal Generator\" in all-modules.json.",
+      "source_type": "INTERNAL_DOCUMENT",
+      "reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "OBSERVED_IN_CODE / seed data — not a marketing-approved commercial offer."
+    },
+    {
+      "id": "ev-nt-roi",
+      "title": "Static ROI estimate copy in marketing-data.ts.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Nox-tech-ai:src/lib/marketing-data.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "PUBLICLY_CLAIMED in code assets — requires APPROVE_MARKETING_CLAIM before approved use."
     }
   ]
 }

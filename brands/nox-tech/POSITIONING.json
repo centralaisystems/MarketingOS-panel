@@ -8,28 +8,39 @@
     "notes": "Category orientation from master brief",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   },
   "positioning_statement": {
-    "status": "MISSING",
-    "notes": "Approved positioning statement required"
+    "status": "UNVERIFIED",
+    "value": "AI-assisted sales and implementation platform spanning discovery, module marketplace, proposals, and delivery tracking (per README).",
+    "notes": "DOCUMENTED internally; MARKETING_APPROVED still required for external claims. | README features framing.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "Nox-tech-ai:README.md",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "LOW",
+    "time_sensitive": false
   },
   "differentiation": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "value_proposition": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "desired_perception": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "market_level": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "geographic_positioning": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "marketing_direction_note": "AI, software, automation, digital systems and B2B technology services/products. Authority, case studies, product/service understanding and qualified B2B opportunities."
 }

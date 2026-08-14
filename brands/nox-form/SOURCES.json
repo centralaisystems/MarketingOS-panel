@@ -1,7 +1,7 @@
 {
   "brand_id": "NOX_FORM",
   "module": "sources",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.722Z",
   "sources": [
     {
       "id": "src-brief",
@@ -10,6 +10,70 @@
       "reference": "internal://marketing-os/orientation",
       "observed_at": "2026-08-14T08:00:00.000Z",
       "notes": "Orientation only — not verified company documentation"
+    },
+    {
+      "id": "ev-nf-1",
+      "title": "siteConfig.name",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Customer-facing site config."
+    },
+    {
+      "id": "ev-nf-2",
+      "title": "siteConfig.legalName + divisionNote.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Stated in site config; operator should confirm legal."
+    },
+    {
+      "id": "ev-nf-3",
+      "title": "siteConfig.description",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Public site description."
+    },
+    {
+      "id": "ev-nf-4",
+      "title": "studioDescriptor + address in Dubai Investment Park 2.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Address/markets from siteConfig."
+    },
+    {
+      "id": "ev-nf-5",
+      "title": "siteConfig.website www.noxform.design",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Listed public domain."
+    },
+    {
+      "id": "ev-nf-6",
+      "title": "siteConfig contact fields.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Public contact channels in siteConfig."
+    },
+    {
+      "id": "ev-nf-7",
+      "title": "description + tagline combined.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Website positioning; keep distinct from Villa Glory retail."
+    },
+    {
+      "id": "ev-nf-8",
+      "title": "siteConfig.studioDescriptor",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "NOXFORM:src/lib/content.ts",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Public studio descriptor."
     }
   ]
 }

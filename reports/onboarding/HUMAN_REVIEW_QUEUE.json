@@ -1,0 +1,361 @@
+{
+  "generated_at": "2026-08-14T07:54:29.724Z",
+  "items": [
+    {
+      "review_id": "rev-1",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.official_name",
+      "candidate_value": "Villa Glory",
+      "question": "Verify / optionally promote to VERIFIED: identity.official_name",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — About page brand name Villa Glory.",
+      "evidence_candidate_ids": [
+        "vg-1"
+      ]
+    },
+    {
+      "review_id": "rev-2",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.description",
+      "candidate_value": "Villa Glory is a UAE luxury furniture and interiors destination offering curated collections, bespoke furniture, showroom consultation, and project support.",
+      "question": "Verify / optionally promote to VERIFIED: identity.description",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — Lead paragraph on About page.",
+      "evidence_candidate_ids": [
+        "vg-2"
+      ]
+    },
+    {
+      "review_id": "rev-3",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.location_markets",
+      "candidate_value": [
+        "UAE",
+        "Dubai",
+        "Sharjah"
+      ],
+      "question": "Verify / optionally promote to VERIFIED: identity.location_markets",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — UAE destination; Dubai & Sharjah showrooms stated.",
+      "evidence_candidate_ids": [
+        "vg-3"
+      ]
+    },
+    {
+      "review_id": "rev-4",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.category",
+      "candidate_value": "luxury_furniture_and_interiors",
+      "question": "Verify / optionally promote to VERIFIED: positioning.category",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — Luxury furniture and interiors destination wording.",
+      "evidence_candidate_ids": [
+        "vg-4"
+      ]
+    },
+    {
+      "review_id": "rev-5",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.positioning_statement",
+      "candidate_value": "UAE luxury furniture and interiors destination with curated collections, bespoke furniture, showroom consultation, and project support for private clients, developers, and design professionals.",
+      "question": "Verify / optionally promote to VERIFIED: positioning.positioning_statement",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — Normalized from About lead + audience sentence.",
+      "evidence_candidate_ids": [
+        "vg-5"
+      ]
+    },
+    {
+      "review_id": "rev-6",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.differentiation",
+      "candidate_value": [
+        "Dubai and Sharjah showrooms",
+        "Curated + bespoke furniture",
+        "Private Concierge / professional project support",
+        "Quote-first commerce (no standard online checkout)"
+      ],
+      "question": "Verify / optionally promote to VERIFIED: positioning.differentiation",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — Showrooms, concierge, collections; quote-first from product model docs.",
+      "evidence_candidate_ids": [
+        "vg-6"
+      ]
+    },
+    {
+      "review_id": "rev-7",
+      "brand_id": "VILLA_GLORY",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.geographic_positioning",
+      "candidate_value": "Dubai and Sharjah showrooms; UAE-focused destination",
+      "question": "Verify / optionally promote to VERIFIED: positioning.geographic_positioning",
+      "source_context": "Villa-Glory/Villa-Glory-Commerce-Ops/imports/pages-content/about.html — Showroom geography on About.",
+      "evidence_candidate_ids": [
+        "vg-7"
+      ]
+    },
+    {
+      "review_id": "rev-8",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.official_name",
+      "candidate_value": "NOX FORM",
+      "question": "Verify / optionally promote to VERIFIED: identity.official_name",
+      "source_context": "NOXFORM/src/lib/content.ts — siteConfig.name",
+      "evidence_candidate_ids": [
+        "nf-1"
+      ]
+    },
+    {
+      "review_id": "rev-9",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.legal_operating_relationship",
+      "candidate_value": "A Division of Woodex Global LLC",
+      "question": "Verify / optionally promote to VERIFIED: identity.legal_operating_relationship",
+      "source_context": "NOXFORM/src/lib/content.ts — siteConfig.legalName + divisionNote.",
+      "evidence_candidate_ids": [
+        "nf-2"
+      ]
+    },
+    {
+      "review_id": "rev-10",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.description",
+      "candidate_value": "NOX FORM is a Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality spaces.",
+      "question": "Verify / optionally promote to VERIFIED: identity.description",
+      "source_context": "NOXFORM/src/lib/content.ts — siteConfig.description",
+      "evidence_candidate_ids": [
+        "nf-3"
+      ]
+    },
+    {
+      "review_id": "rev-11",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.location_markets",
+      "candidate_value": [
+        "Dubai",
+        "UAE"
+      ],
+      "question": "Verify / optionally promote to VERIFIED: identity.location_markets",
+      "source_context": "NOXFORM/src/lib/content.ts — studioDescriptor + address in Dubai Investment Park 2.",
+      "evidence_candidate_ids": [
+        "nf-4"
+      ]
+    },
+    {
+      "review_id": "rev-12",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.website",
+      "candidate_value": "https://www.noxform.design",
+      "question": "Verify / optionally promote to VERIFIED: identity.website",
+      "source_context": "NOXFORM/src/lib/content.ts — siteConfig.website www.noxform.design",
+      "evidence_candidate_ids": [
+        "nf-5"
+      ]
+    },
+    {
+      "review_id": "rev-13",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.contact_channels",
+      "candidate_value": {
+        "email": "studio@noxform.design",
+        "phone": "+971 50 834 4351",
+        "whatsapp": "+971 50 834 4351"
+      },
+      "question": "Verify / optionally promote to VERIFIED: identity.contact_channels",
+      "source_context": "NOXFORM/src/lib/content.ts — siteConfig contact fields.",
+      "evidence_candidate_ids": [
+        "nf-6"
+      ]
+    },
+    {
+      "review_id": "rev-14",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.positioning_statement",
+      "candidate_value": "Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality — designing the next era of spatial living.",
+      "question": "Verify / optionally promote to VERIFIED: positioning.positioning_statement",
+      "source_context": "NOXFORM/src/lib/content.ts — description + tagline combined.",
+      "evidence_candidate_ids": [
+        "nf-7"
+      ]
+    },
+    {
+      "review_id": "rev-15",
+      "brand_id": "NOX_FORM",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.geographic_positioning",
+      "candidate_value": "Spatial Design Studio · Dubai, United Arab Emirates",
+      "question": "Verify / optionally promote to VERIFIED: positioning.geographic_positioning",
+      "source_context": "NOXFORM/src/lib/content.ts — siteConfig.studioDescriptor",
+      "evidence_candidate_ids": [
+        "nf-8"
+      ]
+    },
+    {
+      "review_id": "rev-16",
+      "brand_id": "NOX_TECH",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.official_name",
+      "candidate_value": "NOX TECH",
+      "question": "Verify / optionally promote to VERIFIED: identity.official_name",
+      "source_context": "Nox-tech-ai/README.md — README title NOX TECH AI.",
+      "evidence_candidate_ids": [
+        "nt-1"
+      ]
+    },
+    {
+      "review_id": "rev-17",
+      "brand_id": "NOX_TECH",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "identity.description",
+      "candidate_value": "Internal software sales and implementation platform to manage the client lifecycle from discovery through proposal to implementation.",
+      "question": "Verify / optionally promote to VERIFIED: identity.description",
+      "source_context": "Nox-tech-ai/README.md — README product one-liner.",
+      "evidence_candidate_ids": [
+        "nt-2"
+      ]
+    },
+    {
+      "review_id": "rev-18",
+      "brand_id": "NOX_TECH",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "positioning.positioning_statement",
+      "candidate_value": "AI-assisted sales and implementation platform spanning discovery, module marketplace, proposals, and delivery tracking (per README).",
+      "question": "Verify / optionally promote to VERIFIED: positioning.positioning_statement",
+      "source_context": "Nox-tech-ai/README.md — README features framing.",
+      "evidence_candidate_ids": [
+        "nt-3"
+      ]
+    },
+    {
+      "review_id": "rev-19",
+      "brand_id": "NOX_TECH",
+      "action": "VERIFY",
+      "priority": "CRITICAL",
+      "field_path": "claims.prohibited_claims",
+      "candidate_value": [
+        "Do not claim guaranteed ROI percentages without MARKETING_APPROVED evidence",
+        "Do not claim every seeded module is a commercially offered product",
+        "OBSERVED_IN_CODE ≠ MARKETING_APPROVED"
+      ],
+      "question": "Verify / optionally promote to VERIFIED: claims.prohibited_claims",
+      "source_context": "MarketingOS/docs/phase-0/CRITICAL_REVIEW.md — Capability vs claim policy.",
+      "evidence_candidate_ids": [
+        "nt-4"
+      ]
+    },
+    {
+      "review_id": "rev-20",
+      "brand_id": "NOX_TECH",
+      "action": "APPROVE_MARKETING_CLAIM",
+      "priority": "CRITICAL",
+      "field_path": "offerings.items",
+      "candidate_value": "CRM Core",
+      "question": "Approve marketing claim for offerings.items? State=OBSERVED_IN_CODE.",
+      "source_context": "Nox-tech-ai/supabase/seeds/batches/all-modules.json — Seeded module name \"CRM Core\" in all-modules.json.",
+      "evidence_candidate_ids": [
+        "nt-mod-0"
+      ]
+    },
+    {
+      "review_id": "rev-21",
+      "brand_id": "NOX_TECH",
+      "action": "APPROVE_MARKETING_CLAIM",
+      "priority": "CRITICAL",
+      "field_path": "offerings.items",
+      "candidate_value": "Sales Pipeline",
+      "question": "Approve marketing claim for offerings.items? State=OBSERVED_IN_CODE.",
+      "source_context": "Nox-tech-ai/supabase/seeds/batches/all-modules.json — Seeded module name \"Sales Pipeline\" in all-modules.json.",
+      "evidence_candidate_ids": [
+        "nt-mod-1"
+      ]
+    },
+    {
+      "review_id": "rev-22",
+      "brand_id": "NOX_TECH",
+      "action": "APPROVE_MARKETING_CLAIM",
+      "priority": "CRITICAL",
+      "field_path": "offerings.items",
+      "candidate_value": "Lead Management",
+      "question": "Approve marketing claim for offerings.items? State=OBSERVED_IN_CODE.",
+      "source_context": "Nox-tech-ai/supabase/seeds/batches/all-modules.json — Seeded module name \"Lead Management\" in all-modules.json.",
+      "evidence_candidate_ids": [
+        "nt-mod-2"
+      ]
+    },
+    {
+      "review_id": "rev-23",
+      "brand_id": "NOX_TECH",
+      "action": "APPROVE_MARKETING_CLAIM",
+      "priority": "CRITICAL",
+      "field_path": "offerings.items",
+      "candidate_value": "Solution Builder",
+      "question": "Approve marketing claim for offerings.items? State=OBSERVED_IN_CODE.",
+      "source_context": "Nox-tech-ai/supabase/seeds/batches/all-modules.json — Seeded module name \"Solution Builder\" in all-modules.json.",
+      "evidence_candidate_ids": [
+        "nt-mod-3"
+      ]
+    },
+    {
+      "review_id": "rev-24",
+      "brand_id": "NOX_TECH",
+      "action": "APPROVE_MARKETING_CLAIM",
+      "priority": "CRITICAL",
+      "field_path": "offerings.items",
+      "candidate_value": "Proposal Generator",
+      "question": "Approve marketing claim for offerings.items? State=OBSERVED_IN_CODE.",
+      "source_context": "Nox-tech-ai/supabase/seeds/batches/all-modules.json — Seeded module name \"Proposal Generator\" in all-modules.json.",
+      "evidence_candidate_ids": [
+        "nt-mod-4"
+      ]
+    },
+    {
+      "review_id": "rev-25",
+      "brand_id": "NOX_TECH",
+      "action": "APPROVE_MARKETING_CLAIM",
+      "priority": "CRITICAL",
+      "field_path": "claims.claims_requiring_evidence",
+      "candidate_value": "marketing-data.ts contains quantified ROI estimate strings (e.g. 180–240% ROI)",
+      "question": "Approve marketing claim for claims.claims_requiring_evidence? State=PUBLICLY_CLAIMED.",
+      "source_context": "Nox-tech-ai/src/lib/marketing-data.ts — Static ROI estimate copy in marketing-data.ts.",
+      "evidence_candidate_ids": [
+        "nt-roi"
+      ]
+    },
+    {
+      "review_id": "rev-26",
+      "brand_id": "VILLA_GLORY",
+      "action": "APPROVE_CROSS_BRAND_RELATIONSHIP",
+      "priority": "IMPORTANT",
+      "field_path": "relationships",
+      "candidate_value": "RELATED_COMPANY ↔ NOX_FORM (no memory merge)",
+      "question": "Confirm Villa Glory ↔ NOX FORM related-company relationship and isolation rules (no merge of tone/audiences/products/CTAs).",
+      "source_context": "brands/_shared/RELATIONSHIPS.json — memory merge forbidden; usage_permission=false",
+      "evidence_candidate_ids": []
+    }
+  ]
+}

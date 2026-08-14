@@ -1,29 +1,38 @@
 {
   "brand_id": "NOX_FORM",
   "module": "positioning",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.714Z",
   "category": {
     "status": "UNVERIFIED",
-    "value": "architecture_interior_design",
-    "notes": "Category orientation from master brief",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
-    "observed_at": "2026-08-14T08:00:00.000Z",
+    "value": "architecture_interior_design_turnkey",
+    "notes": "From siteConfig.description — studio services, not furniture retail.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:29.709Z",
+    "confidence": "MEDIUM",
     "time_sensitive": false
   },
   "positioning_statement": {
-    "status": "MISSING",
-    "notes": "Approved positioning statement required"
+    "status": "UNVERIFIED",
+    "value": "Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality — designing the next era of spatial living.",
+    "notes": "Website positioning; keep distinct from Villa Glory retail. | description + tagline combined.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "differentiation": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "value_proposition": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "desired_perception": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "market_level": {
     "status": "UNVERIFIED",
@@ -31,12 +40,19 @@
     "notes": "Hint from brief only — not a verified market level",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   },
   "geographic_positioning": {
-    "status": "MISSING"
+    "status": "UNVERIFIED",
+    "value": "Spatial Design Studio · Dubai, United Arab Emirates",
+    "notes": "Public studio descriptor. | siteConfig.studioDescriptor",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
-  "marketing_direction_note": "Premium interior design, architecture/design services, residential/commercial/hospitality projects, design expertise and project acquisition. Professional design studio rather than a furniture retailer. Distinct from Villa Glory. Position as a professional design studio rather than a furniture retailer. Distinct from Villa Glory — must not merge knowledge."
+  "marketing_direction_note": "Professional design studio (architecture / interiors / turnkey). Distinct from Villa Glory furniture retail — must not merge tone, audiences, products, CTAs, or pillars. 'Luxury Furnishing' here is studio FF&E, not VG catalog."
 }

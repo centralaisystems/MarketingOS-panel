@@ -1,134 +1,558 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "offerings",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.713Z",
   "items": [
     {
-      "id": "offer-1",
+      "id": "room-living",
       "name": {
         "status": "UNVERIFIED",
-        "value": "furniture",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Living",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Living room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
       },
       "cta": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     },
     {
-      "id": "offer-2",
+      "id": "room-dining",
       "name": {
         "status": "UNVERIFIED",
-        "value": "interiors",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Dining",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Dining room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
       },
       "cta": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     },
     {
-      "id": "offer-3",
+      "id": "room-bedroom",
       "name": {
         "status": "UNVERIFIED",
-        "value": "lifestyle products",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Bedroom",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Bedroom room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
       },
       "cta": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     },
     {
-      "id": "offer-4",
+      "id": "room-lighting",
       "name": {
         "status": "UNVERIFIED",
-        "value": "collections",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Lighting",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Lighting room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
       },
       "cta": {
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "room-decor",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Decor",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "UNVERIFIED",
+        "value": "Decor room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "audience": {
         "status": "MISSING"
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "room-outdoor",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Outdoor",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "UNVERIFIED",
+        "value": "Outdoor room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "room-office",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Office",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "UNVERIFIED",
+        "value": "Office room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "room-custom-made",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Custom Made",
+        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "room_collection",
+        "notes": "Collection architecture doc.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "UNVERIFIED",
+        "value": "Custom Made room collection (catalog structure)",
+        "notes": "Category-level only; SKUs not verified. CRM-test excluded.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE"
+        ],
+        "notes": "Implied by storefront markets.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "UNVERIFIED",
+        "value": "Price on request / quote-first",
+        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": true,
+        "review_after_days": 90
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Request Private Quote",
+        "notes": "Quote-first CTA from product content model.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     }
   ]

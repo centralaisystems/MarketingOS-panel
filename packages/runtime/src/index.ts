@@ -11,6 +11,8 @@ export * from "./staleness.js";
 export * from "./normalize.js";
 export * from "./readiness.js";
 export * from "./onboarding.js";
+export * from "./phase2b-filters.js";
+export * from "./phase2b-populate.js";
 export * from "./agents/brand-strategist.js";
 export * from "./agents/research.js";
 export * from "./agents/content.js";

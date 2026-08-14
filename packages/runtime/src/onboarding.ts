@@ -62,7 +62,12 @@ export function verifyBrandIntelligence(
       snip.includes("rather than") ||
       snip.includes("not a furniture") ||
       snip.includes("distinct from") ||
-      snip.includes("must not merge")
+      snip.includes("must not merge") ||
+      snip.includes("do not merge") ||
+      snip.includes("knowledge must not merge") ||
+      snip.includes("isolation") ||
+      snip.includes("not villa glory") ||
+      snip.includes("not nox form")
     );
   });
   if (filtered.length) {

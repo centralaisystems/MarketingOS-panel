@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.725Z",
   "relationships": [
     {
       "relationship_id": "rel-vg-nf-orientation",
       "from_brand_id": "VILLA_GLORY",
       "to_brand_id": "NOX_FORM",
       "type": "RELATED_COMPANY",
-      "description": "Orientation note: brands are related in the group context but knowledge must not merge. Asset reuse requires SHARED_ASSET_WITH_PERMISSION and usage_permission=true.",
+      "description": "Villa Glory (furniture / product / quote-first retail) is related in group context to NOX FORM (architecture / interior design / turnkey studio). Knowledge, tone, audiences, services, products, CTAs, and pillars must not merge. Asset reuse requires SHARED_ASSET_WITH_PERMISSION and usage_permission=true. Pending APPROVE_CROSS_BRAND_RELATIONSHIP.",
       "usage_permission": false,
       "source_type": "AI_INFERENCE",
       "source_reference": "marketing_os_phase2_orientation",

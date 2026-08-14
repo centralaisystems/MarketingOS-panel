@@ -1,0 +1,38 @@
+{
+  "brand_id": "NOX_TECH",
+  "generated_at": "2026-08-14T07:54:29.714Z",
+  "rule": "TECHNICALLY_PRESENT / OBSERVED_IN_CODE does not equal MARKETING_APPROVED.",
+  "documented_product_story": {
+    "source": "Nox-tech-ai:README.md",
+    "summary": "Internal software sales and implementation platform (discovery → proposal → implementation).",
+    "state": "DOCUMENTED",
+    "marketing_approved": false
+  },
+  "items": [
+    {
+      "name": "Module marketplace seed catalog",
+      "states": [
+        "OBSERVED_IN_CODE"
+      ],
+      "marketing_approved": false,
+      "source": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+      "note": "Large seed catalog present; sample names recorded — not a commercial SKU list.",
+      "sample_names": [
+        "CRM Core",
+        "Sales Pipeline",
+        "Lead Management",
+        "Solution Builder",
+        "Proposal Generator"
+      ]
+    },
+    {
+      "name": "Quantified ROI benefit copy in marketing-data.ts",
+      "states": [
+        "PUBLICLY_CLAIMED"
+      ],
+      "marketing_approved": false,
+      "source": "Nox-tech-ai:src/lib/marketing-data.ts",
+      "note": "Requires human APPROVE_MARKETING_CLAIM"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "sources",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.719Z",
   "sources": [
     {
       "id": "src-brief",
@@ -10,6 +10,62 @@
       "reference": "internal://marketing-os/orientation",
       "observed_at": "2026-08-14T08:00:00.000Z",
       "notes": "Orientation only — not verified company documentation"
+    },
+    {
+      "id": "ev-vg-1",
+      "title": "About page brand name Villa Glory.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Public storefront About copy; legal entity still unknown."
+    },
+    {
+      "id": "ev-vg-2",
+      "title": "Lead paragraph on About page.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Website description pending operator VERIFY."
+    },
+    {
+      "id": "ev-vg-3",
+      "title": "UAE destination; Dubai & Sharjah showrooms stated.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Geographic claims from About."
+    },
+    {
+      "id": "ev-vg-4",
+      "title": "Luxury furniture and interiors destination wording.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Category from public About."
+    },
+    {
+      "id": "ev-vg-5",
+      "title": "Normalized from About lead + audience sentence.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Marketing positioning from website — not operator-verified."
+    },
+    {
+      "id": "ev-vg-6",
+      "title": "Showrooms, concierge, collections; quote-first from product model docs.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Website + commerce docs."
+    },
+    {
+      "id": "ev-vg-7",
+      "title": "Showroom geography on About.",
+      "source_type": "OFFICIAL_WEBSITE",
+      "reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+      "observed_at": "2026-08-14T07:54:14.995Z",
+      "notes": "Website geography."
     }
   ]
 }

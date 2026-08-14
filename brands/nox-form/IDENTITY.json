@@ -5,11 +5,11 @@
   "official_name": {
     "status": "UNVERIFIED",
     "value": "NOX FORM",
-    "notes": "Display name from brief only — legal name MISSING",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
-    "observed_at": "2026-08-14T08:00:00.000Z",
+    "notes": "Customer-facing site config. | siteConfig.name",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
     "time_sensitive": false
   },
   "short_name": {
@@ -18,29 +18,66 @@
     "notes": "Short name assumed from display — unverified",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   },
   "legal_operating_relationship": {
-    "status": "MISSING",
-    "notes": "Legal/operating relationship unknown"
+    "status": "UNVERIFIED",
+    "value": "A Division of Woodex Global LLC",
+    "notes": "Stated in site config; operator should confirm legal. | siteConfig.legalName + divisionNote.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "description": {
-    "status": "MISSING",
-    "notes": "Approved brand description required"
+    "status": "UNVERIFIED",
+    "value": "NOX FORM is a Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality spaces.",
+    "notes": "Public site description. | siteConfig.description",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "location_markets": {
-    "status": "MISSING",
-    "notes": "Markets unknown"
+    "status": "UNVERIFIED",
+    "value": [
+      "Dubai",
+      "UAE"
+    ],
+    "notes": "Address/markets from siteConfig. | studioDescriptor + address in Dubai Investment Park 2.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "website": {
-    "status": "MISSING",
-    "notes": "Official website URL required"
+    "status": "UNVERIFIED",
+    "value": "https://www.noxform.design",
+    "notes": "Listed public domain. | siteConfig.website www.noxform.design",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "contact_channels": {
-    "status": "MISSING",
-    "notes": "Contact channels unknown"
+    "status": "UNVERIFIED",
+    "value": {
+      "email": "studio@noxform.design",
+      "phone": "+971 50 834 4351",
+      "whatsapp": "+971 50 834 4351"
+    },
+    "notes": "Public contact channels in siteConfig. | siteConfig contact fields.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "languages": {
     "status": "UNVERIFIED",
@@ -51,8 +88,8 @@
     "notes": "Default locales from brief orientation",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   }
 }

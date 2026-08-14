@@ -1,25 +1,39 @@
 {
   "brand_id": "NOX_TECH",
   "module": "offerings",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.714Z",
   "items": [
     {
-      "id": "offer-1",
+      "id": "obs-crm-core",
       "name": {
         "status": "UNVERIFIED",
-        "value": "AI",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
+        "value": "CRM Core (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+        "notes": "Seed/module catalog presence only.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "observed_seed_module",
+        "notes": "Not a marketing-approved product line.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Technically present in seed data; commercial offer unapproved.",
+        "notes": "Capability ≠ claim.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
@@ -28,30 +42,43 @@
         "status": "MISSING"
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
         "status": "MISSING"
       }
     },
     {
-      "id": "offer-2",
+      "id": "obs-sales-pipeline",
       "name": {
         "status": "UNVERIFIED",
-        "value": "software",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
+        "value": "Sales Pipeline (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+        "notes": "Seed/module catalog presence only.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "observed_seed_module",
+        "notes": "Not a marketing-approved product line.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Technically present in seed data; commercial offer unapproved.",
+        "notes": "Capability ≠ claim.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
@@ -60,30 +87,43 @@
         "status": "MISSING"
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
         "status": "MISSING"
       }
     },
     {
-      "id": "offer-3",
+      "id": "obs-lead-management",
       "name": {
         "status": "UNVERIFIED",
-        "value": "automation",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
+        "value": "Lead Management (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+        "notes": "Seed/module catalog presence only.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "observed_seed_module",
+        "notes": "Not a marketing-approved product line.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Technically present in seed data; commercial offer unapproved.",
+        "notes": "Capability ≠ claim.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
@@ -92,30 +132,43 @@
         "status": "MISSING"
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
         "status": "MISSING"
       }
     },
     {
-      "id": "offer-4",
+      "id": "obs-solution-builder",
       "name": {
         "status": "UNVERIFIED",
-        "value": "B2B technology services/products",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
+        "value": "Solution Builder (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+        "notes": "Seed/module catalog presence only.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "observed_seed_module",
+        "notes": "Not a marketing-approved product line.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Technically present in seed data; commercial offer unapproved.",
+        "notes": "Capability ≠ claim.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "audience": {
         "status": "MISSING"
@@ -124,8 +177,52 @@
         "status": "MISSING"
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
+      },
+      "cta": {
+        "status": "MISSING"
+      }
+    },
+    {
+      "id": "obs-proposal-generator",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Proposal Generator (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+        "notes": "Seed/module catalog presence only.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "observed_seed_module",
+        "notes": "Not a marketing-approved product line.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "UNVERIFIED",
+        "value": "Technically present in seed data; commercial offer unapproved.",
+        "notes": "Capability ≠ claim.",
+        "source_type": "INTERNAL_DOCUMENT",
+        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "audience": {
+        "status": "MISSING"
+      },
+      "geography": {
+        "status": "MISSING"
+      },
+      "pricing": {
+        "status": "MISSING"
       },
       "cta": {
         "status": "MISSING"

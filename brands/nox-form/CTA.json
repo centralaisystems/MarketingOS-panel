@@ -1,76 +1,52 @@
 {
   "brand_id": "NOX_FORM",
   "module": "cta",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.714Z",
   "items": [
     {
-      "id": "project_brief",
+      "id": "start-a-project",
       "label": {
         "status": "UNVERIFIED",
-        "value": "Submit project brief",
-        "notes": "CTA hint — confirm brand-appropriate wording",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Start a Project",
+        "notes": "primaryCta.label",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "intent": {
         "status": "UNVERIFIED",
-        "value": "lead",
-        "notes": "Intent orientation",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "project_enquiry",
+        "notes": "Project acquisition CTA.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "brand_appropriate": true
     },
     {
-      "id": "consultation",
+      "id": "whatsapp",
       "label": {
         "status": "UNVERIFIED",
-        "value": "Design consultation",
-        "notes": "CTA hint — confirm brand-appropriate wording",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "WhatsApp",
+        "notes": "siteConfig.whatsapp + prefill.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "intent": {
         "status": "UNVERIFIED",
-        "value": "appointment",
-        "notes": "Intent orientation",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
-        "time_sensitive": false
-      },
-      "brand_appropriate": true
-    },
-    {
-      "id": "discovery_call",
-      "label": {
-        "status": "UNVERIFIED",
-        "value": "Discovery call",
-        "notes": "CTA hint — confirm brand-appropriate wording",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
-        "time_sensitive": false
-      },
-      "intent": {
-        "status": "UNVERIFIED",
-        "value": "qualification",
-        "notes": "Intent orientation",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "conversation",
+        "notes": "WhatsApp project discussion.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "brand_appropriate": true

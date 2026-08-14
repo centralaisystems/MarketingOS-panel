@@ -5,11 +5,11 @@
   "official_name": {
     "status": "UNVERIFIED",
     "value": "NOX TECH",
-    "notes": "Display name from brief only — legal name MISSING",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
-    "observed_at": "2026-08-14T08:00:00.000Z",
+    "notes": "Internal product identity. | README title NOX TECH AI.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "Nox-tech-ai:README.md",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
     "time_sensitive": false
   },
   "short_name": {
@@ -18,29 +18,39 @@
     "notes": "Short name assumed from display — unverified",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   },
   "legal_operating_relationship": {
     "status": "MISSING",
-    "notes": "Legal/operating relationship unknown"
+    "notes": "Legal/operating relationship unknown",
+    "time_sensitive": false
   },
   "description": {
-    "status": "MISSING",
-    "notes": "Approved brand description required"
+    "status": "UNVERIFIED",
+    "value": "Internal software sales and implementation platform to manage the client lifecycle from discovery through proposal to implementation.",
+    "notes": "Documented product story — not yet marketing-approved. | README product one-liner.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "Nox-tech-ai:README.md",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
+    "time_sensitive": false
   },
   "location_markets": {
     "status": "MISSING",
-    "notes": "Markets unknown"
+    "notes": "Markets unknown",
+    "time_sensitive": false
   },
   "website": {
     "status": "MISSING",
-    "notes": "Official website URL required"
+    "notes": "Official website URL required",
+    "time_sensitive": false
   },
   "contact_channels": {
     "status": "MISSING",
-    "notes": "Contact channels unknown"
+    "notes": "Contact channels unknown",
+    "time_sensitive": false
   },
   "languages": {
     "status": "UNVERIFIED",
@@ -52,8 +62,8 @@
     "notes": "Default locales from brief orientation",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   }
 }

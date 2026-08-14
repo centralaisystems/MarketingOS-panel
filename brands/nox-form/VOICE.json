@@ -1,12 +1,24 @@
 {
   "brand_id": "NOX_FORM",
   "module": "voice",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.713Z",
   "personality": {
     "status": "MISSING"
   },
   "tone": {
-    "status": "MISSING"
+    "status": "UNVERIFIED",
+    "value": [
+      "Refined",
+      "Atmospheric",
+      "Material-honest",
+      "Professional studio"
+    ],
+    "notes": "Tone inferred from public description language — distinct from Villa Glory retail tone. Do not merge.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "NOXFORM:src/lib/content.ts",
+    "observed_at": "2026-08-14T07:54:29.709Z",
+    "confidence": "LOW",
+    "time_sensitive": false
   },
   "vocabulary": {
     "status": "MISSING"

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T07:36:37.659Z",
+  "generated_at": "2026-08-14T07:55:23.958Z",
   "brands": [
     {
       "brand_id": "LOTIN",
@@ -33,17 +33,17 @@
     {
       "brand_id": "VILLA_GLORY",
       "readiness": "BLOCKED",
-      "overall_score": 3,
+      "overall_score": 5,
       "verified": 0,
-      "unverified": 19,
-      "missing": 78,
+      "unverified": 70,
+      "missing": 55,
       "conflicting": 0,
       "stale": 0,
       "critical_blockers": [
         "Critical unverified: identity.official_name",
-        "Critical missing: identity.description",
-        "Critical missing: identity.location_markets",
-        "Critical missing: positioning.positioning_statement",
+        "Critical unverified: identity.description",
+        "Critical unverified: identity.location_markets",
+        "Critical unverified: positioning.positioning_statement",
         "Critical unverified: positioning.category",
         "Critical missing: voice.tone",
         "Critical unverified: claims.prohibited_claims"
@@ -51,9 +51,9 @@
       "next_actions": [
         "Continue onboarding from state GAP_ANALYSIS.",
         "Resolve: Critical unverified: identity.official_name",
-        "Resolve: Critical missing: identity.description",
-        "Resolve: Critical missing: identity.location_markets",
-        "Resolve: Critical missing: positioning.positioning_statement",
+        "Resolve: Critical unverified: identity.description",
+        "Resolve: Critical unverified: identity.location_markets",
+        "Resolve: Critical unverified: positioning.positioning_statement",
         "Resolve: Critical unverified: positioning.category"
       ],
       "related_brand_ids": [
@@ -64,27 +64,27 @@
     {
       "brand_id": "NOX_FORM",
       "readiness": "BLOCKED",
-      "overall_score": 3,
+      "overall_score": 6,
       "verified": 0,
-      "unverified": 19,
-      "missing": 78,
+      "unverified": 64,
+      "missing": 51,
       "conflicting": 0,
       "stale": 0,
       "critical_blockers": [
         "Critical unverified: identity.official_name",
-        "Critical missing: identity.description",
-        "Critical missing: identity.location_markets",
-        "Critical missing: positioning.positioning_statement",
+        "Critical unverified: identity.description",
+        "Critical unverified: identity.location_markets",
+        "Critical unverified: positioning.positioning_statement",
         "Critical unverified: positioning.category",
-        "Critical missing: voice.tone",
+        "Critical unverified: voice.tone",
         "Critical unverified: claims.prohibited_claims"
       ],
       "next_actions": [
         "Continue onboarding from state GAP_ANALYSIS.",
         "Resolve: Critical unverified: identity.official_name",
-        "Resolve: Critical missing: identity.description",
-        "Resolve: Critical missing: identity.location_markets",
-        "Resolve: Critical missing: positioning.positioning_statement",
+        "Resolve: Critical unverified: identity.description",
+        "Resolve: Critical unverified: identity.location_markets",
+        "Resolve: Critical unverified: positioning.positioning_statement",
         "Resolve: Critical unverified: positioning.category"
       ],
       "related_brand_ids": [
@@ -95,17 +95,17 @@
     {
       "brand_id": "NOX_TECH",
       "readiness": "BLOCKED",
-      "overall_score": 3,
+      "overall_score": 4,
       "verified": 0,
-      "unverified": 17,
-      "missing": 72,
+      "unverified": 30,
+      "missing": 58,
       "conflicting": 0,
       "stale": 0,
       "critical_blockers": [
         "Critical unverified: identity.official_name",
-        "Critical missing: identity.description",
+        "Critical unverified: identity.description",
         "Critical missing: identity.location_markets",
-        "Critical missing: positioning.positioning_statement",
+        "Critical unverified: positioning.positioning_statement",
         "Critical unverified: positioning.category",
         "Critical missing: voice.tone",
         "Critical unverified: claims.prohibited_claims"
@@ -113,9 +113,9 @@
       "next_actions": [
         "Continue onboarding from state GAP_ANALYSIS.",
         "Resolve: Critical unverified: identity.official_name",
-        "Resolve: Critical missing: identity.description",
+        "Resolve: Critical unverified: identity.description",
         "Resolve: Critical missing: identity.location_markets",
-        "Resolve: Critical missing: positioning.positioning_statement",
+        "Resolve: Critical unverified: positioning.positioning_statement",
         "Resolve: Critical unverified: positioning.category"
       ],
       "related_brand_ids": [],

@@ -1,134 +1,534 @@
 {
   "brand_id": "NOX_FORM",
   "module": "offerings",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.713Z",
   "items": [
     {
-      "id": "offer-1",
+      "id": "svc-interior-architecture",
       "name": {
         "status": "UNVERIFIED",
-        "value": "architecture",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Interior Architecture",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
         "status": "MISSING"
       },
       "audience": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     },
     {
-      "id": "offer-2",
+      "id": "svc-turnkey-fit-out",
       "name": {
         "status": "UNVERIFIED",
-        "value": "interior design",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Turnkey Fit-Out",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
         "status": "MISSING"
       },
       "audience": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     },
     {
-      "id": "offer-3",
+      "id": "svc-luxury-furnishing",
       "name": {
         "status": "UNVERIFIED",
-        "value": "project acquisition",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Luxury Furnishing",
+        "notes": "Studio FF&E service (siteConfig.services) — NOT Villa Glory retail catalog. Isolation mandatory.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
         "status": "MISSING"
       },
       "audience": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     },
     {
-      "id": "offer-4",
+      "id": "svc-bespoke-joinery",
       "name": {
         "status": "UNVERIFIED",
-        "value": "design expertise",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Bespoke Joinery",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "description": {
         "status": "MISSING"
       },
       "audience": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "status": "MISSING"
       },
       "cta": {
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "svc-material-curation",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Material Curation",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
         "status": "MISSING"
+      },
+      "audience": {
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "MISSING"
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "svc-visualization-cgi",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Visualization & CGI",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "MISSING"
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "svc-lighting-design",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Lighting Design",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "MISSING"
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "svc-project-management",
+      "name": {
+        "status": "UNVERIFIED",
+        "value": "Project Management",
+        "notes": "From siteConfig.services / serviceCategories.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "category": {
+        "status": "UNVERIFIED",
+        "value": "design_studio_service",
+        "notes": "Professional design services — distinct from furniture retail.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "description": {
+        "status": "MISSING"
+      },
+      "audience": {
+        "status": "UNVERIFIED",
+        "value": [
+          "residential",
+          "hospitality",
+          "private villas"
+        ],
+        "notes": "Derived from siteConfig.description audiences.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "LOW",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "Dubai",
+          "UAE"
+        ],
+        "notes": "Studio location.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "pricing": {
+        "status": "MISSING"
+      },
+      "cta": {
+        "status": "UNVERIFIED",
+        "value": "Start a Project",
+        "notes": "primaryCta.label in content.ts",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "NOXFORM:src/lib/content.ts",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
       }
     }
   ]

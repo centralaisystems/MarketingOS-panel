@@ -1,19 +1,76 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "audiences",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-08-14T07:54:29.712Z",
   "segments": [
     {
-      "id": "aud-1",
+      "id": "private-clients",
       "role": "PRIMARY",
       "label": {
         "status": "UNVERIFIED",
-        "value": "customers",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
+        "value": "Private clients",
+        "notes": "From About audience sentence.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "geography": {
+        "status": "UNVERIFIED",
+        "value": [
+          "UAE",
+          "Dubai",
+          "Sharjah"
+        ],
+        "notes": "Showroom geography; not exclusive market proof.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
+        "time_sensitive": false
+      },
+      "needs": {
+        "status": "MISSING"
+      },
+      "pain_points": {
+        "status": "MISSING"
+      },
+      "motivations": {
+        "status": "MISSING"
+      },
+      "objections": {
+        "status": "MISSING"
+      },
+      "buying_triggers": {
+        "status": "MISSING"
+      },
+      "preferred_channels": {
+        "status": "UNVERIFIED",
+        "value": [
+          "showroom",
+          "Private Concierge",
+          "contact"
+        ],
+        "notes": "Channels mentioned on About / privacy policy.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "time_sensitive": false
+      }
+    },
+    {
+      "id": "developers",
+      "role": "SECONDARY",
+      "label": {
+        "status": "UNVERIFIED",
+        "value": "Developers",
+        "notes": "Named audience on About.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "geography": {
@@ -39,51 +96,16 @@
       }
     },
     {
-      "id": "aud-2",
+      "id": "design-professionals",
       "role": "SECONDARY",
       "label": {
         "status": "UNVERIFIED",
-        "value": "enquiries",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
-        "time_sensitive": false
-      },
-      "geography": {
-        "status": "MISSING"
-      },
-      "needs": {
-        "status": "MISSING"
-      },
-      "pain_points": {
-        "status": "MISSING"
-      },
-      "motivations": {
-        "status": "MISSING"
-      },
-      "objections": {
-        "status": "MISSING"
-      },
-      "buying_triggers": {
-        "status": "MISSING"
-      },
-      "preferred_channels": {
-        "status": "MISSING"
-      }
-    },
-    {
-      "id": "aud-3",
-      "role": "SECONDARY",
-      "label": {
-        "status": "UNVERIFIED",
-        "value": "sales prospects",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
-        "observed_at": "2026-08-14T08:00:00.000Z",
+        "value": "Design professionals",
+        "notes": "Named audience on About; Professional Tools referenced in privacy copy.",
+        "source_type": "OFFICIAL_WEBSITE",
+        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "observed_at": "2026-08-14T07:54:29.709Z",
+        "confidence": "MEDIUM",
         "time_sensitive": false
       },
       "geography": {

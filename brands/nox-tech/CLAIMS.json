@@ -4,34 +4,47 @@
   "updated_at": "2026-08-14T08:00:00.000Z",
   "approved_claims": {
     "status": "MISSING",
-    "notes": "No approved claims yet"
+    "notes": "No approved claims yet",
+    "time_sensitive": false
   },
   "claims_requiring_evidence": {
-    "status": "MISSING"
+    "status": "UNVERIFIED",
+    "value": "marketing-data.ts contains quantified ROI estimate strings (e.g. 180–240% ROI)",
+    "notes": "PUBLICLY_CLAIMED in code assets — requires APPROVE_MARKETING_CLAIM before approved use. | Static ROI estimate copy in marketing-data.ts.",
+    "source_type": "OFFICIAL_WEBSITE",
+    "source_reference": "Nox-tech-ai:src/lib/marketing-data.ts",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "LOW",
+    "time_sensitive": false
   },
   "prohibited_claims": {
     "status": "UNVERIFIED",
     "value": [
-      "Do not invent product capabilities, SLAs, or customer logos",
-      "Do not claim AI performance metrics without evidence"
+      "Do not claim guaranteed ROI percentages without MARKETING_APPROVED evidence",
+      "Do not claim every seeded module is a commercially offered product",
+      "OBSERVED_IN_CODE ≠ MARKETING_APPROVED"
     ],
-    "notes": "Precautionary restrictions from Phase 1/brief — expand with legal review",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
-    "observed_at": "2026-08-14T08:00:00.000Z",
+    "notes": "Policy guardrails for NOX TECH claims. | Capability vs claim policy.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "MarketingOS:docs/phase-0/CRITICAL_REVIEW.md",
+    "observed_at": "2026-08-14T07:54:14.995Z",
+    "confidence": "MEDIUM",
     "time_sensitive": false
   },
   "regulatory_considerations": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "pricing_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "investment_financial_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "client_confidentiality_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   }
 }

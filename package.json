@@ -17,7 +17,8 @@
     "verify-output": "tsx scripts/verify-output.ts",
     "onboard-brand": "tsx scripts/onboard-brand.ts",
     "onboard-all": "tsx scripts/onboard-all-brands.ts",
-    "generate-brand-packs": "tsx scripts/generate-brand-packs.ts"
+    "generate-brand-packs": "tsx scripts/generate-brand-packs.ts",
+    "phase2b-populate": "tsx scripts/phase2b-populate.ts"
   },
   "dependencies": {
     "@marketing-os/contracts": "workspace:*",
