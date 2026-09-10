@@ -4,7 +4,8 @@
  * Wave 4 analytics/assets are read-only. Wave 4b Drive ingest is metadata-only.
  * Figma arrange + Higgsfield fill-gaps + video export packages are fixture-first.
  * Owner review emails default to dry-run outbox.
- * Wave 5 Instagram dry-run writes social outbox + audit. Live publish/ads stay blocked.
+ * Wave 5 Instagram dry-run writes social outbox + audit. Wave 6 paid staging is recommend-only.
+ * Wave 7 CRM lists fixture leads with opaque pii_ref. Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFileSync } from "node:fs";
@@ -136,6 +137,6 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
   console.log(
-    "Wave 5 Instagram dry-run is on. Live publish/ads remain blocked.",
+    "Waves 5–7 are on (Instagram dry-run, paid staging, CRM fixtures). Live publish/ads remain blocked.",
   );
 });

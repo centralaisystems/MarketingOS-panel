@@ -27,6 +27,7 @@ export const PhaseGateStateSchema = z.object({
     "WAVE_4B_ASSET_PIPELINE",
     "WAVE_5_SOCIAL_PUBLISH",
     "WAVE_6_PAID_ADS",
+    "WAVE_7_CRM",
   ]),
   live_publish_allowed: z.boolean().default(false),
   live_ads_allowed: z.boolean().default(false),
@@ -91,15 +92,3 @@ export const PaidRecommendationSchema = z.object({
   launch_allowed: z.literal(false).default(false),
 });
 export type PaidRecommendation = z.infer<typeof PaidRecommendationSchema>;
-
-export const LeadRecordSchema = z.object({
-  lead_id: z.string().uuid(),
-  brand_id: BrandIdSchema,
-  /** Opaque handle — never put raw PII in prompts or global memory. */
-  pii_ref: z.string().min(1),
-  source: z.enum(["FORM", "WHATSAPP", "MANUAL", "OTHER"]),
-  campaign_id: z.string().uuid().optional(),
-  stage: z.enum(["NEW", "QUALIFIED", "OPPORTUNITY", "WON", "LOST"]),
-  created_at: z.string().datetime(),
-});
-export type LeadRecord = z.infer<typeof LeadRecordSchema>;

@@ -22,6 +22,9 @@ import {
   SocialPublishOutboxRecordSchema,
   AdOutboxItemSchema,
   AdStagingJobSchema,
+  LeadEventSchema,
+  LeadSchema,
+  OpportunitySchema,
   type AgentId,
   type ApprovalLevel,
   type AuditEvent,
@@ -42,6 +45,9 @@ import {
   type SocialPublishOutboxRecord,
   type AdOutboxItem,
   type AdStagingJob,
+  type Lead,
+  type LeadEvent,
+  type Opportunity,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
 import { BrandIsolationError } from "./brand-loader.js";
@@ -156,6 +162,19 @@ export interface OpsStore {
 
   insertAdStagingJob(brand_id: BrandId, record: AdStagingJob): AdStagingJob;
   listAdStagingJobs(brand_id: BrandId, opts?: { limit?: number }): AdStagingJob[];
+
+  insertLead(brand_id: BrandId, record: Lead): Lead;
+  listLeads(brand_id: BrandId, opts?: { limit?: number }): Lead[];
+  getLead(brand_id: BrandId, lead_id: string): Lead | null;
+
+  insertLeadEvent(brand_id: BrandId, record: LeadEvent): LeadEvent;
+  listLeadEvents(
+    brand_id: BrandId,
+    opts?: { lead_id?: string; limit?: number },
+  ): LeadEvent[];
+
+  insertOpportunity(brand_id: BrandId, record: Opportunity): Opportunity;
+  listOpportunities(brand_id: BrandId, opts?: { limit?: number }): Opportunity[];
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -198,6 +217,9 @@ export class MemoryOpsStore implements OpsStore {
   protected socialOutbox: SocialPublishOutboxRecord[] = [];
   protected adOutbox: AdOutboxItem[] = [];
   protected adStagingJobs: AdStagingJob[] = [];
+  protected leads: Lead[] = [];
+  protected leadEvents: LeadEvent[] = [];
+  protected opportunities: Opportunity[] = [];
 
   insertCampaign(brand_id: BrandId, record: OpsCampaignRecord): OpsCampaignRecord {
     const parsed = OpsCampaignRecordSchema.parse(record);
@@ -534,6 +556,65 @@ export class MemoryOpsStore implements OpsStore {
     ).slice(0, limit);
   }
 
+  insertLead(brand_id: BrandId, record: Lead): Lead {
+    const parsed = LeadSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.leads.push(parsed);
+    return parsed;
+  }
+
+  listLeads(brand_id: BrandId, opts?: { limit?: number }): Lead[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(this.leads.filter((e) => e.brand_id === brand_id)).slice(
+      0,
+      limit,
+    );
+  }
+
+  getLead(brand_id: BrandId, lead_id: string): Lead | null {
+    const found = this.leads.find((e) => e.lead_id === lead_id);
+    if (!found || found.brand_id !== brand_id) return null;
+    return found;
+  }
+
+  insertLeadEvent(brand_id: BrandId, record: LeadEvent): LeadEvent {
+    const parsed = LeadEventSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.leadEvents.push(parsed);
+    return parsed;
+  }
+
+  listLeadEvents(
+    brand_id: BrandId,
+    opts?: { lead_id?: string; limit?: number },
+  ): LeadEvent[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(
+      this.leadEvents.filter((e) => {
+        if (e.brand_id !== brand_id) return false;
+        if (opts?.lead_id && e.lead_id !== opts.lead_id) return false;
+        return true;
+      }),
+    ).slice(0, limit);
+  }
+
+  insertOpportunity(brand_id: BrandId, record: Opportunity): Opportunity {
+    const parsed = OpportunitySchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.opportunities.push(parsed);
+    return parsed;
+  }
+
+  listOpportunities(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): Opportunity[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(
+      this.opportunities.filter((e) => e.brand_id === brand_id),
+    ).slice(0, limit);
+  }
+
   /** Test helper — never used by panel HTTP. */
   exportSnapshot(): OpsSnapshot {
     return OpsSnapshotSchema.parse({
@@ -548,6 +629,9 @@ export class MemoryOpsStore implements OpsStore {
       social_outbox: this.socialOutbox,
       ad_outbox: this.adOutbox,
       ad_staging_jobs: this.adStagingJobs,
+      leads: this.leads,
+      lead_events: this.leadEvents,
+      opportunities: this.opportunities,
     });
   }
 }
@@ -580,6 +664,9 @@ export class FileOpsStore extends MemoryOpsStore {
     this.socialOutbox = snap.social_outbox;
     this.adOutbox = snap.ad_outbox;
     this.adStagingJobs = snap.ad_staging_jobs;
+    this.leads = snap.leads;
+    this.leadEvents = snap.lead_events;
+    this.opportunities = snap.opportunities;
   }
 
   private persist(): void {
@@ -717,6 +804,27 @@ export class FileOpsStore extends MemoryOpsStore {
     record: AdStagingJob,
   ): AdStagingJob {
     const row = super.insertAdStagingJob(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertLead(brand_id: BrandId, record: Lead): Lead {
+    const row = super.insertLead(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertLeadEvent(brand_id: BrandId, record: LeadEvent): LeadEvent {
+    const row = super.insertLeadEvent(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertOpportunity(
+    brand_id: BrandId,
+    record: Opportunity,
+  ): Opportunity {
+    const row = super.insertOpportunity(brand_id, record);
     this.persist();
     return row;
   }

@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts, owner review, Wave 4/4b pipeline, Wave 5 Instagram dry-run, and Wave 6 paid staging. Live publish/ads stay OFF. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts, owner review, Wave 4/4b pipeline, Wave 5 Instagram dry-run, Wave 6 paid staging, and Wave 7 CRM leads. Live publish/ads stay OFF. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -323,9 +323,25 @@
         <div id="adsOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
+      <section class="span-2">
+        <h2>Leads (Wave 7 CRM)</h2>
+        <p class="muted">Villa Glory first. Fixture form / WhatsApp adapters tokenize inbound contact fields into opaque pii_ref. Panel and agent summaries never show raw email or phone. Attribution joins leads to the active brand's campaigns via campaign_id / UTM. Live WhatsApp and form webhooks are out of scope.</p>
+        <div class="row" style="margin-top:0.65rem">
+          <label>Campaign
+            <select id="leadsCampaign"></select>
+          </label>
+        </div>
+        <div class="row" style="margin-top:0.65rem">
+          <button id="leadsFixtureBtn" type="button">Load Villa Glory fixtures</button>
+          <span class="badge" id="leadsBadge">pii_ref only</span>
+        </div>
+        <div id="leadsAttribution" class="muted" style="margin-top:0.75rem">Loading…</div>
+        <div id="leadsList" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
       <section>
         <h2>Later waves — blocked</h2>
-        <p class="muted">Wave 5 dry-run and Wave 6 paid staging are on. Live Instagram fire and live ad spend stay off until live_publish_allowed / live_ads_allowed plus explicit operator approval. CRM and automation remain scaffolded.</p>
+        <p class="muted">Waves 5–7 are on (Instagram dry-run, paid staging, CRM fixtures). Live Instagram fire and live ad spend stay off until live_publish_allowed / live_ads_allowed plus explicit operator approval. Automation remains scaffolded.</p>
         <div class="row" style="margin-top:0.75rem">
           <button class="blocked" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
           <button class="blocked" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch ads / change budget</button>
@@ -361,6 +377,8 @@
         document.getElementById("socialOutbox").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("adsEligible").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("adsOutbox").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("leadsAttribution").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("leadsList").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("runResult").textContent = "No run yet. Actions stay on the selected brand_id only.";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
@@ -830,6 +848,7 @@
           loadVideoPackages(),
           loadSocialPublish(),
           loadPaidAds(),
+          loadLeads(),
           loadAnalytics(),
           loadAiVisibility(),
         ]);
@@ -1061,6 +1080,80 @@
         await loadPaidAds();
       }
 
+      async function loadLeads() {
+        const brand_id = activeBrand();
+        const campaignEl = document.getElementById("leadsCampaign");
+        campaignEl.innerHTML = "";
+        const none = document.createElement("option");
+        none.value = "";
+        none.textContent = "(no campaign — UTM only)";
+        campaignEl.appendChild(none);
+        const drafts = await api("/api/campaigns?brand_id=" + encodeURIComponent(brand_id));
+        if (drafts.brand_id && drafts.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        for (const row of drafts.campaigns || []) {
+          if (row.brand_id && row.brand_id !== brand_id) continue;
+          const opt = document.createElement("option");
+          opt.value = row.campaign_id;
+          opt.textContent = row.objective + " · " + row.status;
+          campaignEl.appendChild(opt);
+        }
+
+        const attr = await api("/api/leads/attribution?brand_id=" + encodeURIComponent(brand_id));
+        if (attr.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const campaigns = attr.campaigns || [];
+        if (!campaigns.length) {
+          document.getElementById("leadsAttribution").textContent =
+            "No attributed leads for " + brand_id + ". Load Villa Glory fixtures against a campaign.";
+        } else {
+          document.getElementById("leadsAttribution").innerHTML = campaigns.map((row) => {
+            if (row.brand_id && row.brand_id !== brand_id) return "";
+            return '<div class="item"><span class="badge">' + escapeHtml(String(row.lead_count)) +
+              " lead(s)</span> " + escapeHtml(row.objective) +
+              '<div class="muted">' + escapeHtml((row.sources || []).join(", ") || "—") +
+              " · campaign " + escapeHtml(row.campaign_id) + "</div></div>";
+          }).join("");
+        }
+
+        const listed = await api("/api/leads?brand_id=" + encodeURIComponent(brand_id));
+        if (listed.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = listed.items || [];
+        if (!rows.length) {
+          document.getElementById("leadsList").textContent = "No leads for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("leadsList").innerHTML = rows.map((row) => {
+          if (row.brand_id && row.brand_id !== brand_id) return "";
+          const utm = row.utm && row.utm.utm_campaign ? row.utm.utm_campaign : "—";
+          return '<div class="item"><span class="badge">' + escapeHtml(row.stage) +
+            "</span> " + escapeHtml(row.source) + " · " + escapeHtml(row.pii_ref) +
+            '<div class="muted">' + (row.attributed ? "attributed" : "unattributed") +
+            " · " + escapeHtml(row.campaign_objective || "no campaign") +
+            " · utm_campaign=" + escapeHtml(utm) + "</div></div>";
+        }).join("");
+      }
+
+      async function ingestLeadFixtures() {
+        const brand_id = activeBrand();
+        if (brand_id !== "VILLA_GLORY") {
+          document.getElementById("runResult").textContent =
+            "Wave 7 fixture ingest is Villa Glory first. Switch brand to Villa Glory.";
+          return;
+        }
+        const campaign_id = document.getElementById("leadsCampaign").value;
+        document.getElementById("runResult").textContent =
+          "Ingesting fixture leads for " + brand_id + "…";
+        const payload = { brand_id };
+        if (campaign_id) payload.campaign_id = campaign_id;
+        const res = await fetch("/api/leads/ingest-fixtures", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await loadLeads();
+      }
+
       document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
       document.getElementById("directorBtn").onclick = () => run("/api/run-objective");
       document.getElementById("reloadReady").onclick = () => loadReadiness();
@@ -1114,6 +1207,11 @@
       };
       document.getElementById("adsBudgetBtn").onclick = () => {
         stagePaidAd("/api/ads/stage-budget").catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
+      document.getElementById("leadsFixtureBtn").onclick = () => {
+        ingestLeadFixtures().catch((e) => {
           document.getElementById("runResult").textContent = String(e);
         });
       };

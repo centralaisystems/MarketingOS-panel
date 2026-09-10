@@ -8,7 +8,7 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 
 ## Phase
 
-**Phase 2 complete through 2D; Agency Waves 1–6 staging in progress (7–8 scaffolded).** Provenance-enforced brand packs. Multi-brand registry enabled (`brands/_shared/REGISTRY.json`). Wave 5 Instagram dry-run and Wave 6 Meta/Google paid staging write outbox + audit only. No live publishing or ads until phase gates allow. Do not enable `live_publish_allowed` / `live_ads_allowed` without explicit approval.
+**Phase 2 complete through 2D; Agency Waves 1–7 enabled (Wave 8 scaffolded).** Provenance-enforced brand packs. Multi-brand registry enabled (`brands/_shared/REGISTRY.json`). Wave 5 Instagram dry-run and Wave 6 Meta/Google paid staging write outbox + audit only. Wave 7 CRM stores opaque `pii_ref` leads + campaign attribution (Villa Glory fixtures). No live publishing or ads until phase gates allow. Do not enable `live_publish_allowed` / `live_ads_allowed` without explicit approval.
 
 ## Required workflow
 

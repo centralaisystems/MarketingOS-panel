@@ -113,6 +113,14 @@ curl -s "http://127.0.0.1:8787/api/ads/outbox?brand_id=LOTIN"
 # Live ads must stay 403 while live_ads_allowed is false
 curl -s -o /dev/null -w "%{http_code}\n" -X POST http://127.0.0.1:8787/api/ads/launch \
   -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
+# Wave 7 CRM fixtures (optional campaign_id attributes both stub leads)
+curl -s -X POST http://127.0.0.1:8787/api/leads/ingest-fixtures \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"VILLA_GLORY","campaign_id":"'"$CAMPAIGN_ID"'"}'
+curl -s "http://127.0.0.1:8787/api/leads?brand_id=VILLA_GLORY"
+curl -s "http://127.0.0.1:8787/api/leads/attribution?brand_id=VILLA_GLORY"
+# LOTIN must not see Villa Glory leads
+curl -s "http://127.0.0.1:8787/api/leads?brand_id=LOTIN"
 ```
 
-Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false), `MOS_LIVE_PUBLISH`, and `MOS_LIVE_ADS` (both default false). Wave 5 dry-run does not post to Instagram. Wave 6 staging does not spend on Meta/Google. Never invent VERIFIED brand facts from the panel.
+Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false), `MOS_LIVE_PUBLISH`, and `MOS_LIVE_ADS` (both default false). Wave 5 dry-run does not post to Instagram. Wave 6 staging does not spend on Meta/Google. Wave 7 CRM never puts raw email/phone in panel or agent summaries. Never invent VERIFIED brand facts from the panel.

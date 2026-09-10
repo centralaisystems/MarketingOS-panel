@@ -31,4 +31,5 @@ export * from "./analytics.js";
 export * from "./ai-visibility.js";
 export * from "./social-publish.js";
 export * from "./paid-ads.js";
+export * from "./crm.js";
 

@@ -34,4 +34,4 @@ Research (A03) never receives `META_ADS_ACCESS_TOKEN` or `GOOGLE_ADS_DEVELOPER_T
 
 ## Out of scope
 
-Real Meta/Google spend, enabling `live_ads_allowed=true`, CRM, automation digests.
+Real Meta/Google spend, enabling `live_ads_allowed=true`, automation digests. CRM is Wave 7 (opaque `pii_ref` only).

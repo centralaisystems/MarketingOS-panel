@@ -24,7 +24,7 @@
 | competitors, competitor_observations | 3–4 |
 | keywords, seo_pages, seo_rankings | 5 |
 | ad_campaigns, ad_performance | 7 |
-| leads, lead_events, opportunities | 8 |
+| leads, lead_events, opportunities | 7 (Wave 7 CRM; opaque `pii_ref` only) |
 | experiments, experiment_variants, experiment_results | 3+/9 |
 | analytics_daily, marketing_costs | 4b–5 |
 | insights | 9 |

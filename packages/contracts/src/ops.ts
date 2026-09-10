@@ -10,6 +10,11 @@ import {
   OwnerReviewRequestSchema,
 } from "./owner-review.js";
 import { SocialPublishOutboxRecordSchema } from "./social-publish.js";
+import {
+  LeadEventSchema,
+  LeadSchema,
+  OpportunitySchema,
+} from "./crm.js";
 import { AdOutboxItemSchema, AdStagingJobSchema } from "./paid-ads.js";
 
 /** Campaign row in the Wave 3 ops data plane (file/memory or Supabase). */
@@ -92,5 +97,8 @@ export const OpsSnapshotSchema = z.object({
   social_outbox: z.array(SocialPublishOutboxRecordSchema).default([]),
   ad_outbox: z.array(AdOutboxItemSchema).default([]),
   ad_staging_jobs: z.array(AdStagingJobSchema).default([]),
+  leads: z.array(LeadSchema).default([]),
+  lead_events: z.array(LeadEventSchema).default([]),
+  opportunities: z.array(OpportunitySchema).default([]),
 });
 export type OpsSnapshot = z.infer<typeof OpsSnapshotSchema>;
