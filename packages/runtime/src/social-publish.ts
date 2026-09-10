@@ -286,11 +286,6 @@ export function scheduleSocialPublishDryRun(
     req.brand_id,
     brandsRootOpt(opts.brandsRoot),
   );
-  if (req.live === true || req.dry_run !== true) {
-    throw new SocialPublishLiveBlockedError(
-      "Use the live publish path only when live_publish_allowed and MOS_LIVE_PUBLISH are explicitly enabled. Default path is dry-run.",
-    );
-  }
   if (req.channel !== WAVE5_FIRST_CHANNEL) {
     throw new SocialPublishInputError(
       `Wave 5 first channel is ${WAVE5_FIRST_CHANNEL}. ${req.channel} is not wired.`,
