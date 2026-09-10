@@ -123,8 +123,10 @@ describe("LOTIN Wave 2 draft quality", () => {
     expect(body).toMatch(/Off-plan property brokerage|Buying and selling brokerage/);
     expect(body).toMatch(/Property investors|Home buyers|Property owners/);
     expect(body).toMatch(/Book a consultation/);
-    expect(body).toMatch(/do not invent ROI|guaranteed returns/i);
-    expect(body).toMatch(/MISSING/);
+    expect(body).toMatch(/do not invent product specs|MISSING/);
+    expect(String(content.compliance_notes ?? "")).toMatch(
+      /do not invent ROI|guaranteed returns|inventory|pricing/i,
+    );
     expect(content.invented_claims).toBe(false);
     expect(content.pack_citations).toEqual(
       expect.arrayContaining([
