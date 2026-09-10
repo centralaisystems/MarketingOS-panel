@@ -62,6 +62,20 @@ import {
   FigmaArrangeInputError,
   listFigmaArrangeJobs,
 } from "./figma-arrange.js";
+import {
+  createHiggsfieldAdapter,
+  HiggsfieldCredentialsMissingError,
+  type HiggsfieldAdapter,
+} from "./higgsfield-adapter.js";
+import {
+  createHiggsfieldGenerateJobStore,
+  type HiggsfieldGenerateJobStore,
+} from "./higgsfield-jobs.js";
+import {
+  fillHiggsfieldGaps,
+  HiggsfieldGenerateInputError,
+  listHiggsfieldGenerateJobs,
+} from "./higgsfield-generate.js";
 
 export type PanelRequest = {
   method: string;
@@ -86,6 +100,8 @@ export type PanelApiContext = {
   panelBaseUrl?: string;
   figma?: FigmaArrangeAdapter;
   figmaJobs?: FigmaArrangeJobStore;
+  higgsfield?: HiggsfieldAdapter;
+  higgsfieldJobs?: HiggsfieldGenerateJobStore;
 };
 
 const UUID_RE =
@@ -234,6 +250,18 @@ export async function handlePanelApi(
     }
     if (method === "POST" && path === "/api/figma-arrange") {
       return await postFigmaArrange(req, ctx);
+    }
+    if (method === "GET" && path === "/api/higgsfield-gaps") {
+      return getHiggsfieldGaps(req, ctx);
+    }
+    const higgsfieldJobMatch = path.match(
+      new RegExp(`^/api/higgsfield-gaps/(${UUID_RE})$`),
+    );
+    if (method === "GET" && higgsfieldJobMatch?.[1]) {
+      return getHiggsfieldJob(req, ctx, higgsfieldJobMatch[1]);
+    }
+    if (method === "POST" && path === "/api/higgsfield-gaps") {
+      return await postHiggsfieldGaps(req, ctx);
     }
     if (method === "GET" && path === "/api/owner-reviews") {
       return listOwnerReviews(req, ctx);
@@ -425,6 +453,84 @@ async function postFigmaArrange(
   };
 }
 
+function requireHiggsfield(ctx: PanelApiContext): HiggsfieldAdapter {
+  if (!ctx.higgsfield) {
+    ctx.higgsfield = createHiggsfieldAdapter();
+  }
+  return ctx.higgsfield;
+}
+
+function requireHiggsfieldJobs(ctx: PanelApiContext): HiggsfieldGenerateJobStore {
+  if (!ctx.higgsfieldJobs) {
+    ctx.higgsfieldJobs = createHiggsfieldGenerateJobStore({ backend: "memory" });
+  }
+  return ctx.higgsfieldJobs;
+}
+
+function getHiggsfieldGaps(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const list = listHiggsfieldGenerateJobs({
+    brand_id,
+    catalog: requireAssets(ctx),
+    jobs: requireHiggsfieldJobs(ctx),
+    adapter: requireHiggsfield(ctx),
+    layout_brief: req.searchParams.get("brief") ?? undefined,
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return { status: 200, body: list };
+}
+
+function getHiggsfieldJob(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  job_id: string,
+): PanelResponse {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const job = requireHiggsfieldJobs(ctx).get(brand_id, job_id);
+  if (!job) {
+    return jsonError(404, "higgsfield generate job not found", { brand_id, job_id });
+  }
+  return { status: 200, body: job };
+}
+
+async function postHiggsfieldGaps(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): Promise<PanelResponse> {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const body = asRecord(req.body);
+  const rawIds = body.source_asset_ids;
+  const source_asset_ids = Array.isArray(rawIds)
+    ? rawIds.filter((id): id is string => typeof id === "string" && id.trim().length > 0)
+    : [];
+  const campaign_id =
+    typeof body.campaign_id === "string" && body.campaign_id.trim()
+      ? body.campaign_id.trim()
+      : undefined;
+  const job = await fillHiggsfieldGaps({
+    brand_id,
+    source_asset_ids,
+    layout_brief: body.layout_brief ?? body.brief,
+    ...(campaign_id ? { campaign_id } : {}),
+    catalog: requireAssets(ctx),
+    jobs: requireHiggsfieldJobs(ctx),
+    adapter: requireHiggsfield(ctx),
+    store: ctx.store,
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return {
+    status: 200,
+    body: {
+      ...job,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
 function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
   assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
   const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
@@ -457,7 +563,12 @@ function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
     if (parsed.success) filter.folder_role = parsed.data;
   }
   const source = req.searchParams.get("source");
-  if (source === "catalog" || source === "drive" || source === "figma") {
+  if (
+    source === "catalog" ||
+    source === "drive" ||
+    source === "figma" ||
+    source === "higgsfield"
+  ) {
     filter.source = source;
   }
   const assets = catalog.listMetadata(brand_id, filter);
@@ -523,6 +634,12 @@ function mapError(e: unknown): PanelResponse {
     return jsonError(403, e.message, { source: "figma_api" });
   }
   if (e instanceof FigmaArrangeInputError) {
+    return jsonError(400, e.message);
+  }
+  if (e instanceof HiggsfieldCredentialsMissingError) {
+    return jsonError(403, e.message, { source: "higgsfield_api" });
+  }
+  if (e instanceof HiggsfieldGenerateInputError) {
     return jsonError(400, e.message);
   }
   if (e instanceof OwnerEmailDisabledError || e instanceof OwnerEmailMissingError) {
@@ -783,6 +900,7 @@ function reviewRuntime(ctx: PanelApiContext) {
     ...brandsRootOpt(ctx.brandsRoot),
     ...(ctx.panelBaseUrl ? { panelBaseUrl: ctx.panelBaseUrl } : {}),
     ...(ctx.figmaJobs ? { figmaJobs: ctx.figmaJobs } : {}),
+    ...(ctx.higgsfieldJobs ? { higgsfieldJobs: ctx.higgsfieldJobs } : {}),
   };
 }
 
@@ -888,6 +1006,7 @@ function getPublicOwnerReview(req: PanelRequest, ctx: PanelApiContext): PanelRes
   const view = publicOwnerReviewView(ctx.store, token, {
     ...brandsRootOpt(ctx.brandsRoot),
     ...(ctx.figmaJobs ? { figmaJobs: ctx.figmaJobs } : {}),
+    ...(ctx.higgsfieldJobs ? { higgsfieldJobs: ctx.higgsfieldJobs } : {}),
   });
   return { status: 200, body: view };
 }

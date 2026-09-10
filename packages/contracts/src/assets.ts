@@ -37,7 +37,7 @@ export const REQUIRED_DRIVE_FOLDER_ROLES: readonly DriveFolderRole[] = [
   "generated",
 ];
 
-export const AssetSourceSchema = z.enum(["catalog", "drive", "figma"]);
+export const AssetSourceSchema = z.enum(["catalog", "drive", "figma", "higgsfield"]);
 export type AssetSource = z.infer<typeof AssetSourceSchema>;
 
 /** How the catalog row was produced. GENERATED stays UNVERIFIED until approved. */

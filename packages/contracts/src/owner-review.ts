@@ -44,6 +44,9 @@ export const PackReviewFieldsSchema = z.object({
   /** Optional Figma-arrange outputs for later owner review. Empty until a job exists. */
   arranged_asset_ids: z.array(z.string().uuid()).default([]),
   figma_job_ids: z.array(z.string().uuid()).default([]),
+  /** Optional Higgsfield fill-gap stills. Empty until a generate job exists. */
+  generated_asset_ids: z.array(z.string().uuid()).default([]),
+  higgsfield_job_ids: z.array(z.string().uuid()).default([]),
 });
 export type PackReviewFields = z.infer<typeof PackReviewFieldsSchema>;
 
@@ -90,6 +93,8 @@ export const OwnerReviewRequestSchema = z.object({
   template: EmailTemplateKindSchema.default("MATERIALS_READY"),
   arranged_asset_ids: z.array(z.string().uuid()).default([]),
   figma_job_ids: z.array(z.string().uuid()).default([]),
+  generated_asset_ids: z.array(z.string().uuid()).default([]),
+  higgsfield_job_ids: z.array(z.string().uuid()).default([]),
   created_at: z.string().datetime(),
   decided_at: z.string().datetime().optional(),
 });

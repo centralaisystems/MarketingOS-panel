@@ -7,6 +7,7 @@ import {
   ApprovalDecisionSchema,
   AssetRecordSchema,
   FigmaArrangeJobSchema,
+  HiggsfieldGenerateJobSchema,
   BrandIdSchema,
   BrandRegistryEntrySchema,
   EvidenceSchema,
@@ -268,6 +269,56 @@ describe("contracts", () => {
       created_at: now,
       updated_at: now,
       message: "Arranged",
+    });
+    expect(job.knowledge_status).toBe("UNVERIFIED");
+    expect(job.provenance).toBe("GENERATED");
+    expect(job.approval_status).toBe("DRAFT");
+    expect(job.live_publish).toBe(false);
+    expect(job.live_ads).toBe(false);
+  });
+
+  it("validates a Higgsfield generate job as GENERATED / UNVERIFIED / not live", () => {
+    const now = new Date().toISOString();
+    const job = HiggsfieldGenerateJobSchema.parse({
+      job_id: randomUUID(),
+      brand_id: "VILLA_GLORY",
+      gap: {
+        has_gap: true,
+        needs: [
+          {
+            usage_tag: "story",
+            aspect: "9:16",
+            reason: "No approved still covers story / 9:16.",
+          },
+        ],
+        reason: "No approved still covers story / 9:16.",
+      },
+      layout_brief: {
+        title: "Fill still gaps",
+        description: "Story still 9:16. No commercial claims.",
+        needed_usage_tags: ["story"],
+        needed_aspects: ["9:16"],
+      },
+      prompt: {
+        text: "Photoreal still. Do not invent VERIFIED ROI, SKU, or partner claims.",
+        verified_fields: ["voice.tone: Refined"],
+        unverified_fields: [],
+        forbidden_claims_note: "Do not invent VERIFIED ROI, SKU, or partner claims.",
+      },
+      status: "READY_FOR_OWNER_REVIEW",
+      source: "fixture",
+      output: {
+        media_id: "fixture-villa_glory-story-9x16-abc",
+        storage_uri: "mos://higgsfield/VILLA_GLORY/job",
+        aspect: "9:16",
+        usage_tag: "story",
+        model: "fixture-still",
+      },
+      generated_asset_id: randomUUID(),
+      guardian: { passed: true, reasons: [], reviewed: ["higgsfield-generate"] },
+      created_at: now,
+      updated_at: now,
+      message: "Generated",
     });
     expect(job.knowledge_status).toBe("UNVERIFIED");
     expect(job.provenance).toBe("GENERATED");

@@ -2,7 +2,7 @@
  * Thin dedicated Marketing OS operator panel (Wave 3–4b + owner review).
  * Own app/URL — not embedded in NOX TECH admin.
  * Wave 4 analytics/assets are read-only. Wave 4b Drive ingest is metadata-only.
- * Figma arrange is fixture-first (optional live Figma behind env). Higgsfield/video later.
+ * Figma arrange + Higgsfield fill-gaps are fixture-first (optional live behind env). Video later.
  * Owner review emails default to dry-run outbox. Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -15,6 +15,8 @@ import {
   createEmailAdapter,
   createFigmaArrangeAdapter,
   createFigmaArrangeJobStore,
+  createHiggsfieldAdapter,
+  createHiggsfieldGenerateJobStore,
   createOpsStore,
   handlePanelApi,
   type PanelApiContext,
@@ -40,6 +42,11 @@ const figmaJobs = createFigmaArrangeJobStore({
   backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
   dir: process.env.MOS_FIGMA_DIR ?? join(process.cwd(), "data", "figma"),
 });
+const higgsfield = createHiggsfieldAdapter();
+const higgsfieldJobs = createHiggsfieldGenerateJobStore({
+  backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
+  dir: process.env.MOS_HIGGSFIELD_DIR ?? join(process.cwd(), "data", "higgsfield"),
+});
 
 const ctx: PanelApiContext = {
   store,
@@ -47,6 +54,8 @@ const ctx: PanelApiContext = {
   drive,
   figma,
   figmaJobs,
+  higgsfield,
+  higgsfieldJobs,
   email: createEmailAdapter(),
   panelBaseUrl: process.env.MOS_PANEL_BASE_URL ?? `http://127.0.0.1:${PORT}`,
   writeReport: process.env.MOS_PANEL_WRITE_REPORT !== "false",
@@ -117,6 +126,6 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
   console.log(
-    "Wave 4b Drive ingest + Figma arrange are fixture-first. Owner review emails default to dry-run. Live publish/ads remain blocked.",
+    "Wave 4b Drive ingest + Figma arrange + Higgsfield fill-gaps are fixture-first. Owner review emails default to dry-run. Live publish/ads remain blocked.",
   );
 });
