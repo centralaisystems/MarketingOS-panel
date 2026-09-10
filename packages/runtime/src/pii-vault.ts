@@ -5,11 +5,22 @@ import {
   type ClassifiedField,
 } from "@marketing-os/contracts";
 
-/** Email or long digit run — treat as raw contact data, not a vault handle. */
-export const RAW_PII_PATTERN = /@|\+?\d{8,}/;
+const EMAIL_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+const E164_LIKE_PATTERN = /\+\d{8,}/;
+const BARE_PHONE_PATTERN = /^\+?\d{8,}$/;
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Email or phone-like contact data — not a vault handle or UUID. */
+export const RAW_PII_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]+|\+\d{8,}|^\+?\d{8,}$/;
 
 export function looksLikeRawPii(value: string): boolean {
-  return RAW_PII_PATTERN.test(value);
+  const trimmed = value.trim();
+  if (!trimmed || UUID_PATTERN.test(trimmed)) return false;
+  if (EMAIL_PATTERN.test(trimmed)) return true;
+  if (E164_LIKE_PATTERN.test(trimmed)) return true;
+  if (BARE_PHONE_PATTERN.test(trimmed)) return true;
+  return false;
 }
 
 export function assertOpaquePiiRef(pii_ref: string): void {
