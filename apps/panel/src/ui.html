@@ -572,8 +572,8 @@
           body: JSON.stringify({ brand_id }),
         });
         const data = await res.json();
-        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
         await refreshBrand();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
       }
 
       async function sendDigest() {
@@ -585,8 +585,8 @@
           body: JSON.stringify({ brand_id, template: "PROGRESS_DIGEST" }),
         });
         const data = await res.json();
-        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
         await refreshBrand();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
       }
 
       document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
