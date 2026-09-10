@@ -21,6 +21,11 @@
    pnpm sync-brand-assets -- --brand ACME
    ```
    Fixture mode is the default. See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
+7. Optional owner review (templated Resend / dry-run outbox). Villa Glory uses a fixture `@example.test` address. See [`OWNER_REVIEW.md`](./OWNER_REVIEW.md):
+   ```bash
+   pnpm create-brand -- --id ACME --slug acme --name "Acme Co" \
+     --owner-email owner@example.test --enable-owner-email
+   ```
 
 ## Operator panel (Wave 3–4 usable thin UI)
 
@@ -57,6 +62,11 @@ curl -s "http://127.0.0.1:8787/api/drive-sync?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/assets?brand_id=VILLA_GLORY&source=drive"
 # LOTIN must not see Villa Glory Drive rows
 curl -s "http://127.0.0.1:8787/api/assets?brand_id=LOTIN&source=drive"
+curl -s -X POST http://127.0.0.1:8787/api/campaigns/$CAMPAIGN_ID/owner-review \
+  -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
+curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=VILLA_GLORY"
+# LOTIN must not see Villa Glory outbox
+curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=LOTIN"
 # Wave 4 writes and live endpoints must stay 403
 curl -s -o /dev/null -w "%{http_code}\n" -X POST http://127.0.0.1:8787/api/publish \
   -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'

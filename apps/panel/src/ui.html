@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts + read-only Wave 4 / 4b analytics and Drive ingest. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts, owner review, and read-only Wave 4 / 4b analytics and Drive ingest. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -179,6 +179,15 @@
       <section>
         <h2>Approval inbox (Level ≤1)</h2>
         <div id="inbox" class="muted">Loading…</div>
+      </section>
+
+      <section>
+        <h2>Owner review</h2>
+        <p class="muted">Templated emails only. Dry-run writes the outbox. Live ads content is a stub — not live spend.</p>
+        <div class="row" style="margin-top:0.5rem">
+          <button class="secondary" id="digestBtn" type="button">Send progress digest</button>
+        </div>
+        <div id="ownerReviews" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
       <section>
@@ -242,6 +251,7 @@
         document.getElementById("readyGaps").innerHTML = "";
         document.getElementById("drafts").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("inbox").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("ownerReviews").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("audit").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("assets").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("driveStatus").textContent = "Loading " + activeBrand() + " only…";
@@ -309,16 +319,39 @@
           return;
         }
         document.getElementById("drafts").innerHTML =
-          "<table><thead><tr><th>When</th><th>Objective</th><th>Guardian</th><th>Status</th></tr></thead><tbody>" +
+          "<table><thead><tr><th>When</th><th>Objective</th><th>Guardian</th><th>Status</th><th></th></tr></thead><tbody>" +
           rows.map((c) => {
             if (c.brand_id !== brand_id) return "";
+            const action = c.approvable
+              ? '<button type="button" data-owner-review="' + c.campaign_id + '">Send for owner review</button>'
+              : "";
             return "<tr><td>" + escapeHtml((c.created_at || "").slice(0, 19)) +
               "</td><td>" + escapeHtml(c.objective) +
               "</td><td>" + (c.guardian_passed ? "passed" : "rejected") +
               "</td><td>" + escapeHtml(c.status) + (c.approvable ? " · approvable" : "") +
-              "</td></tr>";
+              "</td><td>" + action + "</td></tr>";
           }).join("") +
           "</tbody></table>";
+        document.getElementById("drafts").querySelectorAll("[data-owner-review]").forEach((btn) => {
+          btn.onclick = () => sendOwnerReview(btn.getAttribute("data-owner-review"));
+        });
+      }
+
+      async function loadOwnerReviews() {
+        const brand_id = activeBrand();
+        const d = await api("/api/owner-reviews?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = d.reviews || [];
+        if (!rows.length) {
+          document.getElementById("ownerReviews").textContent = "No owner reviews for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("ownerReviews").innerHTML = rows.map((r) => {
+          if (r.brand_id !== brand_id) return "";
+          return '<div class="item"><strong>' + escapeHtml(r.status) + "</strong> · pack " +
+            escapeHtml((r.pack_id || "").slice(0, 8)) +
+            '<div class="muted"><a href="' + escapeHtml(r.review_url) + '" target="_blank" rel="noreferrer">Open review link</a></div></div>';
+        }).join("");
       }
 
       async function loadInbox() {
@@ -482,6 +515,7 @@
           loadReadiness(),
           loadDrafts(),
           loadInbox(),
+          loadOwnerReviews(),
           loadAudit(),
           loadAssets(),
           loadDriveStatus(),
@@ -529,9 +563,40 @@
           .replace(/>/g, "&gt;");
       }
 
+      async function sendOwnerReview(campaign_id) {
+        const brand_id = activeBrand();
+        document.getElementById("runResult").textContent = "Sending owner review for " + brand_id + "…";
+        const res = await fetch("/api/campaigns/" + campaign_id + "/owner-review", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ brand_id }),
+        });
+        const data = await res.json();
+        await refreshBrand();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+      }
+
+      async function sendDigest() {
+        const brand_id = activeBrand();
+        document.getElementById("runResult").textContent = "Sending progress digest for " + brand_id + "…";
+        const res = await fetch("/api/owner-reviews/digest", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ brand_id, template: "PROGRESS_DIGEST" }),
+        });
+        const data = await res.json();
+        await refreshBrand();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+      }
+
       document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
       document.getElementById("directorBtn").onclick = () => run("/api/run-objective");
       document.getElementById("reloadReady").onclick = () => loadReadiness();
+      document.getElementById("digestBtn").onclick = () => {
+        sendDigest().catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
       document.getElementById("unusedLivingBtn").onclick = () => {
         if (activeBrand() !== "VILLA_GLORY") {
           document.getElementById("assets").textContent =

@@ -10,16 +10,21 @@ import { randomUUID } from "node:crypto";
 import {
   APPROVAL_LEVEL_RANK,
   AuditEventSchema,
+  EmailOutboxItemSchema,
   OpsAgentRunRecordSchema,
   OpsApprovalRecordSchema,
   OpsCampaignRecordSchema,
   OpsSnapshotSchema,
   OpsTaskRecordSchema,
+  OwnerReviewDecisionSchema,
+  OwnerReviewRequestSchema,
   PHASE1_MAX_EXECUTABLE_LEVEL,
   type AgentId,
   type ApprovalLevel,
   type AuditEvent,
   type BrandId,
+  type CampaignPack,
+  type EmailOutboxItem,
   type OpsAgentRunRecord,
   type OpsApprovalDecision,
   type OpsApprovalRecord,
@@ -28,6 +33,9 @@ import {
   type OpsCampaignSummary,
   type OpsSnapshot,
   type OpsTaskRecord,
+  type OwnerReviewDecision,
+  type OwnerReviewRequest,
+  type OwnerReviewStatus,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
 import { BrandIsolationError } from "./brand-loader.js";
@@ -92,6 +100,36 @@ export interface OpsStore {
     opts?: { limit?: number; task_id?: string },
   ): AuditEvent[];
   clearAudit(brand_id: BrandId): void;
+
+  patchCampaign(
+    brand_id: BrandId,
+    campaign_id: string,
+    patch: {
+      status?: OpsCampaignStatus;
+      pack?: CampaignPack;
+      guardian_passed?: boolean;
+      approvable?: boolean;
+    },
+  ): OpsCampaignRecord | null;
+
+  insertOwnerReview(brand_id: BrandId, record: OwnerReviewRequest): OwnerReviewRequest;
+  listOwnerReviews(brand_id: BrandId, opts?: { limit?: number }): OwnerReviewRequest[];
+  getOwnerReview(brand_id: BrandId, review_id: string): OwnerReviewRequest | null;
+  getOwnerReviewByToken(token: string): OwnerReviewRequest | null;
+  updateOwnerReview(
+    brand_id: BrandId,
+    review_id: string,
+    patch: { status: OwnerReviewStatus; decided_at?: string },
+  ): OwnerReviewRequest | null;
+
+  insertOwnerDecision(
+    brand_id: BrandId,
+    record: OwnerReviewDecision,
+  ): OwnerReviewDecision;
+  listOwnerDecisions(brand_id: BrandId, opts?: { limit?: number }): OwnerReviewDecision[];
+
+  insertOutboxItem(brand_id: BrandId, record: EmailOutboxItem): EmailOutboxItem;
+  listOutbox(brand_id: BrandId, opts?: { limit?: number }): EmailOutboxItem[];
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -128,6 +166,9 @@ export class MemoryOpsStore implements OpsStore {
   protected approvals: OpsApprovalRecord[] = [];
   protected agentRuns: OpsAgentRunRecord[] = [];
   protected auditLog: AuditEvent[] = [];
+  protected ownerReviews: OwnerReviewRequest[] = [];
+  protected ownerDecisions: OwnerReviewDecision[] = [];
+  protected emailOutbox: EmailOutboxItem[] = [];
 
   insertCampaign(brand_id: BrandId, record: OpsCampaignRecord): OpsCampaignRecord {
     const parsed = OpsCampaignRecordSchema.parse(record);
@@ -155,11 +196,29 @@ export class MemoryOpsStore implements OpsStore {
     campaign_id: string,
     status: OpsCampaignStatus,
   ): OpsCampaignRecord | null {
+    return this.patchCampaign(brand_id, campaign_id, { status });
+  }
+
+  patchCampaign(
+    brand_id: BrandId,
+    campaign_id: string,
+    patch: {
+      status?: OpsCampaignStatus;
+      pack?: CampaignPack;
+      guardian_passed?: boolean;
+      approvable?: boolean;
+    },
+  ): OpsCampaignRecord | null {
     const found = this.getCampaign(brand_id, campaign_id);
     if (!found) return null;
     const updated = OpsCampaignRecordSchema.parse({
       ...found,
-      status,
+      ...(patch.status ? { status: patch.status } : {}),
+      ...(patch.pack ? { pack: patch.pack } : {}),
+      ...(patch.guardian_passed !== undefined
+        ? { guardian_passed: patch.guardian_passed }
+        : {}),
+      ...(patch.approvable !== undefined ? { approvable: patch.approvable } : {}),
       updated_at: new Date().toISOString(),
     });
     this.campaigns = this.campaigns.map((c) =>
@@ -301,6 +360,84 @@ export class MemoryOpsStore implements OpsStore {
     this.auditLog = this.auditLog.filter((e) => e.brand_id !== brand_id);
   }
 
+  insertOwnerReview(brand_id: BrandId, record: OwnerReviewRequest): OwnerReviewRequest {
+    const parsed = OwnerReviewRequestSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.ownerReviews.push(parsed);
+    return parsed;
+  }
+
+  listOwnerReviews(brand_id: BrandId, opts?: { limit?: number }): OwnerReviewRequest[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(this.ownerReviews.filter((r) => r.brand_id === brand_id)).slice(
+      0,
+      limit,
+    );
+  }
+
+  getOwnerReview(brand_id: BrandId, review_id: string): OwnerReviewRequest | null {
+    const found = this.ownerReviews.find((r) => r.review_id === review_id);
+    if (!found || found.brand_id !== brand_id) return null;
+    return found;
+  }
+
+  getOwnerReviewByToken(token: string): OwnerReviewRequest | null {
+    return this.ownerReviews.find((r) => r.token === token) ?? null;
+  }
+
+  updateOwnerReview(
+    brand_id: BrandId,
+    review_id: string,
+    patch: { status: OwnerReviewStatus; decided_at?: string },
+  ): OwnerReviewRequest | null {
+    const found = this.getOwnerReview(brand_id, review_id);
+    if (!found) return null;
+    const updated = OwnerReviewRequestSchema.parse({
+      ...found,
+      status: patch.status,
+      ...(patch.decided_at ? { decided_at: patch.decided_at } : {}),
+    });
+    this.ownerReviews = this.ownerReviews.map((r) =>
+      r.review_id === review_id ? updated : r,
+    );
+    return updated;
+  }
+
+  insertOwnerDecision(
+    brand_id: BrandId,
+    record: OwnerReviewDecision,
+  ): OwnerReviewDecision {
+    const parsed = OwnerReviewDecisionSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.ownerDecisions.push(parsed);
+    return parsed;
+  }
+
+  listOwnerDecisions(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): OwnerReviewDecision[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(
+      this.ownerDecisions.filter((d) => d.brand_id === brand_id),
+    ).slice(0, limit);
+  }
+
+  insertOutboxItem(brand_id: BrandId, record: EmailOutboxItem): EmailOutboxItem {
+    const parsed = EmailOutboxItemSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.emailOutbox.push(parsed);
+    return parsed;
+  }
+
+  listOutbox(brand_id: BrandId, opts?: { limit?: number }): EmailOutboxItem[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(this.emailOutbox.filter((e) => e.brand_id === brand_id)).slice(
+      0,
+      limit,
+    );
+  }
+
   /** Test helper — never used by panel HTTP. */
   exportSnapshot(): OpsSnapshot {
     return OpsSnapshotSchema.parse({
@@ -309,6 +446,9 @@ export class MemoryOpsStore implements OpsStore {
       approvals: this.approvals,
       agent_runs: this.agentRuns,
       audit_log: this.auditLog,
+      owner_reviews: this.ownerReviews,
+      owner_decisions: this.ownerDecisions,
+      email_outbox: this.emailOutbox,
     });
   }
 }
@@ -335,6 +475,9 @@ export class FileOpsStore extends MemoryOpsStore {
     this.approvals = snap.approvals;
     this.agentRuns = snap.agent_runs;
     this.auditLog = snap.audit_log;
+    this.ownerReviews = snap.owner_reviews;
+    this.ownerDecisions = snap.owner_decisions;
+    this.emailOutbox = snap.email_outbox;
   }
 
   private persist(): void {
@@ -357,6 +500,21 @@ export class FileOpsStore extends MemoryOpsStore {
     status: OpsCampaignStatus,
   ): OpsCampaignRecord | null {
     const row = super.updateCampaignStatus(brand_id, campaign_id, status);
+    this.persist();
+    return row;
+  }
+
+  override patchCampaign(
+    brand_id: BrandId,
+    campaign_id: string,
+    patch: {
+      status?: OpsCampaignStatus;
+      pack?: CampaignPack;
+      guardian_passed?: boolean;
+      approvable?: boolean;
+    },
+  ): OpsCampaignRecord | null {
+    const row = super.patchCampaign(brand_id, campaign_id, patch);
     this.persist();
     return row;
   }
@@ -401,6 +559,40 @@ export class FileOpsStore extends MemoryOpsStore {
   override clearAudit(brand_id: BrandId): void {
     super.clearAudit(brand_id);
     this.persist();
+  }
+
+  override insertOwnerReview(
+    brand_id: BrandId,
+    record: OwnerReviewRequest,
+  ): OwnerReviewRequest {
+    const row = super.insertOwnerReview(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override updateOwnerReview(
+    brand_id: BrandId,
+    review_id: string,
+    patch: { status: OwnerReviewStatus; decided_at?: string },
+  ): OwnerReviewRequest | null {
+    const row = super.updateOwnerReview(brand_id, review_id, patch);
+    this.persist();
+    return row;
+  }
+
+  override insertOwnerDecision(
+    brand_id: BrandId,
+    record: OwnerReviewDecision,
+  ): OwnerReviewDecision {
+    const row = super.insertOwnerDecision(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertOutboxItem(brand_id: BrandId, record: EmailOutboxItem): EmailOutboxItem {
+    const row = super.insertOutboxItem(brand_id, record);
+    this.persist();
+    return row;
   }
 }
 
