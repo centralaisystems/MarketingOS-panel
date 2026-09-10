@@ -53,6 +53,10 @@ import {
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
 import { BrandIsolationError } from "./brand-loader.js";
+import {
+  resolveOpsStoreBackend,
+  type OpsBackend,
+} from "./ops-store-backend.js";
 
 const DEFAULT_LIST_LIMIT = 50;
 
@@ -190,6 +194,9 @@ export interface OpsStore {
     brand_id: BrandId,
     digest_id: string,
   ): AutomationDigestRecord | null;
+
+  /** Persist queued remote writes. File/memory are no-ops. */
+  flush(): Promise<void>;
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -661,6 +668,10 @@ export class MemoryOpsStore implements OpsStore {
     return row;
   }
 
+  async flush(): Promise<void> {
+    return;
+  }
+
   /** Test helper — never used by panel HTTP. */
   exportSnapshot(): OpsSnapshot {
     return OpsSnapshotSchema.parse({
@@ -918,29 +929,43 @@ export class OpsAuditSink implements AuditSink {
   }
 }
 
-export type OpsBackend = "memory" | "file";
+export type { OpsBackend };
+export { resolveOpsStoreBackend, supabaseOpsEnvStatus } from "./ops-store-backend.js";
 
 export function createOpsStore(opts?: {
   backend?: OpsBackend;
   dir?: string;
 }): OpsStore {
-  const requested = opts?.backend ?? inferOpsBackend();
+  const requested = opts?.backend ?? resolveOpsStoreBackend();
   if (requested === "memory") {
     return new MemoryOpsStore();
+  }
+  if (requested === "supabase") {
+    throw new Error(
+      "MOS_OPS_STORE=supabase requires createOpsStoreAsync() so the adapter can hydrate from PostgREST. File/memory stay sync and remain the `pnpm test` default.",
+    );
   }
   const dir = opts?.dir ?? join(process.cwd(), "data", "ops");
   return new FileOpsStore(dir);
 }
 
-function inferOpsBackend(): OpsBackend {
-  const explicit = process.env.MOS_OPS_BACKEND?.trim().toLowerCase();
-  if (explicit === "memory") return "memory";
-  if (explicit === "supabase") {
-    throw new Error(
-      "MOS_OPS_BACKEND=supabase is not wired in Wave 3. Use file or memory; apply supabase/migrations when a project is provisioned.",
-    );
+export async function createOpsStoreAsync(opts?: {
+  backend?: OpsBackend;
+  dir?: string;
+  remote?: import("./ops-store-supabase.js").OpsRemoteClient;
+}): Promise<OpsStore> {
+  const requested = opts?.backend ?? resolveOpsStoreBackend();
+  if (requested !== "supabase") {
+    return createOpsStore({
+      backend: requested,
+      ...(opts?.dir ? { dir: opts.dir } : {}),
+    });
   }
-  return "file";
+  const { SupabaseOpsStore, createSupabaseOpsRemoteFromEnv } = await import(
+    "./ops-store-supabase.js"
+  );
+  const remote = opts?.remote ?? createSupabaseOpsRemoteFromEnv();
+  return SupabaseOpsStore.connect(remote);
 }
 
 export function slimAgentResult(

@@ -1,0 +1,9 @@
+{
+  "brands": [
+    {
+      "brand_id": "VILLA_GLORY",
+      "asset_drive_folder_url": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
+      "asset_drive_folder_id": "YOUR_FOLDER_ID"
+    }
+  ]
+}

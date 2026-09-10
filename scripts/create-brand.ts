@@ -5,6 +5,7 @@
  *   pnpm create-brand -- --id ACME --slug acme --name "Acme Co"
  *   pnpm create-brand -- --id ACME --slug acme --name "Acme Co" --locales en,ar
  *   pnpm create-brand -- --id ACME --slug acme --name "Acme Co" --drive-folder-url https://drive.google.com/drive/folders/...
+  pnpm create-brand -- --id ACME --slug acme --name "Acme Co" --owner-email owner@example.test --enable-owner-email --enable-automation
  */
 import { mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
@@ -21,7 +22,6 @@ import {
 } from "@marketing-os/runtime";
 
 const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "..");
-const BRANDS = join(ROOT, "brands");
 const NOW = new Date().toISOString();
 
 function arg(name: string): string | undefined {
@@ -51,13 +51,14 @@ function main(): void {
 
   if (!idRaw || !slug || !name) {
     console.error(
-      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID] [--owner-email EMAIL] [--enable-owner-email] [--enable-automation]',
+      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID] [--owner-email EMAIL] [--enable-owner-email] [--enable-automation] [--brands-root DIR]',
     );
     process.exit(1);
   }
 
   const brand_id = BrandIdSchema.parse(idRaw);
   const locales = localesRaw.split(",").map((s) => s.trim()).filter(Boolean);
+  const BRANDS = arg("--brands-root") ?? join(ROOT, "brands");
 
   const entry = BrandRegistryEntrySchema.parse({
     brand_id,
@@ -70,8 +71,8 @@ function main(): void {
     ...(driveFolderUrl ? { asset_drive_folder_url: driveFolderUrl } : {}),
     ...(driveFolderId ? { asset_drive_folder_id: driveFolderId } : {}),
     ...(ownerEmail ? { owner_email: ownerEmail } : {}),
-    ...(enableOwnerEmail ? { owner_email_enabled: true } : {}),
-    ...(enableAutomation ? { automation_enabled: true } : {}),
+    owner_email_enabled: enableOwnerEmail,
+    automation_enabled: enableAutomation,
   });
 
   clearBrandRegistryCache();

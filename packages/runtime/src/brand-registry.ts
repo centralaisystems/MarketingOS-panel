@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   BrandIdSchema,
+  BrandRegistryEntrySchema,
   BrandRegistrySchema,
   type BrandId,
   type BrandRegistry,
@@ -34,6 +35,45 @@ export function registryPath(brandsRoot?: string): string {
   return join(resolveRoot(brandsRoot), "_shared", "REGISTRY.json");
 }
 
+export function registryLocalPath(brandsRoot?: string): string {
+  return join(resolveRoot(brandsRoot), "_shared", "REGISTRY.local.json");
+}
+
+/**
+ * Optional gitignored overlay. Patches existing registry entries only —
+ * it cannot add a brand or change brand_id. Use this for a real Villa Glory
+ * Drive folder URL without committing tokens or live folder ids.
+ */
+export function applyRegistryLocalOverlay(
+  registry: BrandRegistry,
+  overlay: unknown,
+): BrandRegistry {
+  if (!overlay || typeof overlay !== "object" || Array.isArray(overlay)) {
+    return registry;
+  }
+  const rawBrands = (overlay as { brands?: unknown }).brands;
+  if (!Array.isArray(rawBrands) || rawBrands.length === 0) {
+    return registry;
+  }
+  const patches = new Map<string, Record<string, unknown>>();
+  for (const item of rawBrands) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) continue;
+    const rec = item as Record<string, unknown>;
+    if (typeof rec.brand_id !== "string") continue;
+    patches.set(rec.brand_id, rec);
+  }
+  if (patches.size === 0) return registry;
+  return BrandRegistrySchema.parse({
+    ...registry,
+    brands: registry.brands.map((entry) => {
+      const patch = patches.get(entry.brand_id);
+      if (!patch) return entry;
+      const { brand_id: _ignored, ...rest } = patch;
+      return BrandRegistryEntrySchema.parse({ ...entry, ...rest });
+    }),
+  });
+}
+
 export function loadBrandRegistry(opts?: {
   brandsRoot?: string;
   forceReload?: boolean;
@@ -46,7 +86,12 @@ export function loadBrandRegistry(opts?: {
     throw new Error(`Brand registry not found: ${path}`);
   }
   const raw = JSON.parse(readFileSync(path, "utf8")) as unknown;
-  const registry = BrandRegistrySchema.parse(raw);
+  let registry = BrandRegistrySchema.parse(raw);
+  const localPath = registryLocalPath(root);
+  if (existsSync(localPath)) {
+    const localRaw = JSON.parse(readFileSync(localPath, "utf8")) as unknown;
+    registry = applyRegistryLocalOverlay(registry, localRaw);
+  }
   const ids = new Set<string>();
   const slugs = new Set<string>();
   for (const b of registry.brands) {

@@ -32,7 +32,15 @@
    pnpm create-brand -- --id ACME --slug acme --name "Acme Co" \
      --owner-email owner@example.test --enable-owner-email --enable-automation
    ```
-   `automation_enabled` is the Wave 8 digest kill switch (default off). Emailing still requires `owner_email_enabled`. See [`AUTOMATION.md`](./AUTOMATION.md).
+   `create-brand` always writes `owner_email_enabled` and `automation_enabled` (both default `false` unless the enable flags are passed). `automation_enabled` is the Wave 8 digest kill switch. Emailing still requires `owner_email_enabled`. See [`AUTOMATION.md`](./AUTOMATION.md).
+
+   Villa Glory's committed registry keeps the **fixture** Drive folder. Attach a real folder without committing secrets:
+
+   1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored) and set `asset_drive_folder_url` / `asset_drive_folder_id` on the `VILLA_GLORY` patch only.
+   2. Or set `MOS_DRIVE_FOLDER_URL_VILLA_GLORY` / `MOS_DRIVE_FOLDER_ID_VILLA_GLORY` in `.env.local`.
+   3. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
+
+   See [`PRODUCTION.md`](./PRODUCTION.md).
 
 ## Operator panel (Wave 3–4 usable thin UI)
 
@@ -40,7 +48,7 @@ The panel is a **dedicated Marketing OS app** (`pnpm panel` → http://127.0.0.1
 
 It reads the registry for the brand switcher, then loads **only** the active `brand_id` for the executive dashboard (Today / Campaigns / Approvals / Leads / Analytics / Costs), readiness, drafts, inbox, audit, asset metadata, Drive sync status, Figma arrange jobs, Higgsfield fill-gap jobs, video export packages, analytics snapshots, AI search visibility, and automation digests. Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`; another brand's campaign/asset id returns `404`.
 
-Local/CI persistence is the file/memory ops store (`data/ops/store.json` by default). A live Supabase project is optional; apply `supabase/migrations/202609100001_phase4a_ops.sql` when one exists. `MOS_OPS_BACKEND=supabase` is not wired yet.
+Local/CI persistence is the file/memory ops store (`data/ops/store.json` by default). `MOS_OPS_STORE=file|memory|supabase` (`MOS_OPS_BACKEND` still accepted). Supabase is optional: apply `supabase/migrations/` and set `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`. `pnpm test` must stay on file/memory. See [`PRODUCTION.md`](./PRODUCTION.md).
 
 ```bash
 pnpm install
