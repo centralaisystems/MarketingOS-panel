@@ -70,3 +70,7 @@ assets/binaries/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Local brand overlays (Drive URLs, owner emails)
+brands/_shared/REGISTRY.local.json
+.local/
