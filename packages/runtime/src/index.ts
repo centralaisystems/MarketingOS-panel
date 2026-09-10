@@ -19,6 +19,8 @@ export * from "./phase-gates.js";
 export * from "./campaign-factory.js";
 export * from "./pack-draft-signals.js";
 export * from "./crm.js";
+export * from "./pii-vault.js";
+export * from "./fixtures/wave7-crm.js";
 export * from "./automation.js";
 export * from "./agents/brand-strategist.js";
 export * from "./agents/research.js";

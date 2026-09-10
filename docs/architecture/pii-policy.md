@@ -9,9 +9,10 @@
 | CONFIDENTIAL | Unreleased offers, partner terms | Restricted | Redact | Forbidden |
 | PII | Names, phones, emails, WhatsApp IDs | **Forbidden** | **Forbidden** | **Forbidden** |
 
-## Phase 1 rules
+## Phase 1 / Wave 7 rules
 
-- Do not store real lead/contact data.
-- Do not put PII into fixtures, prompts, or audit metadata.
-- Future lead tables (Phase 8) must classify fields and redact before any model call.
+- Do not store real lead/contact data. Villa Glory fixtures use synthetic inbound values only to prove tokenization.
+- Persist opaque `pii_ref` / vault references on leads, events, and opportunities — never raw email, phone, name, or WhatsApp ids.
+- Do not put PII into prompts, agent logs, audit metadata, or global memory.
+- Agent-facing summaries may include `pii_ref` plus `ClassifiedField` redacted placeholders (`value_present`, no values).
 - `EXPORT_PII` capability is denied to all Phase 1 agents.

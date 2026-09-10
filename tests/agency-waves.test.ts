@@ -98,7 +98,7 @@ describe("Wave 2 campaign factory", () => {
 });
 
 describe("Wave 5-8 gated foundations", () => {
-  it("keeps Wave 1–6 staging enabled and live flags off", () => {
+  it("keeps Wave 1–7 enabled and live flags off", () => {
     const gates = loadPhaseGates();
     expect(gates.enabled_waves).toEqual([
       "WAVE_1_REGISTRY",
@@ -108,13 +108,14 @@ describe("Wave 5-8 gated foundations", () => {
       "WAVE_4B_ASSET_PIPELINE",
       "WAVE_5_SOCIAL_PUBLISH",
       "WAVE_6_PAID_ADS",
+      "WAVE_7_CRM",
     ]);
-    expect(gates.enabled_waves).not.toContain("WAVE_7_CRM");
+    expect(gates.enabled_waves).not.toContain("WAVE_8_AUTOMATION_DASHBOARD");
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);
   });
 
-  it("allows Wave 5–6 staging and still blocks waves 7–8", () => {
+  it("allows Wave 5–7 staging/fixtures and still blocks wave 8", () => {
     const dry = dryRunSocialPublish({
       brand_id: "LOTIN",
       channel: "INSTAGRAM",
@@ -123,13 +124,13 @@ describe("Wave 5-8 gated foundations", () => {
     });
     expect(dry.status).toBe("DRY_RUN_OK");
     expect(dry.would_publish).toBe(true);
-    expect(() =>
-      createLeadDraft({
-        brand_id: "LOTIN",
-        pii_ref: "vault:lead_abc123",
-        source: "FORM",
-      }),
-    ).toThrow(/WAVE_7_CRM/);
+    const lead = createLeadDraft({
+      brand_id: "LOTIN",
+      pii_ref: "vault:lead_abc123",
+      source: "FORM",
+    });
+    expect(lead.pii_ref).toBe("vault:lead_abc123");
+    expect(lead.brand_id).toBe("LOTIN");
     expect(() => buildDailyDigest()).toThrow(/WAVE_8_AUTOMATION_DASHBOARD/);
   });
 

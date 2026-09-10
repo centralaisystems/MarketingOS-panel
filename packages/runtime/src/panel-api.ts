@@ -117,6 +117,18 @@ import {
   WAVE6_GOOGLE_PLATFORM,
   WAVE6_META_PLATFORM,
 } from "./fixtures/wave6-paid-ads.js";
+import {
+  ingestVillaGloryFixtureLeads,
+  listCampaignAttribution,
+  listLeadEvents,
+  listLeadsWithAttribution,
+  listOpportunities,
+  CrmInputError,
+} from "./crm.js";
+import {
+  WAVE7_VILLA_GLORY_FORM_FIXTURE,
+  WAVE7_VILLA_GLORY_WHATSAPP_FIXTURE,
+} from "./fixtures/wave7-crm.js";
 
 export type PanelRequest = {
   method: string;
@@ -195,7 +207,7 @@ function liveBlockedBody(message?: string) {
     status: "LIVE_BLOCKED",
     message:
       message ??
-      "Live publish and live ads stay OFF. Wave 5 Instagram dry-run and Wave 6 paid staging are available; live fire requires the matching live_* flag, operator env flag, and Level 2 (publish) / Level 3 (ads) approval.",
+      "Live publish and live ads stay OFF. Wave 5 Instagram dry-run, Wave 6 paid staging, and Wave 7 CRM fixtures are available; live fire requires the matching live_* flag, operator env flag, and Level 2 (publish) / Level 3 (ads) approval.",
   };
 }
 
@@ -214,7 +226,9 @@ export async function handlePanelApi(
         status: 200,
         body: {
           ok: true,
-          wave: isWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot))
+          wave: isWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot))
+            ? "WAVE_7_CRM"
+            : isWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot))
             ? "WAVE_6_PAID_ADS"
             : isWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot))
               ? "WAVE_5_SOCIAL_PUBLISH"
@@ -381,6 +395,21 @@ export async function handlePanelApi(
     }
     if (method === "POST" && path === "/api/ads/stage-budget") {
       return postAdStage(req, ctx, "BUDGET_MUTATION");
+    }
+    if (method === "GET" && path === "/api/leads") {
+      return getLeads(req, ctx);
+    }
+    if (method === "GET" && path === "/api/leads/attribution") {
+      return getLeadAttribution(req, ctx);
+    }
+    if (method === "GET" && path === "/api/leads/events") {
+      return getLeadEvents(req, ctx);
+    }
+    if (method === "GET" && path === "/api/leads/opportunities") {
+      return getLeadOpportunities(req, ctx);
+    }
+    if (method === "POST" && path === "/api/leads/ingest-fixtures") {
+      return postIngestLeadFixtures(req, ctx);
     }
     if (
       method === "POST" &&
@@ -827,6 +856,9 @@ function mapError(e: unknown): PanelResponse {
     };
   }
   if (e instanceof PaidAdsInputError) {
+    return jsonError(400, e.message);
+  }
+  if (e instanceof CrmInputError) {
     return jsonError(400, e.message);
   }
   if (e instanceof PaidAdsLiveBlockedError) {
@@ -1496,4 +1528,106 @@ function postLiveAdLaunch(req: PanelRequest, ctx: PanelApiContext): PanelRespons
     throw e;
   }
   return { status: 403, body: liveBlockedBody() };
+}
+
+function crmOpts(ctx: PanelApiContext) {
+  return {
+    store: ctx.store,
+    ...brandsRootOpt(ctx.brandsRoot),
+  };
+}
+
+function getLeads(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_publish: false,
+      live_ads: false,
+      items: listLeadsWithAttribution(ctx.store, brand_id),
+    },
+  };
+}
+
+function getLeadAttribution(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const joined = listCampaignAttribution(ctx.store, brand_id);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_publish: false,
+      live_ads: false,
+      ...joined,
+    },
+  };
+}
+
+function getLeadEvents(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const lead_id = req.searchParams.get("lead_id") ?? undefined;
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_publish: false,
+      live_ads: false,
+      items: listLeadEvents(ctx.store, brand_id, lead_id ? { lead_id } : {}),
+    },
+  };
+}
+
+function getLeadOpportunities(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): PanelResponse {
+  assertWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_publish: false,
+      live_ads: false,
+      items: listOpportunities(ctx.store, brand_id),
+    },
+  };
+}
+
+function postIngestLeadFixtures(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): PanelResponse {
+  assertWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const body = asRecord(req.body);
+  const campaign_id =
+    typeof body.campaign_id === "string" && body.campaign_id.trim()
+      ? body.campaign_id.trim()
+      : undefined;
+  const ingested = ingestVillaGloryFixtureLeads({
+    ...crmOpts(ctx),
+    brand_id,
+    ...(campaign_id ? { campaign_id } : {}),
+  });
+  return {
+    status: 200,
+    body: {
+      brand_id: ingested.brand_id,
+      live_publish: false,
+      live_ads: false,
+      fixtures: [
+        WAVE7_VILLA_GLORY_FORM_FIXTURE.adapter,
+        WAVE7_VILLA_GLORY_WHATSAPP_FIXTURE.adapter,
+      ],
+      leads: listLeadsWithAttribution(ctx.store, ingested.brand_id),
+      opportunities: ingested.opportunities,
+      agent_summaries: ingested.agent_summaries,
+      attribution: listCampaignAttribution(ctx.store, ingested.brand_id),
+    },
+  };
 }

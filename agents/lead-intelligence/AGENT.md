@@ -1,6 +1,6 @@
 # A12_CRM_LEAD_INTELLIGENCE — CRM / Lead Intelligence
 
-**Phase 1 status:** Contract stub only. Runtime behavior deferred.
+**Phase 1 / Wave 7 status:** Fixture CRM only. Runtime may ingest Villa Glory form/WhatsApp stubs and emit `AgentLeadSummary` with `pii_ref`. No customer contact. No raw PII in prompts or logs.
 
 ## Responsibility
 

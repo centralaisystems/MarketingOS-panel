@@ -21,6 +21,7 @@ export const PII_HANDLING_POLICY = {
   allow_pii_in_global_memory: false,
   allow_pii_in_brand_memory: false,
   redaction_required_before_export: true,
+  opaque_pii_ref_required: true,
   classifications_blocked_from_model_context: ["PII", "CONFIDENTIAL"] as const,
 } as const;
 
