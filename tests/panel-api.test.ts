@@ -172,6 +172,7 @@ describe("Wave 3 panel API", () => {
     );
     expect(body.gates.enabled_waves).toContain("WAVE_3_DB_PANEL");
     expect(body.gates.enabled_waves).toContain("WAVE_4_ANALYTICS_ASSETS");
+    expect(body.gates.enabled_waves).toContain("WAVE_4B_ASSET_PIPELINE");
     expect(body.gates.live_publish_allowed).toBe(false);
     rmSync(c.reportRoot ?? "", { recursive: true, force: true });
   });

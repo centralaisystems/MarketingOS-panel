@@ -38,4 +38,7 @@ export * from "./analytics.js";
 export * from "./ai-visibility.js";
 export * from "./utm-contract.js";
 export * from "./fixtures/wave4-assets.js";
+export * from "./fixtures/wave4b-drive.js";
+export * from "./drive-source.js";
+export * from "./drive-ingest.js";
 

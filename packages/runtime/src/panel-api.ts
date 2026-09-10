@@ -24,6 +24,13 @@ import {
   AiSearchWriteBlockedError,
   runAiSearchVisibilityCheck,
 } from "./ai-visibility.js";
+import {
+  createDriveAssetSource,
+  GoogleDriveCredentialsMissingError,
+  type DriveAssetSource,
+} from "./drive-source.js";
+import { readDriveSyncStatus, syncBrandAssets } from "./drive-ingest.js";
+import { DriveFolderRoleSchema } from "@marketing-os/contracts";
 
 export type PanelRequest = {
   method: string;
@@ -40,6 +47,7 @@ export type PanelResponse = {
 export type PanelApiContext = {
   store: OpsStore;
   assets?: AssetCatalog;
+  drive?: DriveAssetSource;
   brandsRoot?: string;
   writeReport?: boolean;
   reportRoot?: string;
@@ -108,9 +116,11 @@ export async function handlePanelApi(
         status: 200,
         body: {
           ok: true,
-          wave: isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
-            ? "WAVE_4_ANALYTICS_ASSETS"
-            : "WAVE_3_DB_PANEL",
+          wave: isWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot))
+            ? "WAVE_4B_ASSET_PIPELINE"
+            : isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
+              ? "WAVE_4_ANALYTICS_ASSETS"
+              : "WAVE_3_DB_PANEL",
           enabled_waves: gates.enabled_waves,
           live_publish_allowed: gates.live_publish_allowed,
           live_ads_allowed: gates.live_ads_allowed,
@@ -173,6 +183,12 @@ export async function handlePanelApi(
     if (method === "GET" && path === "/api/ai-visibility") {
       return getAiVisibility(req, ctx);
     }
+    if (method === "GET" && path === "/api/drive-sync") {
+      return await getDriveSync(req, ctx);
+    }
+    if (method === "POST" && path === "/api/drive-sync") {
+      return await postDriveSync(req, ctx);
+    }
     if (
       method === "POST" &&
       (path === "/api/analytics" ||
@@ -225,6 +241,37 @@ function requireAssets(ctx: PanelApiContext): AssetCatalog {
   return ctx.assets;
 }
 
+function requireDrive(ctx: PanelApiContext): DriveAssetSource {
+  if (!ctx.drive) {
+    ctx.drive = createDriveAssetSource();
+  }
+  return ctx.drive;
+}
+
+async function getDriveSync(req: PanelRequest, ctx: PanelApiContext): Promise<PanelResponse> {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const status = await readDriveSyncStatus({
+    brand_id,
+    catalog: requireAssets(ctx),
+    source: requireDrive(ctx),
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return { status: 200, body: status };
+}
+
+async function postDriveSync(req: PanelRequest, ctx: PanelApiContext): Promise<PanelResponse> {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const result = await syncBrandAssets({
+    brand_id,
+    catalog: requireAssets(ctx),
+    source: requireDrive(ctx),
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return { status: 200, body: result };
+}
+
 function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
   assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
   const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
@@ -250,6 +297,15 @@ function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
   if (platform) filter.platform = platform;
   if (req.searchParams.get("unused_only") === "true") {
     filter.unused_only = true;
+  }
+  const folderRole = req.searchParams.get("folder_role");
+  if (folderRole) {
+    const parsed = DriveFolderRoleSchema.safeParse(folderRole);
+    if (parsed.success) filter.folder_role = parsed.data;
+  }
+  const source = req.searchParams.get("source");
+  if (source === "catalog" || source === "drive") {
+    filter.source = source;
   }
   const assets = catalog.listMetadata(brand_id, filter);
   return {
@@ -306,6 +362,9 @@ function getAiVisibility(req: PanelRequest, ctx: PanelApiContext): PanelResponse
 function mapError(e: unknown): PanelResponse {
   if (e instanceof AnalyticsWriteBlockedError || e instanceof AiSearchWriteBlockedError) {
     return jsonError(403, e.message, { write_scopes: [] });
+  }
+  if (e instanceof GoogleDriveCredentialsMissingError) {
+    return jsonError(403, e.message, { source: "google_drive" });
   }
   if (e instanceof CrossBrandDeniedError) {
     return jsonError(403, "CROSS_BRAND_DENIED", {

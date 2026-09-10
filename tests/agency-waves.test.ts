@@ -105,6 +105,7 @@ describe("Wave 5-8 gated foundations", () => {
       "WAVE_2_CONTENT_FACTORY",
       "WAVE_3_DB_PANEL",
       "WAVE_4_ANALYTICS_ASSETS",
+      "WAVE_4B_ASSET_PIPELINE",
     ]);
     expect(gates.enabled_waves).not.toContain("WAVE_5_SOCIAL_PUBLISH");
     expect(gates.enabled_waves).not.toContain("WAVE_6_PAID_ADS");

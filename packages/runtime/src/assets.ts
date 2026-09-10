@@ -16,6 +16,8 @@ import {
   type AssetCatalogSnapshot,
   type AssetKind,
   type AssetRecord,
+  type AssetSource,
+  type DriveFolderRole,
   type AssetStoragePointer,
   type AssetUsageRecord,
   type BrandId,
@@ -36,6 +38,8 @@ export type AssetListFilter = {
   usage_tags?: string[];
   platform?: string;
   unused_only?: boolean;
+  folder_role?: DriveFolderRole;
+  source?: AssetSource;
 };
 
 /**
@@ -125,6 +129,10 @@ export class MemoryAssetCatalog implements AssetCatalog {
           return false;
         }
         if (filter?.unused_only && usedIds.has(a.asset_id)) return false;
+        if (filter?.folder_role && a.folder_role !== filter.folder_role) {
+          return false;
+        }
+        if (filter?.source && a.source !== filter.source) return false;
         return true;
       }),
     );

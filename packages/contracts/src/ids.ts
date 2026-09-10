@@ -25,6 +25,9 @@ export const BrandRegistryEntrySchema = z.object({
   status: z.enum(["ACTIVE", "ARCHIVED"]).default("ACTIVE"),
   default_locales: z.array(z.string().min(1)).default(["en"]),
   created_at: z.string().datetime().optional(),
+  /** One registered Drive folder per brand — AI does not browse the rest of Drive. */
+  asset_drive_folder_url: z.string().url().optional(),
+  asset_drive_folder_id: z.string().min(1).optional(),
 });
 export type BrandRegistryEntry = z.infer<typeof BrandRegistryEntrySchema>;
 

@@ -14,11 +14,12 @@ const DEFAULT_GATES: PhaseGateState = PhaseGateStateSchema.parse({
     "WAVE_2_CONTENT_FACTORY",
     "WAVE_3_DB_PANEL",
     "WAVE_4_ANALYTICS_ASSETS",
+    "WAVE_4B_ASSET_PIPELINE",
   ],
   live_publish_allowed: false,
   live_ads_allowed: false,
   notes:
-    "Waves 1–4 enabled: registry, draft content factory, ops panel, read-only analytics + asset metadata + AI search visibility fixtures. Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
+    "Waves 1–4b enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive folder-contract ingest (fixture). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
 });
 
 function gatesPath(brandsRoot?: string): string {

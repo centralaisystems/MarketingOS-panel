@@ -4,6 +4,7 @@
  * Usage:
  *   pnpm create-brand -- --id ACME --slug acme --name "Acme Co"
  *   pnpm create-brand -- --id ACME --slug acme --name "Acme Co" --locales en,ar
+ *   pnpm create-brand -- --id ACME --slug acme --name "Acme Co" --drive-folder-url https://drive.google.com/drive/folders/...
  */
 import { mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
@@ -42,10 +43,12 @@ function main(): void {
   const slug = arg("--slug");
   const name = arg("--name");
   const localesRaw = arg("--locales") ?? "en";
+  const driveFolderUrl = arg("--drive-folder-url");
+  const driveFolderId = arg("--drive-folder-id");
 
   if (!idRaw || !slug || !name) {
     console.error(
-      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar]',
+      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID]',
     );
     process.exit(1);
   }
@@ -61,6 +64,8 @@ function main(): void {
     status: "ACTIVE",
     default_locales: locales,
     created_at: NOW,
+    ...(driveFolderUrl ? { asset_drive_folder_url: driveFolderUrl } : {}),
+    ...(driveFolderId ? { asset_drive_folder_id: driveFolderId } : {}),
   });
 
   clearBrandRegistryCache();

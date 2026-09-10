@@ -19,6 +19,27 @@ export const AssetApprovalStatusSchema = z.enum([
 ]);
 export type AssetApprovalStatus = z.infer<typeof AssetApprovalStatusSchema>;
 
+/** Wave 4b Drive folder-contract roles. Path names must match exactly. */
+export const DriveFolderRoleSchema = z.enum([
+  "brand-kit",
+  "approved-stills",
+  "approved-video",
+  "raw-inbox",
+  "generated",
+]);
+export type DriveFolderRole = z.infer<typeof DriveFolderRoleSchema>;
+
+export const REQUIRED_DRIVE_FOLDER_ROLES: readonly DriveFolderRole[] = [
+  "brand-kit",
+  "approved-stills",
+  "approved-video",
+  "raw-inbox",
+  "generated",
+];
+
+export const AssetSourceSchema = z.enum(["catalog", "drive"]);
+export type AssetSource = z.infer<typeof AssetSourceSchema>;
+
 const EXTERNAL_STORAGE_URI =
   /^(mos|s3|gs|https):\/\//i;
 
@@ -53,6 +74,10 @@ export const AssetRecordSchema = z.object({
   platform_suitability: z.array(z.string().min(1)).default([]),
   approval_status: AssetApprovalStatusSchema,
   knowledge_status: KnowledgeStatusSchema.default("UNVERIFIED"),
+  source: AssetSourceSchema.optional(),
+  folder_role: DriveFolderRoleSchema.optional(),
+  drive_file_id: z.string().min(1).optional(),
+  drive_path: z.string().min(1).optional(),
   metadata: z.record(z.unknown()).default({}),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
