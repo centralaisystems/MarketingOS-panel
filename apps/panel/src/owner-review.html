@@ -142,6 +142,11 @@
           ((pack.generated_asset_ids || []).length
             ? "<li>Higgsfield asset ids: " + escapeHtml((pack.generated_asset_ids || []).join(", ")) + "</li>"
             : "") +
+          "<li>Video export packages: " + String((pack.video_asset_ids || []).length) +
+          " (GENERATED / UNVERIFIED — recipe only)</li>" +
+          ((pack.video_asset_ids || []).length
+            ? "<li>Video asset ids: " + escapeHtml((pack.video_asset_ids || []).join(", ")) + "</li>"
+            : "") +
           "<li>Live publish: OFF</li>" +
           "<li>Live ads: OFF — not live spend</li>" +
           "</ul>" +

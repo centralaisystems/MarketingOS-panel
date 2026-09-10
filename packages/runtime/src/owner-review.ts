@@ -34,6 +34,8 @@ import { arrangedMaterialsForCampaign } from "./figma-arrange.js";
 import type { FigmaArrangeJobStore } from "./figma-jobs.js";
 import { generatedMaterialsForCampaign } from "./higgsfield-generate.js";
 import type { HiggsfieldGenerateJobStore } from "./higgsfield-jobs.js";
+import { videoMaterialsForCampaign } from "./video-produce.js";
+import type { VideoProduceJobStore } from "./video-jobs.js";
 
 export class OwnerEmailDisabledError extends Error {
   readonly code = "OWNER_EMAIL_DISABLED" as const;
@@ -70,6 +72,7 @@ export type OwnerReviewRuntimeOpts = {
   panelBaseUrl?: string;
   figmaJobs?: FigmaArrangeJobStore;
   higgsfieldJobs?: HiggsfieldGenerateJobStore;
+  videoJobs?: VideoProduceJobStore;
 };
 
 function panelBase(url?: string): string {
@@ -86,6 +89,8 @@ export function packReviewFields(
     figma_job_ids?: string[];
     generated_asset_ids?: string[];
     higgsfield_job_ids?: string[];
+    video_asset_ids?: string[];
+    video_job_ids?: string[];
   },
 ): PackReviewFields {
   return PackReviewFieldsSchema.parse({
@@ -109,6 +114,8 @@ export function packReviewFields(
     figma_job_ids: extras?.figma_job_ids ?? [],
     generated_asset_ids: extras?.generated_asset_ids ?? [],
     higgsfield_job_ids: extras?.higgsfield_job_ids ?? [],
+    video_asset_ids: extras?.video_asset_ids ?? [],
+    video_job_ids: extras?.video_job_ids ?? [],
   });
 }
 
@@ -205,6 +212,10 @@ function renderMaterialsReady(input: {
     input.fields.generated_asset_ids.length > 0
       ? `Higgsfield generated stills: ${input.fields.generated_asset_ids.length} (GENERATED / UNVERIFIED — not a commercial claim)`
       : "Higgsfield generated stills: none yet";
+  const video =
+    input.fields.video_asset_ids.length > 0
+      ? `Video export packages: ${input.fields.video_asset_ids.length} (GENERATED / UNVERIFIED — recipe only, not rendered or published)`
+      : "Video export packages: none yet";
   const subject = `[${input.display_name}] Materials ready for review — not live`;
   const lines = [
     `${input.display_name} materials are ready for owner review.`,
@@ -221,6 +232,7 @@ function renderMaterialsReady(input: {
     `Paid recommendations present: ${input.fields.has_paid_recommendations ? "yes" : "no"} (not live spend)`,
     arranged,
     generated,
+    video,
     "Live publish: OFF",
     "Live ads: OFF — Wave 6 is not unlocked. This is not live spend.",
     "",
@@ -241,6 +253,7 @@ function renderMaterialsReady(input: {
 <li>Creative briefs: ${input.fields.creative_brief_count}</li>
 <li>${escapeHtml(arranged)}</li>
 <li>${escapeHtml(generated)}</li>
+<li>${escapeHtml(video)}</li>
 <li>Live publish: OFF</li>
 <li>Live ads: OFF — Wave 6 is not unlocked. This is not live spend.</li>
 </ul>
@@ -422,7 +435,16 @@ export async function requestOwnerReview(
     brand_id,
     campaign.campaign_id,
   );
-  const fields = packReviewFields(campaign.pack, { ...arranged, ...generated });
+  const video = videoMaterialsForCampaign(
+    opts.videoJobs,
+    brand_id,
+    campaign.campaign_id,
+  );
+  const fields = packReviewFields(campaign.pack, {
+    ...arranged,
+    ...generated,
+    ...video,
+  });
   const token = randomBytes(32).toString("hex");
   const review_id = randomUUID();
   const review_url = `${panelBase(opts.panelBaseUrl)}/owner-review?token=${token}`;
@@ -444,6 +466,8 @@ export async function requestOwnerReview(
     figma_job_ids: arranged.figma_job_ids,
     generated_asset_ids: generated.generated_asset_ids,
     higgsfield_job_ids: generated.higgsfield_job_ids,
+    video_asset_ids: video.video_asset_ids,
+    video_job_ids: video.video_job_ids,
     created_at: now,
   });
   opts.store.insertOwnerReview(brand_id, review);
@@ -560,6 +584,7 @@ export function publicOwnerReviewView(
     brandsRoot?: string;
     figmaJobs?: FigmaArrangeJobStore;
     higgsfieldJobs?: HiggsfieldGenerateJobStore;
+    videoJobs?: VideoProduceJobStore;
   },
 ): {
   review_id: string;
@@ -588,6 +613,11 @@ export function publicOwnerReviewView(
     review.brand_id,
     review.campaign_id,
   );
+  const video = videoMaterialsForCampaign(
+    opts?.videoJobs,
+    review.brand_id,
+    review.campaign_id,
+  );
   return {
     review_id: review.review_id,
     brand_id: review.brand_id,
@@ -608,6 +638,10 @@ export function publicOwnerReviewView(
         generated.higgsfield_job_ids.length
           ? generated.higgsfield_job_ids
           : review.higgsfield_job_ids,
+      video_asset_ids:
+        video.video_asset_ids.length ? video.video_asset_ids : review.video_asset_ids,
+      video_job_ids:
+        video.video_job_ids.length ? video.video_job_ids : review.video_job_ids,
     }),
     live_publish: false,
     live_ads: false,

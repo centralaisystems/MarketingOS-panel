@@ -47,4 +47,5 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 - `pnpm sync-brand-assets -- --brand VILLA_GLORY` — Wave 4b Drive metadata ingest (fixture default)
 - `pnpm arrange-figma -- --brand VILLA_GLORY --sync` — Wave 4b Figma arrange from brand-kit + approved stills (fixture default)
 - `pnpm fill-higgsfield-gaps -- --brand VILLA_GLORY --sync` — Wave 4b Higgsfield fill-gaps when approved stills are insufficient (fixture default)
+- `pnpm produce-video -- --brand VILLA_GLORY --sync` — Wave 4b video export package from approved stills (fixture default; CapCut/Adobe stubs are recipes only)
 - `pnpm demo` — Phase 1 demonstration scenarios A–E

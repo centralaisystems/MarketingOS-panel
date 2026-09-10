@@ -12,7 +12,7 @@ Each brand Drive root must contain exactly these top-level folders (names are th
 | `approved-stills/` | Operator-approved stills | `APPROVED` |
 | `approved-video/` | Operator-approved video | `APPROVED` |
 | `raw-inbox/` | Unreviewed drops | `DRAFT` |
-| `generated/` | Pipeline outputs (Figma arrange + Higgsfield stills; video later) | `DRAFT` |
+| `generated/` | Pipeline outputs (Figma arrange + Higgsfield stills + video packages) | `DRAFT` |
 
 `APPROVED` here is **folder-contract metadata only**. It is not a `VERIFIED` commercial claim. `knowledge_status` stays `UNVERIFIED` unless a later evidence decision promotes a fact.
 
@@ -21,7 +21,7 @@ Unknown top-level folders are recorded; files outside a contract role are skippe
 ## Sequence
 
 ```
-Drive ingest (done) → Figma arrange (done) → Higgsfield fill-gaps (this step) → video (CapCut / Adobe, later) → human approve → publish/ads (gated)
+Drive ingest (done) → Figma arrange (done) → Higgsfield fill-gaps (done) → video export package (this step) → human approve → publish/ads (gated)
 ```
 
 ### Drive → catalog
@@ -44,7 +44,17 @@ Drive ingest (done) → Figma arrange (done) → Higgsfield fill-gaps (this step
 - Brand Guardian + brand-kit presence check must pass before `READY_FOR_OWNER_REVIEW`.
 - Owner Review can attach those generated asset ids / job ids alongside Figma arrange attachments.
 
-Out of scope here: CapCut/Adobe video, live publish, inventing brand claims, NOX TECH admin embed.
+### Video export package (CapCut / Adobe foundation)
+
+`VideoProduceJob` assembles a **project recipe** from `APPROVED` stills and Guardian-ready generated stills (Higgsfield jobs with `READY_FOR_OWNER_REVIEW`). It does **not** render a video, control CapCut/Premiere desktop, or upload to Instagram.
+
+- Brief comes from the operator, campaign pack / creative objective, or a default reel brief. Target format is `reel` / `story` / `feed`.
+- On-screen captions use **VERIFIED** pack voice / positioning only. UNVERIFIED fields stay off-screen. No invented ROI / SKU / partner claims.
+- `VideoProducerAdapter` is **fixture-first**. `MOS_VIDEO_SOURCE=capcut` or `adobe_premiere` labels the same export package (timeline JSON, asset list, captions, import hint). CI does not need CapCut or Adobe installed.
+- Catalog row: `folder_role=generated`, `source=video`, `kind=DOCUMENT`, `provenance=GENERATED`, `knowledge_status=UNVERIFIED`, `approval_status=DRAFT`. Pointer `mos://video/...`.
+- Owner Review can attach `video_job_ids` / `video_asset_ids`.
+
+Out of scope here: live CapCut/Adobe desktop control, rendered MP4 binaries in Git, live publish, inventing brand claims, NOX TECH admin embed.
 
 ## Commands
 
@@ -52,13 +62,14 @@ Out of scope here: CapCut/Adobe video, live publish, inventing brand claims, NOX
 pnpm sync-brand-assets -- --brand VILLA_GLORY
 pnpm arrange-figma -- --brand VILLA_GLORY --sync
 pnpm fill-higgsfield-gaps -- --brand VILLA_GLORY --sync
-# fixture mode is default — no live credentials required
+pnpm produce-video -- --brand VILLA_GLORY --sync
+# fixture mode is default — no live credentials or CapCut/Adobe install required
 ```
 
-Panel: `pnpm panel` → Drive asset pipeline → Arrange in Figma → Fill gaps (Higgsfield).
+Panel: `pnpm panel` → Drive asset pipeline → Arrange in Figma → Fill gaps (Higgsfield) → Produce video package.
 
 ## Isolation and gates
 
-- Every ingested or generated row carries `brand_id`. LOTIN cannot read Villa Glory Drive assets, Figma jobs, or Higgsfield jobs.
-- Binaries stay out of Git (`mos://drive/...`, `mos://figma/...`, `mos://higgsfield/...` pointers only).
+- Every ingested or generated row carries `brand_id`. LOTIN cannot read Villa Glory Drive assets, Figma jobs, Higgsfield jobs, or video packages.
+- Binaries stay out of Git (`mos://drive/...`, `mos://figma/...`, `mos://higgsfield/...`, `mos://video/...` pointers only).
 - `WAVE_4B_ASSET_PIPELINE` is enabled alongside Wave 4. `WAVE_5` / `WAVE_6` and `live_publish_allowed` / `live_ads_allowed` stay off.

@@ -76,6 +76,19 @@ import {
   HiggsfieldGenerateInputError,
   listHiggsfieldGenerateJobs,
 } from "./higgsfield-generate.js";
+import {
+  createVideoProducerAdapter,
+  type VideoProducerAdapter,
+} from "./video-adapter.js";
+import {
+  createVideoProduceJobStore,
+  type VideoProduceJobStore,
+} from "./video-jobs.js";
+import {
+  listVideoProduceJobs,
+  produceVideoPackage,
+  VideoProduceInputError,
+} from "./video-produce.js";
 
 export type PanelRequest = {
   method: string;
@@ -102,6 +115,8 @@ export type PanelApiContext = {
   figmaJobs?: FigmaArrangeJobStore;
   higgsfield?: HiggsfieldAdapter;
   higgsfieldJobs?: HiggsfieldGenerateJobStore;
+  video?: VideoProducerAdapter;
+  videoJobs?: VideoProduceJobStore;
 };
 
 const UUID_RE =
@@ -262,6 +277,18 @@ export async function handlePanelApi(
     }
     if (method === "POST" && path === "/api/higgsfield-gaps") {
       return await postHiggsfieldGaps(req, ctx);
+    }
+    if (method === "GET" && path === "/api/video-packages") {
+      return getVideoPackages(req, ctx);
+    }
+    const videoJobMatch = path.match(
+      new RegExp(`^/api/video-packages/(${UUID_RE})$`),
+    );
+    if (method === "GET" && videoJobMatch?.[1]) {
+      return getVideoPackageJob(req, ctx, videoJobMatch[1]);
+    }
+    if (method === "POST" && path === "/api/video-packages") {
+      return await postVideoPackage(req, ctx);
     }
     if (method === "GET" && path === "/api/owner-reviews") {
       return listOwnerReviews(req, ctx);
@@ -531,6 +558,91 @@ async function postHiggsfieldGaps(
   };
 }
 
+function requireVideo(ctx: PanelApiContext): VideoProducerAdapter {
+  if (!ctx.video) {
+    ctx.video = createVideoProducerAdapter();
+  }
+  return ctx.video;
+}
+
+function requireVideoJobs(ctx: PanelApiContext): VideoProduceJobStore {
+  if (!ctx.videoJobs) {
+    ctx.videoJobs = createVideoProduceJobStore({ backend: "memory" });
+  }
+  return ctx.videoJobs;
+}
+
+function getVideoPackages(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const list = listVideoProduceJobs({
+    brand_id,
+    catalog: requireAssets(ctx),
+    jobs: requireVideoJobs(ctx),
+    adapter: requireVideo(ctx),
+    higgsfieldJobs: requireHiggsfieldJobs(ctx),
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return { status: 200, body: list };
+}
+
+function getVideoPackageJob(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  job_id: string,
+): PanelResponse {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const job = requireVideoJobs(ctx).get(brand_id, job_id);
+  if (!job) {
+    return jsonError(404, "video produce job not found", { brand_id, job_id });
+  }
+  return { status: 200, body: job };
+}
+
+async function postVideoPackage(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): Promise<PanelResponse> {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const body = asRecord(req.body);
+  const rawIds = body.source_asset_ids;
+  const source_asset_ids = Array.isArray(rawIds)
+    ? rawIds.filter((id): id is string => typeof id === "string" && id.trim().length > 0)
+    : [];
+  const rawGenerated = body.generated_asset_ids;
+  const generated_asset_ids = Array.isArray(rawGenerated)
+    ? rawGenerated.filter((id): id is string => typeof id === "string" && id.trim().length > 0)
+    : [];
+  const campaign_id =
+    typeof body.campaign_id === "string" && body.campaign_id.trim()
+      ? body.campaign_id.trim()
+      : undefined;
+  const job = await produceVideoPackage({
+    brand_id,
+    source_asset_ids,
+    generated_asset_ids,
+    brief: body.brief ?? body.layout_brief ?? body.video_brief,
+    target_format: body.target_format,
+    ...(campaign_id ? { campaign_id } : {}),
+    catalog: requireAssets(ctx),
+    jobs: requireVideoJobs(ctx),
+    adapter: requireVideo(ctx),
+    higgsfieldJobs: requireHiggsfieldJobs(ctx),
+    store: ctx.store,
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return {
+    status: 200,
+    body: {
+      ...job,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
 function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
   assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
   const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
@@ -567,7 +679,8 @@ function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
     source === "catalog" ||
     source === "drive" ||
     source === "figma" ||
-    source === "higgsfield"
+    source === "higgsfield" ||
+    source === "video"
   ) {
     filter.source = source;
   }
@@ -640,6 +753,9 @@ function mapError(e: unknown): PanelResponse {
     return jsonError(403, e.message, { source: "higgsfield_api" });
   }
   if (e instanceof HiggsfieldGenerateInputError) {
+    return jsonError(400, e.message);
+  }
+  if (e instanceof VideoProduceInputError) {
     return jsonError(400, e.message);
   }
   if (e instanceof OwnerEmailDisabledError || e instanceof OwnerEmailMissingError) {
@@ -901,6 +1017,7 @@ function reviewRuntime(ctx: PanelApiContext) {
     ...(ctx.panelBaseUrl ? { panelBaseUrl: ctx.panelBaseUrl } : {}),
     ...(ctx.figmaJobs ? { figmaJobs: ctx.figmaJobs } : {}),
     ...(ctx.higgsfieldJobs ? { higgsfieldJobs: ctx.higgsfieldJobs } : {}),
+    ...(ctx.videoJobs ? { videoJobs: ctx.videoJobs } : {}),
   };
 }
 
@@ -1007,6 +1124,7 @@ function getPublicOwnerReview(req: PanelRequest, ctx: PanelApiContext): PanelRes
     ...brandsRootOpt(ctx.brandsRoot),
     ...(ctx.figmaJobs ? { figmaJobs: ctx.figmaJobs } : {}),
     ...(ctx.higgsfieldJobs ? { higgsfieldJobs: ctx.higgsfieldJobs } : {}),
+    ...(ctx.videoJobs ? { videoJobs: ctx.videoJobs } : {}),
   });
   return { status: 200, body: view };
 }

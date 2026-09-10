@@ -47,6 +47,9 @@ export const PackReviewFieldsSchema = z.object({
   /** Optional Higgsfield fill-gap stills. Empty until a generate job exists. */
   generated_asset_ids: z.array(z.string().uuid()).default([]),
   higgsfield_job_ids: z.array(z.string().uuid()).default([]),
+  /** Optional video export packages. Empty until a produce job exists. */
+  video_asset_ids: z.array(z.string().uuid()).default([]),
+  video_job_ids: z.array(z.string().uuid()).default([]),
 });
 export type PackReviewFields = z.infer<typeof PackReviewFieldsSchema>;
 
@@ -95,6 +98,8 @@ export const OwnerReviewRequestSchema = z.object({
   figma_job_ids: z.array(z.string().uuid()).default([]),
   generated_asset_ids: z.array(z.string().uuid()).default([]),
   higgsfield_job_ids: z.array(z.string().uuid()).default([]),
+  video_asset_ids: z.array(z.string().uuid()).default([]),
+  video_job_ids: z.array(z.string().uuid()).default([]),
   created_at: z.string().datetime(),
   decided_at: z.string().datetime().optional(),
 });

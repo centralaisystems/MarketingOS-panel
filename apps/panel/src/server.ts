@@ -2,7 +2,7 @@
  * Thin dedicated Marketing OS operator panel (Wave 3–4b + owner review).
  * Own app/URL — not embedded in NOX TECH admin.
  * Wave 4 analytics/assets are read-only. Wave 4b Drive ingest is metadata-only.
- * Figma arrange + Higgsfield fill-gaps are fixture-first (optional live behind env). Video later.
+ * Figma arrange + Higgsfield fill-gaps + video export packages are fixture-first.
  * Owner review emails default to dry-run outbox. Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -18,6 +18,8 @@ import {
   createHiggsfieldAdapter,
   createHiggsfieldGenerateJobStore,
   createOpsStore,
+  createVideoProducerAdapter,
+  createVideoProduceJobStore,
   handlePanelApi,
   type PanelApiContext,
 } from "@marketing-os/runtime";
@@ -47,6 +49,11 @@ const higgsfieldJobs = createHiggsfieldGenerateJobStore({
   backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
   dir: process.env.MOS_HIGGSFIELD_DIR ?? join(process.cwd(), "data", "higgsfield"),
 });
+const video = createVideoProducerAdapter();
+const videoJobs = createVideoProduceJobStore({
+  backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
+  dir: process.env.MOS_VIDEO_DIR ?? join(process.cwd(), "data", "video"),
+});
 
 const ctx: PanelApiContext = {
   store,
@@ -56,6 +63,8 @@ const ctx: PanelApiContext = {
   figmaJobs,
   higgsfield,
   higgsfieldJobs,
+  video,
+  videoJobs,
   email: createEmailAdapter(),
   panelBaseUrl: process.env.MOS_PANEL_BASE_URL ?? `http://127.0.0.1:${PORT}`,
   writeReport: process.env.MOS_PANEL_WRITE_REPORT !== "false",
@@ -126,6 +135,6 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
   console.log(
-    "Wave 4b Drive ingest + Figma arrange + Higgsfield fill-gaps are fixture-first. Owner review emails default to dry-run. Live publish/ads remain blocked.",
+    "Wave 4b Drive ingest + Figma arrange + Higgsfield fill-gaps + video export packages are fixture-first. Owner review emails default to dry-run. Live publish/ads remain blocked.",
   );
 });
