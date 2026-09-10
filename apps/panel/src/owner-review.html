@@ -135,7 +135,12 @@
           "<li>Arranged Figma assets: " + String((pack.arranged_asset_ids || []).length) +
           " (GENERATED / UNVERIFIED)</li>" +
           ((pack.arranged_asset_ids || []).length
-            ? "<li>Asset ids: " + escapeHtml((pack.arranged_asset_ids || []).join(", ")) + "</li>"
+            ? "<li>Figma asset ids: " + escapeHtml((pack.arranged_asset_ids || []).join(", ")) + "</li>"
+            : "") +
+          "<li>Higgsfield generated stills: " + String((pack.generated_asset_ids || []).length) +
+          " (GENERATED / UNVERIFIED)</li>" +
+          ((pack.generated_asset_ids || []).length
+            ? "<li>Higgsfield asset ids: " + escapeHtml((pack.generated_asset_ids || []).join(", ")) + "</li>"
             : "") +
           "<li>Live publish: OFF</li>" +
           "<li>Live ads: OFF — not live spend</li>" +

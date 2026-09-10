@@ -45,6 +45,10 @@ export * from "./fixtures/figma-arrange.js";
 export * from "./figma-adapter.js";
 export * from "./figma-jobs.js";
 export * from "./figma-arrange.js";
+export * from "./fixtures/higgsfield-generate.js";
+export * from "./higgsfield-adapter.js";
+export * from "./higgsfield-jobs.js";
+export * from "./higgsfield-generate.js";
 export * from "./email-adapter.js";
 export * from "./owner-review.js";
 

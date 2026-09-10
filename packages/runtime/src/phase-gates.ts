@@ -19,7 +19,7 @@ const DEFAULT_GATES: PhaseGateState = PhaseGateStateSchema.parse({
   live_publish_allowed: false,
   live_ads_allowed: false,
   notes:
-    "Waves 1–4b enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive folder-contract ingest + Figma arrange (fixture). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
+    "Waves 1–4b enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive folder-contract ingest + Figma arrange + Higgsfield fill-gaps (fixture). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
 });
 
 function gatesPath(brandsRoot?: string): string {

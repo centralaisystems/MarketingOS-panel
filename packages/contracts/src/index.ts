@@ -22,6 +22,7 @@ export * from "./agent-contract.js";
 export * from "./agency.js";
 export * from "./owner-review.js";
 export * from "./figma-arrange.js";
+export * from "./higgsfield-generate.js";
 export * from "./ops.js";
 export * from "./assets.js";
 export * from "./drive-assets.js";

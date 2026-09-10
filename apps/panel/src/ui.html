@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts, owner review, Drive ingest, and Figma arrange. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts, owner review, Drive ingest, Figma arrange, and Higgsfield fill-gaps. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -207,7 +207,7 @@
 
       <section class="span-2">
         <h2>Arrange in Figma</h2>
-        <p class="muted">Villa Glory first. Places approved stills on a brand-kit layout. Fixture mode by default — no live Figma token required. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Higgsfield and video are not in this step. Live publish stays OFF.</p>
+        <p class="muted">Villa Glory first. Places approved stills on a brand-kit layout. Fixture mode by default — no live Figma token required. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Live publish stays OFF.</p>
         <label style="margin-top:0.65rem">Layout brief
           <textarea id="figmaBrief" placeholder="Instagram grid from approved stills + brand-kit. No commercial claims."></textarea>
         </label>
@@ -218,6 +218,21 @@
           <span class="badge" id="figmaBadge">Figma —</span>
         </div>
         <div id="figmaJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
+      <section class="span-2">
+        <h2>Fill gaps (Higgsfield)</h2>
+        <p class="muted">Villa Glory first. Generates a net-new still only when approved stills / brand-kit leave a usage_tag or aspect gap. Fixture mode by default — no Higgsfield key required. Prompt uses VERIFIED pack voice/positioning/offerings only. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Video and live publish stay OFF.</p>
+        <label style="margin-top:0.65rem">Gap brief
+          <textarea id="higgsfieldBrief" placeholder="Story still 9:16. No commercial claims."></textarea>
+        </label>
+        <div id="higgsfieldGaps" class="muted" style="margin-top:0.75rem">Loading…</div>
+        <div class="row" style="margin-top:0.65rem">
+          <button id="higgsfieldFillBtn" type="button">Fill gaps (Higgsfield)</button>
+          <button class="secondary" id="higgsfieldGeneratedBtn" type="button">Show generated</button>
+          <span class="badge" id="higgsfieldBadge">Higgsfield —</span>
+        </div>
+        <div id="higgsfieldJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
       <section class="span-2">
@@ -272,6 +287,8 @@
         document.getElementById("driveStatus").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("figmaStills").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("figmaJobs").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("higgsfieldGaps").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("higgsfieldJobs").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("runResult").textContent = "No run yet. Actions stay on the selected brand_id only.";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
@@ -479,7 +496,7 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || res.statusText);
         document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
-        await Promise.all([loadDriveStatus(), loadFigmaArrange(), loadAssets("source=drive")]);
+        await Promise.all([loadDriveStatus(), loadFigmaArrange(), loadHiggsfieldGaps(), loadAssets("source=drive")]);
       }
 
       async function loadFigmaArrange() {
@@ -545,6 +562,72 @@
         await Promise.all([loadFigmaArrange(), loadAssets("source=figma")]);
       }
 
+      async function loadHiggsfieldGaps() {
+        const brand_id = activeBrand();
+        const brief = document.getElementById("higgsfieldBrief").value;
+        const qs = "?brand_id=" + encodeURIComponent(brand_id) +
+          (brief.trim() ? "&brief=" + encodeURIComponent(brief.trim()) : "");
+        const d = await api("/api/higgsfield-gaps" + qs);
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const badge = document.getElementById("higgsfieldBadge");
+        badge.textContent = (d.source || "fixture") + " · jobs=" + String((d.jobs || []).length);
+        badge.className = "badge " + (d.gaps && d.gaps.has_gap ? "warn" : "ok");
+        const gap = d.gaps || {};
+        const needs = (gap.needs || []).map((n) => {
+          const bits = [];
+          if (n.usage_tag) bits.push("tag=" + n.usage_tag);
+          if (n.aspect) bits.push("aspect=" + n.aspect);
+          return bits.join(" ") + " — " + (n.reason || "");
+        });
+        document.getElementById("higgsfieldGaps").innerHTML =
+          "<div class=\"item\"><strong>" + escapeHtml(brand_id) + "</strong> · " +
+          (gap.has_gap ? "gap detected" : "coverage sufficient") +
+          '<div class="muted">' + escapeHtml(gap.reason || "") + "</div>" +
+          (needs.length
+            ? "<ul class=\"gaps\">" + needs.map((n) => "<li>" + escapeHtml(n) + "</li>").join("") + "</ul>"
+            : "") +
+          "</div>";
+        const jobs = d.jobs || [];
+        if (!jobs.length) {
+          document.getElementById("higgsfieldJobs").textContent =
+            "No Higgsfield jobs for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("higgsfieldJobs").innerHTML = jobs.map((j) => {
+          if (j.brand_id !== brand_id) return "";
+          const out = j.output || {};
+          return '<div class="item"><span class="badge">' + escapeHtml(j.status) +
+            "</span> " + escapeHtml(j.layout_brief && j.layout_brief.title ? j.layout_brief.title : "Fill gaps") +
+            '<div class="muted">' +
+            (j.generated_asset_id
+              ? "generated " + escapeHtml(j.generated_asset_id.slice(0, 8)) + " · "
+              : "no catalog row · ") +
+            escapeHtml(j.knowledge_status || "UNVERIFIED") +
+            " / " + escapeHtml(j.provenance || "GENERATED") +
+            (out.aspect ? " · " + escapeHtml(out.aspect) : "") +
+            (out.usage_tag ? " · " + escapeHtml(out.usage_tag) : "") +
+            "</div></div>";
+        }).join("");
+      }
+
+      async function fillHiggsfield() {
+        const brand_id = activeBrand();
+        const brief = document.getElementById("higgsfieldBrief").value;
+        document.getElementById("higgsfieldJobs").textContent = "Filling gaps for " + brand_id + "…";
+        const res = await fetch("/api/higgsfield-gaps", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            brand_id,
+            layout_brief: brief || "Story still 9:16. No commercial claims.",
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await Promise.all([loadHiggsfieldGaps(), loadAssets("source=higgsfield")]);
+      }
+
       async function loadAnalytics() {
         const brand_id = activeBrand();
         const d = await api("/api/analytics?brand_id=" + encodeURIComponent(brand_id));
@@ -600,6 +683,7 @@
           loadAssets(),
           loadDriveStatus(),
           loadFigmaArrange(),
+          loadHiggsfieldGaps(),
           loadAnalytics(),
           loadAiVisibility(),
         ]);
@@ -698,6 +782,12 @@
         });
       };
       document.getElementById("figmaGeneratedBtn").onclick = () => loadAssets("source=figma");
+      document.getElementById("higgsfieldFillBtn").onclick = () => {
+        fillHiggsfield().catch((e) => {
+          document.getElementById("higgsfieldJobs").textContent = String(e);
+        });
+      };
+      document.getElementById("higgsfieldGeneratedBtn").onclick = () => loadAssets("source=higgsfield");
       brandEl.onchange = () => refreshBrand();
 
       loadBrands()
