@@ -38,6 +38,8 @@ export const AuditEventSchema = z.object({
     "HIGGSFIELD_GENERATE_REQUESTED",
     "HIGGSFIELD_GENERATE_COMPLETED",
     "HIGGSFIELD_GENERATE_SKIPPED",
+    "VIDEO_PRODUCE_REQUESTED",
+    "VIDEO_PRODUCE_COMPLETED",
     "ERROR",
   ]),
   message: z.string().min(1),

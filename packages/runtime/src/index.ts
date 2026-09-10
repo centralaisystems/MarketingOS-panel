@@ -49,6 +49,10 @@ export * from "./fixtures/higgsfield-generate.js";
 export * from "./higgsfield-adapter.js";
 export * from "./higgsfield-jobs.js";
 export * from "./higgsfield-generate.js";
+export * from "./fixtures/video-produce.js";
+export * from "./video-adapter.js";
+export * from "./video-jobs.js";
+export * from "./video-produce.js";
 export * from "./email-adapter.js";
 export * from "./owner-review.js";
 

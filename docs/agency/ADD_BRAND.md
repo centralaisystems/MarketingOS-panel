@@ -20,10 +20,11 @@
    ```bash
    pnpm sync-brand-assets -- --brand ACME
    ```
-   Fixture mode is the default. Then arrange approved stills in Figma, and fill still gaps with Higgsfield only when coverage is insufficient (fixture default):
+   Fixture mode is the default. Then arrange approved stills in Figma, fill still gaps with Higgsfield only when coverage is insufficient, and assemble a video export package (fixture default — CapCut/Adobe stubs are recipes only):
    ```bash
    pnpm arrange-figma -- --brand ACME --sync
    pnpm fill-higgsfield-gaps -- --brand ACME --sync
+   pnpm produce-video -- --brand ACME --sync
    ```
    See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
 7. Optional owner review (templated Resend / dry-run outbox). Villa Glory uses a fixture `@example.test` address. See [`OWNER_REVIEW.md`](./OWNER_REVIEW.md):
@@ -36,7 +37,7 @@
 
 The panel is a **dedicated Marketing OS app** (`pnpm panel` → http://127.0.0.1:8787). It is not embedded in NOX TECH admin.
 
-It reads the registry for the brand switcher, then loads **only** the active `brand_id` for readiness, drafts, inbox, audit, asset metadata, Drive sync status, Figma arrange jobs, Higgsfield fill-gap jobs, analytics snapshots, and AI search visibility. Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`; another brand's campaign/asset id returns `404`.
+It reads the registry for the brand switcher, then loads **only** the active `brand_id` for readiness, drafts, inbox, audit, asset metadata, Drive sync status, Figma arrange jobs, Higgsfield fill-gap jobs, video export packages, analytics snapshots, and AI search visibility. Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`; another brand's campaign/asset id returns `404`.
 
 Local/CI persistence is the file/memory ops store (`data/ops/store.json` by default). A live Supabase project is optional; apply `supabase/migrations/202609100001_phase4a_ops.sql` when one exists. `MOS_OPS_BACKEND=supabase` is not wired yet.
 
@@ -79,6 +80,12 @@ curl -s -X POST http://127.0.0.1:8787/api/higgsfield-gaps \
 curl -s "http://127.0.0.1:8787/api/higgsfield-gaps?brand_id=VILLA_GLORY"
 # LOTIN must not see Villa Glory Higgsfield jobs
 curl -s "http://127.0.0.1:8787/api/higgsfield-gaps?brand_id=LOTIN"
+curl -s -X POST http://127.0.0.1:8787/api/video-packages \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"VILLA_GLORY","brief":"Reel from approved stills. No commercial claims.","target_format":"reel"}'
+curl -s "http://127.0.0.1:8787/api/video-packages?brand_id=VILLA_GLORY"
+# LOTIN must not see Villa Glory video packages
+curl -s "http://127.0.0.1:8787/api/video-packages?brand_id=LOTIN"
 curl -s -X POST http://127.0.0.1:8787/api/campaigns/$CAMPAIGN_ID/owner-review \
   -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
 curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=VILLA_GLORY"

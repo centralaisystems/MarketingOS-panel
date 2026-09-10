@@ -25,7 +25,8 @@
     "panel": "pnpm --filter @marketing-os/panel start",
     "sync-brand-assets": "tsx scripts/sync-brand-assets.ts",
     "arrange-figma": "tsx scripts/arrange-figma.ts",
-    "fill-higgsfield-gaps": "tsx scripts/fill-higgsfield-gaps.ts"
+    "fill-higgsfield-gaps": "tsx scripts/fill-higgsfield-gaps.ts",
+    "produce-video": "tsx scripts/produce-video.ts"
   },
   "dependencies": {
     "@marketing-os/contracts": "workspace:*",

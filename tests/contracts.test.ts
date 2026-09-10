@@ -8,6 +8,7 @@ import {
   AssetRecordSchema,
   FigmaArrangeJobSchema,
   HiggsfieldGenerateJobSchema,
+  VideoProduceJobSchema,
   BrandIdSchema,
   BrandRegistryEntrySchema,
   EvidenceSchema,
@@ -325,5 +326,74 @@ describe("contracts", () => {
     expect(job.approval_status).toBe("DRAFT");
     expect(job.live_publish).toBe(false);
     expect(job.live_ads).toBe(false);
+  });
+
+  it("validates a video produce job as GENERATED / UNVERIFIED / not live / not rendered", () => {
+    const now = new Date().toISOString();
+    const stillId = randomUUID();
+    const job = VideoProduceJobSchema.parse({
+      job_id: randomUUID(),
+      brand_id: "VILLA_GLORY",
+      brief: {
+        title: "Video package",
+        description: "Reel from approved stills. No commercial claims.",
+        target_format: "reel",
+      },
+      approved_still_ids: [stillId],
+      target_format: "reel",
+      status: "READY_FOR_OWNER_REVIEW",
+      source: "fixture",
+      output: {
+        package_kind: "export_package",
+        recipe_id: "fixture-villa_glory-reel-abc",
+        storage_uri: "mos://video/VILLA_GLORY/job",
+        target_format: "reel",
+        aspect: "9:16",
+        duration_ms: 15000,
+        timeline: [
+          {
+            order: 0,
+            asset_id: stillId,
+            role: "approved_still",
+            duration_ms: 15000,
+            storage_uri: "mos://drive/VILLA_GLORY/still",
+          },
+        ],
+        captions: [
+          {
+            order: 0,
+            text: "Refined, Warm",
+            source_field: "voice.tone",
+            knowledge_status: "VERIFIED",
+          },
+        ],
+        asset_list: [
+          {
+            asset_id: stillId,
+            title: "Living room",
+            storage_uri: "mos://drive/VILLA_GLORY/still",
+            role: "approved_still",
+          },
+        ],
+        import_hint: "Fixture export package. Not a rendered video.",
+        adapter_label: "fixture-video-package",
+        rendered_video: false,
+        desktop_control: false,
+        published: false,
+      },
+      generated_asset_id: randomUUID(),
+      guardian: { passed: true, reasons: [], reviewed: ["video-produce"] },
+      created_at: now,
+      updated_at: now,
+      message: "Packaged",
+    });
+    expect(job.knowledge_status).toBe("UNVERIFIED");
+    expect(job.provenance).toBe("GENERATED");
+    expect(job.approval_status).toBe("DRAFT");
+    expect(job.live_publish).toBe(false);
+    expect(job.live_ads).toBe(false);
+    expect(job.output.rendered_video).toBe(false);
+    expect(job.output.published).toBe(false);
+    expect(job.output.desktop_control).toBe(false);
   });
 });

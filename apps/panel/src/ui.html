@@ -222,7 +222,7 @@
 
       <section class="span-2">
         <h2>Fill gaps (Higgsfield)</h2>
-        <p class="muted">Villa Glory first. Generates a net-new still only when approved stills / brand-kit leave a usage_tag or aspect gap. Fixture mode by default — no Higgsfield key required. Prompt uses VERIFIED pack voice/positioning/offerings only. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Video and live publish stay OFF.</p>
+        <p class="muted">Villa Glory first. Generates a net-new still only when approved stills / brand-kit leave a usage_tag or aspect gap. Fixture mode by default — no Higgsfield key required. Prompt uses VERIFIED pack voice/positioning/offerings only. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Live publish stays OFF.</p>
         <label style="margin-top:0.65rem">Gap brief
           <textarea id="higgsfieldBrief" placeholder="Story still 9:16. No commercial claims."></textarea>
         </label>
@@ -233,6 +233,28 @@
           <span class="badge" id="higgsfieldBadge">Higgsfield —</span>
         </div>
         <div id="higgsfieldJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
+      <section class="span-2">
+        <h2>Produce video package</h2>
+        <p class="muted">Villa Glory first. Assembles an export package / project recipe from approved stills and Guardian-ready generated stills. Fixture mode by default — CapCut/Adobe stubs emit the same recipe and do not control desktop apps. On-screen captions use VERIFIED pack voice only. Output stays GENERATED / UNVERIFIED / DRAFT. Not a rendered video. Not uploaded to Instagram. Live publish stays OFF.</p>
+        <label style="margin-top:0.65rem">Video brief
+          <textarea id="videoBrief" placeholder="Reel from approved stills. No commercial claims."></textarea>
+        </label>
+        <label style="margin-top:0.45rem">Target format
+          <select id="videoFormat">
+            <option value="reel">reel (9:16)</option>
+            <option value="story">story (9:16)</option>
+            <option value="feed">feed (1:1)</option>
+          </select>
+        </label>
+        <div id="videoStills" class="muted" style="margin-top:0.75rem">Loading…</div>
+        <div class="row" style="margin-top:0.65rem">
+          <button id="videoProduceBtn" type="button">Produce video package</button>
+          <button class="secondary" id="videoGeneratedBtn" type="button">Show packages</button>
+          <span class="badge" id="videoBadge">Video —</span>
+        </div>
+        <div id="videoJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
       <section class="span-2">
@@ -289,6 +311,8 @@
         document.getElementById("figmaJobs").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("higgsfieldGaps").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("higgsfieldJobs").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("videoStills").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("videoJobs").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("runResult").textContent = "No run yet. Actions stay on the selected brand_id only.";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
@@ -496,7 +520,7 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || res.statusText);
         document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
-        await Promise.all([loadDriveStatus(), loadFigmaArrange(), loadHiggsfieldGaps(), loadAssets("source=drive")]);
+        await Promise.all([loadDriveStatus(), loadFigmaArrange(), loadHiggsfieldGaps(), loadVideoPackages(), loadAssets("source=drive")]);
       }
 
       async function loadFigmaArrange() {
@@ -625,7 +649,78 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || res.statusText);
         document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
-        await Promise.all([loadHiggsfieldGaps(), loadAssets("source=higgsfield")]);
+        await Promise.all([loadHiggsfieldGaps(), loadVideoPackages(), loadAssets("source=higgsfield")]);
+      }
+
+      async function loadVideoPackages() {
+        const brand_id = activeBrand();
+        const d = await api("/api/video-packages?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const badge = document.getElementById("videoBadge");
+        badge.textContent = (d.source || "fixture") + " · jobs=" + String((d.jobs || []).length);
+        badge.className = "badge ok";
+        const stills = (d.approved_stills || []).concat(d.generated_stills || []);
+        if (!stills.length) {
+          document.getElementById("videoStills").textContent =
+            "No approved or Guardian-ready stills for " + brand_id + ". Sync Drive (approved-stills/) first.";
+        } else {
+          document.getElementById("videoStills").innerHTML = stills.map((a) => {
+            if (a.brand_id !== brand_id) return "";
+            const attr = a.source === "higgsfield" ? "data-video-generated" : "data-video-still";
+            return '<label style="display:flex;gap:0.45rem;align-items:center;margin:0.25rem 0">' +
+              '<input type="checkbox" ' + attr + '="' + escapeHtml(a.asset_id) + '" checked />' +
+              "<span>" + escapeHtml(a.title) +
+              ' <span class="muted">' + escapeHtml(a.folder_role || a.source || "catalog") + "</span></span></label>";
+          }).join("");
+        }
+        const jobs = d.jobs || [];
+        if (!jobs.length) {
+          document.getElementById("videoJobs").textContent = "No video packages for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("videoJobs").innerHTML = jobs.map((j) => {
+          if (j.brand_id !== brand_id) return "";
+          const out = j.output || {};
+          return '<div class="item"><span class="badge">' + escapeHtml(j.status) +
+            "</span> " + escapeHtml(j.brief && j.brief.title ? j.brief.title : "Video package") +
+            '<div class="muted">' +
+            (j.generated_asset_id
+              ? "package " + escapeHtml(j.generated_asset_id.slice(0, 8)) + " · "
+              : "") +
+            escapeHtml(j.target_format || "") +
+            " · " + escapeHtml(j.knowledge_status || "UNVERIFIED") +
+            " / " + escapeHtml(j.provenance || "GENERATED") +
+            (out.rendered_video ? "" : " · recipe only") +
+            "</div></div>";
+        }).join("");
+      }
+
+      async function produceVideo() {
+        const brand_id = activeBrand();
+        const stills = [...document.querySelectorAll("[data-video-still]:checked")].map((el) =>
+          el.getAttribute("data-video-still"),
+        ).filter(Boolean);
+        const generated = [...document.querySelectorAll("[data-video-generated]:checked")].map((el) =>
+          el.getAttribute("data-video-generated"),
+        ).filter(Boolean);
+        const brief = document.getElementById("videoBrief").value;
+        const target_format = document.getElementById("videoFormat").value;
+        document.getElementById("videoJobs").textContent = "Producing package for " + brand_id + "…";
+        const res = await fetch("/api/video-packages", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            brand_id,
+            source_asset_ids: stills,
+            generated_asset_ids: generated,
+            brief: brief || "Reel from approved stills. No commercial claims.",
+            target_format,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await Promise.all([loadVideoPackages(), loadAssets("source=video")]);
       }
 
       async function loadAnalytics() {
@@ -684,6 +779,7 @@
           loadDriveStatus(),
           loadFigmaArrange(),
           loadHiggsfieldGaps(),
+          loadVideoPackages(),
           loadAnalytics(),
           loadAiVisibility(),
         ]);
@@ -788,6 +884,12 @@
         });
       };
       document.getElementById("higgsfieldGeneratedBtn").onclick = () => loadAssets("source=higgsfield");
+      document.getElementById("videoProduceBtn").onclick = () => {
+        produceVideo().catch((e) => {
+          document.getElementById("videoJobs").textContent = String(e);
+        });
+      };
+      document.getElementById("videoGeneratedBtn").onclick = () => loadAssets("source=video");
       brandEl.onchange = () => refreshBrand();
 
       loadBrands()
