@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-10T14:00:00.000Z",
+  "updated_at": "2026-09-10T16:00:00.000Z",
   "brands": [
     {
       "brand_id": "LOTIN",
@@ -55,7 +55,9 @@
         "en",
         "ar"
       ],
-      "created_at": "2026-08-14T08:00:00.000Z"
+      "created_at": "2026-08-14T08:00:00.000Z",
+      "asset_drive_folder_id": "fixture-nox-form-root",
+      "asset_drive_folder_url": "https://drive.google.com/drive/folders/fixture-nox-form-root"
     },
     {
       "brand_id": "NOX_TECH",
@@ -73,7 +75,9 @@
         "ar",
         "tr"
       ],
-      "created_at": "2026-08-14T08:00:00.000Z"
+      "created_at": "2026-08-14T08:00:00.000Z",
+      "asset_drive_folder_id": "fixture-nox-tech-root",
+      "asset_drive_folder_url": "https://drive.google.com/drive/folders/fixture-nox-tech-root"
     }
   ]
 }

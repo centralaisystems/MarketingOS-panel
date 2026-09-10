@@ -34,25 +34,27 @@
    ```
    `create-brand` always writes `owner_email_enabled` and `automation_enabled` (both default `false` unless the enable flags are passed). `automation_enabled` is the Wave 8 digest kill switch. Emailing still requires `owner_email_enabled`. See [`AUTOMATION.md`](./AUTOMATION.md).
 
-   Villa Glory and LOTIN committed registries keep **fixture** Drive folders (`fixture-villa-glory-root`, `fixture-lotin-root`). Attach a real folder without committing secrets:
+   All four committed registries keep **fixture** Drive folders (`fixture-villa-glory-root`, `fixture-lotin-root`, `fixture-nox-form-root`, `fixture-nox-tech-root`). Attach a real folder without committing secrets:
 
    1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored) and set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand patch only.
-   2. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local` (example: `MOS_DRIVE_FOLDER_URL_VILLA_GLORY`, `MOS_DRIVE_FOLDER_URL_LOTIN`).
+   2. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local` (example: `MOS_DRIVE_FOLDER_URL_VILLA_GLORY`, `MOS_DRIVE_FOLDER_URL_LOTIN`, `MOS_DRIVE_FOLDER_URL_NOX_FORM`, `MOS_DRIVE_FOLDER_URL_NOX_TECH`).
    3. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
 
-   LOTIN owner review / Wave 8 automation stay **off** in the committed registry (no real inbox). To opt in locally or in tests, patch `REGISTRY.local.json` with `@example.test` addresses:
+   LOTIN, NOX FORM, and NOX TECH owner review / Wave 8 automation stay **off** in the committed registry (no real inbox). To opt in locally or in tests, patch `REGISTRY.local.json` with `@example.test` addresses (see `REGISTRY.local.json.example`):
 
    ```json
    {
-     "brand_id": "LOTIN",
-     "owner_email": "lotin-owner@example.test",
-     "owner_cc": ["lotin-cc@example.test"],
+     "brand_id": "NOX_FORM",
+     "owner_email": "nox-form-owner@example.test",
+     "owner_cc": ["nox-form-cc@example.test"],
      "owner_email_enabled": true,
      "automation_enabled": true
    }
    ```
 
-   Then `pnpm run-digest -- --brand LOTIN --period daily` dry-runs like Villa Glory. Do not commit a production owner address.
+   Then `pnpm run-digest -- --brand NOX_FORM --period daily` dry-runs like Villa Glory. Same overlay pattern for LOTIN and NOX TECH. Do not commit a production owner address.
+
+   **Multi-brand parity:** Villa Glory is the full fixture operator path. LOTIN, NOX FORM, and NOX TECH share the thinner path: committed fixture Drive → `pnpm sync-brand-assets` → Wave 2 packs from VERIFIED `extractPackDraftSignals` fields only → digest dry-run via local overlay. Live publish/ads stay false. NOX TECH packs must not treat rejected seed modules or ROI strings as VERIFIED commercial claims.
 
    See [`PRODUCTION.md`](./PRODUCTION.md).
 
@@ -77,12 +79,20 @@ curl -s http://127.0.0.1:8787/api/health
 curl -s http://127.0.0.1:8787/api/brands
 curl -s "http://127.0.0.1:8787/api/readiness?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/readiness?brand_id=LOTIN"
+curl -s "http://127.0.0.1:8787/api/readiness?brand_id=NOX_FORM"
+curl -s "http://127.0.0.1:8787/api/readiness?brand_id=NOX_TECH"
 curl -s -X POST http://127.0.0.1:8787/api/campaign-packs \
   -H 'content-type: application/json' \
   -d '{"brand_id":"VILLA_GLORY","objective":"Draft social plan for qualified enquiries"}'
 curl -s -X POST http://127.0.0.1:8787/api/campaign-packs \
   -H 'content-type: application/json' \
   -d '{"brand_id":"LOTIN","objective":"Draft a qualified-enquiry plan for UAE property consultations"}'
+curl -s -X POST http://127.0.0.1:8787/api/campaign-packs \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"NOX_FORM","objective":"Draft a qualified project-enquiry plan for private villa interiors"}'
+curl -s -X POST http://127.0.0.1:8787/api/campaign-packs \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"NOX_TECH","objective":"Draft a qualified discovery plan for B2B implementation conversations"}'
 curl -s "http://127.0.0.1:8787/api/campaigns?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/approvals?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/audit?brand_id=VILLA_GLORY"
@@ -96,8 +106,15 @@ curl -s "http://127.0.0.1:8787/api/assets?brand_id=VILLA_GLORY&source=drive"
 curl -s -X POST http://127.0.0.1:8787/api/drive-sync \
   -H 'content-type: application/json' -d '{"brand_id":"LOTIN"}'
 curl -s "http://127.0.0.1:8787/api/assets?brand_id=LOTIN&source=drive"
-# LOTIN Drive rows must not appear under Villa Glory, and vice versa
+curl -s -X POST http://127.0.0.1:8787/api/drive-sync \
+  -H 'content-type: application/json' -d '{"brand_id":"NOX_FORM"}'
+curl -s "http://127.0.0.1:8787/api/assets?brand_id=NOX_FORM&source=drive"
+curl -s -X POST http://127.0.0.1:8787/api/drive-sync \
+  -H 'content-type: application/json' -d '{"brand_id":"NOX_TECH"}'
+curl -s "http://127.0.0.1:8787/api/assets?brand_id=NOX_TECH&source=drive"
+# Drive rows must not appear under another brand
 curl -s "http://127.0.0.1:8787/api/assets?brand_id=VILLA_GLORY&source=drive"
+curl -s "http://127.0.0.1:8787/api/assets?brand_id=NOX_TECH&source=drive"
 curl -s -X POST http://127.0.0.1:8787/api/figma-arrange \
   -H 'content-type: application/json' \
   -d '{"brand_id":"VILLA_GLORY","source_asset_ids":["'"$STILL_ID"'"],"layout_brief":"Instagram grid from approved stills. No commercial claims."}'
@@ -158,8 +175,10 @@ curl -s -X POST http://127.0.0.1:8787/api/digests \
   -d '{"brand_id":"VILLA_GLORY","period":"daily"}'
 curl -s "http://127.0.0.1:8787/api/digests?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=VILLA_GLORY"
-# LOTIN must not see Villa Glory digests
+# LOTIN / NOX FORM / NOX TECH must not see Villa Glory digests
 curl -s "http://127.0.0.1:8787/api/digests?brand_id=LOTIN"
+curl -s "http://127.0.0.1:8787/api/digests?brand_id=NOX_FORM"
+curl -s "http://127.0.0.1:8787/api/digests?brand_id=NOX_TECH"
 curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=LOTIN"
 ```
 

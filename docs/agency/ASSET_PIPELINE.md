@@ -1,6 +1,6 @@
 # Brand asset pipeline (Wave 4b)
 
-Villa Glory and LOTIN have committed **fixture** Drive folders. One registered Drive folder per brand — Marketing OS does not browse the rest of Drive.
+Villa Glory, LOTIN, NOX FORM, and NOX TECH have committed **fixture** Drive folders. One registered Drive folder per brand — Marketing OS does not browse the rest of Drive.
 
 ## Folder contract
 
@@ -26,7 +26,7 @@ Drive ingest (done) → Figma arrange (done) → Higgsfield fill-gaps (done) →
 
 ### Drive → catalog
 
-1. Operator stores one `asset_drive_folder_url` / `asset_drive_folder_id` on the brand registry entry, **or** a gitignored `REGISTRY.local.json` patch / `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` env (Villa Glory + LOTIN fixtures stay in the committed registry). Do not commit Drive tokens.
+1. Operator stores one `asset_drive_folder_url` / `asset_drive_folder_id` on the brand registry entry, **or** a gitignored `REGISTRY.local.json` patch / `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` env (Villa Glory + LOTIN + NOX FORM + NOX TECH fixtures stay in the committed registry). Do not commit Drive tokens.
 2. `DriveAssetSource` lists that folder (fixture by default; optional live Google Drive behind `MOS_DRIVE_SOURCE=google_drive`).
 3. Runtime validates the folder contract and indexes **metadata** into the Wave 4 catalog.
 
@@ -61,6 +61,8 @@ Out of scope here: live CapCut/Adobe desktop control, rendered MP4 binaries in G
 ```bash
 pnpm sync-brand-assets -- --brand VILLA_GLORY
 pnpm sync-brand-assets -- --brand LOTIN
+pnpm sync-brand-assets -- --brand NOX_FORM
+pnpm sync-brand-assets -- --brand NOX_TECH
 pnpm arrange-figma -- --brand VILLA_GLORY --sync
 pnpm fill-higgsfield-gaps -- --brand VILLA_GLORY --sync
 pnpm produce-video -- --brand VILLA_GLORY --sync
@@ -71,6 +73,6 @@ Panel: `pnpm panel` → Drive asset pipeline → Arrange in Figma → Fill gaps 
 
 ## Isolation and gates
 
-- Every ingested or generated row carries `brand_id`. LOTIN Drive rows stay on LOTIN; Villa Glory cannot read them (and the reverse). Figma / Higgsfield / video packages remain Villa Glory first.
+- Every ingested or generated row carries `brand_id`. LOTIN / NOX FORM / NOX TECH Drive rows stay on that brand; Villa Glory cannot read them (and the reverse). Figma / Higgsfield / video packages remain Villa Glory first.
 - Binaries stay out of Git (`mos://drive/...`, `mos://figma/...`, `mos://higgsfield/...`, `mos://video/...` pointers only).
 - `WAVE_4B_ASSET_PIPELINE` is enabled alongside Wave 4. Wave 5 Instagram dry-run and Wave 6 paid staging are enabled; `live_publish_allowed` / `live_ads_allowed` stay off.

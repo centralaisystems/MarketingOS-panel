@@ -11,6 +11,20 @@
       "owner_cc": ["lotin-cc@example.test"],
       "owner_email_enabled": true,
       "automation_enabled": true
+    },
+    {
+      "brand_id": "NOX_FORM",
+      "owner_email": "nox-form-owner@example.test",
+      "owner_cc": ["nox-form-cc@example.test"],
+      "owner_email_enabled": true,
+      "automation_enabled": true
+    },
+    {
+      "brand_id": "NOX_TECH",
+      "owner_email": "nox-tech-owner@example.test",
+      "owner_cc": ["nox-tech-cc@example.test"],
+      "owner_email_enabled": true,
+      "automation_enabled": true
     }
   ]
 }
