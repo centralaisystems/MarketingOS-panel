@@ -40,9 +40,10 @@ export function registryLocalPath(brandsRoot?: string): string {
 }
 
 /**
- * Optional gitignored overlay. Patches existing registry entries only —
- * it cannot add a brand or change brand_id. Use this for a real Villa Glory
- * Drive folder URL without committing tokens or live folder ids.
+ * Optional overlay (gitignored `REGISTRY.local.json` or Railway env).
+ * Patches existing registry entries only — it cannot add a brand or
+ * change brand_id. Use this for a real Villa Glory Drive folder /
+ * owner inbox without committing tokens or live folder ids.
  */
 export function applyRegistryLocalOverlay(
   registry: BrandRegistry,
@@ -74,6 +75,72 @@ export function applyRegistryLocalOverlay(
   });
 }
 
+export const REGISTRY_LOCAL_JSON_ENV = "MOS_REGISTRY_LOCAL_JSON";
+
+export type RegistryEnvMap = Record<string, string | undefined>;
+
+function parseRegistryLocalJsonEnv(env: RegistryEnvMap): unknown | undefined {
+  const raw = env[REGISTRY_LOCAL_JSON_ENV]?.trim();
+  if (!raw) return undefined;
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    throw new Error(
+      `${REGISTRY_LOCAL_JSON_ENV} is not valid JSON (expected { brands: [{ brand_id, ...patch }] })`,
+    );
+  }
+}
+
+/**
+ * Per-brand convenience vars for hosts that cannot ship `REGISTRY.local.json`
+ * (Railway). Only registered brand_ids are considered — no closed brand enum.
+ */
+export function registryConvenienceOverlayFromEnv(
+  registry: BrandRegistry,
+  env: RegistryEnvMap = process.env,
+): { brands: Array<Record<string, unknown>> } | null {
+  const brands: Array<Record<string, unknown>> = [];
+  for (const entry of registry.brands) {
+    const id = entry.brand_id;
+    const patch: Record<string, unknown> = { brand_id: id };
+    const ownerEmail = env[`MOS_OWNER_EMAIL_${id}`]?.trim();
+    const ownerCc = env[`MOS_OWNER_CC_${id}`]?.trim();
+    const driveUrl = env[`MOS_DRIVE_FOLDER_URL_${id}`]?.trim();
+    const driveId = env[`MOS_DRIVE_FOLDER_ID_${id}`]?.trim();
+    if (ownerEmail) patch.owner_email = ownerEmail;
+    if (ownerCc) {
+      const cc = ownerCc
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean);
+      if (cc.length) patch.owner_cc = cc;
+    }
+    if (driveUrl) patch.asset_drive_folder_url = driveUrl;
+    if (driveId) patch.asset_drive_folder_id = driveId;
+    if (Object.keys(patch).length > 1) brands.push(patch);
+  }
+  return brands.length > 0 ? { brands } : null;
+}
+
+/**
+ * Apply Railway / `.env.local` registry patches via {@link applyRegistryLocalOverlay}.
+ * Order: per-brand convenience vars, then `MOS_REGISTRY_LOCAL_JSON` (wins).
+ */
+export function applyRegistryEnvOverlay(
+  registry: BrandRegistry,
+  env: RegistryEnvMap = process.env,
+): BrandRegistry {
+  const convenience = registryConvenienceOverlayFromEnv(registry, env);
+  let next = convenience
+    ? applyRegistryLocalOverlay(registry, convenience)
+    : registry;
+  const json = parseRegistryLocalJsonEnv(env);
+  if (json !== undefined) {
+    next = applyRegistryLocalOverlay(next, json);
+  }
+  return next;
+}
+
 export function loadBrandRegistry(opts?: {
   brandsRoot?: string;
   forceReload?: boolean;
@@ -92,6 +159,8 @@ export function loadBrandRegistry(opts?: {
     const localRaw = JSON.parse(readFileSync(localPath, "utf8")) as unknown;
     registry = applyRegistryLocalOverlay(registry, localRaw);
   }
+  // Env wins over the gitignored file so Railway can overlay without a checkout file.
+  registry = applyRegistryEnvOverlay(registry);
   const ids = new Set<string>();
   const slugs = new Set<string>();
   for (const b of registry.brands) {

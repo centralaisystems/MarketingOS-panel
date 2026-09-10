@@ -10,6 +10,7 @@ import {
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import {
+  applyRegistryEnvOverlay,
   applyRegistryLocalOverlay,
   clearBrandRegistryCache,
   loadBrandRegistry,
@@ -117,6 +118,9 @@ describe("registry local overlay", () => {
     temps.length = 0;
     delete process.env.MOS_DRIVE_FOLDER_URL_VILLA_GLORY;
     delete process.env.MOS_DRIVE_FOLDER_ID_VILLA_GLORY;
+    delete process.env.MOS_OWNER_EMAIL_VILLA_GLORY;
+    delete process.env.MOS_OWNER_CC_VILLA_GLORY;
+    delete process.env.MOS_REGISTRY_LOCAL_JSON;
   });
 
   it("patches an existing brand only and cannot add a foreign brand", () => {
@@ -172,5 +176,111 @@ describe("registry local overlay", () => {
     const resolved = resolveBrandDriveFolder("VILLA_GLORY");
     expect(resolved?.folder_id).toBe("env-only-folder");
     expect(resolved?.folder_url).toContain("env-only-folder");
+  });
+
+  it("overlays Villa Glory owner and Drive fields from a fake env map", () => {
+    const base = loadBrandRegistry({ forceReload: true });
+    const merged = applyRegistryEnvOverlay(base, {
+      MOS_OWNER_EMAIL_VILLA_GLORY: "villa-glory-ops@example.test",
+      MOS_OWNER_CC_VILLA_GLORY:
+        "villa-glory-cc-a@example.test, villa-glory-cc-b@example.test",
+      MOS_DRIVE_FOLDER_ID_VILLA_GLORY: "env-registry-folder",
+      MOS_DRIVE_FOLDER_URL_VILLA_GLORY:
+        "https://drive.google.com/drive/folders/env-registry-folder",
+    });
+    const villa = merged.brands.find((b) => b.brand_id === "VILLA_GLORY");
+    expect(villa?.owner_email).toBe("villa-glory-ops@example.test");
+    expect(villa?.owner_cc).toEqual([
+      "villa-glory-cc-a@example.test",
+      "villa-glory-cc-b@example.test",
+    ]);
+    expect(villa?.asset_drive_folder_id).toBe("env-registry-folder");
+    expect(villa?.asset_drive_folder_url).toBe(
+      "https://drive.google.com/drive/folders/env-registry-folder",
+    );
+    expect(villa?.owner_email_enabled).toBe(true);
+    const lotin = merged.brands.find((b) => b.brand_id === "LOTIN");
+    expect(lotin?.owner_email).toBeUndefined();
+    expect(lotin?.asset_drive_folder_id).toBe("fixture-lotin-root");
+  });
+
+  it("lets MOS_REGISTRY_LOCAL_JSON win over per-brand convenience vars", () => {
+    const base = loadBrandRegistry({ forceReload: true });
+    const merged = applyRegistryEnvOverlay(base, {
+      MOS_OWNER_EMAIL_VILLA_GLORY: "convenience@example.test",
+      MOS_DRIVE_FOLDER_ID_VILLA_GLORY: "convenience-folder",
+      MOS_REGISTRY_LOCAL_JSON: JSON.stringify({
+        brands: [
+          {
+            brand_id: "VILLA_GLORY",
+            owner_email: "json-overlay@example.test",
+            owner_cc: ["json-cc@example.test"],
+            asset_drive_folder_id: "json-folder",
+            asset_drive_folder_url:
+              "https://drive.google.com/drive/folders/json-folder",
+          },
+        ],
+      }),
+    });
+    const villa = merged.brands.find((b) => b.brand_id === "VILLA_GLORY");
+    expect(villa?.owner_email).toBe("json-overlay@example.test");
+    expect(villa?.owner_cc).toEqual(["json-cc@example.test"]);
+    expect(villa?.asset_drive_folder_id).toBe("json-folder");
+  });
+
+  it("applies MOS_REGISTRY_LOCAL_JSON when loading the registry (Railway path)", () => {
+    process.env.MOS_REGISTRY_LOCAL_JSON = JSON.stringify({
+      brands: [
+        {
+          brand_id: "VILLA_GLORY",
+          owner_email: "villa-glory-railway@example.test",
+          owner_cc: ["villa-glory-railway-cc@example.test"],
+          asset_drive_folder_id: "railway-folder",
+          asset_drive_folder_url:
+            "https://drive.google.com/drive/folders/railway-folder",
+        },
+      ],
+    });
+    const villa = loadBrandRegistry({ forceReload: true }).brands.find(
+      (b) => b.brand_id === "VILLA_GLORY",
+    );
+    expect(villa?.owner_email).toBe("villa-glory-railway@example.test");
+    expect(villa?.owner_cc).toEqual(["villa-glory-railway-cc@example.test"]);
+    expect(villa?.asset_drive_folder_id).toBe("railway-folder");
+    expect(villa?.asset_drive_folder_url).toContain("railway-folder");
+  });
+
+  it("lets env overlay win over REGISTRY.local.json", () => {
+    const root = mkdtempSync(join(tmpdir(), "mos-reg-env-"));
+    temps.push(root);
+    cpSync(join(REPO, "brands"), root, { recursive: true });
+    writeFileSync(
+      join(root, "_shared", "REGISTRY.local.json"),
+      JSON.stringify({
+        brands: [
+          {
+            brand_id: "VILLA_GLORY",
+            owner_email: "file-overlay@example.test",
+            asset_drive_folder_id: "file-only-id",
+          },
+        ],
+      }),
+    );
+    process.env.MOS_OWNER_EMAIL_VILLA_GLORY = "env-wins@example.test";
+    process.env.MOS_DRIVE_FOLDER_ID_VILLA_GLORY = "env-wins-folder";
+    const villa = loadBrandRegistry({
+      brandsRoot: root,
+      forceReload: true,
+    }).brands.find((b) => b.brand_id === "VILLA_GLORY");
+    expect(villa?.owner_email).toBe("env-wins@example.test");
+    expect(villa?.asset_drive_folder_id).toBe("env-wins-folder");
+  });
+
+  it("rejects invalid MOS_REGISTRY_LOCAL_JSON", () => {
+    expect(() =>
+      applyRegistryEnvOverlay(loadBrandRegistry({ forceReload: true }), {
+        MOS_REGISTRY_LOCAL_JSON: "{not-json",
+      }),
+    ).toThrow(/MOS_REGISTRY_LOCAL_JSON is not valid JSON/);
   });
 });
