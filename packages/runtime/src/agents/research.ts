@@ -131,8 +131,6 @@ export function runResearchIntelligence(
     },
   ];
 
-  void forbidden;
-
   return AgentResultSchema.parse({
     task_id: task.task_id,
     brand_id: task.brand_id,

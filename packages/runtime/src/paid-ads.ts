@@ -469,9 +469,11 @@ export function attemptLiveAdLaunch(
   if (!isLiveAdsOperatorFlagOn()) {
     reasons.push("MOS_LIVE_ADS operator flag is false");
   }
-  if (!level3) {
-    reasons.push("Level 3 APPROVED approval row is required for live fire");
-  }
+  reasons.push(
+    level3
+      ? "Level 3 approval is present but live fire remains unimplemented"
+      : "Level 3 APPROVED approval row is required for live fire",
+  );
   reasons.push("Meta/Google Ads live adapter is not implemented");
 
   const message = `Live ad ${action.toLowerCase()} is blocked. ${reasons.join("; ")}. No ad network call.`;
