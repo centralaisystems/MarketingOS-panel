@@ -9,5 +9,5 @@
   ],
   "live_publish_allowed": false,
   "live_ads_allowed": false,
-  "notes": "Waves 1–4b enabled: registry, draft content factory, ops data plane + thin operator panel, read-only analytics/assets + AI search visibility, Drive folder-contract ingest (fixture default). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval."
+  "notes": "Waves 1–4b enabled: registry, draft content factory, ops data plane + thin operator panel, read-only analytics/assets + AI search visibility, Drive folder-contract ingest + Figma arrange (fixture default). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval."
 }

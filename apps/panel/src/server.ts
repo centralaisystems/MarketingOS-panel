@@ -2,6 +2,7 @@
  * Thin dedicated Marketing OS operator panel (Wave 3–4b + owner review).
  * Own app/URL — not embedded in NOX TECH admin.
  * Wave 4 analytics/assets are read-only. Wave 4b Drive ingest is metadata-only.
+ * Figma arrange is fixture-first (optional live Figma behind env). Higgsfield/video later.
  * Owner review emails default to dry-run outbox. Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -12,6 +13,8 @@ import {
   createAssetCatalog,
   createDriveAssetSource,
   createEmailAdapter,
+  createFigmaArrangeAdapter,
+  createFigmaArrangeJobStore,
   createOpsStore,
   handlePanelApi,
   type PanelApiContext,
@@ -32,11 +35,18 @@ const assets = createAssetCatalog({
 });
 
 const drive = createDriveAssetSource();
+const figma = createFigmaArrangeAdapter();
+const figmaJobs = createFigmaArrangeJobStore({
+  backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
+  dir: process.env.MOS_FIGMA_DIR ?? join(process.cwd(), "data", "figma"),
+});
 
 const ctx: PanelApiContext = {
   store,
   assets,
   drive,
+  figma,
+  figmaJobs,
   email: createEmailAdapter(),
   panelBaseUrl: process.env.MOS_PANEL_BASE_URL ?? `http://127.0.0.1:${PORT}`,
   writeReport: process.env.MOS_PANEL_WRITE_REPORT !== "false",
@@ -107,6 +117,6 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
   console.log(
-    "Wave 4b Drive ingest is fixture/read-only. Owner review emails default to dry-run. Live publish/ads remain blocked.",
+    "Wave 4b Drive ingest + Figma arrange are fixture-first. Owner review emails default to dry-run. Live publish/ads remain blocked.",
   );
 });

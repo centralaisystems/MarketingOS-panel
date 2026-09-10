@@ -41,6 +41,9 @@ export const PackReviewFieldsSchema = z.object({
   has_paid_recommendations: z.boolean(),
   live_publish: z.literal(false).default(false),
   live_ads: z.literal(false).default(false),
+  /** Optional Figma-arrange outputs for later owner review. Empty until a job exists. */
+  arranged_asset_ids: z.array(z.string().uuid()).default([]),
+  figma_job_ids: z.array(z.string().uuid()).default([]),
 });
 export type PackReviewFields = z.infer<typeof PackReviewFieldsSchema>;
 
@@ -85,6 +88,8 @@ export const OwnerReviewRequestSchema = z.object({
   status: OwnerReviewStatusSchema,
   review_url: z.string().url(),
   template: EmailTemplateKindSchema.default("MATERIALS_READY"),
+  arranged_asset_ids: z.array(z.string().uuid()).default([]),
+  figma_job_ids: z.array(z.string().uuid()).default([]),
   created_at: z.string().datetime(),
   decided_at: z.string().datetime().optional(),
 });

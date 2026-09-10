@@ -39,6 +39,11 @@ data/assets/*.json
 data/assets/*.tmp
 !data/assets/.gitkeep
 
+# Wave 4b Figma arrange jobs (pointers only)
+data/figma/*.json
+data/figma/*.tmp
+!data/figma/.gitkeep
+
 # Generated onboarding reports (optional local)
 # reports/ is committed for Phase 2 gap snapshot — keep JSON only
 
