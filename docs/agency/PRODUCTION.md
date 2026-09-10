@@ -84,14 +84,16 @@ Pass `.env.local` as `--env-file` if you attach Supabase or Resend. Do not bake 
 
 Any host that runs `pnpm start` and injects `PORT` works (Fly, Railway, a VM). Vercel serverless is not the intended target for this HTTP server.
 
-## Villa Glory Drive folder (no secrets in git)
+## Drive folders (no secrets in git)
 
-Committed registry keeps the **fixture** folder id (`fixture-villa-glory-root`). Attach a real folder without committing tokens:
+Committed registry keeps **fixture** folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`). Attach a real folder without committing tokens:
 
 1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored via `*.local.json`).
-2. Set `asset_drive_folder_url` / `asset_drive_folder_id` for `VILLA_GLORY` only.
-3. Or set `MOS_DRIVE_FOLDER_URL_VILLA_GLORY` / `MOS_DRIVE_FOLDER_ID_VILLA_GLORY` in `.env.local`.
+2. Set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand you are attaching.
+3. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local`.
 4. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
+
+LOTIN owner email / automation stay off in git. The example overlay shows `@example.test` flags for local digest dry-run only.
 
 The folder must contain `brand-kit/`, `approved-stills/`, `approved-video/`, `raw-inbox/`, `generated/`. See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
 

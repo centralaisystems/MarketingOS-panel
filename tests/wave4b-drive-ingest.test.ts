@@ -17,6 +17,8 @@ import {
   parseDriveFolderId,
   syncBrandAssets,
   validateDriveFolderContract,
+  LOTIN_FIXTURE_DRIVE_FOLDER_ID,
+  LOTIN_FIXTURE_DRIVE_TREE,
   VILLA_GLORY_FIXTURE_DRIVE_FOLDER_ID,
   VILLA_GLORY_FIXTURE_DRIVE_TREE,
   type DriveFixtureTree,
@@ -155,9 +157,17 @@ describe("Wave 4b Villa Glory fixture ingest", () => {
       catalog,
       source: createDriveAssetSource({ mode: "fixture" }),
     });
-    expect(lotin.configured).toBe(false);
-    expect(lotin.ingested).toBe(0);
-    expect(catalog.listMetadata("LOTIN")).toEqual([]);
+    expect(lotin.configured).toBe(true);
+    expect(lotin.ingested).toBe(LOTIN_FIXTURE_DRIVE_TREE.files.length);
+    expect(catalog.listMetadata("LOTIN", { source: "drive" })).toHaveLength(
+      LOTIN_FIXTURE_DRIVE_TREE.files.length,
+    );
+    expect(
+      catalog.listMetadata("LOTIN").every((row) => row.brand_id === "LOTIN"),
+    ).toBe(true);
+    expect(
+      catalog.getMetadata("VILLA_GLORY", driveAssetId("LOTIN", "lotin-still-office")),
+    ).toBeNull();
     expect(catalog.listMetadata("VILLA_GLORY", { source: "drive" })).toHaveLength(6);
   });
 
@@ -197,6 +207,70 @@ describe("Wave 4b Villa Glory fixture ingest", () => {
         "https://drive.google.com/drive/folders/fixture-villa-glory-root",
     });
     expect(entry.asset_drive_folder_id).toBe(VILLA_GLORY_FIXTURE_DRIVE_FOLDER_ID);
+
+    const lotin = BrandRegistryEntrySchema.parse({
+      brand_id: "LOTIN",
+      slug: "lotin",
+      display_name: "LOTIN",
+      asset_drive_folder_id: LOTIN_FIXTURE_DRIVE_FOLDER_ID,
+      asset_drive_folder_url: "https://drive.google.com/drive/folders/fixture-lotin-root",
+    });
+    expect(lotin.asset_drive_folder_id).toBe(LOTIN_FIXTURE_DRIVE_FOLDER_ID);
+    expect(lotin.automation_enabled).toBe(false);
+    expect(lotin.owner_email_enabled).toBe(false);
+  });
+});
+
+describe("Wave 4b LOTIN fixture ingest", () => {
+  it("ingests the LOTIN fixture tree with folder roles and provenance", async () => {
+    const catalog = new MemoryAssetCatalog();
+    const result = await syncBrandAssets({
+      brand_id: "LOTIN",
+      catalog,
+      source: createDriveAssetSource({ mode: "fixture" }),
+    });
+    expect(result.configured).toBe(true);
+    expect(result.read_only).toBe(true);
+    expect(result.source).toBe("fixture");
+    expect(result.contract.valid).toBe(true);
+    expect(result.folder_id).toBe(LOTIN_FIXTURE_DRIVE_FOLDER_ID);
+    expect(result.ingested).toBe(LOTIN_FIXTURE_DRIVE_TREE.files.length);
+    expect(result.skipped).toBe(0);
+    expect(result.live_publish).toBe(false);
+    expect(result.live_ads).toBe(false);
+    expect(result.stores_binaries_in_git).toBe(false);
+    DriveAssetSyncResultSchema.parse(result);
+
+    const rows = catalog.listMetadata("LOTIN", { source: "drive" });
+    expect(rows).toHaveLength(6);
+    expect(rows.every((r) => r.brand_id === "LOTIN")).toBe(true);
+    expect(rows.every((r) => r.in_git === false)).toBe(true);
+    expect(rows.every((r) => r.knowledge_status === "UNVERIFIED")).toBe(true);
+    expect(rows.every((r) => r.source === "drive")).toBe(true);
+    expect(rows.every((r) => r.storage_uri.startsWith("mos://drive/LOTIN/"))).toBe(
+      true,
+    );
+
+    const stills = rows.filter((r) => r.folder_role === "approved-stills");
+    expect(stills).toHaveLength(2);
+    expect(stills.every((r) => r.approval_status === "APPROVED")).toBe(true);
+    expect(stills.every((r) => r.kind === "IMAGE")).toBe(true);
+
+    const video = rows.find((r) => r.folder_role === "approved-video");
+    expect(video?.approval_status).toBe("APPROVED");
+    expect(video?.kind).toBe("VIDEO");
+
+    const inbox = rows.find((r) => r.folder_role === "raw-inbox");
+    expect(inbox?.approval_status).toBe("DRAFT");
+    expect(inbox?.drive_path).toBe("raw-inbox/photographer-drop-unreviewed.jpg");
+    expect(inbox?.drive_file_id).toBe("lotin-inbox-drop");
+    expect(inbox?.asset_id).toBe(driveAssetId("LOTIN", "lotin-inbox-drop"));
+
+    const kit = rows.filter((r) => r.folder_role === "brand-kit");
+    expect(kit).toHaveLength(2);
+    expect(kit.every((r) => r.approval_status === "DRAFT")).toBe(true);
+    expect(rows.some((r) => r.folder_role === "generated")).toBe(false);
+    expect(catalog.listMetadata("VILLA_GLORY")).toEqual([]);
   });
 });
 
@@ -233,6 +307,23 @@ describe("Wave 4b panel Drive sync", () => {
       query: { brand_id: "LOTIN", source: "drive" },
     });
     expect((lotinDrive.body as { assets: unknown[] }).assets).toEqual([]);
+
+    const lotinSync = await api(ctx, "POST", "/api/drive-sync", {
+      body: { brand_id: "LOTIN" },
+    });
+    expect(lotinSync.status).toBe(200);
+    expect((lotinSync.body as { ingested: number }).ingested).toBe(6);
+    const lotinAfter = await api(ctx, "GET", "/api/assets", {
+      query: { brand_id: "LOTIN", source: "drive" },
+    });
+    const lotinDriveRows = (
+      lotinAfter.body as { assets: Array<{ brand_id: string; asset_id: string }> }
+    ).assets;
+    expect(lotinDriveRows).toHaveLength(6);
+    expect(lotinDriveRows.every((a) => a.brand_id === "LOTIN")).toBe(true);
+    expect(
+      lotinDriveRows.some((a) => a.asset_id === driveAssetId("VILLA_GLORY", "vg-still-living-a")),
+    ).toBe(false);
 
     const lotinAll = await api(ctx, "GET", "/api/assets", {
       query: { brand_id: "LOTIN" },

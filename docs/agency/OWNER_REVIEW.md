@@ -2,7 +2,7 @@
 
 Brand owners review campaign-pack materials and request changes with a note. The system sends **templated** emails only — no freestyle agent mail.
 
-Villa Glory is first (fixture `owner_email` on the registry). Other brands opt in per entry.
+Villa Glory is first (fixture `owner_email` on the registry). LOTIN stays off in the committed registry so dry-run mail cannot target a real inbox — opt in with a gitignored `REGISTRY.local.json` overlay using `@example.test` (see [`ADD_BRAND.md`](./ADD_BRAND.md)). Other brands opt in per entry.
 
 ## Registry (opt-in, brand-scoped)
 
