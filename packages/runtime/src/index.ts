@@ -41,6 +41,10 @@ export * from "./fixtures/wave4-assets.js";
 export * from "./fixtures/wave4b-drive.js";
 export * from "./drive-source.js";
 export * from "./drive-ingest.js";
+export * from "./fixtures/figma-arrange.js";
+export * from "./figma-adapter.js";
+export * from "./figma-jobs.js";
+export * from "./figma-arrange.js";
 export * from "./email-adapter.js";
 export * from "./owner-review.js";
 

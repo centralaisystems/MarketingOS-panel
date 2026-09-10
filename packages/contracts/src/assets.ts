@@ -37,8 +37,12 @@ export const REQUIRED_DRIVE_FOLDER_ROLES: readonly DriveFolderRole[] = [
   "generated",
 ];
 
-export const AssetSourceSchema = z.enum(["catalog", "drive"]);
+export const AssetSourceSchema = z.enum(["catalog", "drive", "figma"]);
 export type AssetSource = z.infer<typeof AssetSourceSchema>;
+
+/** How the catalog row was produced. GENERATED stays UNVERIFIED until approved. */
+export const AssetProvenanceSchema = z.enum(["CATALOG", "INGESTED", "GENERATED"]);
+export type AssetProvenance = z.infer<typeof AssetProvenanceSchema>;
 
 const EXTERNAL_STORAGE_URI =
   /^(mos|s3|gs|https):\/\//i;
@@ -74,6 +78,7 @@ export const AssetRecordSchema = z.object({
   platform_suitability: z.array(z.string().min(1)).default([]),
   approval_status: AssetApprovalStatusSchema,
   knowledge_status: KnowledgeStatusSchema.default("UNVERIFIED"),
+  provenance: AssetProvenanceSchema.optional(),
   source: AssetSourceSchema.optional(),
   folder_role: DriveFolderRoleSchema.optional(),
   drive_file_id: z.string().min(1).optional(),

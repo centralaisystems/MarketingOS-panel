@@ -30,7 +30,10 @@ import {
   type DriveAssetSource,
 } from "./drive-source.js";
 import { readDriveSyncStatus, syncBrandAssets } from "./drive-ingest.js";
-import { DriveFolderRoleSchema, type EmailTemplateKind } from "@marketing-os/contracts";
+import {
+  DriveFolderRoleSchema,
+  type EmailTemplateKind,
+} from "@marketing-os/contracts";
 import {
   resolveEmailMode,
   type EmailAdapter,
@@ -44,6 +47,21 @@ import {
   requestOwnerReview,
   sendOwnerProgressEmail,
 } from "./owner-review.js";
+import {
+  createFigmaArrangeAdapter,
+  FigmaCredentialsMissingError,
+  FigmaLiveFileMissingError,
+  type FigmaArrangeAdapter,
+} from "./figma-adapter.js";
+import {
+  createFigmaArrangeJobStore,
+  type FigmaArrangeJobStore,
+} from "./figma-jobs.js";
+import {
+  arrangeInFigma,
+  FigmaArrangeInputError,
+  listFigmaArrangeJobs,
+} from "./figma-arrange.js";
 
 export type PanelRequest = {
   method: string;
@@ -66,6 +84,8 @@ export type PanelApiContext = {
   reportRoot?: string;
   email?: EmailAdapter;
   panelBaseUrl?: string;
+  figma?: FigmaArrangeAdapter;
+  figmaJobs?: FigmaArrangeJobStore;
 };
 
 const UUID_RE =
@@ -205,6 +225,16 @@ export async function handlePanelApi(
     if (method === "POST" && path === "/api/drive-sync") {
       return await postDriveSync(req, ctx);
     }
+    if (method === "GET" && path === "/api/figma-arrange") {
+      return getFigmaArrange(req, ctx);
+    }
+    const figmaJobMatch = path.match(new RegExp(`^/api/figma-arrange/(${UUID_RE})$`));
+    if (method === "GET" && figmaJobMatch?.[1]) {
+      return getFigmaArrangeJob(req, ctx, figmaJobMatch[1]);
+    }
+    if (method === "POST" && path === "/api/figma-arrange") {
+      return await postFigmaArrange(req, ctx);
+    }
     if (method === "GET" && path === "/api/owner-reviews") {
       return listOwnerReviews(req, ctx);
     }
@@ -318,6 +348,83 @@ async function postDriveSync(req: PanelRequest, ctx: PanelApiContext): Promise<P
   return { status: 200, body: result };
 }
 
+function requireFigma(ctx: PanelApiContext): FigmaArrangeAdapter {
+  if (!ctx.figma) {
+    ctx.figma = createFigmaArrangeAdapter();
+  }
+  return ctx.figma;
+}
+
+function requireFigmaJobs(ctx: PanelApiContext): FigmaArrangeJobStore {
+  if (!ctx.figmaJobs) {
+    ctx.figmaJobs = createFigmaArrangeJobStore({ backend: "memory" });
+  }
+  return ctx.figmaJobs;
+}
+
+function getFigmaArrange(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const list = listFigmaArrangeJobs({
+    brand_id,
+    catalog: requireAssets(ctx),
+    jobs: requireFigmaJobs(ctx),
+    adapter: requireFigma(ctx),
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return { status: 200, body: list };
+}
+
+function getFigmaArrangeJob(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  job_id: string,
+): PanelResponse {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const job = requireFigmaJobs(ctx).get(brand_id, job_id);
+  if (!job) {
+    return jsonError(404, "figma arrange job not found", { brand_id, job_id });
+  }
+  return { status: 200, body: job };
+}
+
+async function postFigmaArrange(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): Promise<PanelResponse> {
+  assertWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const body = asRecord(req.body);
+  const rawIds = body.source_asset_ids;
+  const source_asset_ids = Array.isArray(rawIds)
+    ? rawIds.filter((id): id is string => typeof id === "string" && id.trim().length > 0)
+    : [];
+  const campaign_id =
+    typeof body.campaign_id === "string" && body.campaign_id.trim()
+      ? body.campaign_id.trim()
+      : undefined;
+  const job = await arrangeInFigma({
+    brand_id,
+    source_asset_ids,
+    layout_brief: body.layout_brief ?? body.brief,
+    ...(campaign_id ? { campaign_id } : {}),
+    catalog: requireAssets(ctx),
+    jobs: requireFigmaJobs(ctx),
+    adapter: requireFigma(ctx),
+    store: ctx.store,
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return {
+    status: 200,
+    body: {
+      ...job,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
 function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
   assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
   const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
@@ -350,7 +457,7 @@ function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
     if (parsed.success) filter.folder_role = parsed.data;
   }
   const source = req.searchParams.get("source");
-  if (source === "catalog" || source === "drive") {
+  if (source === "catalog" || source === "drive" || source === "figma") {
     filter.source = source;
   }
   const assets = catalog.listMetadata(brand_id, filter);
@@ -411,6 +518,12 @@ function mapError(e: unknown): PanelResponse {
   }
   if (e instanceof GoogleDriveCredentialsMissingError) {
     return jsonError(403, e.message, { source: "google_drive" });
+  }
+  if (e instanceof FigmaCredentialsMissingError || e instanceof FigmaLiveFileMissingError) {
+    return jsonError(403, e.message, { source: "figma_api" });
+  }
+  if (e instanceof FigmaArrangeInputError) {
+    return jsonError(400, e.message);
   }
   if (e instanceof OwnerEmailDisabledError || e instanceof OwnerEmailMissingError) {
     return jsonError(403, e.message, {
@@ -669,6 +782,7 @@ function reviewRuntime(ctx: PanelApiContext) {
     ...(ctx.email ? { email: ctx.email } : {}),
     ...brandsRootOpt(ctx.brandsRoot),
     ...(ctx.panelBaseUrl ? { panelBaseUrl: ctx.panelBaseUrl } : {}),
+    ...(ctx.figmaJobs ? { figmaJobs: ctx.figmaJobs } : {}),
   };
 }
 
@@ -771,7 +885,10 @@ function getPublicOwnerReview(req: PanelRequest, ctx: PanelApiContext): PanelRes
   if (!token.trim()) {
     return jsonError(400, "token required");
   }
-  const view = publicOwnerReviewView(ctx.store, token, brandsRootOpt(ctx.brandsRoot));
+  const view = publicOwnerReviewView(ctx.store, token, {
+    ...brandsRootOpt(ctx.brandsRoot),
+    ...(ctx.figmaJobs ? { figmaJobs: ctx.figmaJobs } : {}),
+  });
   return { status: 200, body: view };
 }
 

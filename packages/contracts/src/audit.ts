@@ -33,6 +33,8 @@ export const AuditEventSchema = z.object({
     "EMAIL_BLOCKED",
     "OWNER_REVIEW_REQUESTED",
     "OWNER_REVIEW_DECISION",
+    "FIGMA_ARRANGE_REQUESTED",
+    "FIGMA_ARRANGE_COMPLETED",
     "ERROR",
   ]),
   message: z.string().min(1),

@@ -6,6 +6,7 @@ import {
   AnalyticsSnapshotSchema,
   ApprovalDecisionSchema,
   AssetRecordSchema,
+  FigmaArrangeJobSchema,
   BrandIdSchema,
   BrandRegistryEntrySchema,
   EvidenceSchema,
@@ -240,5 +241,38 @@ describe("contracts", () => {
         summary: "bad",
       }),
     ).toThrow();
+  });
+
+  it("validates a Figma arrange job as GENERATED / UNVERIFIED / not live", () => {
+    const now = new Date().toISOString();
+    const job = FigmaArrangeJobSchema.parse({
+      job_id: randomUUID(),
+      brand_id: "VILLA_GLORY",
+      source_asset_ids: [randomUUID()],
+      layout_brief: {
+        title: "Arrange approved stills",
+        description: "Instagram grid. No commercial claims.",
+      },
+      status: "READY_FOR_OWNER_REVIEW",
+      source: "fixture",
+      output: {
+        file_key: "fixture-villa-glory-arrange",
+        file_url: "https://www.figma.com/design/fixture-villa-glory-arrange/Villa-Glory-Arrange",
+        node_id: "1:10",
+        node_url:
+          "https://www.figma.com/design/fixture-villa-glory-arrange/Villa-Glory-Arrange?node-id=1-10",
+        template_id: "villa-glory-instagram-grid",
+      },
+      generated_asset_id: randomUUID(),
+      guardian: { passed: true, reasons: [], reviewed: ["figma-arrange"] },
+      created_at: now,
+      updated_at: now,
+      message: "Arranged",
+    });
+    expect(job.knowledge_status).toBe("UNVERIFIED");
+    expect(job.provenance).toBe("GENERATED");
+    expect(job.approval_status).toBe("DRAFT");
+    expect(job.live_publish).toBe(false);
+    expect(job.live_ads).toBe(false);
   });
 });

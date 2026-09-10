@@ -30,6 +30,8 @@ import {
   createEmailAdapter,
   type EmailAdapter,
 } from "./email-adapter.js";
+import { arrangedMaterialsForCampaign } from "./figma-arrange.js";
+import type { FigmaArrangeJobStore } from "./figma-jobs.js";
 
 export class OwnerEmailDisabledError extends Error {
   readonly code = "OWNER_EMAIL_DISABLED" as const;
@@ -64,6 +66,7 @@ export type OwnerReviewRuntimeOpts = {
   email?: EmailAdapter;
   brandsRoot?: string;
   panelBaseUrl?: string;
+  figmaJobs?: FigmaArrangeJobStore;
 };
 
 function panelBase(url?: string): string {
@@ -73,7 +76,10 @@ function panelBase(url?: string): string {
   );
 }
 
-export function packReviewFields(pack: CampaignPack): PackReviewFields {
+export function packReviewFields(
+  pack: CampaignPack,
+  extras?: { arranged_asset_ids?: string[]; figma_job_ids?: string[] },
+): PackReviewFields {
   return PackReviewFieldsSchema.parse({
     pack_id: pack.pack_id,
     brand_id: pack.brand_id,
@@ -91,6 +97,8 @@ export function packReviewFields(pack: CampaignPack): PackReviewFields {
     has_paid_recommendations: pack.paid_recommendations !== undefined,
     live_publish: false,
     live_ads: false,
+    arranged_asset_ids: extras?.arranged_asset_ids ?? [],
+    figma_job_ids: extras?.figma_job_ids ?? [],
   });
 }
 
@@ -179,6 +187,10 @@ function renderMaterialsReady(input: {
   fields: PackReviewFields;
   review_url: string;
 }): { subject: string; text_body: string; html_body: string } {
+  const arranged =
+    input.fields.arranged_asset_ids.length > 0
+      ? `Arranged Figma assets: ${input.fields.arranged_asset_ids.length} (GENERATED / UNVERIFIED — not a commercial claim)`
+      : "Arranged Figma assets: none yet";
   const subject = `[${input.display_name}] Materials ready for review — not live`;
   const lines = [
     `${input.display_name} materials are ready for owner review.`,
@@ -193,6 +205,7 @@ function renderMaterialsReady(input: {
     `Video briefs: ${input.fields.video_brief_count}`,
     `Social calendar: ${input.fields.has_social_calendar ? "yes" : "no"}`,
     `Paid recommendations present: ${input.fields.has_paid_recommendations ? "yes" : "no"} (not live spend)`,
+    arranged,
     "Live publish: OFF",
     "Live ads: OFF — Wave 6 is not unlocked. This is not live spend.",
     "",
@@ -211,6 +224,7 @@ function renderMaterialsReady(input: {
 <li>Approval cap: ${escapeHtml(input.fields.approval_level_cap)}</li>
 <li>Content drafts: ${input.fields.content_draft_count}</li>
 <li>Creative briefs: ${input.fields.creative_brief_count}</li>
+<li>${escapeHtml(arranged)}</li>
 <li>Live publish: OFF</li>
 <li>Live ads: OFF — Wave 6 is not unlocked. This is not live spend.</li>
 </ul>
@@ -382,7 +396,12 @@ export async function requestOwnerReview(
       status: 400,
     });
   }
-  const fields = packReviewFields(campaign.pack);
+  const arranged = arrangedMaterialsForCampaign(
+    opts.figmaJobs,
+    brand_id,
+    campaign.campaign_id,
+  );
+  const fields = packReviewFields(campaign.pack, arranged);
   const token = randomBytes(32).toString("hex");
   const review_id = randomUUID();
   const review_url = `${panelBase(opts.panelBaseUrl)}/owner-review?token=${token}`;
@@ -400,6 +419,8 @@ export async function requestOwnerReview(
     status: "PENDING",
     review_url,
     template: "MATERIALS_READY",
+    arranged_asset_ids: arranged.arranged_asset_ids,
+    figma_job_ids: arranged.figma_job_ids,
     created_at: now,
   });
   opts.store.insertOwnerReview(brand_id, review);
@@ -512,7 +533,7 @@ export function getOwnerReviewByToken(
 export function publicOwnerReviewView(
   store: OpsStore,
   token: string,
-  opts?: { brandsRoot?: string },
+  opts?: { brandsRoot?: string; figmaJobs?: FigmaArrangeJobStore },
 ): {
   review_id: string;
   brand_id: BrandId;
@@ -530,12 +551,24 @@ export function publicOwnerReviewView(
   if (!campaign) {
     throw new OwnerReviewNotFoundError();
   }
+  const arranged = arrangedMaterialsForCampaign(
+    opts?.figmaJobs,
+    review.brand_id,
+    review.campaign_id,
+  );
   return {
     review_id: review.review_id,
     brand_id: review.brand_id,
     display_name: displayNameForBrandId(review.brand_id, brandsRootOpt(opts?.brandsRoot)),
     status: review.status,
-    pack: packReviewFields(campaign.pack),
+    pack: packReviewFields(campaign.pack, {
+      arranged_asset_ids:
+        arranged.arranged_asset_ids.length
+          ? arranged.arranged_asset_ids
+          : review.arranged_asset_ids,
+      figma_job_ids:
+        arranged.figma_job_ids.length ? arranged.figma_job_ids : review.figma_job_ids,
+    }),
     live_publish: false,
     live_ads: false,
   };

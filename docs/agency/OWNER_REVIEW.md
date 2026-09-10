@@ -25,7 +25,7 @@ pnpm create-brand -- --id ACME --slug acme --name "Acme Co" \
 2. **PROGRESS_DIGEST** — dry-run safe counts (drafts, pending approvals, pending owner reviews).
 3. **ADS_PROGRESS_STUB** — placeholder only. Wave 6 is not unlocked. No Meta/Google live data. Clearly **not live spend**.
 
-Copy pulls pack/approval/digest fields only. It never invents `VERIFIED` commercial claims and does not attach binaries.
+Copy pulls pack/approval/digest fields only. It never invents `VERIFIED` commercial claims and does not attach binaries. When Figma arrange jobs exist for the campaign, the review payload includes `arranged_asset_ids` / `figma_job_ids` (GENERATED / UNVERIFIED pointers) so the owner page can deep-link later. Existing approve / request-changes behavior is unchanged.
 
 ## Modes
 

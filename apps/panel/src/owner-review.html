@@ -132,6 +132,11 @@
           "<li>Approvable: " + (pack.approvable ? "yes" : "no") + "</li>" +
           "<li>Content drafts: " + String(pack.content_draft_count ?? 0) + "</li>" +
           "<li>Creative briefs: " + String(pack.creative_brief_count ?? 0) + "</li>" +
+          "<li>Arranged Figma assets: " + String((pack.arranged_asset_ids || []).length) +
+          " (GENERATED / UNVERIFIED)</li>" +
+          ((pack.arranged_asset_ids || []).length
+            ? "<li>Asset ids: " + escapeHtml((pack.arranged_asset_ids || []).join(", ")) + "</li>"
+            : "") +
           "<li>Live publish: OFF</li>" +
           "<li>Live ads: OFF — not live spend</li>" +
           "</ul>" +
