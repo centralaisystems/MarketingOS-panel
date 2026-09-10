@@ -1710,6 +1710,7 @@ async function postDigest(
     return {
       status: 403,
       body: {
+        ...result,
         error: result.blocked_reason ?? "DIGEST_BLOCKED",
         message:
           result.blocked_reason === "AUTOMATION_DISABLED"
@@ -1717,8 +1718,6 @@ async function postDigest(
             : result.blocked_reason === "OWNER_EMAIL_DISABLED"
               ? `Owner email is disabled for ${brand_id}. Digests respect owner_email_enabled.`
               : `owner_email is not set for ${brand_id}.`,
-        brand_id,
-        ...result,
       },
     };
   }
