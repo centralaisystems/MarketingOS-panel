@@ -420,7 +420,7 @@ function produceAgentResult(
     ],
     confidence: "LOW",
     recommended_next_action:
-      "Send the export package for owner review after Guardian pass. Keep internal only. Do not publish.",
+      "Send the export package for owner review after Guardian pass. Keep internal only.",
     recommended_approval_level: "LEVEL_1",
     missing_information: captions.length ? [] : ["voice.tone or positioning.positioning_statement VERIFIED"],
     capabilities_used: ["PRODUCE_CREATIVE_BRIEF"],
@@ -570,7 +570,7 @@ export async function produceVideoPackage(input: {
     brand_id,
     source_asset_ids: input.source_asset_ids ?? [],
     generated_asset_ids: input.generated_asset_ids ?? [],
-    higgsfieldJobs: input.higgsfieldJobs,
+    ...(input.higgsfieldJobs ? { higgsfieldJobs: input.higgsfieldJobs } : {}),
   });
   const { clips, asset_list } = buildTimeline(approved, generated, brief.target_format);
   const captions = buildVerifiedVideoCaptions({
