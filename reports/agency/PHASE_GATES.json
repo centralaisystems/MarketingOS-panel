@@ -5,9 +5,10 @@
     "WAVE_2_CONTENT_FACTORY",
     "WAVE_3_DB_PANEL",
     "WAVE_4_ANALYTICS_ASSETS",
-    "WAVE_4B_ASSET_PIPELINE"
+    "WAVE_4B_ASSET_PIPELINE",
+    "WAVE_5_SOCIAL_PUBLISH"
   ],
   "live_publish_allowed": false,
   "live_ads_allowed": false,
-  "notes": "Waves 1–4b enabled: registry, draft content factory, ops data plane + thin operator panel, read-only analytics/assets + AI search visibility, Drive folder-contract ingest + Figma arrange + Higgsfield fill-gaps (fixture default). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval."
+  "notes": "Waves 1–5 enabled: registry, draft content factory, ops data plane + thin operator panel, read-only analytics/assets + AI search visibility, Drive/Figma/Higgsfield/video pipeline (fixture default), Instagram dry-run social publish. live_publish_allowed stays false. Wave 6–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval."
 }

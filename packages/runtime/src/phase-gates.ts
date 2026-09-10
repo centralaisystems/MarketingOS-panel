@@ -15,11 +15,12 @@ const DEFAULT_GATES: PhaseGateState = PhaseGateStateSchema.parse({
     "WAVE_3_DB_PANEL",
     "WAVE_4_ANALYTICS_ASSETS",
     "WAVE_4B_ASSET_PIPELINE",
+    "WAVE_5_SOCIAL_PUBLISH",
   ],
   live_publish_allowed: false,
   live_ads_allowed: false,
   notes:
-    "Waves 1–4b enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive folder-contract ingest + Figma arrange + Higgsfield fill-gaps (fixture). Waves 5–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
+    "Waves 1–5 enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive/Figma/Higgsfield/video pipeline (fixture), Instagram dry-run social publish. live_publish_allowed stays false. Wave 6–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
 });
 
 function gatesPath(brandsRoot?: string): string {
@@ -72,13 +73,23 @@ export function assertWaveEnabled(
   }
 }
 
+/** Explicit operator flag. Defaults false. Never inferred from WAVE_5 alone. */
+export function isLivePublishOperatorFlagOn(): boolean {
+  const raw = (process.env.MOS_LIVE_PUBLISH ?? "false").trim().toLowerCase();
+  return raw === "true" || raw === "1" || raw === "yes";
+}
+
 export function assertLivePublishAllowed(opts?: {
   brandsRoot?: string;
 }): void {
   const g = loadPhaseGates(opts);
-  if (!g.live_publish_allowed || !g.enabled_waves.includes("WAVE_5_SOCIAL_PUBLISH")) {
+  if (
+    !g.live_publish_allowed ||
+    !g.enabled_waves.includes("WAVE_5_SOCIAL_PUBLISH") ||
+    !isLivePublishOperatorFlagOn()
+  ) {
     throw new Error(
-      "Live social publish is blocked. Enable WAVE_5_SOCIAL_PUBLISH and live_publish_allowed after operator approval.",
+      "Live social publish is blocked. Enable WAVE_5_SOCIAL_PUBLISH, live_publish_allowed, and MOS_LIVE_PUBLISH after operator approval.",
     );
   }
 }

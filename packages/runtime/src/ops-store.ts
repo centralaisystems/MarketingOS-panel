@@ -19,6 +19,7 @@ import {
   OwnerReviewDecisionSchema,
   OwnerReviewRequestSchema,
   PHASE1_MAX_EXECUTABLE_LEVEL,
+  SocialPublishOutboxRecordSchema,
   type AgentId,
   type ApprovalLevel,
   type AuditEvent,
@@ -36,6 +37,7 @@ import {
   type OwnerReviewDecision,
   type OwnerReviewRequest,
   type OwnerReviewStatus,
+  type SocialPublishOutboxRecord,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
 import { BrandIsolationError } from "./brand-loader.js";
@@ -130,6 +132,19 @@ export interface OpsStore {
 
   insertOutboxItem(brand_id: BrandId, record: EmailOutboxItem): EmailOutboxItem;
   listOutbox(brand_id: BrandId, opts?: { limit?: number }): EmailOutboxItem[];
+
+  insertSocialOutbox(
+    brand_id: BrandId,
+    record: SocialPublishOutboxRecord,
+  ): SocialPublishOutboxRecord;
+  listSocialOutbox(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): SocialPublishOutboxRecord[];
+  getSocialOutbox(
+    brand_id: BrandId,
+    outbox_id: string,
+  ): SocialPublishOutboxRecord | null;
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -169,6 +184,7 @@ export class MemoryOpsStore implements OpsStore {
   protected ownerReviews: OwnerReviewRequest[] = [];
   protected ownerDecisions: OwnerReviewDecision[] = [];
   protected emailOutbox: EmailOutboxItem[] = [];
+  protected socialOutbox: SocialPublishOutboxRecord[] = [];
 
   insertCampaign(brand_id: BrandId, record: OpsCampaignRecord): OpsCampaignRecord {
     const parsed = OpsCampaignRecordSchema.parse(record);
@@ -438,6 +454,35 @@ export class MemoryOpsStore implements OpsStore {
     );
   }
 
+  insertSocialOutbox(
+    brand_id: BrandId,
+    record: SocialPublishOutboxRecord,
+  ): SocialPublishOutboxRecord {
+    const parsed = SocialPublishOutboxRecordSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.socialOutbox.push(parsed);
+    return parsed;
+  }
+
+  listSocialOutbox(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): SocialPublishOutboxRecord[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(
+      this.socialOutbox.filter((e) => e.brand_id === brand_id),
+    ).slice(0, limit);
+  }
+
+  getSocialOutbox(
+    brand_id: BrandId,
+    outbox_id: string,
+  ): SocialPublishOutboxRecord | null {
+    const found = this.socialOutbox.find((e) => e.outbox_id === outbox_id);
+    if (!found || found.brand_id !== brand_id) return null;
+    return found;
+  }
+
   /** Test helper — never used by panel HTTP. */
   exportSnapshot(): OpsSnapshot {
     return OpsSnapshotSchema.parse({
@@ -449,6 +494,7 @@ export class MemoryOpsStore implements OpsStore {
       owner_reviews: this.ownerReviews,
       owner_decisions: this.ownerDecisions,
       email_outbox: this.emailOutbox,
+      social_outbox: this.socialOutbox,
     });
   }
 }
@@ -478,6 +524,7 @@ export class FileOpsStore extends MemoryOpsStore {
     this.ownerReviews = snap.owner_reviews;
     this.ownerDecisions = snap.owner_decisions;
     this.emailOutbox = snap.email_outbox;
+    this.socialOutbox = snap.social_outbox;
   }
 
   private persist(): void {
@@ -591,6 +638,15 @@ export class FileOpsStore extends MemoryOpsStore {
 
   override insertOutboxItem(brand_id: BrandId, record: EmailOutboxItem): EmailOutboxItem {
     const row = super.insertOutboxItem(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertSocialOutbox(
+    brand_id: BrandId,
+    record: SocialPublishOutboxRecord,
+  ): SocialPublishOutboxRecord {
+    const row = super.insertSocialOutbox(brand_id, record);
     this.persist();
     return row;
   }

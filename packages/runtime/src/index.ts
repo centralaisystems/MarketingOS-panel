@@ -55,4 +55,7 @@ export * from "./video-jobs.js";
 export * from "./video-produce.js";
 export * from "./email-adapter.js";
 export * from "./owner-review.js";
+export * from "./fixtures/wave5-instagram.js";
+export * from "./social-adapter.js";
+export * from "./social-publish.js";
 
