@@ -16,11 +16,12 @@ const DEFAULT_GATES: PhaseGateState = PhaseGateStateSchema.parse({
     "WAVE_4_ANALYTICS_ASSETS",
     "WAVE_4B_ASSET_PIPELINE",
     "WAVE_5_SOCIAL_PUBLISH",
+    "WAVE_6_PAID_ADS",
   ],
   live_publish_allowed: false,
   live_ads_allowed: false,
   notes:
-    "Waves 1–5 enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive/Figma/Higgsfield/video pipeline (fixture), Instagram dry-run social publish. live_publish_allowed stays false. Wave 6–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
+    "Waves 1–6 enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive/Figma/Higgsfield/video pipeline (fixture), Instagram dry-run social publish, Meta/Google paid staging. live_publish_allowed and live_ads_allowed stay false. Wave 7–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
 });
 
 function gatesPath(brandsRoot?: string): string {
@@ -94,11 +95,21 @@ export function assertLivePublishAllowed(opts?: {
   }
 }
 
+/** Explicit operator flag. Defaults false. Never inferred from WAVE_6 alone. */
+export function isLiveAdsOperatorFlagOn(): boolean {
+  const raw = (process.env.MOS_LIVE_ADS ?? "false").trim().toLowerCase();
+  return raw === "true" || raw === "1" || raw === "yes";
+}
+
 export function assertLiveAdsAllowed(opts?: { brandsRoot?: string }): void {
   const g = loadPhaseGates(opts);
-  if (!g.live_ads_allowed || !g.enabled_waves.includes("WAVE_6_PAID_ADS")) {
+  if (
+    !g.live_ads_allowed ||
+    !g.enabled_waves.includes("WAVE_6_PAID_ADS") ||
+    !isLiveAdsOperatorFlagOn()
+  ) {
     throw new Error(
-      "Live ad launch/budget is blocked. Enable WAVE_6_PAID_ADS and live_ads_allowed after operator approval.",
+      "Live ad launch/budget is blocked. Enable WAVE_6_PAID_ADS, live_ads_allowed, and MOS_LIVE_ADS after operator approval.",
     );
   }
 }

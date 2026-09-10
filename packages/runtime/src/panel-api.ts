@@ -1,4 +1,6 @@
 import {
+  type AdPlatform,
+  type AdStagingAction,
   type BrandId,
   type BrandRegistryEntry,
   type PhaseGateState,
@@ -13,6 +15,7 @@ import { runMarketingDirector } from "./agents/director.js";
 import { runBrandOnboarding } from "./onboarding.js";
 import {
   assertWaveEnabled,
+  isLiveAdsOperatorFlagOn,
   isLivePublishOperatorFlagOn,
   isWaveEnabled,
   loadPhaseGates,
@@ -102,6 +105,18 @@ import {
   SocialPublishLiveBlockedError,
 } from "./social-publish.js";
 import { WAVE5_INSTAGRAM_CHANNEL } from "./fixtures/wave5-instagram.js";
+import {
+  attemptLiveAdLaunch,
+  listEligiblePaidRecommendations,
+  stageAdLaunch,
+  stageBudgetMutation,
+  PaidAdsInputError,
+  PaidAdsLiveBlockedError,
+} from "./paid-ads.js";
+import {
+  WAVE6_GOOGLE_PLATFORM,
+  WAVE6_META_PLATFORM,
+} from "./fixtures/wave6-paid-ads.js";
 
 export type PanelRequest = {
   method: string;
@@ -175,11 +190,12 @@ function liveBlockedBody(message?: string) {
     live_publish_allowed: false,
     live_ads_allowed: false,
     live_publish_operator_flag: isLivePublishOperatorFlagOn(),
+    live_ads_operator_flag: isLiveAdsOperatorFlagOn(),
     blocked: true,
     status: "LIVE_BLOCKED",
     message:
       message ??
-      "Live publish and live ads stay OFF. Wave 5 dry-run is available; live fire requires live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval.",
+      "Live publish and live ads stay OFF. Wave 5 Instagram dry-run and Wave 6 paid staging are available; live fire requires the matching live_* flag, operator env flag, and Level 2 (publish) / Level 3 (ads) approval.",
   };
 }
 
@@ -198,17 +214,20 @@ export async function handlePanelApi(
         status: 200,
         body: {
           ok: true,
-          wave: isWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot))
-            ? "WAVE_5_SOCIAL_PUBLISH"
-            : isWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot))
-              ? "WAVE_4B_ASSET_PIPELINE"
-              : isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
-                ? "WAVE_4_ANALYTICS_ASSETS"
-                : "WAVE_3_DB_PANEL",
+          wave: isWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot))
+            ? "WAVE_6_PAID_ADS"
+            : isWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot))
+              ? "WAVE_5_SOCIAL_PUBLISH"
+              : isWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot))
+                ? "WAVE_4B_ASSET_PIPELINE"
+                : isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
+                  ? "WAVE_4_ANALYTICS_ASSETS"
+                  : "WAVE_3_DB_PANEL",
           enabled_waves: gates.enabled_waves,
           live_publish_allowed: gates.live_publish_allowed,
           live_ads_allowed: gates.live_ads_allowed,
           live_publish_operator_flag: isLivePublishOperatorFlagOn(),
+          live_ads_operator_flag: isLiveAdsOperatorFlagOn(),
           email_mode: resolveEmailMode(),
         },
       };
@@ -348,6 +367,21 @@ export async function handlePanelApi(
     if (method === "POST" && path === "/api/publish/dry-run") {
       return postSocialPublishDryRun(req, ctx);
     }
+    if (method === "GET" && path === "/api/ads/recommendations") {
+      return getPaidRecommendations(req, ctx);
+    }
+    if (method === "GET" && path === "/api/ads/outbox") {
+      return listPaidAdOutbox(req, ctx);
+    }
+    if (method === "GET" && path === "/api/ads/jobs") {
+      return listPaidAdJobs(req, ctx);
+    }
+    if (method === "POST" && path === "/api/ads/stage") {
+      return postAdStage(req, ctx, "LAUNCH");
+    }
+    if (method === "POST" && path === "/api/ads/stage-budget") {
+      return postAdStage(req, ctx, "BUDGET_MUTATION");
+    }
     if (
       method === "POST" &&
       (path === "/api/analytics" ||
@@ -362,7 +396,7 @@ export async function handlePanelApi(
       return postLiveSocialPublish(req, ctx);
     }
     if (method === "POST" && (path === "/api/ads/launch" || path === "/api/live-ads")) {
-      return { status: 403, body: liveBlockedBody() };
+      return postLiveAdLaunch(req, ctx);
     }
 
     return jsonError(404, "not found");
@@ -787,6 +821,15 @@ function mapError(e: unknown): PanelResponse {
     return jsonError(400, e.message);
   }
   if (e instanceof SocialPublishLiveBlockedError) {
+    return {
+      status: 403,
+      body: liveBlockedBody(e.message),
+    };
+  }
+  if (e instanceof PaidAdsInputError) {
+    return jsonError(400, e.message);
+  }
+  if (e instanceof PaidAdsLiveBlockedError) {
     return {
       status: 403,
       body: liveBlockedBody(e.message),
@@ -1323,6 +1366,131 @@ function postLiveSocialPublish(req: PanelRequest, ctx: PanelApiContext): PanelRe
     );
   } catch (e) {
     if (e instanceof SocialPublishLiveBlockedError) {
+      return { status: 403, body: liveBlockedBody(e.message) };
+    }
+    throw e;
+  }
+  return { status: 403, body: liveBlockedBody() };
+}
+
+function paidAdsOpts(ctx: PanelApiContext) {
+  return {
+    store: ctx.store,
+    ...brandsRootOpt(ctx.brandsRoot),
+  };
+}
+
+function parseAdPlatform(raw: unknown): AdPlatform {
+  return raw === "GOOGLE" ? "GOOGLE" : "META";
+}
+
+function getPaidRecommendations(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const campaign_id = req.searchParams.get("campaign_id") ?? undefined;
+  const listed = listEligiblePaidRecommendations({
+    ...paidAdsOpts(ctx),
+    brand_id,
+    ...(campaign_id ? { campaign_id } : {}),
+  });
+  return {
+    status: 200,
+    body: {
+      ...listed,
+      fixture_platforms: [WAVE6_META_PLATFORM, WAVE6_GOOGLE_PLATFORM],
+      live_publish: false,
+      live_ads: false,
+      live_ads_allowed: false,
+    },
+  };
+}
+
+function listPaidAdOutbox(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_ads_allowed: false,
+      live_ads: false,
+      items: ctx.store.listAdOutbox(brand_id),
+    },
+  };
+}
+
+function listPaidAdJobs(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_ads_allowed: false,
+      live_ads: false,
+      items: ctx.store.listAdStagingJobs(brand_id),
+    },
+  };
+}
+
+function postAdStage(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  action: AdStagingAction,
+): PanelResponse {
+  assertWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot));
+  const body = asRecord(req.body);
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const campaign_id = typeof body.campaign_id === "string" ? body.campaign_id : "";
+  const actor =
+    typeof body.actor === "string" && body.actor.trim()
+      ? body.actor.trim()
+      : "panel-operator";
+  const rationale = typeof body.rationale === "string" ? body.rationale.trim() : "";
+  if (!campaign_id) {
+    return jsonError(400, "campaign_id required");
+  }
+  if (!rationale) {
+    return jsonError(400, "rationale required");
+  }
+  const platform = parseAdPlatform(body.platform);
+  const payload = {
+    brand_id,
+    campaign_id,
+    platform,
+    action,
+    actor,
+    rationale,
+    staging: true as const,
+    live: false as const,
+  };
+  const result =
+    action === "BUDGET_MUTATION"
+      ? stageBudgetMutation(payload, paidAdsOpts(ctx))
+      : stageAdLaunch(payload, paidAdsOpts(ctx));
+  return { status: 200, body: result };
+}
+
+function postLiveAdLaunch(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  const body = asRecord(req.body);
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  try {
+    attemptLiveAdLaunch(
+      {
+        brand_id,
+        ...(typeof body.campaign_id === "string" ? { campaign_id: body.campaign_id } : {}),
+        ...(typeof body.outbox_id === "string" ? { outbox_id: body.outbox_id } : {}),
+        platform: parseAdPlatform(body.platform),
+        action: body.action === "BUDGET_MUTATION" ? "BUDGET_MUTATION" : "LAUNCH",
+        actor:
+          typeof body.actor === "string" && body.actor.trim()
+            ? body.actor.trim()
+            : "panel-operator",
+      },
+      paidAdsOpts(ctx),
+    );
+  } catch (e) {
+    if (e instanceof PaidAdsLiveBlockedError) {
       return { status: 403, body: liveBlockedBody(e.message) };
     }
     throw e;

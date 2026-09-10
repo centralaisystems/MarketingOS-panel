@@ -58,4 +58,8 @@ export * from "./owner-review.js";
 export * from "./fixtures/wave5-instagram.js";
 export * from "./social-adapter.js";
 export * from "./social-publish.js";
+export * from "./fixtures/wave6-paid-ads.js";
+export * from "./paid-ads-tokens.js";
+export * from "./paid-ads-adapter.js";
+export * from "./paid-ads.js";
 

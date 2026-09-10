@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts, owner review, Wave 4/4b pipeline, and Wave 5 Instagram dry-run. Live publish stays OFF. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts, owner review, Wave 4/4b pipeline, Wave 5 Instagram dry-run, and Wave 6 paid staging. Live publish/ads stay OFF. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -299,12 +299,36 @@
         <div id="socialOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
+      <section class="span-2">
+        <h2>Paid ads (Wave 6 staging)</h2>
+        <p class="muted">Villa Glory first. Recommend from an INTERNAL_APPROVED pack, then stage a Meta or Google campaign draft. Budget is recommendation-only. No ad network call. Live launch stays 403 while live_ads_allowed is false.</p>
+        <div id="adsEligible" class="muted" style="margin-top:0.75rem">Loading…</div>
+        <div class="row" style="margin-top:0.65rem">
+          <label>Campaign
+            <select id="adsCampaign"></select>
+          </label>
+          <label>Platform
+            <select id="adsPlatform">
+              <option value="META">META</option>
+              <option value="GOOGLE">GOOGLE</option>
+            </select>
+          </label>
+        </div>
+        <div class="row" style="margin-top:0.65rem">
+          <button id="adsStageBtn" type="button">Stage (dry-run)</button>
+          <button class="secondary" id="adsBudgetBtn" type="button">Stage budget recommendation</button>
+          <button class="blocked" id="adsLiveBtn" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch live</button>
+          <span class="badge danger" id="adsStageBadge">staging only</span>
+        </div>
+        <div id="adsOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
       <section>
         <h2>Later waves — blocked</h2>
-        <p class="muted">Wave 5 dry-run is on. Live Instagram fire and ad spend stay off until live_publish_allowed / WAVE_6 plus explicit operator approval.</p>
+        <p class="muted">Wave 5 dry-run and Wave 6 paid staging are on. Live Instagram fire and live ad spend stay off until live_publish_allowed / live_ads_allowed plus explicit operator approval. CRM and automation remain scaffolded.</p>
         <div class="row" style="margin-top:0.75rem">
           <button class="blocked" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
-          <button class="blocked" type="button" disabled title="Blocked until WAVE_6 + live_ads_allowed">Launch ads / change budget</button>
+          <button class="blocked" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch ads / change budget</button>
         </div>
       </section>
     </main>
@@ -335,6 +359,8 @@
         document.getElementById("videoJobs").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("socialEligible").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("socialOutbox").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("adsEligible").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("adsOutbox").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("runResult").textContent = "No run yet. Actions stay on the selected brand_id only.";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
@@ -803,6 +829,7 @@
           loadHiggsfieldGaps(),
           loadVideoPackages(),
           loadSocialPublish(),
+          loadPaidAds(),
           loadAnalytics(),
           loadAiVisibility(),
         ]);
@@ -959,6 +986,81 @@
         await loadSocialPublish();
       }
 
+      let adsEligibleItems = [];
+
+      async function loadPaidAds() {
+        const brand_id = activeBrand();
+        const recs = await api("/api/ads/recommendations?brand_id=" + encodeURIComponent(brand_id));
+        if (recs.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        adsEligibleItems = recs.items || [];
+        const campaignEl = document.getElementById("adsCampaign");
+        campaignEl.innerHTML = "";
+        if (!adsEligibleItems.length) {
+          document.getElementById("adsEligible").textContent =
+            "No INTERNAL_APPROVED paid recommendations for " + brand_id + ". Approve a Guardian-passed pack first.";
+        } else {
+          for (const row of adsEligibleItems) {
+            const opt = document.createElement("option");
+            opt.value = row.campaign_id;
+            const platforms = (row.recommendations || []).map((r) => r.platform).join(", ") || "META";
+            opt.textContent = row.objective + " · " + platforms + " · launch_allowed=false";
+            campaignEl.appendChild(opt);
+          }
+          document.getElementById("adsEligible").textContent =
+            String(adsEligibleItems.length) + " approved pack(s) ready for paid staging. Live launch stays blocked.";
+        }
+
+        const outbox = await api("/api/ads/outbox?brand_id=" + encodeURIComponent(brand_id));
+        if (outbox.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = outbox.items || [];
+        if (!rows.length) {
+          document.getElementById("adsOutbox").textContent = "No staging outbox rows for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("adsOutbox").innerHTML = rows.map((row) => {
+          if (row.brand_id && row.brand_id !== brand_id) return "";
+          return '<div class="item"><span class="badge">' + escapeHtml(row.status) +
+            "</span> " + escapeHtml(row.platform) + " · " + escapeHtml(row.action) +
+            '<div class="muted">' + escapeHtml((row.created_at || "").slice(0, 19)) +
+            " · live_ads=" + String(row.live_ads) + "</div></div>";
+        }).join("");
+      }
+
+      async function stagePaidAd(path) {
+        const brand_id = activeBrand();
+        const campaign_id = document.getElementById("adsCampaign").value;
+        const platform = document.getElementById("adsPlatform").value;
+        if (!campaign_id) {
+          document.getElementById("runResult").textContent =
+            "Approve a campaign pack first, then select it for paid staging.";
+          return;
+        }
+        const rationale = prompt(
+          path.indexOf("budget") >= 0
+            ? "Budget recommendation rationale (does not change spend):"
+            : "Staging rationale (does not launch live):",
+        );
+        if (!rationale || !rationale.trim()) return;
+        document.getElementById("runResult").textContent =
+          "Recording paid staging for " + brand_id + "…";
+        const res = await fetch(path, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            brand_id,
+            campaign_id,
+            platform,
+            actor: "panel-operator",
+            rationale: rationale.trim(),
+            staging: true,
+            live: false,
+          }),
+        });
+        const data = await res.json();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await loadPaidAds();
+      }
+
       document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
       document.getElementById("directorBtn").onclick = () => run("/api/run-objective");
       document.getElementById("reloadReady").onclick = () => loadReadiness();
@@ -1002,6 +1104,16 @@
       document.getElementById("socialCampaign").onchange = () => fillSocialCalendarSelect();
       document.getElementById("socialDryRunBtn").onclick = () => {
         scheduleSocialDryRun().catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
+      document.getElementById("adsStageBtn").onclick = () => {
+        stagePaidAd("/api/ads/stage").catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
+      document.getElementById("adsBudgetBtn").onclick = () => {
+        stagePaidAd("/api/ads/stage-budget").catch((e) => {
           document.getElementById("runResult").textContent = String(e);
         });
       };

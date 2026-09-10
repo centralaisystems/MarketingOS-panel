@@ -102,6 +102,17 @@ curl -s "http://127.0.0.1:8787/api/publish/outbox?brand_id=LOTIN"
 # Live endpoints must stay 403 while live_publish_allowed is false
 curl -s -o /dev/null -w "%{http_code}\n" -X POST http://127.0.0.1:8787/api/publish \
   -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
+# Wave 6 paid staging (requires INTERNAL_APPROVED pack)
+curl -s "http://127.0.0.1:8787/api/ads/recommendations?brand_id=VILLA_GLORY"
+curl -s -X POST http://127.0.0.1:8787/api/ads/stage \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"VILLA_GLORY","campaign_id":"'"$CAMPAIGN_ID"'","platform":"META","rationale":"Stage Meta draft only"}'
+curl -s "http://127.0.0.1:8787/api/ads/outbox?brand_id=VILLA_GLORY"
+# LOTIN must not see Villa Glory ad outbox
+curl -s "http://127.0.0.1:8787/api/ads/outbox?brand_id=LOTIN"
+# Live ads must stay 403 while live_ads_allowed is false
+curl -s -o /dev/null -w "%{http_code}\n" -X POST http://127.0.0.1:8787/api/ads/launch \
+  -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
 ```
 
-Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false) and `MOS_LIVE_PUBLISH` (defaults false). Wave 5 dry-run does not post to Instagram. Never invent VERIFIED brand facts from the panel.
+Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false), `MOS_LIVE_PUBLISH`, and `MOS_LIVE_ADS` (both default false). Wave 5 dry-run does not post to Instagram. Wave 6 staging does not spend on Meta/Google. Never invent VERIFIED brand facts from the panel.
