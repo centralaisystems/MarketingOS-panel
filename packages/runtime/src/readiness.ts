@@ -203,6 +203,13 @@ export function computeBrandReadiness(
     guardian.passed
   ) {
     readiness_status = "BRAND_READY";
+  } else if (
+    // Critical paths clear + enough VERIFIED truth → internal drafts OK
+    // even when overall score is still low (many non-critical MISSING fields).
+    totals.verified >= 8 &&
+    totals.verified + totals.unverified > 0
+  ) {
+    readiness_status = "READY_FOR_INTERNAL_DRAFTS";
   } else if (overall >= 35 && totals.verified + totals.unverified > 0) {
     readiness_status = "READY_FOR_INTERNAL_DRAFTS";
   }

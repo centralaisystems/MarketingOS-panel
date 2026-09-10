@@ -1,9 +1,9 @@
 # Phase 2C Evidence Audit
 
-**Audit date:** 2026-08-14  
+**Audit date:** 2026-08-14 (evidence pass) · **Human approval:** 2026-08-14 (Ahmet Oney) · **Doc sync:** 2026-09-10  
 **Scope:** MarketingOS plus the authorized read-only sibling folders for LOTIN, Villa Glory, NOX FORM, and NOX TECH; current official public websites where identifiable.  
-**Application result:** 54 applied, 11 PENDING, 0 errors.  
-**Marketing approval:** `false` for every decision. No ROI, guarantee, superiority, commercial-SKU, publishing, ads, customer contact, production integration, or Phase 3 authorization was created.
+**Application result (final Phase 2C):** 68 applied, 0 PENDING, 0 errors — see `PHASE_2C_APPLY_AUDIT.json` and `PHASE_2C_DECISIONS.json`.  
+**Marketing approval:** Mixed per decision (59 `marketing_approved=true` for routine business truth; claim/restriction and REJECT paths remain non-ad surfaces). No publishing, ads, customer contact, production integration, or Phase 3 authorization was created.
 
 ## Evidence posture
 
@@ -96,16 +96,14 @@ Primary local evidence: `README.md`, implemented source flows, `src/lib/marketin
 
 ## Human confirmations still required
 
-1. LOTIN legal entity; primary ICP/exclusions; named developers/projects; exact property-category scope; primary CTA; public languages; priority channels/outcome; lead qualification; voice/visual kit; competitors.
-2. Villa Glory developer audience and primary CTA hierarchy.
-3. NOX FORM legal relationship, formal tone words, and confidentiality/NDA rule.
-4. NOX TECH vs NOX TECH AI naming, approved commercial packages, and real ICP.
-5. Villa Glory↔NOX FORM relationship truth and every cross-brand permission; any other cross-brand links.
+Phase 2C human approval closed the questionnaire items that were PENDING at evidence-audit time (see `PHASE_2C_DECISIONS.json`). Remaining **readiness-critical** gaps moved to Phase 2D (`PHASE_2D_DECISION_BOOK.md`). Non-critical pack depth (full visual kits, audience psychology, channel strategy, competitors) can continue after critical blockers clear.
+
+Cross-brand: XB-01 REJECTED — brands remain separate; no sharing.
 
 ## Verification record
 
-- `pnpm apply-brand-decisions -- --dry-run`: 54 applied in simulation, 11 PENDING, 0 errors.
-- `pnpm apply-brand-decisions`: 54 applied, 11 PENDING, 0 errors; audit written to `PHASE_2C_APPLY_AUDIT.json`.
-- `pnpm typecheck`: passed.
-- `pnpm test`: 71/71 tests passed after updating tests to use controlled pre-Phase-2C fixtures.
-- `pnpm onboard-all`: all four Brand Guardians passed; all four brands remain `BLOCKED` for Phase 3 because material gaps remain.
+- Evidence-audit dry-run / apply (2026-08-14 morning): 54 applied, 11 PENDING.
+- Human approval apply (2026-08-14): **68 applied**, 0 PENDING, 0 errors; audit in `PHASE_2C_APPLY_AUDIT.json`.
+- `pnpm typecheck` / `pnpm test`: passed around Phase 2C land.
+- Post-2C `pnpm onboard-all`: Guardians passed; brands still `BLOCKED` on critical fields → Phase 2D.
+- Phase 3 was **not** started.

@@ -3,29 +3,49 @@
   "module": "voice",
   "updated_at": "2026-08-14T08:00:00.000Z",
   "personality": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "tone": {
-    "status": "MISSING"
+    "status": "VERIFIED",
+    "value": [
+      "Clear",
+      "Technical",
+      "Professional",
+      "Implementation-focused"
+    ],
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Conservative internal-draft tone aligned with VERIFIED product description. Not a full brand kit. No ROI or superiority language. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:NT-2D-03 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:NT-2D-03",
+    "observed_at": "2026-09-10T06:10:00.000Z",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
+    "time_sensitive": false
   },
   "vocabulary": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "preferred_terminology": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "prohibited_terminology": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "writing_examples": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "cta_style": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "language_differences": {
     "status": "MISSING",
-    "notes": "EN/AR/TR tone differences unknown"
+    "notes": "EN/AR/TR tone differences unknown",
+    "time_sensitive": false
   },
   "locale_guidance": []
 }

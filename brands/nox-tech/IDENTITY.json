@@ -40,8 +40,16 @@
     "time_sensitive": false
   },
   "location_markets": {
-    "status": "MISSING",
-    "notes": "Markets unknown",
+    "status": "VERIFIED",
+    "value": [
+      "GCC"
+    ],
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Internal orientation only from product/audience context (NT-08 businesses). Not campaign-level city/country approval. marketing_approved=false until geo campaigns are confirmed. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:NT-2D-01 | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:NT-2D-01",
+    "observed_at": "2026-09-10T06:10:00.000Z",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "website": {

@@ -12,16 +12,17 @@
     "time_sensitive": false
   },
   "prohibited_claims": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "Do not invent completed projects, awards, or client names",
       "Do not fabricate timelines or budgets"
     ],
-    "notes": "Precautionary restrictions from Phase 1/brief — expand with legal review",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Promoted as MarketingOS operating restrictions. VERIFY ≠ advertising approval. Complements NF-11 confidentiality posture. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:NF-2D-02 | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:NF-2D-02",
     "observed_at": "2026-08-14T08:00:00.000Z",
-    "confidence": "LOW",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "regulatory_considerations": {

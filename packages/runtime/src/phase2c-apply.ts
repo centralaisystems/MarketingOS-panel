@@ -318,11 +318,16 @@ export function applyBrandDecisions(
 
   if (opts?.reportDir && opts.write !== false) {
     mkdirSync(opts.reportDir, { recursive: true });
+    const auditName =
+      batch.version === "phase2d"
+        ? "PHASE_2D_APPLY_AUDIT.json"
+        : "PHASE_2C_APPLY_AUDIT.json";
     writeFileSync(
-      join(opts.reportDir, "PHASE_2C_APPLY_AUDIT.json"),
+      join(opts.reportDir, auditName),
       JSON.stringify(
         {
           generated_at: new Date().toISOString(),
+          version: batch.version,
           applied,
           skipped_pending,
           skipped,

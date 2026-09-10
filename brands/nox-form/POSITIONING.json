@@ -3,13 +3,14 @@
   "module": "positioning",
   "updated_at": "2026-08-14T07:54:29.714Z",
   "category": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "architecture_interior_design_turnkey",
-    "notes": "From siteConfig.description — studio services, not furniture retail.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "NOXFORM:src/lib/content.ts",
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Consistent with VERIFIED positioning_statement (NF-03b) and studio services framing. Not furniture retail. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:NF-2D-01 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:NF-2D-01",
     "observed_at": "2026-08-14T07:54:29.709Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "positioning_statement": {

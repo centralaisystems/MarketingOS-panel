@@ -14,8 +14,14 @@
     "time_sensitive": false
   },
   "positioning_statement": {
-    "status": "MISSING",
-    "notes": "Approved positioning statement required",
+    "status": "VERIFIED",
+    "value": "Lotin Real Estate is a UAE real estate brokerage and advisory firm for investors, home buyers, international buyers entering Dubai, and property owners — focused on residential sales, leasing, property management, sales representation, and private portfolio advisory (not fund management).",
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Derived from already VERIFIED identity.description (LQ-02). Private portfolio advisory does not mean fund or securities management. FACT: restates operator-verified business scope. RECOMMENDATION: wording may be tightened later. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:LQ-2D-01 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:LQ-2D-01",
+    "observed_at": "2026-09-10T06:10:00.000Z",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "differentiation": {

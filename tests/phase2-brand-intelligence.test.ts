@@ -176,7 +176,9 @@ describe("Phase 2 brand packs & readiness", () => {
   it("relationships list related brands without merging memory", () => {
     const registry = loadRelationshipRegistry();
     const related = listRelatedBrandIds("VILLA_GLORY", registry);
-    expect(related).toContain("NOX_FORM");
+    // XB-01 REJECTED: VG↔NF relationship is REVOKED — must not surface as related.
+    expect(related).not.toContain("NOX_FORM");
+    expect(registry.relationships.some((r) => r.relationship_id === "rel-vg-nf-orientation" && r.status === "REVOKED")).toBe(true);
     const onboarding = runBrandOnboarding("VILLA_GLORY");
     expect(onboarding.relationships_do_not_merge_memory).toBe(true);
     expect(onboarding.pack.brand_id).toBe("VILLA_GLORY");

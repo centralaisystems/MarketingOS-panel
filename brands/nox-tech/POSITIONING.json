@@ -3,13 +3,14 @@
   "module": "positioning",
   "updated_at": "2026-08-14T08:00:00.000Z",
   "category": {
-    "status": "UNVERIFIED",
-    "value": "ai_software_automation_b2b",
-    "notes": "Category orientation from master brief",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
+    "status": "VERIFIED",
+    "value": "ai_assisted_sales_implementation",
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Corrected orientation slug to match VERIFIED positioning_statement (NT-03). Not a commercial SKU claim. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:NT-2D-02 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:NT-2D-02",
     "observed_at": "2026-08-14T08:00:00.000Z",
-    "confidence": "LOW",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "positioning_statement": {

@@ -1,96 +1,66 @@
 {
-  "generated_at": "2026-08-14T10:04:42.749Z",
+  "generated_at": "2026-09-10T06:13:11.399Z",
   "brands": [
     {
       "brand_id": "LOTIN",
-      "readiness": "BLOCKED",
-      "overall_score": 16,
-      "verified": 10,
-      "unverified": 15,
-      "missing": 82,
+      "readiness": "READY_FOR_INTERNAL_DRAFTS",
+      "overall_score": 25,
+      "verified": 18,
+      "unverified": 10,
+      "missing": 79,
       "conflicting": 0,
       "stale": 0,
-      "critical_blockers": [
-        "Critical missing: positioning.positioning_statement",
-        "Critical missing: voice.tone"
-      ],
+      "critical_blockers": [],
       "next_actions": [
-        "Continue onboarding from state GAP_ANALYSIS.",
-        "Resolve: Critical missing: positioning.positioning_statement",
-        "Resolve: Critical missing: voice.tone"
+        "Continue onboarding from state GAP_ANALYSIS."
       ],
       "related_brand_ids": [],
       "guardian_passed": true
     },
     {
       "brand_id": "VILLA_GLORY",
-      "readiness": "BLOCKED",
-      "overall_score": 18,
-      "verified": 17,
-      "unverified": 54,
-      "missing": 54,
+      "readiness": "READY_FOR_INTERNAL_DRAFTS",
+      "overall_score": 22,
+      "verified": 21,
+      "unverified": 51,
+      "missing": 53,
       "conflicting": 0,
       "stale": 0,
-      "critical_blockers": [
-        "Critical missing: voice.tone",
-        "Critical unverified: claims.prohibited_claims"
-      ],
+      "critical_blockers": [],
       "next_actions": [
-        "Continue onboarding from state GAP_ANALYSIS.",
-        "Resolve: Critical missing: voice.tone",
-        "Resolve: Critical unverified: claims.prohibited_claims"
+        "Continue onboarding from state GAP_ANALYSIS."
       ],
-      "related_brand_ids": [
-        "NOX_FORM"
-      ],
+      "related_brand_ids": [],
       "guardian_passed": true
     },
     {
       "brand_id": "NOX_FORM",
-      "readiness": "BLOCKED",
-      "overall_score": 22,
-      "verified": 19,
-      "unverified": 45,
-      "missing": 51,
+      "readiness": "READY_FOR_INTERNAL_DRAFTS",
+      "overall_score": 29,
+      "verified": 24,
+      "unverified": 41,
+      "missing": 50,
       "conflicting": 0,
       "stale": 0,
-      "critical_blockers": [
-        "Critical unverified: positioning.category",
-        "Critical unverified: voice.tone",
-        "Critical unverified: claims.prohibited_claims"
-      ],
+      "critical_blockers": [],
       "next_actions": [
-        "Continue onboarding from state GAP_ANALYSIS.",
-        "Resolve: Critical unverified: positioning.category",
-        "Resolve: Critical unverified: voice.tone",
-        "Resolve: Critical unverified: claims.prohibited_claims"
+        "Continue onboarding from state GAP_ANALYSIS."
       ],
-      "related_brand_ids": [
-        "VILLA_GLORY"
-      ],
+      "related_brand_ids": [],
       "guardian_passed": true
     },
     {
       "brand_id": "NOX_TECH",
-      "readiness": "BLOCKED",
-      "overall_score": 12,
-      "verified": 5,
-      "unverified": 23,
-      "missing": 60,
+      "readiness": "READY_FOR_INTERNAL_DRAFTS",
+      "overall_score": 19,
+      "verified": 10,
+      "unverified": 20,
+      "missing": 58,
       "conflicting": 0,
       "stale": 0,
-      "critical_blockers": [
-        "Critical unverified: identity.official_name",
-        "Critical missing: identity.location_markets",
-        "Critical unverified: positioning.category",
-        "Critical missing: voice.tone"
-      ],
+      "critical_blockers": [],
       "next_actions": [
-        "Continue onboarding from state GAP_ANALYSIS.",
-        "Resolve: Critical unverified: identity.official_name",
-        "Resolve: Critical missing: identity.location_markets",
-        "Resolve: Critical unverified: positioning.category",
-        "Resolve: Critical missing: voice.tone"
+        "Continue onboarding from state GAP_ANALYSIS."
       ],
       "related_brand_ids": [],
       "guardian_passed": true

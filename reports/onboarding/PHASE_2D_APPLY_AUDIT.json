@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-09-10T06:13:11.256Z",
+  "version": "phase2d",
+  "applied": 9,
+  "skipped_pending": 0,
+  "skipped": 0,
+  "rejected": 0,
+  "errors": [],
+  "audit_summary": [
+    "LQ-2D-01: EDIT positioning.positioning_statement marketing_approved=true",
+    "LQ-2D-02: EDIT voice.tone marketing_approved=true",
+    "VG-2D-01: EDIT voice.tone marketing_approved=true",
+    "VG-2D-02: EDIT claims.prohibited_claims marketing_approved=false",
+    "NF-2D-01: VERIFY positioning.category marketing_approved=true",
+    "NF-2D-02: VERIFY claims.prohibited_claims marketing_approved=false",
+    "NT-2D-01: EDIT identity.location_markets marketing_approved=false",
+    "NT-2D-02: EDIT positioning.category marketing_approved=true",
+    "NT-2D-03: EDIT voice.tone marketing_approved=true"
+  ],
+  "readiness": {
+    "LOTIN": {
+      "overall_score": 25,
+      "readiness_status": "READY_FOR_INTERNAL_DRAFTS",
+      "verified": 18
+    },
+    "VILLA_GLORY": {
+      "overall_score": 22,
+      "readiness_status": "READY_FOR_INTERNAL_DRAFTS",
+      "verified": 21
+    },
+    "NOX_FORM": {
+      "overall_score": 29,
+      "readiness_status": "READY_FOR_INTERNAL_DRAFTS",
+      "verified": 24
+    },
+    "NOX_TECH": {
+      "overall_score": 19,
+      "readiness_status": "READY_FOR_INTERNAL_DRAFTS",
+      "verified": 10
+    }
+  }
+}

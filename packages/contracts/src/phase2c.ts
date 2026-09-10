@@ -64,7 +64,8 @@ export const BrandDecisionSchema = z
 export type BrandDecision = z.infer<typeof BrandDecisionSchema>;
 
 export const BrandDecisionBatchSchema = z.object({
-  version: z.literal("phase2c"),
+  /** phase2c = human verification pass; phase2d = critical-blocker clearance pass */
+  version: z.enum(["phase2c", "phase2d"]),
   generated_at: z.string().datetime(),
   notes: z.string().optional(),
   decisions: z.array(BrandDecisionSchema),

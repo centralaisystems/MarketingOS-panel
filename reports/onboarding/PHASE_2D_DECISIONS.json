@@ -1,0 +1,146 @@
+{
+  "version": "phase2d",
+  "generated_at": "2026-09-10T06:10:00.000Z",
+  "notes": "Phase 2D critical-blocker clearance only. Values are derived from Phase 2C VERIFIED pack fields, existing precautionary claim lists, or conservative internal orientation. No ROI, guarantees, named partners, cross-brand sharing, publishing, ads, or Phase 3 authorization.",
+  "decisions": [
+    {
+      "id": "LQ-2D-01",
+      "brand_id": "LOTIN",
+      "field": "positioning.positioning_statement",
+      "decision": "EDIT",
+      "corrected_value": "Lotin Real Estate is a UAE real estate brokerage and advisory firm for investors, home buyers, international buyers entering Dubai, and property owners — focused on residential sales, leasing, property management, sales representation, and private portfolio advisory (not fund management).",
+      "operator_notes": "Derived from already VERIFIED identity.description (LQ-02). Private portfolio advisory does not mean fund or securities management. FACT: restates operator-verified business scope. RECOMMENDATION: wording may be tightened later.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["LQ-02"]
+    },
+    {
+      "id": "LQ-2D-02",
+      "brand_id": "LOTIN",
+      "field": "voice.tone",
+      "candidate_value": null,
+      "decision": "EDIT",
+      "corrected_value": ["Professional", "Trust-focused", "Discreet"],
+      "operator_notes": "Conservative tone for internal drafts from public-site observation noted in Phase 2C evidence audit (premium/trust/discretion). Not a full brand kit. OBSERVATION → Brand Intelligence; expand with formal kit later.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-2D-01",
+      "brand_id": "VILLA_GLORY",
+      "field": "voice.tone",
+      "decision": "EDIT",
+      "corrected_value": ["Refined", "Warm", "Consultative", "Premium"],
+      "operator_notes": "Aligned with VERIFIED luxury furniture / private-consultation positioning (VG-04, VG-05, VG-08). Internal draft tone only; not a full voice kit.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["VG-04", "VG-05"]
+    },
+    {
+      "id": "VG-2D-02",
+      "brand_id": "VILLA_GLORY",
+      "field": "claims.prohibited_claims",
+      "candidate_value": [
+        "Do not invent product specs, prices, or stock",
+        "Do not claim materials/certifications without verification"
+      ],
+      "decision": "EDIT",
+      "corrected_value": [
+        "Do not invent product specs, prices, or stock",
+        "Do not claim materials/certifications without verification",
+        "Do not invent exclusivity or superiority claims without evidence"
+      ],
+      "operator_notes": "Promoted as MarketingOS operating restrictions (same pattern as LQ-11 / NT-07). VERIFY ≠ advertising approval.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-2D-01",
+      "brand_id": "NOX_FORM",
+      "field": "positioning.category",
+      "candidate_value": "architecture_interior_design_turnkey",
+      "decision": "VERIFY",
+      "operator_notes": "Consistent with VERIFIED positioning_statement (NF-03b) and studio services framing. Not furniture retail.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["NF-03b"]
+    },
+    {
+      "id": "NF-2D-02",
+      "brand_id": "NOX_FORM",
+      "field": "claims.prohibited_claims",
+      "candidate_value": [
+        "Do not invent completed projects, awards, or client names",
+        "Do not fabricate timelines or budgets"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Promoted as MarketingOS operating restrictions. VERIFY ≠ advertising approval. Complements NF-11 confidentiality posture.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["NF-11"]
+    },
+    {
+      "id": "NT-2D-01",
+      "brand_id": "NOX_TECH",
+      "field": "identity.location_markets",
+      "decision": "EDIT",
+      "corrected_value": ["GCC"],
+      "operator_notes": "Internal orientation only from product/audience context (NT-08 businesses). Not campaign-level city/country approval. marketing_approved=false until geo campaigns are confirmed.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["NT-08"]
+    },
+    {
+      "id": "NT-2D-02",
+      "brand_id": "NOX_TECH",
+      "field": "positioning.category",
+      "candidate_value": "ai_software_automation_b2b",
+      "decision": "EDIT",
+      "corrected_value": "ai_assisted_sales_implementation",
+      "operator_notes": "Corrected orientation slug to match VERIFIED positioning_statement (NT-03). Not a commercial SKU claim.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["NT-03"]
+    },
+    {
+      "id": "NT-2D-03",
+      "brand_id": "NOX_TECH",
+      "field": "voice.tone",
+      "decision": "EDIT",
+      "corrected_value": ["Clear", "Technical", "Professional", "Implementation-focused"],
+      "operator_notes": "Conservative internal-draft tone aligned with VERIFIED product description. Not a full brand kit. No ROI or superiority language.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Phase 2D critical-blocker pass",
+      "decided_at": "2026-09-10T06:10:00.000Z",
+      "category": "phase2d_critical_blockers",
+      "evidence_candidate_ids": ["NT-02", "NT-03"]
+    }
+  ]
+}

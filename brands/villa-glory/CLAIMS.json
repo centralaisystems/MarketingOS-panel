@@ -4,34 +4,42 @@
   "updated_at": "2026-08-14T08:00:00.000Z",
   "approved_claims": {
     "status": "MISSING",
-    "notes": "No approved claims yet"
+    "notes": "No approved claims yet",
+    "time_sensitive": false
   },
   "claims_requiring_evidence": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "prohibited_claims": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "Do not invent product specs, prices, or stock",
-      "Do not claim materials/certifications without verification"
+      "Do not claim materials/certifications without verification",
+      "Do not invent exclusivity or superiority claims without evidence"
     ],
-    "notes": "Precautionary restrictions from Phase 1/brief — expand with legal review",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "notes": "OPERATOR_VERIFIED by Phase 2D critical-blocker pass | Notes: Promoted as MarketingOS operating restrictions (same pattern as LQ-11 / NT-07). VERIFY ≠ advertising approval. | Prior evidence: INTERNAL_OPERATOR / operator:Phase 2D critical-blocker pass:VG-2D-02 | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Phase 2D critical-blocker pass:VG-2D-02",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-09-10T06:10:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "regulatory_considerations": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "pricing_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "investment_financial_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "client_confidentiality_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   }
 }

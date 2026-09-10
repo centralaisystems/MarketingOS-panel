@@ -1,11 +1,11 @@
 # PHASE 2C — Brand Decision Book
 
-> **Evidence-audit update — 2026-08-14:** The operator delegated a read-only local/public evidence audit. Supported decisions are recorded in `PHASE_2C_DECISIONS.json` and were applied with `marketing_approved=false`; unsupported questions remain PENDING. The original blank questionnaire below is retained as the human follow-up template. See `PHASE_2C_EVIDENCE_AUDIT.md` and `PHASE_2C_APPLY_AUDIT.json` for the current disposition and provenance.
+> **Status — 2026-09-10:** Phase 2C human approval is complete. All 68 decisions in `PHASE_2C_DECISIONS.json` were applied (see `PHASE_2C_APPLY_AUDIT.json`). Remaining readiness-critical gaps are handled in **Phase 2D** (`PHASE_2D_DECISION_BOOK.md`). The questionnaire below is retained as historical template / reference only.
 
 **Purpose:** Convert Phase 2B candidate evidence into human-approved Brand Intelligence.  
 **Rule:** Do **not** treat repository presence as marketing approval.  
-**Status today:** All fields remain UNVERIFIED until you decide.  
-**How to respond:** For each ID, set Operator decision to VERIFY / REJECT / EDIT (with correction). Then update `PHASE_2C_DECISIONS.json` the same way and run `pnpm apply-brand-decisions` only after decisions are filled.
+**Status today:** Phase 2C applied; continue with Phase 2D for critical blockers only.  
+**How to respond (historical):** For each ID, set Operator decision to VERIFY / REJECT / EDIT (with correction). Then update `PHASE_2C_DECISIONS.json` and run `pnpm apply-brand-decisions`.
 
 VERIFY = accepted as current **business truth**  
 Marketing approval = separate (especially ROI / guarantees / superiority)
