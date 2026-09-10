@@ -7,6 +7,7 @@ import {
   ApprovalDecisionSchema,
   AssetRecordSchema,
   BrandIdSchema,
+  BrandRegistryEntrySchema,
   EvidenceSchema,
   OpsCampaignRecordSchema,
   TaskSchema,
@@ -149,6 +150,24 @@ describe("contracts", () => {
   it("documents PII policy for Phase 1", () => {
     expect(PII_HANDLING_POLICY.store_real_leads).toBe(false);
     expect(PII_HANDLING_POLICY.allow_pii_in_prompts).toBe(false);
+  });
+
+  it("accepts optional owner-email fields on a registry entry", () => {
+    const entry = BrandRegistryEntrySchema.parse({
+      brand_id: "VILLA_GLORY",
+      slug: "villa-glory",
+      display_name: "Villa Glory",
+      owner_email: "villa-glory-owner@example.test",
+      owner_email_enabled: true,
+    });
+    expect(entry.owner_email).toBe("villa-glory-owner@example.test");
+    expect(entry.owner_email_enabled).toBe(true);
+    const lotin = BrandRegistryEntrySchema.parse({
+      brand_id: "LOTIN",
+      slug: "lotin",
+      display_name: "LOTIN",
+    });
+    expect(lotin.owner_email_enabled).toBe(false);
   });
 
   it("validates ops campaign rows as brand-scoped drafts", () => {

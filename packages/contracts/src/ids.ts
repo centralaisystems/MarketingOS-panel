@@ -28,6 +28,14 @@ export const BrandRegistryEntrySchema = z.object({
   /** One registered Drive folder per brand — AI does not browse the rest of Drive. */
   asset_drive_folder_url: z.string().url().optional(),
   asset_drive_folder_id: z.string().min(1).optional(),
+  /**
+   * Opt-in owner review contact. Fixture/test addresses only in repo
+   * (e.g. `@example.test`). Never invent a production owner inbox.
+   */
+  owner_email: z.string().email().optional(),
+  owner_cc: z.array(z.string().email()).optional(),
+  /** Per-brand kill switch. Default off — Villa Glory fixture enables it. */
+  owner_email_enabled: z.boolean().default(false),
 });
 export type BrandRegistryEntry = z.infer<typeof BrandRegistryEntrySchema>;
 

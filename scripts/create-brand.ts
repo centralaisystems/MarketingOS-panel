@@ -45,10 +45,12 @@ function main(): void {
   const localesRaw = arg("--locales") ?? "en";
   const driveFolderUrl = arg("--drive-folder-url");
   const driveFolderId = arg("--drive-folder-id");
+  const ownerEmail = arg("--owner-email");
+  const enableOwnerEmail = process.argv.includes("--enable-owner-email");
 
   if (!idRaw || !slug || !name) {
     console.error(
-      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID]',
+      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID] [--owner-email EMAIL] [--enable-owner-email]',
     );
     process.exit(1);
   }
@@ -66,6 +68,8 @@ function main(): void {
     created_at: NOW,
     ...(driveFolderUrl ? { asset_drive_folder_url: driveFolderUrl } : {}),
     ...(driveFolderId ? { asset_drive_folder_id: driveFolderId } : {}),
+    ...(ownerEmail ? { owner_email: ownerEmail } : {}),
+    ...(enableOwnerEmail ? { owner_email_enabled: true } : {}),
   });
 
   clearBrandRegistryCache();

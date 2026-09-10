@@ -30,7 +30,20 @@ import {
   type DriveAssetSource,
 } from "./drive-source.js";
 import { readDriveSyncStatus, syncBrandAssets } from "./drive-ingest.js";
-import { DriveFolderRoleSchema } from "@marketing-os/contracts";
+import { DriveFolderRoleSchema, type EmailTemplateKind } from "@marketing-os/contracts";
+import {
+  resolveEmailMode,
+  type EmailAdapter,
+} from "./email-adapter.js";
+import {
+  decideOwnerReview,
+  OwnerEmailDisabledError,
+  OwnerEmailMissingError,
+  OwnerReviewNotFoundError,
+  publicOwnerReviewView,
+  requestOwnerReview,
+  sendOwnerProgressEmail,
+} from "./owner-review.js";
 
 export type PanelRequest = {
   method: string;
@@ -51,6 +64,8 @@ export type PanelApiContext = {
   brandsRoot?: string;
   writeReport?: boolean;
   reportRoot?: string;
+  email?: EmailAdapter;
+  panelBaseUrl?: string;
 };
 
 const UUID_RE =
@@ -124,6 +139,7 @@ export async function handlePanelApi(
           enabled_waves: gates.enabled_waves,
           live_publish_allowed: gates.live_publish_allowed,
           live_ads_allowed: gates.live_ads_allowed,
+          email_mode: resolveEmailMode(),
         },
       };
     }
@@ -188,6 +204,36 @@ export async function handlePanelApi(
     }
     if (method === "POST" && path === "/api/drive-sync") {
       return await postDriveSync(req, ctx);
+    }
+    if (method === "GET" && path === "/api/owner-reviews") {
+      return listOwnerReviews(req, ctx);
+    }
+    const ownerReviewIdMatch = path.match(
+      new RegExp(`^/api/owner-reviews/(${UUID_RE})$`),
+    );
+    if (method === "GET" && ownerReviewIdMatch?.[1]) {
+      return getOwnerReview(req, ctx, ownerReviewIdMatch[1]);
+    }
+    if (method === "POST" && path === "/api/owner-reviews") {
+      return await postOwnerReview(req, ctx);
+    }
+    const sendReviewMatch = path.match(
+      new RegExp(`^/api/campaigns/(${UUID_RE})/owner-review$`),
+    );
+    if (method === "POST" && sendReviewMatch?.[1]) {
+      return await postCampaignOwnerReview(req, ctx, sendReviewMatch[1]);
+    }
+    if (method === "POST" && path === "/api/owner-reviews/digest") {
+      return await postOwnerDigest(req, ctx);
+    }
+    if (method === "GET" && path === "/api/owner-review") {
+      return getPublicOwnerReview(req, ctx);
+    }
+    if (method === "POST" && path === "/api/owner-review/decide") {
+      return postOwnerDecision(req, ctx);
+    }
+    if (method === "GET" && path === "/api/email-outbox") {
+      return listEmailOutbox(req, ctx);
     }
     if (
       method === "POST" &&
@@ -366,6 +412,15 @@ function mapError(e: unknown): PanelResponse {
   if (e instanceof GoogleDriveCredentialsMissingError) {
     return jsonError(403, e.message, { source: "google_drive" });
   }
+  if (e instanceof OwnerEmailDisabledError || e instanceof OwnerEmailMissingError) {
+    return jsonError(403, e.message, {
+      brand_id: e.brand_id,
+      owner_email_enabled: false,
+    });
+  }
+  if (e instanceof OwnerReviewNotFoundError) {
+    return jsonError(404, e.message);
+  }
   if (e instanceof CrossBrandDeniedError) {
     return jsonError(403, "CROSS_BRAND_DENIED", {
       message: e.message,
@@ -377,7 +432,7 @@ function mapError(e: unknown): PanelResponse {
   const status =
     e instanceof Error && "status" in e && typeof e.status === "number"
       ? e.status
-      : /Unknown brand_id|ARCHIVED|brand_id required|objective required|rationale required|not found/i.test(
+      : /Unknown brand_id|ARCHIVED|brand_id required|objective required|rationale required|note required|not found|not approvable|already /i.test(
             message,
           )
         ? 400
@@ -604,6 +659,175 @@ function listTasks(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
     body: {
       brand_id,
       tasks: ctx.store.listTasks(brand_id),
+    },
+  };
+}
+
+function reviewRuntime(ctx: PanelApiContext) {
+  return {
+    store: ctx.store,
+    ...(ctx.email ? { email: ctx.email } : {}),
+    ...brandsRootOpt(ctx.brandsRoot),
+    ...(ctx.panelBaseUrl ? { panelBaseUrl: ctx.panelBaseUrl } : {}),
+  };
+}
+
+function listOwnerReviews(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      reviews: ctx.store.listOwnerReviews(brand_id),
+    },
+  };
+}
+
+function getOwnerReview(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  review_id: string,
+): PanelResponse {
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const review = ctx.store.getOwnerReview(brand_id, review_id);
+  if (!review) {
+    return jsonError(404, "owner review not found", { brand_id, review_id });
+  }
+  return { status: 200, body: review };
+}
+
+async function postCampaignOwnerReview(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  campaign_id: string,
+): Promise<PanelResponse> {
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const actor =
+    typeof asRecord(req.body).actor === "string" &&
+    (asRecord(req.body).actor as string).trim()
+      ? (asRecord(req.body).actor as string).trim()
+      : "panel-operator";
+  const result = await requestOwnerReview(
+    { brand_id, campaign_id, actor, template: "MATERIALS_READY" },
+    reviewRuntime(ctx),
+  );
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      review: result.review,
+      outbox: result.outbox,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
+async function postOwnerReview(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): Promise<PanelResponse> {
+  const body = asRecord(req.body);
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const template = body.template;
+  if (template === "PROGRESS_DIGEST" || template === "ADS_PROGRESS_STUB") {
+    const outbox = await sendOwnerProgressEmail(
+      { brand_id, template: template as Extract<EmailTemplateKind, "PROGRESS_DIGEST" | "ADS_PROGRESS_STUB"> },
+      reviewRuntime(ctx),
+    );
+    return {
+      status: 200,
+      body: { brand_id, outbox, live_publish: false, live_ads: false },
+    };
+  }
+  const campaign_id =
+    typeof body.campaign_id === "string" ? body.campaign_id.trim() : "";
+  if (!campaign_id) {
+    return jsonError(400, "campaign_id required for materials review");
+  }
+  return postCampaignOwnerReview(req, ctx, campaign_id);
+}
+
+async function postOwnerDigest(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): Promise<PanelResponse> {
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const templateRaw = asRecord(req.body).template;
+  const template =
+    templateRaw === "ADS_PROGRESS_STUB" ? "ADS_PROGRESS_STUB" : "PROGRESS_DIGEST";
+  const outbox = await sendOwnerProgressEmail(
+    { brand_id, template },
+    reviewRuntime(ctx),
+  );
+  return {
+    status: 200,
+    body: { brand_id, outbox, live_publish: false, live_ads: false },
+  };
+}
+
+function getPublicOwnerReview(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  const token = req.searchParams.get("token") ?? "";
+  if (!token.trim()) {
+    return jsonError(400, "token required");
+  }
+  const view = publicOwnerReviewView(ctx.store, token, brandsRootOpt(ctx.brandsRoot));
+  return { status: 200, body: view };
+}
+
+function postOwnerDecision(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  const body = asRecord(req.body);
+  const token =
+    typeof body.token === "string"
+      ? body.token
+      : req.searchParams.get("token") ?? "";
+  if (!token.trim()) {
+    return jsonError(400, "token required");
+  }
+  const decision = body.decision;
+  if (decision !== "APPROVED" && decision !== "CHANGES_REQUESTED") {
+    return jsonError(400, "decision must be APPROVED or CHANGES_REQUESTED");
+  }
+  const note = typeof body.note === "string" ? body.note : "";
+  const actor =
+    typeof body.actor === "string" && body.actor.trim()
+      ? body.actor.trim()
+      : "brand-owner";
+  const brandHint =
+    typeof body.brand_id === "string" && body.brand_id.trim()
+      ? body.brand_id.trim()
+      : undefined;
+  const result = decideOwnerReview(
+    {
+      token,
+      decision,
+      note,
+      actor,
+      ...(brandHint ? { brand_id: brandHint } : {}),
+    },
+    reviewRuntime(ctx),
+  );
+  return {
+    status: 200,
+    body: {
+      brand_id: result.review.brand_id,
+      review: result.review,
+      decision: result.decision,
+      revision_task_id: result.revision_task_id ?? null,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
+function listEmailOutbox(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      email_mode: ctx.email?.mode ?? resolveEmailMode(),
+      items: ctx.store.listOutbox(brand_id),
     },
   };
 }

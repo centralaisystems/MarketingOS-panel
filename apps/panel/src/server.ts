@@ -1,8 +1,8 @@
 /**
- * Thin dedicated Marketing OS operator panel (Wave 3–4b).
+ * Thin dedicated Marketing OS operator panel (Wave 3–4b + owner review).
  * Own app/URL — not embedded in NOX TECH admin.
  * Wave 4 analytics/assets are read-only. Wave 4b Drive ingest is metadata-only.
- * Live publish/ads stay blocked.
+ * Owner review emails default to dry-run outbox. Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFileSync } from "node:fs";
@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import {
   createAssetCatalog,
   createDriveAssetSource,
+  createEmailAdapter,
   createOpsStore,
   handlePanelApi,
   type PanelApiContext,
@@ -36,6 +37,8 @@ const ctx: PanelApiContext = {
   store,
   assets,
   drive,
+  email: createEmailAdapter(),
+  panelBaseUrl: process.env.MOS_PANEL_BASE_URL ?? `http://127.0.0.1:${PORT}`,
   writeReport: process.env.MOS_PANEL_WRITE_REPORT !== "false",
 };
 
@@ -67,11 +70,18 @@ function htmlPage(): string {
   return readFileSync(join(__dirname, "ui.html"), "utf8");
 }
 
+function ownerReviewPage(): string {
+  return readFileSync(join(__dirname, "owner-review.html"), "utf8");
+}
+
 const server = createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", `http://127.0.0.1:${PORT}`);
   try {
     if (req.method === "GET" && url.pathname === "/") {
       return send(res, 200, htmlPage(), "text/html");
+    }
+    if (req.method === "GET" && url.pathname === "/owner-review") {
+      return send(res, 200, ownerReviewPage(), "text/html");
     }
     const body =
       req.method === "POST" || req.method === "PUT" || req.method === "PATCH"
@@ -96,5 +106,7 @@ const server = createServer(async (req, res) => {
 
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
-  console.log("Wave 4b Drive ingest is fixture/read-only. Live publish/ads remain blocked.");
+  console.log(
+    "Wave 4b Drive ingest is fixture/read-only. Owner review emails default to dry-run. Live publish/ads remain blocked.",
+  );
 });

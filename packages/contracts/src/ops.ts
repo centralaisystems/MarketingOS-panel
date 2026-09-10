@@ -4,10 +4,17 @@ import { ApprovalLevelSchema } from "./approval.js";
 import { CampaignPackSchema } from "./agency.js";
 import { TaskSchema } from "./task.js";
 import { AuditEventSchema } from "./audit.js";
+import {
+  EmailOutboxItemSchema,
+  OwnerReviewDecisionSchema,
+  OwnerReviewRequestSchema,
+} from "./owner-review.js";
 
 /** Campaign row in the Wave 3 ops data plane (file/memory or Supabase). */
 export const OpsCampaignStatusSchema = z.enum([
   "DRAFT",
+  "AWAITING_OWNER",
+  "CHANGES_REQUESTED",
   "INTERNAL_APPROVED",
   "REJECTED",
   "BLOCKED",
@@ -77,5 +84,8 @@ export const OpsSnapshotSchema = z.object({
   approvals: z.array(OpsApprovalRecordSchema).default([]),
   agent_runs: z.array(OpsAgentRunRecordSchema).default([]),
   audit_log: z.array(OpsAuditEventSchema).default([]),
+  owner_reviews: z.array(OwnerReviewRequestSchema).default([]),
+  owner_decisions: z.array(OwnerReviewDecisionSchema).default([]),
+  email_outbox: z.array(EmailOutboxItemSchema).default([]),
 });
 export type OpsSnapshot = z.infer<typeof OpsSnapshotSchema>;
