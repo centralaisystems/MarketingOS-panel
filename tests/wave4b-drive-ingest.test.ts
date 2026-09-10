@@ -196,9 +196,9 @@ describe("Wave 4b Villa Glory fixture ingest", () => {
     const source = createDriveAssetSource({ mode: "fixture" });
     expect(source.mode).toBe("fixture");
     expect(source.read_only).toBe(true);
-    expect(() => createDriveAssetSource({ mode: "google_drive", accessToken: "" })).toThrow(
-      GoogleDriveCredentialsMissingError,
-    );
+    expect(() =>
+      createDriveAssetSource({ mode: "google_drive", accessToken: "", env: {} }),
+    ).toThrow(GoogleDriveCredentialsMissingError);
   });
 
   it("accepts optional Drive fields on a registry entry", () => {

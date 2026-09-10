@@ -26,8 +26,8 @@ Drive ingest (done) → Figma arrange (done) → Higgsfield fill-gaps (done) →
 
 ### Drive → catalog
 
-1. Operator stores one `asset_drive_folder_url` / `asset_drive_folder_id` on the brand registry entry, **or** a gitignored `REGISTRY.local.json` patch / `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` env (Villa Glory + LOTIN + NOX FORM + NOX TECH fixtures stay in the committed registry). Do not commit Drive tokens.
-2. `DriveAssetSource` lists that folder (fixture by default; optional live Google Drive behind `MOS_DRIVE_SOURCE=google_drive`).
+1. Operator stores one `asset_drive_folder_url` / `asset_drive_folder_id` on the brand registry entry, **or** a gitignored `REGISTRY.local.json` patch / `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` env (Villa Glory + LOTIN + NOX FORM + NOX TECH fixtures stay in the committed registry). Do not commit Drive tokens or service-account JSON.
+2. `DriveAssetSource` lists that folder (fixture by default; optional live Google Drive behind `MOS_DRIVE_SOURCE=google_drive`). Live auth prefers `MOS_DRIVE_SERVICE_ACCOUNT_JSON` / `MOS_DRIVE_SERVICE_ACCOUNT_FILE` (JWT mint, `drive.readonly`); `MOS_DRIVE_ACCESS_TOKEN` remains a local/dev fallback. Share the folder with the SA `client_email` as Viewer. `pnpm test` stays on fixture and does not mint tokens.
 3. Runtime validates the folder contract and indexes **metadata** into the Wave 4 catalog.
 
 ### Figma arrange
