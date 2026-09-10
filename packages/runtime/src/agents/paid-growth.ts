@@ -8,6 +8,13 @@ import {
 } from "@marketing-os/contracts";
 import { assertAgentCapability } from "../capabilities.js";
 import type { AuditSink } from "../audit.js";
+import {
+  extractPackDraftSignals,
+  packCategoryLabel,
+  primaryCta,
+  renderCited,
+  renderCitedValue,
+} from "../pack-draft-signals.js";
 
 /**
  * A10 Paid Growth — recommendations only. Never launches ads or changes budgets.
@@ -48,18 +55,63 @@ export function runPaidGrowthRecommend(
     task_id: task.task_id,
   });
 
+  const signals = extractPackDraftSignals(pack);
+  const category = packCategoryLabel(signals);
+  const cta = primaryCta(signals);
+
+  const audience_notes = [
+    "Build audiences from VERIFIED brand pack segments only",
+    "Do not upload PII to ad platforms from Marketing OS prompts",
+    ...signals.audiences
+      .filter((a) => a.label_status === "VERIFIED")
+      .map((a) => `${a.role} (VERIFIED): ${a.label}`),
+    ...signals.audiences.flatMap((a) => {
+      const notes: string[] = [];
+      const geography = a.geography;
+      const preferred = a.preferred_channels;
+      if (geography && geography.status !== "VERIFIED") {
+        notes.push(
+          `${a.label} geography ${geography.status}: ${renderCited(geography)} — not exclusive market proof`,
+        );
+      }
+      if (preferred && preferred.status !== "VERIFIED") {
+        notes.push(
+          `${a.label} preferred channels ${preferred.status}: ${renderCited(preferred)}`,
+        );
+      }
+      return notes;
+    }),
+  ];
+
+  const creative_notes = [
+    "Use Guardian-passed drafts only",
+    "No ROI/guarantee language",
+    ...(signals.tone
+      ? [`Tone (${signals.tone.status}): ${renderCited(signals.tone)}`]
+      : ["Tone MISSING — do not invent a paid voice"]),
+    ...(category
+      ? [
+          `Subject category (${signals.category?.status}): ${category} — do not invent SKUs or prices`,
+        ]
+      : []),
+    ...(cta
+      ? [
+          `CTA (${cta.label_status}): ${cta.label}${
+            cta.intent ? ` / intent ${renderCited(cta.intent)}` : ""
+          }`,
+        ]
+      : []),
+    ...(signals.prohibited_claims
+      ? [`Restrictions (${signals.prohibited_claims.status}): ${renderCitedValue(signals.prohibited_claims.value)}`]
+      : []),
+  ];
+
   const recommendation = PaidRecommendationSchema.parse({
     brand_id: task.brand_id,
     platform: "META",
     objective: task.objective,
-    audience_notes: [
-      "Build audiences from VERIFIED brand pack segments only",
-      "Do not upload PII to ad platforms from Marketing OS prompts",
-    ],
-    creative_notes: [
-      "Use Guardian-passed drafts only",
-      "No ROI/guarantee language",
-    ],
+    audience_notes,
+    creative_notes,
     budget_notes: [
       "Budget changes require WAVE_6 + Level 3 — not available in recommend mode",
     ],

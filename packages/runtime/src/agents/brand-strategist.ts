@@ -2,12 +2,21 @@ import { randomUUID } from "node:crypto";
 import {
   AgentResultSchema,
   type AgentResult,
+  type BrandPack,
   type BrandProfile,
   type Task,
   listMissingKnowledge,
 } from "@marketing-os/contracts";
 import { assertAgentCapability } from "../capabilities.js";
 import type { AuditSink } from "../audit.js";
+import {
+  extractPackDraftSignals,
+  packCategoryLabel,
+  packDisplayName,
+  primaryCta,
+  renderCited,
+  verifiedOfferingNames,
+} from "../pack-draft-signals.js";
 
 function fieldNote(profile: BrandProfile, key: keyof BrandProfile): string {
   const field = profile[key];
@@ -24,6 +33,7 @@ export function runBrandStrategist(
   task: Task,
   profile: BrandProfile,
   audit: AuditSink,
+  pack?: BrandPack,
 ): AgentResult {
   const cap = assertAgentCapability(
     "A02_BRAND_STRATEGIST",
@@ -47,44 +57,76 @@ export function runBrandStrategist(
   }
 
   const missing = listMissingKnowledge(profile);
+  const signals = pack ? extractPackDraftSignals(pack) : undefined;
+  const displayName = signals
+    ? packDisplayName(signals, profile.display_name)
+    : profile.display_name;
+
+  const packPositioning = signals?.positioning_statement
+    ? renderCited(signals.positioning_statement)
+    : null;
+  const packAudiences = signals?.audiences.length
+    ? signals.audiences.map((a) =>
+        a.label_status === "VERIFIED"
+          ? `${a.role}: ${a.label}`
+          : `${a.role}: ${a.label} [${a.label_status}]`,
+      )
+    : null;
+  const packTone = signals?.tone ? renderCited(signals.tone) : null;
+  const packCta = signals ? primaryCta(signals) : undefined;
+  const packCategory = signals ? packCategoryLabel(signals) : undefined;
+
   const statements = [
     {
-      text: `Campaign direction for ${profile.display_name}: ${task.objective}`,
+      text: `Campaign direction for ${displayName}: ${task.objective}`,
       kind: "RECOMMENDATION" as const,
       confidence: "MEDIUM" as const,
       evidence_ids: [],
     },
     {
-      text: `Positioning status: ${fieldNote(profile, "positioning")}`,
-      kind: (profile.positioning.status === "VERIFIED" ? "FACT" : "OBSERVATION") as
-        | "FACT"
-        | "OBSERVATION",
-      confidence: (profile.positioning.status === "VERIFIED" ? "VERIFIED" : "LOW") as
-        | "VERIFIED"
-        | "LOW",
+      text: packPositioning
+        ? `Positioning (${signals?.positioning_statement?.status}): ${packPositioning}`
+        : `Positioning status: ${fieldNote(profile, "positioning")}`,
+      kind: (signals?.positioning_statement?.status === "VERIFIED" ||
+      profile.positioning.status === "VERIFIED"
+        ? "FACT"
+        : "OBSERVATION") as "FACT" | "OBSERVATION",
+      confidence: (signals?.positioning_statement?.status === "VERIFIED" ||
+      profile.positioning.status === "VERIFIED"
+        ? "VERIFIED"
+        : "LOW") as "VERIFIED" | "LOW",
       evidence_ids: [],
     },
     {
-      text: `Audience status: ${fieldNote(profile, "audiences")}`,
-      kind: (profile.audiences.status === "VERIFIED" ? "FACT" : "OBSERVATION") as
-        | "FACT"
-        | "OBSERVATION",
-      confidence: (profile.audiences.status === "VERIFIED" ? "VERIFIED" : "LOW") as
-        | "VERIFIED"
-        | "LOW",
+      text: packAudiences
+        ? `Audiences (pack): ${packAudiences.join("; ")}`
+        : `Audience status: ${fieldNote(profile, "audiences")}`,
+      kind: (signals?.audiences.some((a) => a.label_status === "VERIFIED") ||
+      profile.audiences.status === "VERIFIED"
+        ? "FACT"
+        : "OBSERVATION") as "FACT" | "OBSERVATION",
+      confidence: (signals?.audiences.some((a) => a.label_status === "VERIFIED") ||
+      profile.audiences.status === "VERIFIED"
+        ? "VERIFIED"
+        : "LOW") as "VERIFIED" | "LOW",
       evidence_ids: [],
     },
   ];
 
   const assumptions: string[] = [];
-  if (missing.includes("positioning")) {
+  if (!packPositioning && missing.includes("positioning")) {
     assumptions.push(
       "Positioning is MISSING — strategy uses only objective wording and must not invent brand claims.",
     );
   }
-  if (missing.includes("audiences") || missing.includes("personas")) {
+  if (!packAudiences && (missing.includes("audiences") || missing.includes("personas"))) {
     assumptions.push(
       "Audience/persona details are incomplete — channel and offer recommendations are provisional.",
+    );
+  }
+  if (signals?.channel_count === 0) {
+    assumptions.push(
+      "Owned channels list is MISSING — channel mix stays provisional.",
     );
   }
 
@@ -93,18 +135,35 @@ export function runBrandStrategist(
       type: "campaign_strategy_outline",
       brand_id: task.brand_id,
       objective: task.objective,
-      known_positioning: profile.positioning.status === "MISSING" ? null : profile.positioning.value,
-      known_audiences: profile.audiences.status === "MISSING" ? null : profile.audiences.value,
-      known_tone: profile.tone.status === "MISSING" ? null : profile.tone.value,
+      known_positioning:
+        packPositioning ??
+        (profile.positioning.status === "MISSING" ? null : profile.positioning.value),
+      known_category: packCategory ?? null,
+      known_audiences:
+        packAudiences ??
+        (profile.audiences.status === "MISSING" ? null : profile.audiences.value),
+      known_tone:
+        packTone ?? (profile.tone.status === "MISSING" ? null : profile.tone.value),
+      known_offerings: signals ? verifiedOfferingNames(signals) : [],
+      known_differentiation: signals?.differentiation
+        ? renderCited(signals.differentiation)
+        : null,
       channel_reasoning:
-        profile.channels.status === "MISSING"
+        signals?.channel_count === 0
           ? "Channel mix cannot be finalized until brand channels are onboarded."
-          : profile.channels.value,
-      offer_messaging:
-        profile.cta_library.status === "MISSING"
+          : profile.channels.status === "MISSING"
+            ? "Channel mix cannot be finalized until brand channels are onboarded."
+            : profile.channels.value,
+      offer_messaging: packCta
+        ? packCta.label_status === "VERIFIED"
+          ? packCta.label
+          : `${packCta.label} [${packCta.label_status}]`
+        : profile.cta_library.status === "MISSING"
           ? "CTA/offer library MISSING — use generic inquiry CTA only; do not invent discounts or guarantees."
           : profile.cta_library.value,
-      missing_for_strategy: missing,
+      missing_for_strategy: signals
+        ? [...new Set([...missing, ...signals.missing_paths])]
+        : missing,
     },
   ];
 
@@ -112,7 +171,7 @@ export function runBrandStrategist(
     task_id: task.task_id,
     brand_id: task.brand_id,
     agent: "A02_BRAND_STRATEGIST",
-    summary: `Strategy outline for ${profile.display_name}. Missing knowledge fields: ${missing.length}.`,
+    summary: `Strategy outline for ${displayName}. Missing knowledge fields: ${missing.length}.`,
     deliverables,
     statements,
     assumptions,

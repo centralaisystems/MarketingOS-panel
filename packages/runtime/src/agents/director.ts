@@ -5,11 +5,13 @@ import {
   TaskSchema,
   type AgentResult,
   type BrandId,
+  type BrandPack,
   type BrandProfile,
   type Task,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "../audit.js";
 import { loadBrandContext } from "../brand-loader.js";
+import { loadBrandPack } from "../brand-pack.js";
 import {
   assertExecutableApprovalLevel,
   detectRequestedApprovalLevel,
@@ -73,6 +75,15 @@ export function runMarketingDirector(
   const { profile, loaded_brand_ids, missing } = loadBrandContext(brand_id, audit, {
     ...(request.brandsRoot ? { brandsRoot: request.brandsRoot } : {}),
   });
+
+  let pack: BrandPack | undefined;
+  try {
+    pack = loadBrandPack(brand_id, audit, {
+      ...(request.brandsRoot ? { brandsRoot: request.brandsRoot } : {}),
+    });
+  } catch {
+    pack = undefined;
+  }
 
   const block_reasons: string[] = [];
   let execution_blocked = false;
@@ -158,8 +169,8 @@ export function runMarketingDirector(
     audit,
     request.supplied_evidence ?? [],
   );
-  const strategyResult = runBrandStrategist(strategyTask, profile, audit);
-  const contentResult = runContentCopy(contentTask, profile, audit);
+  const strategyResult = runBrandStrategist(strategyTask, profile, audit, pack);
+  const contentResult = runContentCopy(contentTask, profile, audit, pack);
 
   researchTask.status = "COMPLETED";
   strategyTask.status = "COMPLETED";
