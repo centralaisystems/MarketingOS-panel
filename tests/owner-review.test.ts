@@ -109,7 +109,8 @@ describe("Owner Review Loop", () => {
     expect(body.outbox.text_body).toContain(pack.pack_id);
     expect(body.outbox.text_body).toMatch(/Live publish: OFF/);
     expect(body.outbox.text_body).toMatch(/not live spend/i);
-    expect(body.outbox.text_body).not.toMatch(/VERIFIED/);
+    expect(body.outbox.text_body).toMatch(/pack\/approval fields only/i);
+    expect(body.outbox.text_body).not.toMatch(/is VERIFIED|status: VERIFIED/);
     expect(body.outbox.live_publish).toBe(false);
     expect(body.outbox.live_ads).toBe(false);
     expect(body.review.review_url).toContain("/owner-review?token=");
