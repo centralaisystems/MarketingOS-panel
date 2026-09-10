@@ -186,11 +186,12 @@ describe("Villa Glory Wave 2 draft quality", () => {
     expect(blob).not.toMatch(/guaranteed 40%|risk-free/i);
   });
 
-  it("keeps Wave 1–2 gates only after draft-quality work", () => {
+  it("keeps live flags off after draft-quality work", () => {
     const gates = loadPhaseGates();
     expect(gates.enabled_waves).toEqual([
       "WAVE_1_REGISTRY",
       "WAVE_2_CONTENT_FACTORY",
+      "WAVE_3_DB_PANEL",
     ]);
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);

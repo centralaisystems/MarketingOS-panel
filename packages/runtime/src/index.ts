@@ -30,4 +30,7 @@ export * from "./agents/creative.js";
 export * from "./agents/paid-growth.js";
 export * from "./agents/competitor.js";
 export * from "./integrations/index.js";
+export * from "./ops-store.js";
+export * from "./ops-persist.js";
+export * from "./panel-api.js";
 

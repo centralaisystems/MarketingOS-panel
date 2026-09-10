@@ -21,6 +21,7 @@ export const PhaseGateStateSchema = z.object({
   enabled_waves: z.array(AgencyWaveSchema).default([
     "WAVE_1_REGISTRY",
     "WAVE_2_CONTENT_FACTORY",
+    "WAVE_3_DB_PANEL",
   ]),
   live_publish_allowed: z.boolean().default(false),
   live_ads_allowed: z.boolean().default(false),
