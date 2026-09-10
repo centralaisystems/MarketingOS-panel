@@ -11,6 +11,7 @@ import {
   assertWaveEnabled,
 } from "../phase-gates.js";
 
+
 /** Wave 5 — dry-run social publish (live blocked unless gates enabled). */
 export function dryRunSocialPublish(
   request: DryRunPublishRequest,
@@ -55,18 +56,4 @@ export function stagingLaunchAd(input: {
   };
 }
 
-/** Wave 4 — read-only analytics adapter stub. */
-export function readAnalyticsSnapshot(brand_id: string): {
-  brand_id: string;
-  status: "STUB";
-  metrics: Record<string, number>;
-  write_scopes: [];
-} {
-  assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS");
-  return {
-    brand_id,
-    status: "STUB",
-    metrics: { impressions: 0, clicks: 0, leads: 0 },
-    write_scopes: [],
-  };
-}
+/** Wave 4 read-only analytics lives in `../analytics.ts` (fixture adapters). */

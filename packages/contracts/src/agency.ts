@@ -22,6 +22,7 @@ export const PhaseGateStateSchema = z.object({
     "WAVE_1_REGISTRY",
     "WAVE_2_CONTENT_FACTORY",
     "WAVE_3_DB_PANEL",
+    "WAVE_4_ANALYTICS_ASSETS",
   ]),
   live_publish_allowed: z.boolean().default(false),
   live_ads_allowed: z.boolean().default(false),

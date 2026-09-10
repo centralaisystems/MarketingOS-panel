@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import { randomUUID } from "node:crypto";
 import {
   AgentResultSchema,
+  AiSearchVisibilityReportSchema,
+  AnalyticsSnapshotSchema,
   ApprovalDecisionSchema,
+  AssetRecordSchema,
   BrandIdSchema,
   EvidenceSchema,
   OpsCampaignRecordSchema,
@@ -173,5 +176,50 @@ describe("contracts", () => {
     });
     expect(row.brand_id).toBe("VILLA_GLORY");
     expect(row.pack.live_publish).toBe(false);
+  });
+
+  it("rejects Git asset URIs and VERIFIED analytics fixture traffic", () => {
+    expect(() =>
+      AssetRecordSchema.parse({
+        asset_id: randomUUID(),
+        brand_id: "VILLA_GLORY",
+        title: "still",
+        kind: "IMAGE",
+        mime_type: "image/jpeg",
+        storage_uri: "assets/binaries/room.jpg",
+        in_git: false,
+        approval_status: "APPROVED",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }),
+    ).toThrow(/object storage|Git/);
+
+    expect(() =>
+      AnalyticsSnapshotSchema.parse({
+        brand_id: "VILLA_GLORY",
+        generated_at: new Date().toISOString(),
+        status: "FIXTURE",
+        write_scopes: ["analytics.edit"],
+        live_keys_used: false,
+        providers: [],
+        utm_health: {
+          rows_with_valid_utm: 0,
+          rows_missing_or_invalid_utm: 0,
+        },
+      }),
+    ).toThrow();
+
+    expect(() =>
+      AiSearchVisibilityReportSchema.parse({
+        brand_id: "VILLA_GLORY",
+        generated_at: new Date().toISOString(),
+        mode: "FIXTURE",
+        write_scopes: [],
+        live_probe: false,
+        invented_verified_claims: true,
+        probes: [],
+        summary: "bad",
+      }),
+    ).toThrow();
   });
 });

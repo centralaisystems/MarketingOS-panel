@@ -98,12 +98,13 @@ describe("Wave 2 campaign factory", () => {
 });
 
 describe("Wave 5-8 gated foundations", () => {
-  it("keeps Wave 1–3 enabled and live flags off", () => {
+  it("keeps Wave 1–4 enabled and live flags off", () => {
     const gates = loadPhaseGates();
     expect(gates.enabled_waves).toEqual([
       "WAVE_1_REGISTRY",
       "WAVE_2_CONTENT_FACTORY",
       "WAVE_3_DB_PANEL",
+      "WAVE_4_ANALYTICS_ASSETS",
     ]);
     expect(gates.enabled_waves).not.toContain("WAVE_5_SOCIAL_PUBLISH");
     expect(gates.enabled_waves).not.toContain("WAVE_6_PAID_ADS");
