@@ -22,6 +22,7 @@
     "apply-brand-decisions": "tsx scripts/apply-brand-decisions.ts",
     "create-brand": "tsx scripts/create-brand.ts",
     "build-campaign-pack": "tsx scripts/build-campaign-pack.ts",
+    "start": "pnpm --filter @marketing-os/panel start",
     "panel": "pnpm --filter @marketing-os/panel start",
     "sync-brand-assets": "tsx scripts/sync-brand-assets.ts",
     "arrange-figma": "tsx scripts/arrange-figma.ts",

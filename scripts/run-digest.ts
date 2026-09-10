@@ -16,7 +16,7 @@ import { join } from "node:path";
 import {
   assertRegisteredBrandId,
   createEmailAdapter,
-  createOpsStore,
+  createOpsStoreAsync,
   runAutomationDigest,
 } from "@marketing-os/runtime";
 
@@ -36,15 +36,16 @@ async function main(): Promise<void> {
   }
   const brand_id = assertRegisteredBrandId(brandRaw);
   const period = arg("--period") ?? "daily";
+  const store = await createOpsStoreAsync({
+    dir: process.env.MOS_OPS_DIR ?? join(process.cwd(), "data", "ops"),
+  });
   const result = await runAutomationDigest({
     brand_id,
     period,
-    store: createOpsStore({
-      backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
-      dir: process.env.MOS_OPS_DIR ?? join(process.cwd(), "data", "ops"),
-    }),
+    store,
     email: createEmailAdapter(),
   });
+  await store.flush();
   console.log(JSON.stringify(result, null, 2));
   if (result.status === "BLOCKED") {
     process.exitCode = 1;

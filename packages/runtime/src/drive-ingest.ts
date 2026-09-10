@@ -37,14 +37,27 @@ export function driveAssetId(brand_id: BrandId, drive_file_id: string): string {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20, 32)}`;
 }
 
+function envDriveOverride(brand_id: BrandId): {
+  folder_id?: string;
+  folder_url?: string;
+} {
+  const url = process.env[`MOS_DRIVE_FOLDER_URL_${brand_id}`]?.trim();
+  const id = process.env[`MOS_DRIVE_FOLDER_ID_${brand_id}`]?.trim();
+  return {
+    ...(url ? { folder_url: url } : {}),
+    ...(id ? { folder_id: id } : {}),
+  };
+}
+
 export function resolveBrandDriveFolder(
   brand_id: BrandId,
   opts?: { brandsRoot?: string },
 ): { folder_id: string; folder_url: string | null } | null {
   const entry = getBrandEntry(brand_id, brandsRootOpt(opts?.brandsRoot));
-  const url = entry.asset_drive_folder_url;
+  const env = envDriveOverride(brand_id);
+  const url = env.folder_url ?? entry.asset_drive_folder_url;
   const fromUrl = url ? parseDriveFolderId(url) : null;
-  const folder_id = entry.asset_drive_folder_id ?? fromUrl;
+  const folder_id = env.folder_id ?? entry.asset_drive_folder_id ?? fromUrl;
   if (!folder_id) return null;
   return {
     folder_id,

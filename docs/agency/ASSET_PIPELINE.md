@@ -26,7 +26,7 @@ Drive ingest (done) → Figma arrange (done) → Higgsfield fill-gaps (done) →
 
 ### Drive → catalog
 
-1. Operator stores one `asset_drive_folder_url` / `asset_drive_folder_id` on the brand registry entry.
+1. Operator stores one `asset_drive_folder_url` / `asset_drive_folder_id` on the brand registry entry, **or** a gitignored `REGISTRY.local.json` patch / `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` env (Villa Glory fixture stays in the committed registry). Do not commit Drive tokens.
 2. `DriveAssetSource` lists that folder (fixture by default; optional live Google Drive behind `MOS_DRIVE_SOURCE=google_drive`).
 3. Runtime validates the folder contract and indexes **metadata** into the Wave 4 catalog.
 

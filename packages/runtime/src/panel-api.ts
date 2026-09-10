@@ -20,7 +20,12 @@ import {
   isWaveEnabled,
   loadPhaseGates,
 } from "./phase-gates.js";
-import { CrossBrandDeniedError, OpsAuditSink, type OpsStore } from "./ops-store.js";
+import {
+  CrossBrandDeniedError,
+  OpsAuditSink,
+  resolveOpsStoreBackend,
+  type OpsStore,
+} from "./ops-store.js";
 import { decideInboxApproval, persistCampaignPack, persistDirectorRun } from "./ops-persist.js";
 import {
   createAssetCatalog,
@@ -227,7 +232,7 @@ export async function handlePanelApi(
     const method = req.method.toUpperCase();
     const path = req.pathname;
 
-    if (method === "GET" && path === "/api/health") {
+    if (method === "GET" && (path === "/api/health" || path === "/health")) {
       const gates = loadPhaseGates(brandsRootOpt(ctx.brandsRoot));
       return {
         status: 200,
@@ -252,6 +257,7 @@ export async function handlePanelApi(
           live_publish_operator_flag: isLivePublishOperatorFlagOn(),
           live_ads_operator_flag: isLiveAdsOperatorFlagOn(),
           email_mode: resolveEmailMode(),
+          ops_store: resolveOpsStoreBackend(),
         },
       };
     }
@@ -449,6 +455,8 @@ export async function handlePanelApi(
     return jsonError(404, "not found");
   } catch (e) {
     return mapError(e);
+  } finally {
+    await ctx.store.flush();
   }
 }
 
