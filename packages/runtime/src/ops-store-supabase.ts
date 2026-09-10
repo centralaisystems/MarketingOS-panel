@@ -948,6 +948,10 @@ export function createSupabaseOpsRemoteFromEnv(
 /**
  * Write-through OpsStore: memory replica for sync reads + queued Supabase upserts.
  * Call `flush()` after a request (panel does this automatically).
+ *
+ * Remote writes run in enqueue order (not Promise.all). PostgREST FKs such as
+ * `agent_runs.task_id → tasks` and `approvals.task_id/campaign_id` fail if a
+ * child upsert races ahead of its parent.
  */
 export class SupabaseOpsStore extends MemoryOpsStore {
   private pending: Promise<void>[] = [];
@@ -963,7 +967,8 @@ export class SupabaseOpsStore extends MemoryOpsStore {
   }
 
   private enqueue(op: () => Promise<void>): void {
-    this.pending.push(op());
+    const prev = this.pending[this.pending.length - 1] ?? Promise.resolve();
+    this.pending.push(prev.then(op));
   }
 
   private ensureBrand(brand_id: BrandId): void {
@@ -974,7 +979,8 @@ export class SupabaseOpsStore extends MemoryOpsStore {
   async flush(): Promise<void> {
     const batch = this.pending;
     this.pending = [];
-    await Promise.all(batch);
+    if (batch.length === 0) return;
+    await batch[batch.length - 1];
   }
 
   async hydrate(): Promise<void> {
