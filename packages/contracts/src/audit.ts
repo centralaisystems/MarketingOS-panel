@@ -47,6 +47,8 @@ export const AuditEventSchema = z.object({
     "AD_LAUNCH_LIVE_BLOCKED",
     "LEAD_INGESTED",
     "LEAD_ATTRIBUTED",
+    "DIGEST_RECORDED",
+    "DIGEST_BLOCKED",
     "ERROR",
   ]),
   message: z.string().min(1),

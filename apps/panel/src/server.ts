@@ -5,7 +5,9 @@
  * Figma arrange + Higgsfield fill-gaps + video export packages are fixture-first.
  * Owner review emails default to dry-run outbox.
  * Wave 5 Instagram dry-run writes social outbox + audit. Wave 6 paid staging is recommend-only.
- * Wave 7 CRM lists fixture leads with opaque pii_ref. Live publish/ads stay blocked.
+ * Wave 7 CRM lists fixture leads with opaque pii_ref.
+ * Wave 8 executive dashboard + scheduled digests dry-run to the email outbox.
+ * Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFileSync } from "node:fs";

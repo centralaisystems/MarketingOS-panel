@@ -22,6 +22,7 @@ import {
   buildDailyDigest,
   loadPhaseGates,
   InMemoryAuditSink,
+  MemoryOpsStore,
 } from "@marketing-os/runtime";
 import type { CampaignPack } from "@marketing-os/contracts";
 
@@ -98,7 +99,7 @@ describe("Wave 2 campaign factory", () => {
 });
 
 describe("Wave 5-8 gated foundations", () => {
-  it("keeps Wave 1–7 enabled and live flags off", () => {
+  it("keeps Wave 1–8 enabled and live flags off", () => {
     const gates = loadPhaseGates();
     expect(gates.enabled_waves).toEqual([
       "WAVE_1_REGISTRY",
@@ -109,13 +110,13 @@ describe("Wave 5-8 gated foundations", () => {
       "WAVE_5_SOCIAL_PUBLISH",
       "WAVE_6_PAID_ADS",
       "WAVE_7_CRM",
+      "WAVE_8_AUTOMATION_DASHBOARD",
     ]);
-    expect(gates.enabled_waves).not.toContain("WAVE_8_AUTOMATION_DASHBOARD");
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);
   });
 
-  it("allows Wave 5–7 staging/fixtures and still blocks wave 8", () => {
+  it("allows Wave 5–8 staging/fixtures/digests while live flags stay off", () => {
     const dry = dryRunSocialPublish({
       brand_id: "LOTIN",
       channel: "INSTAGRAM",
@@ -131,7 +132,13 @@ describe("Wave 5-8 gated foundations", () => {
     });
     expect(lead.pii_ref).toBe("vault:lead_abc123");
     expect(lead.brand_id).toBe("LOTIN");
-    expect(() => buildDailyDigest()).toThrow(/WAVE_8_AUTOMATION_DASHBOARD/);
+    const digest = buildDailyDigest({
+      brand_id: "VILLA_GLORY",
+      store: new MemoryOpsStore(),
+    });
+    expect(digest.brand_id).toBe("VILLA_GLORY");
+    expect(digest.live_publish).toBe(false);
+    expect(digest.live_ads).toBe(false);
   });
 
   it("rejects raw PII in CRM lead drafts before wave execution", () => {

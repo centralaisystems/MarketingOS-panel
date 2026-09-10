@@ -30,14 +30,15 @@
 7. Optional owner review (templated Resend / dry-run outbox). Villa Glory uses a fixture `@example.test` address. See [`OWNER_REVIEW.md`](./OWNER_REVIEW.md):
    ```bash
    pnpm create-brand -- --id ACME --slug acme --name "Acme Co" \
-     --owner-email owner@example.test --enable-owner-email
+     --owner-email owner@example.test --enable-owner-email --enable-automation
    ```
+   `automation_enabled` is the Wave 8 digest kill switch (default off). Emailing still requires `owner_email_enabled`. See [`AUTOMATION.md`](./AUTOMATION.md).
 
 ## Operator panel (Wave 3–4 usable thin UI)
 
 The panel is a **dedicated Marketing OS app** (`pnpm panel` → http://127.0.0.1:8787). It is not embedded in NOX TECH admin.
 
-It reads the registry for the brand switcher, then loads **only** the active `brand_id` for readiness, drafts, inbox, audit, asset metadata, Drive sync status, Figma arrange jobs, Higgsfield fill-gap jobs, video export packages, analytics snapshots, and AI search visibility. Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`; another brand's campaign/asset id returns `404`.
+It reads the registry for the brand switcher, then loads **only** the active `brand_id` for the executive dashboard (Today / Campaigns / Approvals / Leads / Analytics / Costs), readiness, drafts, inbox, audit, asset metadata, Drive sync status, Figma arrange jobs, Higgsfield fill-gap jobs, video export packages, analytics snapshots, AI search visibility, and automation digests. Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`; another brand's campaign/asset id returns `404`.
 
 Local/CI persistence is the file/memory ops store (`data/ops/store.json` by default). A live Supabase project is optional; apply `supabase/migrations/202609100001_phase4a_ops.sql` when one exists. `MOS_OPS_BACKEND=supabase` is not wired yet.
 
@@ -121,6 +122,16 @@ curl -s "http://127.0.0.1:8787/api/leads?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/leads/attribution?brand_id=VILLA_GLORY"
 # LOTIN must not see Villa Glory leads
 curl -s "http://127.0.0.1:8787/api/leads?brand_id=LOTIN"
+# Wave 8 daily digest (dry-run outbox; Villa Glory automation_enabled)
+curl -s "http://127.0.0.1:8787/api/dashboard?brand_id=VILLA_GLORY"
+curl -s -X POST http://127.0.0.1:8787/api/digests \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"VILLA_GLORY","period":"daily"}'
+curl -s "http://127.0.0.1:8787/api/digests?brand_id=VILLA_GLORY"
+curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=VILLA_GLORY"
+# LOTIN must not see Villa Glory digests
+curl -s "http://127.0.0.1:8787/api/digests?brand_id=LOTIN"
+curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=LOTIN"
 ```
 
-Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false), `MOS_LIVE_PUBLISH`, and `MOS_LIVE_ADS` (both default false). Wave 5 dry-run does not post to Instagram. Wave 6 staging does not spend on Meta/Google. Wave 7 CRM never puts raw email/phone in panel or agent summaries. Never invent VERIFIED brand facts from the panel.
+Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false), `MOS_LIVE_PUBLISH`, and `MOS_LIVE_ADS` (both default false). Wave 5 dry-run does not post to Instagram. Wave 6 staging does not spend on Meta/Google. Wave 7 CRM never puts raw email/phone in panel or agent summaries. Wave 8 digests use counts only. Never invent VERIFIED brand facts from the panel.

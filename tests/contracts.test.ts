@@ -173,6 +173,14 @@ describe("contracts", () => {
       display_name: "LOTIN",
     });
     expect(lotin.owner_email_enabled).toBe(false);
+    expect(lotin.automation_enabled).toBe(false);
+    const vgAuto = BrandRegistryEntrySchema.parse({
+      brand_id: "VILLA_GLORY",
+      slug: "villa-glory",
+      display_name: "Villa Glory",
+      automation_enabled: true,
+    });
+    expect(vgAuto.automation_enabled).toBe(true);
   });
 
   it("validates ops campaign rows as brand-scoped drafts", () => {

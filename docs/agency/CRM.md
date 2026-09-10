@@ -30,4 +30,4 @@ Every lead, event, and opportunity carries `brand_id`. The sealed vault is not p
 
 ## Out of scope
 
-Live WhatsApp/form webhooks with real customer data, enabling live ads/publish, automation digests (Wave 8).
+Live WhatsApp/form webhooks with real customer data, enabling live ads/publish. Scheduled digests are Wave 8 — see [`AUTOMATION.md`](./AUTOMATION.md).

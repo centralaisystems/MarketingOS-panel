@@ -36,6 +36,11 @@ export const BrandRegistryEntrySchema = z.object({
   owner_cc: z.array(z.string().email()).optional(),
   /** Per-brand kill switch. Default off — Villa Glory fixture enables it. */
   owner_email_enabled: z.boolean().default(false),
+  /**
+   * Wave 8 scheduled digest / automation kill switch.
+   * Default off — Villa Glory fixture enables it. Independent of owner_email_enabled.
+   */
+  automation_enabled: z.boolean().default(false),
 });
 export type BrandRegistryEntry = z.infer<typeof BrandRegistryEntrySchema>;
 

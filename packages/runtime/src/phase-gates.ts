@@ -18,11 +18,12 @@ const DEFAULT_GATES: PhaseGateState = PhaseGateStateSchema.parse({
     "WAVE_5_SOCIAL_PUBLISH",
     "WAVE_6_PAID_ADS",
     "WAVE_7_CRM",
+    "WAVE_8_AUTOMATION_DASHBOARD",
   ],
   live_publish_allowed: false,
   live_ads_allowed: false,
   notes:
-    "Waves 1–7 enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive/Figma/Higgsfield/video pipeline (fixture), Instagram dry-run social publish, Meta/Google paid staging, CRM leads + attribution (opaque pii_ref). live_publish_allowed and live_ads_allowed stay false. Wave 8 remains scaffolded. Live publish/ads stay OFF until explicit operator approval.",
+    "Waves 1–8 enabled: registry, draft content factory, ops panel, read-only analytics/assets + AI visibility, Drive/Figma/Higgsfield/video pipeline (fixture), Instagram dry-run social publish, Meta/Google paid staging, CRM leads + attribution (opaque pii_ref), scheduled automation digests + executive dashboard. live_publish_allowed and live_ads_allowed stay false. Live publish/ads stay OFF until explicit operator approval.",
 });
 
 function gatesPath(brandsRoot?: string): string {

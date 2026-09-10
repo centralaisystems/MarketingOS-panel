@@ -1,6 +1,6 @@
 # Agency waves — implementation status
 
-Updated 2026-09-10 (Wave 7 CRM) against the Full Agency Roadmap. Enabled waves are only those listed in [`reports/agency/PHASE_GATES.json`](../../reports/agency/PHASE_GATES.json).
+Updated 2026-09-10 (Wave 8 automation) against the Full Agency Roadmap. Enabled waves are only those listed in [`reports/agency/PHASE_GATES.json`](../../reports/agency/PHASE_GATES.json).
 
 | Wave | Status | Notes |
 |------|--------|-------|
@@ -13,6 +13,6 @@ Updated 2026-09-10 (Wave 7 CRM) against the Full Agency Roadmap. Enabled waves a
 | 6 Paid ads | Enabled (staging / recommend only) | `WAVE_6_PAID_ADS` on. Villa Glory Meta first (Google fixture-wired). `stageAdLaunch` / `stageBudgetMutation` write `ad_outbox` + `ad_staging_jobs` + audit. Live fire 403 while `live_ads_allowed=false` and `MOS_LIVE_ADS` defaults false. Level 3 APPROVED row required before any live path (still unimplemented). See [`PAID_ADS.md`](./PAID_ADS.md). |
 | 7 CRM | Enabled (fixture ingest + attribution) | `WAVE_7_CRM` on. Villa Glory form/WhatsApp stubs first. Leads, events, and opportunities store opaque `pii_ref` only. Panel lists leads and joins them to campaigns via `campaign_id` / UTM. Raw email/phone stay in a process-local vault and never enter prompts, audit, agent runs, or global memory. Live webhooks out of scope. See [`CRM.md`](./CRM.md). Migration: `supabase/migrations/202609100010_wave7_crm.sql`. |
 | Owner review | Enabled (dry-run email) | Opt-in `owner_email` / `owner_email_enabled` on the registry (Villa Glory fixture first). Templated MATERIALS_READY + PROGRESS_DIGEST; ads progress is a stub (not live spend). Owner Approve / Request changes + note. Change notes create Level-1 revision tasks and re-run Guardian. `MOS_EMAIL_MODE=dry_run` by default. |
-| 8 Automation | Scaffolded (not enabled) | `buildDailyDigest` requires WAVE_8; no digest UI beyond the Wave 3 audit list |
+| 8 Automation | Enabled (digest dry-run + executive dashboard) | `WAVE_8_AUTOMATION_DASHBOARD` on. Villa Glory first (`automation_enabled` + owner email). `pnpm run-digest -- --brand VILLA_GLORY --period daily` and panel **Today** / `POST /api/digests` write a count-only digest + dry-run email outbox. Kill switch blocks send. Live publish/ads stay false. No production cron — operator/CLI trigger now; future cron can call the same function. See [`AUTOMATION.md`](./AUTOMATION.md). |
 
-Do not set `live_publish_allowed` or `live_ads_allowed` to true without explicit operator approval. Waves 5–7 are enabled (dry-run / staging / fixture CRM); Wave 8 stays scaffolded until an explicit gate decision.
+Do not set `live_publish_allowed` or `live_ads_allowed` to true without explicit operator approval. Waves 5–8 are enabled (dry-run / staging / fixture CRM / digest dry-run). Live publish/ads stay OFF.

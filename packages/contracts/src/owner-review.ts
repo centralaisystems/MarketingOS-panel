@@ -13,6 +13,8 @@ export const EmailTemplateKindSchema = z.enum([
   "MATERIALS_READY",
   "PROGRESS_DIGEST",
   "ADS_PROGRESS_STUB",
+  /** Wave 8 scheduled Today digest — counts only, no raw PII. */
+  "AUTOMATION_DIGEST",
 ]);
 export type EmailTemplateKind = z.infer<typeof EmailTemplateKindSchema>;
 

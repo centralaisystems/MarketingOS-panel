@@ -25,6 +25,7 @@ import {
   LeadEventSchema,
   LeadSchema,
   OpportunitySchema,
+  AutomationDigestRecordSchema,
   type AgentId,
   type ApprovalLevel,
   type AuditEvent,
@@ -48,6 +49,7 @@ import {
   type Lead,
   type LeadEvent,
   type Opportunity,
+  type AutomationDigestRecord,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
 import { BrandIsolationError } from "./brand-loader.js";
@@ -175,6 +177,19 @@ export interface OpsStore {
 
   insertOpportunity(brand_id: BrandId, record: Opportunity): Opportunity;
   listOpportunities(brand_id: BrandId, opts?: { limit?: number }): Opportunity[];
+
+  insertAutomationDigest(
+    brand_id: BrandId,
+    record: AutomationDigestRecord,
+  ): AutomationDigestRecord;
+  listAutomationDigests(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): AutomationDigestRecord[];
+  getAutomationDigest(
+    brand_id: BrandId,
+    digest_id: string,
+  ): AutomationDigestRecord | null;
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -220,6 +235,7 @@ export class MemoryOpsStore implements OpsStore {
   protected leads: Lead[] = [];
   protected leadEvents: LeadEvent[] = [];
   protected opportunities: Opportunity[] = [];
+  protected automationDigests: AutomationDigestRecord[] = [];
 
   insertCampaign(brand_id: BrandId, record: OpsCampaignRecord): OpsCampaignRecord {
     const parsed = OpsCampaignRecordSchema.parse(record);
@@ -615,6 +631,36 @@ export class MemoryOpsStore implements OpsStore {
     ).slice(0, limit);
   }
 
+  insertAutomationDigest(
+    brand_id: BrandId,
+    record: AutomationDigestRecord,
+  ): AutomationDigestRecord {
+    const parsed = AutomationDigestRecordSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.automationDigests.push(parsed);
+    return parsed;
+  }
+
+  listAutomationDigests(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): AutomationDigestRecord[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(
+      this.automationDigests.filter((e) => e.brand_id === brand_id),
+    ).slice(0, limit);
+  }
+
+  getAutomationDigest(
+    brand_id: BrandId,
+    digest_id: string,
+  ): AutomationDigestRecord | null {
+    const row = this.automationDigests.find((e) => e.digest_id === digest_id);
+    if (!row) return null;
+    assertSameBrand(brand_id, row.brand_id);
+    return row;
+  }
+
   /** Test helper — never used by panel HTTP. */
   exportSnapshot(): OpsSnapshot {
     return OpsSnapshotSchema.parse({
@@ -632,6 +678,7 @@ export class MemoryOpsStore implements OpsStore {
       leads: this.leads,
       lead_events: this.leadEvents,
       opportunities: this.opportunities,
+      automation_digests: this.automationDigests,
     });
   }
 }
@@ -667,6 +714,7 @@ export class FileOpsStore extends MemoryOpsStore {
     this.leads = snap.leads;
     this.leadEvents = snap.lead_events;
     this.opportunities = snap.opportunities;
+    this.automationDigests = snap.automation_digests;
   }
 
   private persist(): void {
@@ -825,6 +873,15 @@ export class FileOpsStore extends MemoryOpsStore {
     record: Opportunity,
   ): Opportunity {
     const row = super.insertOpportunity(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertAutomationDigest(
+    brand_id: BrandId,
+    record: AutomationDigestRecord,
+  ): AutomationDigestRecord {
+    const row = super.insertAutomationDigest(brand_id, record);
     this.persist();
     return row;
   }

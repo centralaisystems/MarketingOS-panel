@@ -23,7 +23,8 @@ pnpm create-brand -- --id ACME --slug acme --name "Acme Co" \
 
 1. **MATERIALS_READY** — campaign pack / creative draft summary + panel review link.
 2. **PROGRESS_DIGEST** — dry-run safe counts (drafts, pending approvals, pending owner reviews).
-3. **ADS_PROGRESS_STUB** — placeholder only. Wave 6 is not unlocked. No Meta/Google live data. Clearly **not live spend**.
+3. **ADS_PROGRESS_STUB** — placeholder only. No Meta/Google live data. Clearly **not live spend**.
+4. **AUTOMATION_DIGEST** — Wave 8 scheduled Today digest (counts only). See [`AUTOMATION.md`](./AUTOMATION.md).
 
 Copy pulls pack/approval/digest fields only. It never invents `VERIFIED` commercial claims and does not attach binaries. When Figma arrange, Higgsfield fill-gap, or video produce jobs exist for the campaign, the review payload includes `arranged_asset_ids` / `figma_job_ids`, `generated_asset_ids` / `higgsfield_job_ids`, and `video_asset_ids` / `video_job_ids` (GENERATED / UNVERIFIED pointers — video rows are export packages, not rendered or published videos) so the owner page can deep-link later. Existing approve / request-changes behavior is unchanged.
 

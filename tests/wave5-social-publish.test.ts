@@ -86,6 +86,7 @@ describe("Wave 5 gated social publish", () => {
     expect(gates.enabled_waves).toContain("WAVE_5_SOCIAL_PUBLISH");
     expect(gates.enabled_waves).toContain("WAVE_6_PAID_ADS");
     expect(gates.enabled_waves).toContain("WAVE_7_CRM");
+    expect(gates.enabled_waves).toContain("WAVE_8_AUTOMATION_DASHBOARD");
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);
     expect(WAVE5_INSTAGRAM_CHANNEL.brand_id).toBe("VILLA_GLORY");
