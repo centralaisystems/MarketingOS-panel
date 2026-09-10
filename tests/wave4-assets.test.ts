@@ -35,6 +35,18 @@ describe("Wave 4 asset metadata catalog", () => {
     expect(lotin.some((r) => r.asset_id === WAVE4_ASSET_IDS.VG_LIVING_UNUSED_A)).toBe(
       false,
     );
+    const noxForm = catalog.listMetadata("NOX_FORM");
+    expect(noxForm.every((r) => r.brand_id === "NOX_FORM")).toBe(true);
+    expect(noxForm.some((r) => r.asset_id === WAVE4_ASSET_IDS.NOX_FORM_UNUSED)).toBe(true);
+    expect(noxForm.some((r) => r.asset_id === WAVE4_ASSET_IDS.VG_LIVING_UNUSED_A)).toBe(
+      false,
+    );
+    const noxTech = catalog.listMetadata("NOX_TECH");
+    expect(noxTech.every((r) => r.brand_id === "NOX_TECH")).toBe(true);
+    expect(noxTech.some((r) => r.asset_id === WAVE4_ASSET_IDS.NOX_TECH_UNUSED)).toBe(true);
+    expect(noxTech.some((r) => r.asset_id === WAVE4_ASSET_IDS.NOX_FORM_UNUSED)).toBe(
+      false,
+    );
     expect(
       catalog.getMetadata("LOTIN", WAVE4_ASSET_IDS.VG_LIVING_UNUSED_A),
     ).toBeNull();

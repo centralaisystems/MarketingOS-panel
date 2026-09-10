@@ -19,6 +19,10 @@ import {
   validateDriveFolderContract,
   LOTIN_FIXTURE_DRIVE_FOLDER_ID,
   LOTIN_FIXTURE_DRIVE_TREE,
+  NOX_FORM_FIXTURE_DRIVE_FOLDER_ID,
+  NOX_FORM_FIXTURE_DRIVE_TREE,
+  NOX_TECH_FIXTURE_DRIVE_FOLDER_ID,
+  NOX_TECH_FIXTURE_DRIVE_TREE,
   VILLA_GLORY_FIXTURE_DRIVE_FOLDER_ID,
   VILLA_GLORY_FIXTURE_DRIVE_TREE,
   type DriveFixtureTree,
@@ -218,6 +222,28 @@ describe("Wave 4b Villa Glory fixture ingest", () => {
     expect(lotin.asset_drive_folder_id).toBe(LOTIN_FIXTURE_DRIVE_FOLDER_ID);
     expect(lotin.automation_enabled).toBe(false);
     expect(lotin.owner_email_enabled).toBe(false);
+
+    const noxForm = BrandRegistryEntrySchema.parse({
+      brand_id: "NOX_FORM",
+      slug: "nox-form",
+      display_name: "NOX FORM",
+      asset_drive_folder_id: NOX_FORM_FIXTURE_DRIVE_FOLDER_ID,
+      asset_drive_folder_url: "https://drive.google.com/drive/folders/fixture-nox-form-root",
+    });
+    expect(noxForm.asset_drive_folder_id).toBe(NOX_FORM_FIXTURE_DRIVE_FOLDER_ID);
+    expect(noxForm.automation_enabled).toBe(false);
+    expect(noxForm.owner_email_enabled).toBe(false);
+
+    const noxTech = BrandRegistryEntrySchema.parse({
+      brand_id: "NOX_TECH",
+      slug: "nox-tech",
+      display_name: "NOX TECH",
+      asset_drive_folder_id: NOX_TECH_FIXTURE_DRIVE_FOLDER_ID,
+      asset_drive_folder_url: "https://drive.google.com/drive/folders/fixture-nox-tech-root",
+    });
+    expect(noxTech.asset_drive_folder_id).toBe(NOX_TECH_FIXTURE_DRIVE_FOLDER_ID);
+    expect(noxTech.automation_enabled).toBe(false);
+    expect(noxTech.owner_email_enabled).toBe(false);
   });
 });
 
@@ -271,6 +297,69 @@ describe("Wave 4b LOTIN fixture ingest", () => {
     expect(kit.every((r) => r.approval_status === "DRAFT")).toBe(true);
     expect(rows.some((r) => r.folder_role === "generated")).toBe(false);
     expect(catalog.listMetadata("VILLA_GLORY")).toEqual([]);
+  });
+});
+
+describe("Wave 4b remaining-brand fixture ingest", () => {
+  it("ingests the NOX FORM fixture tree with folder roles and provenance", async () => {
+    const catalog = new MemoryAssetCatalog();
+    const result = await syncBrandAssets({
+      brand_id: "NOX_FORM",
+      catalog,
+      source: createDriveAssetSource({ mode: "fixture" }),
+    });
+    expect(result.configured).toBe(true);
+    expect(result.read_only).toBe(true);
+    expect(result.source).toBe("fixture");
+    expect(result.contract.valid).toBe(true);
+    expect(result.folder_id).toBe(NOX_FORM_FIXTURE_DRIVE_FOLDER_ID);
+    expect(result.ingested).toBe(NOX_FORM_FIXTURE_DRIVE_TREE.files.length);
+    expect(result.skipped).toBe(0);
+    expect(result.live_publish).toBe(false);
+    expect(result.live_ads).toBe(false);
+    DriveAssetSyncResultSchema.parse(result);
+
+    const rows = catalog.listMetadata("NOX_FORM", { source: "drive" });
+    expect(rows).toHaveLength(6);
+    expect(rows.every((r) => r.brand_id === "NOX_FORM")).toBe(true);
+    expect(rows.every((r) => r.in_git === false)).toBe(true);
+    expect(rows.every((r) => r.knowledge_status === "UNVERIFIED")).toBe(true);
+    expect(rows.every((r) => r.storage_uri.startsWith("mos://drive/NOX_FORM/"))).toBe(true);
+
+    const stills = rows.filter((r) => r.folder_role === "approved-stills");
+    expect(stills).toHaveLength(2);
+    expect(stills.every((r) => r.approval_status === "APPROVED")).toBe(true);
+    const inbox = rows.find((r) => r.folder_role === "raw-inbox");
+    expect(inbox?.drive_file_id).toBe("nf-inbox-drop");
+    expect(inbox?.asset_id).toBe(driveAssetId("NOX_FORM", "nf-inbox-drop"));
+    expect(catalog.listMetadata("VILLA_GLORY")).toEqual([]);
+    expect(catalog.listMetadata("NOX_TECH")).toEqual([]);
+  });
+
+  it("ingests the NOX TECH fixture tree without leaking other brands", async () => {
+    const catalog = new MemoryAssetCatalog();
+    const result = await syncBrandAssets({
+      brand_id: "NOX_TECH",
+      catalog,
+      source: createDriveAssetSource({ mode: "fixture" }),
+    });
+    expect(result.configured).toBe(true);
+    expect(result.folder_id).toBe(NOX_TECH_FIXTURE_DRIVE_FOLDER_ID);
+    expect(result.ingested).toBe(NOX_TECH_FIXTURE_DRIVE_TREE.files.length);
+    expect(result.live_publish).toBe(false);
+    expect(result.live_ads).toBe(false);
+    DriveAssetSyncResultSchema.parse(result);
+
+    const rows = catalog.listMetadata("NOX_TECH", { source: "drive" });
+    expect(rows).toHaveLength(6);
+    expect(rows.every((r) => r.brand_id === "NOX_TECH")).toBe(true);
+    expect(rows.every((r) => r.storage_uri.startsWith("mos://drive/NOX_TECH/"))).toBe(true);
+    expect(rows.find((r) => r.folder_role === "raw-inbox")?.drive_file_id).toBe(
+      "nt-inbox-drop",
+    );
+    expect(catalog.listMetadata("NOX_FORM")).toEqual([]);
+    expect(catalog.listMetadata("VILLA_GLORY")).toEqual([]);
+    expect(catalog.listMetadata("LOTIN")).toEqual([]);
   });
 });
 

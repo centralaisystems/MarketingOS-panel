@@ -18,7 +18,7 @@ Do not set `live_publish_allowed` or `live_ads_allowed` to true without an expli
 
 | Flag | Where | Effect |
 |------|--------|--------|
-| `automation_enabled` | Registry entry (default `false`) | Per-brand kill switch. Villa Glory fixture is `true`. LOTIN stays `false` in the committed registry — enable with `REGISTRY.local.json` or `--enable-automation` (use `@example.test`). When false, `runAutomationDigest` records `DIGEST_BLOCKED` and **does not write email outbox**. |
+| `automation_enabled` | Registry entry (default `false`) | Per-brand kill switch. Villa Glory fixture is `true`. LOTIN / NOX FORM / NOX TECH stay `false` in the committed registry — enable with `REGISTRY.local.json` or `--enable-automation` (use `@example.test`). When false, `runAutomationDigest` records `DIGEST_BLOCKED` and **does not write email outbox**. |
 | `owner_email_enabled` | Registry entry | Required **only when emailing**. Dashboard still loads. |
 | `WAVE_8_AUTOMATION_DASHBOARD` | `PHASE_GATES.json` | Global wave gate. |
 
@@ -34,8 +34,11 @@ No production cron is installed. Same function is safe to call later from cron.
 ```bash
 pnpm run-digest -- --brand VILLA_GLORY --period daily
 pnpm run-digest -- --brand VILLA_GLORY --period weekly
-# LOTIN is blocked until automation_enabled + owner_email_enabled are opted in locally
+# LOTIN / NOX FORM / NOX TECH are blocked until automation_enabled + owner_email_enabled
+# are opted in locally via REGISTRY.local.json (@example.test)
 # pnpm run-digest -- --brand LOTIN --period daily
+# pnpm run-digest -- --brand NOX_FORM --period daily
+# pnpm run-digest -- --brand NOX_TECH --period daily
 ```
 
 Panel:
@@ -53,7 +56,7 @@ Digest **content** (payload, text, HTML, dashboard, digest records, audit metada
 
 ## Isolation
 
-Every digest record and outbox row carries `brand_id`. LOTIN cannot list or read Villa Glory digests or outbox rows. Building a digest never loads another brand's ops rows.
+Every digest record and outbox row carries `brand_id`. LOTIN / NOX FORM / NOX TECH cannot list or read Villa Glory digests or outbox rows. Building a digest never loads another brand's ops rows.
 
 ## Out of scope
 

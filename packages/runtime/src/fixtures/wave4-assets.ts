@@ -8,6 +8,8 @@ export const WAVE4_ASSET_IDS = {
   VG_LIVING_USED: "7a1c0b2e-4d33-4c1a-9f11-0c6d8e2a1003",
   VG_BEDROOM_DRAFT: "7a1c0b2e-4d33-4c1a-9f11-0c6d8e2a1004",
   LOTIN_UNUSED: "8b2d1c3f-5e44-4d2b-8a22-1d7e9f3b2001",
+  NOX_FORM_UNUSED: "8b2d1c3f-5e44-4d2b-8a22-1d7e9f3b2002",
+  NOX_TECH_UNUSED: "8b2d1c3f-5e44-4d2b-8a22-1d7e9f3b2003",
 } as const;
 
 const FIXTURE_AT = "2026-09-10T08:00:00.000Z";
@@ -99,6 +101,32 @@ export function seedWave4AssetFixtures(catalog: AssetCatalog): void {
       "LOTIN",
       WAVE4_ASSET_IDS.LOTIN_UNUSED,
       "Lotin fixture still — unused",
+      {
+        usage_tags: ["brand"],
+        platform_suitability: ["linkedin"],
+        approval_status: "APPROVED",
+      },
+    ),
+  );
+  catalog.putMetadata(
+    "NOX_FORM",
+    fixtureAsset(
+      "NOX_FORM",
+      WAVE4_ASSET_IDS.NOX_FORM_UNUSED,
+      "NOX FORM fixture still — unused",
+      {
+        usage_tags: ["brand"],
+        platform_suitability: ["instagram"],
+        approval_status: "APPROVED",
+      },
+    ),
+  );
+  catalog.putMetadata(
+    "NOX_TECH",
+    fixtureAsset(
+      "NOX_TECH",
+      WAVE4_ASSET_IDS.NOX_TECH_UNUSED,
+      "NOX TECH fixture still — unused",
       {
         usage_tags: ["brand"],
         platform_suitability: ["linkedin"],

@@ -86,14 +86,14 @@ Any host that runs `pnpm start` and injects `PORT` works (Fly, Railway, a VM). V
 
 ## Drive folders (no secrets in git)
 
-Committed registry keeps **fixture** folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`). Attach a real folder without committing tokens:
+Committed registry keeps **fixture** folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`, `fixture-nox-form-root`, `fixture-nox-tech-root`). Attach a real folder without committing tokens:
 
 1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored via `*.local.json`).
 2. Set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand you are attaching.
 3. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local`.
 4. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
 
-LOTIN owner email / automation stay off in git. The example overlay shows `@example.test` flags for local digest dry-run only.
+LOTIN / NOX FORM / NOX TECH owner email / automation stay off in git. The example overlay shows `@example.test` flags for local digest dry-run only.
 
 The folder must contain `brand-kit/`, `approved-stills/`, `approved-video/`, `raw-inbox/`, `generated/`. See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
 
