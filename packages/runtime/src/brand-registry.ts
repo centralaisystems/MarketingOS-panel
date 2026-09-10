@@ -11,6 +11,16 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+/**
+ * Omit `brandsRoot` when unset. Required under exactOptionalPropertyTypes
+ * (`{ brandsRoot: string | undefined }` is not assignable to `{ brandsRoot?: string }`).
+ */
+export function brandsRootOpt(
+  brandsRoot?: string,
+): { brandsRoot: string } | Record<string, never> {
+  return brandsRoot === undefined ? {} : { brandsRoot };
+}
+
 /** Local path helper — avoid circular import with brand-loader. */
 function resolveRoot(override?: string): string {
   if (override) return override;

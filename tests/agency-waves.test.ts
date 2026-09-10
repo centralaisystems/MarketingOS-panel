@@ -21,7 +21,9 @@ import {
   createLeadDraft,
   buildDailyDigest,
   loadPhaseGates,
+  InMemoryAuditSink,
 } from "@marketing-os/runtime";
+import type { CampaignPack } from "@marketing-os/contracts";
 
 const REPO_BRANDS = join(process.cwd(), "brands");
 
@@ -46,44 +48,86 @@ describe("Wave 1 brand registry", () => {
   });
 });
 
+function assertInternalDraftPack(
+  pack: CampaignPack,
+  brandId: string,
+  audit: InMemoryAuditSink,
+): void {
+  expect(pack.brand_id).toBe(brandId);
+  expect(pack.approval_level_cap).toBe("LEVEL_1");
+  expect(pack.live_publish).toBe(false);
+  expect(pack.live_ads).toBe(false);
+  expect(pack.content_drafts.length).toBeGreaterThan(0);
+  expect(pack.social_calendar).toBeTruthy();
+  expect(pack.creative_briefs.length).toBeGreaterThan(0);
+  expect(pack.paid_recommendations).toBeTruthy();
+  expect(pack.guardian.reviewed).toEqual(
+    expect.arrayContaining(["content", "social", "creative"]),
+  );
+  const guardianEvents = audit
+    .list({ brand_id: brandId })
+    .filter(
+      (e) =>
+        e.event_type === "GUARDIAN_PASSED" ||
+        e.event_type === "GUARDIAN_REJECTED",
+    );
+  expect(guardianEvents.length).toBeGreaterThanOrEqual(3);
+  if (pack.guardian.passed) {
+    expect(pack.approvable).toBe(true);
+  } else {
+    expect(pack.approvable).toBe(false);
+    expect(pack.guardian.reasons.length).toBeGreaterThan(0);
+  }
+}
+
 describe("Wave 2 campaign factory", () => {
-  it("builds a campaign pack without live publish/ads", () => {
-    const pack = buildCampaignPack({
-      brand_id: "LOTIN",
-      objective: "Draft social plan for qualified enquiries",
-      requested_by: "test",
-      writeReport: false,
-    });
-    expect(pack.brand_id).toBe("LOTIN");
-    expect(pack.live_publish).toBe(false);
-    expect(pack.live_ads).toBe(false);
-    expect(pack.content_drafts.length).toBeGreaterThan(0);
-    expect(pack.social_calendar).toBeTruthy();
-    expect(pack.paid_recommendations).toBeTruthy();
-  });
+  it.each(["LOTIN", "VILLA_GLORY"] as const)(
+    "builds an internal e2e pack for %s",
+    (brand_id) => {
+      const audit = new InMemoryAuditSink();
+      const pack = buildCampaignPack({
+        brand_id,
+        objective: "Draft social plan for qualified enquiries",
+        requested_by: "test",
+        writeReport: false,
+        audit,
+      });
+      assertInternalDraftPack(pack, brand_id, audit);
+    },
+  );
 });
 
 describe("Wave 5-8 gated foundations", () => {
-  it("allows social dry-run while live remains gated", () => {
+  it("keeps only Wave 1–2 enabled and live flags off", () => {
     const gates = loadPhaseGates();
+    expect(gates.enabled_waves).toEqual([
+      "WAVE_1_REGISTRY",
+      "WAVE_2_CONTENT_FACTORY",
+    ]);
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);
-    const dry = dryRunSocialPublish({
-      brand_id: "LOTIN",
-      channel: "INSTAGRAM",
-      caption: "Internal draft caption only",
-      dry_run: true,
-    });
-    expect(dry.status).toBe("DRY_RUN_OK");
   });
 
-  it("creates CRM lead with opaque pii_ref only", () => {
-    const lead = createLeadDraft({
-      brand_id: "LOTIN",
-      pii_ref: "vault:lead_abc123",
-      source: "FORM",
-    });
-    expect(lead.stage).toBe("NEW");
+  it("blocks wave 5–8 execution until those waves are enabled", () => {
+    expect(() =>
+      dryRunSocialPublish({
+        brand_id: "LOTIN",
+        channel: "INSTAGRAM",
+        caption: "Internal draft caption only",
+        dry_run: true,
+      }),
+    ).toThrow(/WAVE_5_SOCIAL_PUBLISH/);
+    expect(() =>
+      createLeadDraft({
+        brand_id: "LOTIN",
+        pii_ref: "vault:lead_abc123",
+        source: "FORM",
+      }),
+    ).toThrow(/WAVE_7_CRM/);
+    expect(() => buildDailyDigest()).toThrow(/WAVE_8_AUTOMATION_DASHBOARD/);
+  });
+
+  it("rejects raw PII in CRM lead drafts before wave execution", () => {
     expect(() =>
       createLeadDraft({
         brand_id: "LOTIN",
@@ -91,12 +135,6 @@ describe("Wave 5-8 gated foundations", () => {
         source: "FORM",
       }),
     ).toThrow(/opaque/);
-  });
-
-  it("builds daily digest for registered brands", () => {
-    const digest = buildDailyDigest();
-    expect(digest.items.length).toBeGreaterThanOrEqual(4);
-    expect(digest.kill_switch).toBe(false);
   });
 });
 

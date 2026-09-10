@@ -46,7 +46,11 @@ export const CampaignPackSchema = z.object({
   guardian: z.object({
     passed: z.boolean(),
     reasons: z.array(z.string()).default([]),
+    /** Human-facing draft subjects Guardian actually reviewed. */
+    reviewed: z.array(z.string()).default([]),
   }),
+  /** Fail-closed: pack is not approval-ready unless Guardian passed all reviewed drafts. */
+  approvable: z.boolean().default(false),
   live_publish: z.literal(false).default(false),
   live_ads: z.literal(false).default(false),
 });

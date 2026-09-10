@@ -11,7 +11,7 @@ import {
 import type { AuditSink } from "./audit.js";
 import {
   assertRegisteredBrandId,
-  brandDisplayNames as registryDisplayNames,
+  brandsRootOpt,
   listBrandEntries,
   slugForBrandId,
 } from "./brand-registry.js";
@@ -44,9 +44,7 @@ export function loadBrandContext(
     additionalBrandIds?: BrandId[];
   },
 ): { profile: BrandProfile; loaded_brand_ids: BrandId[]; missing: string[] } {
-  const parsedId = assertRegisteredBrandId(brandId, {
-    brandsRoot: opts?.brandsRoot,
-  });
+  const parsedId = assertRegisteredBrandId(brandId, brandsRootOpt(opts?.brandsRoot));
 
   if (opts?.additionalBrandIds?.length) {
     if (!opts.crossBrand?.authorized) {
@@ -64,7 +62,7 @@ export function loadBrandContext(
   }
 
   const root = resolveBrandsRoot(opts?.brandsRoot);
-  const slug = slugForBrandId(parsedId, { brandsRoot: opts?.brandsRoot });
+  const slug = slugForBrandId(parsedId, brandsRootOpt(opts?.brandsRoot));
   const path = join(root, slug, "profile.json");
 
   if (!existsSync(path)) {
@@ -99,17 +97,12 @@ export function loadBrandContext(
   return { profile, loaded_brand_ids: loaded, missing };
 }
 
-export function brandDisplayNames(brandsRoot?: string): Record<string, string> {
-  return registryDisplayNames({ brandsRoot });
-}
-
 /** Foreign brand tokens used for contamination scanning. */
 export function foreignBrandTokens(
   active: BrandId,
   brandsRoot?: string,
 ): string[] {
-  const names = brandDisplayNames(brandsRoot);
-  return listBrandEntries({ brandsRoot })
+  return listBrandEntries(brandsRootOpt(brandsRoot))
     .filter((b) => b.brand_id !== active)
     .flatMap((b) => [
       b.brand_id,

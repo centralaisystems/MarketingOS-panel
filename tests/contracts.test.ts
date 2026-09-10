@@ -4,6 +4,7 @@ import {
   AgentResultSchema,
   ApprovalDecisionSchema,
   BrandIdSchema,
+  EvidenceSchema,
   TaskSchema,
   MarketingMemoryItemSchema,
   UtmParamsSchema,
@@ -14,6 +15,26 @@ import {
 } from "@marketing-os/contracts";
 
 describe("contracts", () => {
+  it("accepts registry-format brand_id on Evidence (not a closed four-brand enum)", () => {
+    const ev = EvidenceSchema.parse({
+      id: "e1",
+      summary: "Observed in pack",
+      kind: "OBSERVATION",
+      confidence: "LOW",
+      brand_id: "DEMO_FIFTH",
+    });
+    expect(ev.brand_id).toBe("DEMO_FIFTH");
+    expect(() =>
+      EvidenceSchema.parse({
+        id: "e2",
+        summary: "bad id",
+        kind: "FACT",
+        confidence: "LOW",
+        brand_id: "not-a-brand",
+      }),
+    ).toThrow();
+  });
+
   it("accepts valid BrandId format and rejects invalid format", () => {
     expect(BrandIdSchema.parse("LOTIN")).toBe("LOTIN");
     expect(BrandIdSchema.parse("ACME_CO")).toBe("ACME_CO");

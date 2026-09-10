@@ -1,16 +1,10 @@
 {
-  "updated_at": "2026-09-10T06:40:00.000Z",
+  "updated_at": "2026-09-10T06:54:00.000Z",
   "enabled_waves": [
     "WAVE_1_REGISTRY",
-    "WAVE_2_CONTENT_FACTORY",
-    "WAVE_3_DB_PANEL",
-    "WAVE_4_ANALYTICS_ASSETS",
-    "WAVE_5_SOCIAL_PUBLISH",
-    "WAVE_6_PAID_ADS",
-    "WAVE_7_CRM",
-    "WAVE_8_AUTOMATION_DASHBOARD"
+    "WAVE_2_CONTENT_FACTORY"
   ],
   "live_publish_allowed": false,
   "live_ads_allowed": false,
-  "notes": "Waves are scaffolded for dry-run/planning. Live publish and live ads remain OFF until explicit operator approval."
+  "notes": "Only Wave 1 (registry) and Wave 2 (draft/pipeline content factory) are enabled. Waves 3–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval."
 }
