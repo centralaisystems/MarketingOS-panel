@@ -29,7 +29,10 @@ Copy `.env.example` → `.env.local`. Never commit secrets.
 | `MOS_EMAIL_MODE` | No | `dry_run` (default) or `resend`. |
 | `MOS_EMAIL_FROM` / `RESEND_API_KEY` | If `resend` | Names only in `.env.example`. |
 | `MOS_PANEL_BASE_URL` | Recommended | Public panel URL for owner-review links. |
-| `MOS_DRIVE_SOURCE` | No | `fixture` default. `google_drive` needs `MOS_DRIVE_ACCESS_TOKEN`. |
+| `MOS_DRIVE_SOURCE` | No | `fixture` default. `google_drive` prefers a service account, else `MOS_DRIVE_ACCESS_TOKEN`. |
+| `MOS_DRIVE_SERVICE_ACCOUNT_JSON` | If live Drive on Railway | Full GCP SA JSON string (secret). Do not commit. |
+| `MOS_DRIVE_SERVICE_ACCOUNT_FILE` | Local live Drive | Path to the same JSON. Gitignored; prefer `**/secrets/**`. |
+| `MOS_DRIVE_ACCESS_TOKEN` | Local/dev fallback | Short-lived user OAuth Bearer (~1h). Not suitable for Railway. |
 | `MOS_DRIVE_FOLDER_URL_VILLA_GLORY` | Optional | Real Drive folder URL **without** editing committed `REGISTRY.json`. |
 | `MOS_DRIVE_FOLDER_ID_VILLA_GLORY` | Optional | Same, id only. |
 | `MOS_FIGMA_SOURCE` / `MOS_HIGGSFIELD_SOURCE` / `MOS_VIDEO_SOURCE` | No | Fixture default. |
@@ -93,11 +96,24 @@ Committed registry keeps **fixture** folder ids (`fixture-villa-glory-root`, `fi
 1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored via `*.local.json`).
 2. Set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand you are attaching.
 3. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local`.
-4. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
+4. For `MOS_DRIVE_SOURCE=google_drive` on Railway, set `MOS_DRIVE_SERVICE_ACCOUNT_JSON` to the full GCP service-account JSON (secret). Locally you may use `MOS_DRIVE_SERVICE_ACCOUNT_FILE` or a short-lived `MOS_DRIVE_ACCESS_TOKEN`.
+5. Share each brand folder with the service-account `client_email` as **Viewer**. Ingest is read-only (`drive.readonly`); this does not unlock live publish or ads.
 
 LOTIN / NOX FORM / NOX TECH owner email / automation stay off in git. The example overlay shows `@example.test` flags for local digest dry-run only.
 
 The folder must contain `brand-kit/`, `approved-stills/`, `approved-video/`, `raw-inbox/`, `generated/`. See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
+
+### Railway live Drive (read-only)
+
+`MOS_DRIVE_ACCESS_TOKEN` expires in about an hour and is the wrong credential for a long-running panel. Use a GCP service account instead:
+
+1. Create a service account. Enable the Google Drive API on the project. Do not grant project-wide Drive admin.
+2. Download the JSON key once. Store it as the Railway secret `MOS_DRIVE_SERVICE_ACCOUNT_JSON` (the full JSON string). Never commit the file.
+3. Share each brand Drive folder with the JSON `client_email` as **Viewer** (or add the SA to a Shared drive as Viewer).
+4. Set `MOS_DRIVE_SOURCE=google_drive` and the per-brand folder overlay (`MOS_DRIVE_FOLDER_URL_<BRAND_ID>` or gitignored `REGISTRY.local.json`).
+5. Runtime mints a short-lived Bearer with scope `https://www.googleapis.com/auth/drive.readonly`. Listing stays inside the registered folder. This does **not** enable live publish or ads.
+
+Local override: `MOS_DRIVE_SERVICE_ACCOUNT_FILE=/path/to/sa.json` (keep the file under a gitignored `secrets/` directory) or a user OAuth `MOS_DRIVE_ACCESS_TOKEN` for a one-off laptop session.
 
 ## New brand scaffold
 

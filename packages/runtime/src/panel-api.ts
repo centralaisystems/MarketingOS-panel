@@ -40,6 +40,7 @@ import {
 import {
   createDriveAssetSource,
   GoogleDriveCredentialsMissingError,
+  GoogleDriveServiceAccountInvalidError,
   type DriveAssetSource,
 } from "./drive-source.js";
 import { readDriveSyncStatus, syncBrandAssets } from "./drive-ingest.js";
@@ -854,7 +855,10 @@ function mapError(e: unknown): PanelResponse {
   if (e instanceof AnalyticsWriteBlockedError || e instanceof AiSearchWriteBlockedError) {
     return jsonError(403, e.message, { write_scopes: [] });
   }
-  if (e instanceof GoogleDriveCredentialsMissingError) {
+  if (
+    e instanceof GoogleDriveCredentialsMissingError ||
+    e instanceof GoogleDriveServiceAccountInvalidError
+  ) {
     return jsonError(403, e.message, { source: "google_drive" });
   }
   if (e instanceof FigmaCredentialsMissingError || e instanceof FigmaLiveFileMissingError) {

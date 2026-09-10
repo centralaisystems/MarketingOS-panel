@@ -107,7 +107,7 @@ Committed registry keeps fixture folder ids (`fixture-villa-glory-root`, `fixtur
 1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored via `*.local.json`).
 2. Patch only the brand you are attaching: `asset_drive_folder_url` / `asset_drive_folder_id`.
 3. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local`.
-4. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
+4. For live listing (`MOS_DRIVE_SOURCE=google_drive`): Railway should set `MOS_DRIVE_SERVICE_ACCOUNT_JSON` to the full GCP SA JSON secret and share the folder with that `client_email` as Viewer. Locally use `MOS_DRIVE_SERVICE_ACCOUNT_FILE` or a short-lived `MOS_DRIVE_ACCESS_TOKEN`. Do not commit the JSON. This does not unlock live publish or ads.
 
 The folder must contain `brand-kit/`, `approved-stills/`, `approved-video/`, `raw-inbox/`, `generated/`. See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
 

@@ -10,9 +10,34 @@ import {
   type DriveSourceMode,
 } from "@marketing-os/contracts";
 import {
+  createServiceAccountTokenProvider,
+  GoogleDriveCredentialsMissingError,
+  resolveGoogleDriveAuth,
+  type DriveAccessTokenProvider,
+  type DriveAuthKind,
+  type ResolveGoogleDriveAuthInput,
+} from "./drive-auth.js";
+import {
   DEFAULT_DRIVE_FIXTURE_TREES,
   type DriveFixtureTree,
 } from "./fixtures/wave4b-drive.js";
+
+export {
+  createServiceAccountTokenProvider,
+  DRIVE_READONLY_SCOPE,
+  GOOGLE_TOKEN_URI,
+  GoogleDriveCredentialsMissingError,
+  GoogleDriveServiceAccountInvalidError,
+  mintGoogleAccessToken,
+  parseDriveServiceAccountJson,
+  resolveGoogleDriveAuth,
+  signServiceAccountJwt,
+  type DriveAccessTokenProvider,
+  type DriveAuthKind,
+  type DriveServiceAccountCredentials,
+  type ResolveGoogleDriveAuthInput,
+  type ResolvedGoogleDriveAuth,
+} from "./drive-auth.js";
 
 const DRIVE_FOLDER_MIME = "application/vnd.google-apps.folder";
 const DRIVE_API = "https://www.googleapis.com/drive/v3/files";
@@ -37,15 +62,6 @@ export class DriveFolderContractError extends Error {
     );
     this.name = "DriveFolderContractError";
     this.contract = contract;
-  }
-}
-
-export class GoogleDriveCredentialsMissingError extends Error {
-  constructor() {
-    super(
-      "MOS_DRIVE_SOURCE=google_drive requires MOS_DRIVE_ACCESS_TOKEN. Use fixture mode for CI (`pnpm test`).",
-    );
-    this.name = "GoogleDriveCredentialsMissingError";
   }
 }
 
@@ -147,14 +163,32 @@ type DriveApiFile = {
 export class GoogleDriveAssetSource implements DriveAssetSource {
   readonly mode = "google_drive" as const;
   readonly read_only = true as const;
+  readonly auth_kind: DriveAuthKind;
 
   constructor(
-    private readonly accessToken: string,
+    private readonly accessTokenOrProvider: string | DriveAccessTokenProvider,
     private readonly fetchImpl: typeof fetch = fetch,
+    authKind?: DriveAuthKind,
   ) {
-    if (!accessToken.trim()) {
+    if (typeof accessTokenOrProvider === "string") {
+      if (!accessTokenOrProvider.trim()) {
+        throw new GoogleDriveCredentialsMissingError();
+      }
+      this.auth_kind = authKind ?? "access_token";
+    } else {
+      this.auth_kind = authKind ?? "service_account";
+    }
+  }
+
+  private async resolveAccessToken(): Promise<string> {
+    if (typeof this.accessTokenOrProvider === "string") {
+      return this.accessTokenOrProvider;
+    }
+    const token = await this.accessTokenOrProvider();
+    if (!token?.trim()) {
       throw new GoogleDriveCredentialsMissingError();
     }
+    return token;
   }
 
   async listFolderContract(
@@ -236,10 +270,11 @@ export class GoogleDriveAssetSource implements DriveAssetSource {
       url.searchParams.set("supportsAllDrives", "true");
       url.searchParams.set("includeItemsFromAllDrives", "true");
       if (pageToken) url.searchParams.set("pageToken", pageToken);
+      const accessToken = await this.resolveAccessToken();
       const res = await this.fetchImpl(url.toString(), {
         method: "GET",
         headers: {
-          authorization: `Bearer ${this.accessToken}`,
+          authorization: `Bearer ${accessToken}`,
           accept: "application/json",
         },
       });
@@ -271,12 +306,39 @@ export function createDriveAssetSource(opts?: {
   mode?: DriveSourceMode;
   trees?: Record<string, DriveFixtureTree>;
   accessToken?: string;
+  serviceAccountJson?: string;
+  serviceAccountFile?: string;
+  tokenProvider?: DriveAccessTokenProvider;
   fetchImpl?: typeof fetch;
+  env?: NodeJS.ProcessEnv;
+  readFile?: (path: string) => string;
 }): DriveAssetSource {
   const mode = resolveDriveSourceMode(opts?.mode);
   if (mode === "google_drive") {
-    const token = opts?.accessToken ?? process.env.MOS_DRIVE_ACCESS_TOKEN ?? "";
-    return new GoogleDriveAssetSource(token, opts?.fetchImpl ?? fetch);
+    const fetchImpl = opts?.fetchImpl ?? fetch;
+    const authInput: ResolveGoogleDriveAuthInput = {
+      ...(opts?.accessToken !== undefined ? { accessToken: opts.accessToken } : {}),
+      ...(opts?.serviceAccountJson !== undefined
+        ? { serviceAccountJson: opts.serviceAccountJson }
+        : {}),
+      ...(opts?.serviceAccountFile !== undefined
+        ? { serviceAccountFile: opts.serviceAccountFile }
+        : {}),
+      ...(opts?.tokenProvider ? { tokenProvider: opts.tokenProvider } : {}),
+      ...(opts?.env ? { env: opts.env } : {}),
+      ...(opts?.readFile ? { readFile: opts.readFile } : {}),
+    };
+    const auth = resolveGoogleDriveAuth(authInput);
+    if (auth.kind === "access_token") {
+      return new GoogleDriveAssetSource(auth.token, fetchImpl, "access_token");
+    }
+    const provider =
+      auth.provider ??
+      createServiceAccountTokenProvider({
+        credentials: auth.credentials!,
+        fetchImpl,
+      });
+    return new GoogleDriveAssetSource(provider, fetchImpl, "service_account");
   }
   return new FixtureDriveAssetSource(opts?.trees ?? DEFAULT_DRIVE_FIXTURE_TREES);
 }

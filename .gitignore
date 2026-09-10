@@ -12,6 +12,8 @@ dist/
 *.pem
 *.key
 credentials.json
+*service-account*.json
+*-sa.json
 **/secrets/**
 
 # OS / editor

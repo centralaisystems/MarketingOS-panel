@@ -38,7 +38,7 @@
 
    1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored) and set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand patch only.
    2. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local` (example: `MOS_DRIVE_FOLDER_URL_VILLA_GLORY`, `MOS_DRIVE_FOLDER_URL_LOTIN`, `MOS_DRIVE_FOLDER_URL_NOX_FORM`, `MOS_DRIVE_FOLDER_URL_NOX_TECH`).
-   3. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
+   3. For `MOS_DRIVE_SOURCE=google_drive`, prefer `MOS_DRIVE_SERVICE_ACCOUNT_JSON` (Railway secret) or `MOS_DRIVE_SERVICE_ACCOUNT_FILE` (local). Share the folder with the SA `client_email` as Viewer. `MOS_DRIVE_ACCESS_TOKEN` is a short-lived local fallback only.
 
    LOTIN, NOX FORM, and NOX TECH owner review / Wave 8 automation stay **off** in the committed registry (no real inbox). To opt in locally or in tests, patch `REGISTRY.local.json` with `@example.test` addresses (see `REGISTRY.local.json.example`):
 

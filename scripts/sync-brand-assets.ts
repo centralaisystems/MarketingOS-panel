@@ -6,7 +6,8 @@
  *   pnpm sync-brand-assets -- --brand VILLA_GLORY --source fixture
  *
  * Fixture mode is the default. Live Google Drive requires MOS_DRIVE_SOURCE=google_drive
- * and MOS_DRIVE_ACCESS_TOKEN. `pnpm test` never needs live credentials.
+ * plus MOS_DRIVE_SERVICE_ACCOUNT_JSON / MOS_DRIVE_SERVICE_ACCOUNT_FILE (preferred)
+ * or MOS_DRIVE_ACCESS_TOKEN (local fallback). `pnpm test` never needs live credentials.
  */
 import { join } from "node:path";
 import {
