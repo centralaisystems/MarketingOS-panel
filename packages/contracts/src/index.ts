@@ -20,4 +20,5 @@ export * from "./pii.js";
 export * from "./audit.js";
 export * from "./agent-contract.js";
 export * from "./agency.js";
+export * from "./ops.js";
 

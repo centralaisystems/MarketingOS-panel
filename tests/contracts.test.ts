@@ -5,6 +5,7 @@ import {
   ApprovalDecisionSchema,
   BrandIdSchema,
   EvidenceSchema,
+  OpsCampaignRecordSchema,
   TaskSchema,
   MarketingMemoryItemSchema,
   UtmParamsSchema,
@@ -145,5 +146,32 @@ describe("contracts", () => {
   it("documents PII policy for Phase 1", () => {
     expect(PII_HANDLING_POLICY.store_real_leads).toBe(false);
     expect(PII_HANDLING_POLICY.allow_pii_in_prompts).toBe(false);
+  });
+
+  it("validates ops campaign rows as brand-scoped drafts", () => {
+    const now = new Date().toISOString();
+    const row = OpsCampaignRecordSchema.parse({
+      campaign_id: randomUUID(),
+      brand_id: "VILLA_GLORY",
+      pack_id: randomUUID(),
+      objective: "Draft social plan",
+      status: "DRAFT",
+      pack: {
+        pack_id: randomUUID(),
+        brand_id: "VILLA_GLORY",
+        objective: "Draft social plan",
+        generated_at: now,
+        guardian: { passed: true, reasons: [], reviewed: ["content"] },
+        approvable: true,
+        live_publish: false,
+        live_ads: false,
+      },
+      guardian_passed: true,
+      approvable: true,
+      created_at: now,
+      updated_at: now,
+    });
+    expect(row.brand_id).toBe("VILLA_GLORY");
+    expect(row.pack.live_publish).toBe(false);
   });
 });

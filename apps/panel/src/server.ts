@@ -1,22 +1,30 @@
 /**
- * Thin operator panel (Wave 3) — local HTTP UI over Marketing OS runtime.
- * No live publish/ads. Brand isolation enforced per request.
+ * Thin dedicated Marketing OS operator panel (Wave 3).
+ * Own app/URL — not embedded in NOX TECH admin.
+ * Live publish/ads stay blocked. Brand isolation per request.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  listBrandIds,
-  loadBrandRegistry,
-  loadPhaseGates,
-  buildCampaignPack,
-  runBrandOnboarding,
-  assertRegisteredBrandId,
+  createOpsStore,
+  handlePanelApi,
+  type PanelApiContext,
 } from "@marketing-os/runtime";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PANEL_PORT ?? 8787);
+
+const store = createOpsStore({
+  backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
+  dir: process.env.MOS_OPS_DIR ?? join(process.cwd(), "data", "ops"),
+});
+
+const ctx: PanelApiContext = {
+  store,
+  writeReport: process.env.MOS_PANEL_WRITE_REPORT !== "false",
+};
 
 function send(res: ServerResponse, status: number, body: unknown, type = "application/json"): void {
   const payload = typeof body === "string" ? body : JSON.stringify(body, null, 2);
@@ -52,56 +60,20 @@ const server = createServer(async (req, res) => {
     if (req.method === "GET" && url.pathname === "/") {
       return send(res, 200, htmlPage(), "text/html");
     }
-    if (req.method === "GET" && url.pathname === "/api/brands") {
-      const registry = loadBrandRegistry();
-      return send(res, 200, {
-        brands: registry.brands,
-        gates: loadPhaseGates(),
-      });
-    }
-    if (req.method === "GET" && url.pathname === "/api/readiness") {
-      const brand_id = assertRegisteredBrandId(
-        url.searchParams.get("brand_id") ?? "",
-      );
-      const result = runBrandOnboarding(brand_id);
-      return send(res, 200, {
-        brand_id,
-        readiness: result.report.readiness_status,
-        score: result.report.overall_score,
-        blockers: result.report.critical_blockers,
-        verified: result.report.verified.length,
-        guardian_passed: result.report.guardian_passed,
-      });
-    }
-    if (req.method === "POST" && url.pathname === "/api/run-objective") {
-      const body = (await readJson(req)) as {
-        brand_id?: string;
-        objective?: string;
-      };
-      const brand_id = assertRegisteredBrandId(body.brand_id ?? "");
-      if (!body.objective?.trim()) {
-        return send(res, 400, { error: "objective required" });
-      }
-      const pack = buildCampaignPack({
-        brand_id,
-        objective: body.objective.trim(),
-        requested_by: "panel-operator",
-      });
-      return send(res, 200, {
-        pack_id: pack.pack_id,
-        brand_id: pack.brand_id,
-        guardian: pack.guardian,
-        approvable: pack.approvable,
-        live_publish: pack.live_publish,
-        live_ads: pack.live_ads,
-        social_calendar: pack.social_calendar,
-        paid_recommendations: pack.paid_recommendations,
-      });
-    }
-    if (req.method === "GET" && url.pathname === "/api/gates") {
-      return send(res, 200, loadPhaseGates());
-    }
-    send(res, 404, { error: "not found", brand_ids: listBrandIds() });
+    const body =
+      req.method === "POST" || req.method === "PUT" || req.method === "PATCH"
+        ? await readJson(req)
+        : undefined;
+    const result = await handlePanelApi(
+      {
+        method: req.method ?? "GET",
+        pathname: url.pathname,
+        searchParams: url.searchParams,
+        ...(body !== undefined ? { body } : {}),
+      },
+      ctx,
+    );
+    return send(res, result.status, result.body);
   } catch (e) {
     send(res, 400, {
       error: e instanceof Error ? e.message : String(e),
@@ -110,6 +82,6 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(`Marketing OS panel listening on http://127.0.0.1:${PORT}`);
-  console.log("Live publish/ads remain blocked by phase gates.");
+  console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
+  console.log("Wave 3 dry-run only. Live publish/ads remain blocked.");
 });

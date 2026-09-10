@@ -6,134 +6,385 @@
     <title>Marketing OS — Operator Panel</title>
     <style>
       :root {
-        --bg: #0f1412;
-        --panel: #1a221e;
-        --text: #e8efe9;
-        --muted: #9aafa3;
-        --accent: #c4a574;
-        --line: #2a3730;
+        --bg: #0b0d10;
+        --panel: #14181d;
+        --panel-2: #1b2128;
+        --text: #e8edf2;
+        --muted: #8b96a3;
+        --line: #2a323c;
+        --accent: #6ee7d2;
+        --accent-ink: #06221c;
+        --warn: #e8c07a;
+        --danger: #f07178;
+        --ok: #7fd99a;
+        --blocked: #6b7280;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-        background: radial-gradient(1200px 600px at 10% -10%, #24332c, var(--bg));
+        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        background:
+          radial-gradient(900px 480px at 0% -10%, #16302c 0%, transparent 55%),
+          var(--bg);
         color: var(--text);
         min-height: 100vh;
       }
-      header, main { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
-      h1 { font-weight: 600; letter-spacing: 0.02em; margin: 0 0 0.25rem; }
-      p.lead { color: var(--muted); margin-top: 0; }
-      .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: end; }
-      label { display: grid; gap: 0.35rem; font-size: 0.85rem; color: var(--muted); }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        align-items: end;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.25rem 1.5rem 0.5rem;
+        border-bottom: 1px solid var(--line);
+      }
+      h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.04em; margin: 0; }
+      .sub { color: var(--muted); font-size: 0.85rem; margin: 0.2rem 0 0; }
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 1.5rem 2.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+      .span-2 { grid-column: 1 / -1; }
+      section {
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: color-mix(in srgb, var(--panel) 92%, black);
+      }
+      h2 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 0.75rem; }
+      .row { display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: end; }
+      label { display: grid; gap: 0.3rem; font-size: 0.78rem; color: var(--muted); }
       select, input, textarea, button {
         font: inherit;
         border-radius: 8px;
         border: 1px solid var(--line);
-        background: var(--panel);
+        background: var(--panel-2);
         color: var(--text);
-        padding: 0.55rem 0.75rem;
+        padding: 0.5rem 0.7rem;
       }
-      textarea { width: 100%; min-height: 90px; }
+      textarea { width: 100%; min-height: 88px; resize: vertical; }
       button {
         background: var(--accent);
-        color: #1a140c;
+        color: var(--accent-ink);
         border: none;
         cursor: pointer;
         font-weight: 600;
       }
-      section {
-        margin-top: 1.25rem;
-        padding: 1rem;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: color-mix(in srgb, var(--panel) 88%, black);
-      }
-      pre {
-        overflow: auto;
-        background: #0b100e;
-        padding: 0.75rem;
-        border-radius: 8px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.8rem;
+      button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
+      button:disabled, button.blocked {
+        background: #2a3038;
+        color: var(--blocked);
+        cursor: not-allowed;
+        border: 1px dashed var(--line);
       }
       .badge {
-        display: inline-block;
-        padding: 0.15rem 0.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.2rem 0.55rem;
         border-radius: 999px;
         border: 1px solid var(--line);
         color: var(--muted);
-        font-size: 0.75rem;
+        font-size: 0.72rem;
       }
+      .badge.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+      .badge.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--line)); }
+      .badge.danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, var(--line)); }
+      .muted { color: var(--muted); font-size: 0.82rem; }
+      ul.gaps { margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.82rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+      th, td { text-align: left; padding: 0.4rem 0.25rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { color: var(--muted); font-weight: 500; }
+      .item {
+        padding: 0.55rem 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.82rem;
+      }
+      .item:last-child { border-bottom: none; }
+      .actions { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
+      pre {
+        overflow: auto;
+        background: #080a0c;
+        padding: 0.65rem;
+        border-radius: 8px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.75rem;
+        max-height: 220px;
+      }
+      .score { font-size: 1.6rem; font-weight: 650; }
     </style>
   </head>
   <body>
     <header>
-      <h1>Marketing OS</h1>
-      <p class="lead">Thin operator panel — drafts & readiness only. Live publish/ads blocked.</p>
-      <span class="badge" id="gatesBadge">loading gates…</span>
+      <div>
+        <h1>Marketing OS</h1>
+        <p class="sub">Dedicated operator panel — dry-run drafts only. Not embedded in NOX TECH admin.</p>
+      </div>
+      <div class="row">
+        <label>Active brand
+          <select id="brand"></select>
+        </label>
+        <span class="badge danger" id="publishBadge">live_publish=OFF</span>
+        <span class="badge danger" id="adsBadge">live_ads=OFF</span>
+        <span class="badge" id="waveBadge">WAVE_3</span>
+      </div>
     </header>
     <main>
       <section>
+        <h2>Readiness / gaps</h2>
         <div class="row">
-          <label>Brand
-            <select id="brand"></select>
-          </label>
-          <button id="readinessBtn" type="button">Load readiness</button>
+          <div>
+            <div class="muted">Status</div>
+            <div id="readyStatus">Select a brand.</div>
+          </div>
+          <div>
+            <div class="muted">Score</div>
+            <div class="score" id="readyScore">—</div>
+          </div>
+          <div>
+            <div class="muted">Guardian</div>
+            <div id="readyGuardian">—</div>
+          </div>
         </div>
-        <pre id="readiness">Select a brand.</pre>
+        <ul class="gaps" id="readyGaps"></ul>
+        <div class="row" style="margin-top:0.75rem">
+          <button class="secondary" id="reloadReady" type="button">Refresh readiness</button>
+        </div>
       </section>
+
       <section>
+        <h2>Run for active brand</h2>
         <label>Objective
-          <textarea id="objective" placeholder="e.g. Draft a one-week social plan for spring enquiry leads"></textarea>
+          <textarea id="objective" placeholder="Draft a one-week social plan for spring enquiry leads"></textarea>
         </label>
         <div class="row" style="margin-top:0.75rem">
-          <button id="runBtn" type="button">Run campaign pack</button>
+          <button id="packBtn" type="button">Build campaign pack</button>
+          <button class="secondary" id="directorBtn" type="button">Run objective (director)</button>
         </div>
-        <pre id="result">No run yet.</pre>
+        <pre id="runResult">No run yet. Actions stay on the selected brand_id only.</pre>
+      </section>
+
+      <section>
+        <h2>Recent campaign drafts</h2>
+        <div id="drafts" class="muted">Loading…</div>
+      </section>
+
+      <section>
+        <h2>Approval inbox (Level ≤1)</h2>
+        <div id="inbox" class="muted">Loading…</div>
+      </section>
+
+      <section>
+        <h2>Audit trail</h2>
+        <div id="audit" class="muted">Loading…</div>
+      </section>
+
+      <section>
+        <h2>Later waves — blocked</h2>
+        <p class="muted">These controls cannot fire. Live social publish and ad spend stay off until WAVE_5 / WAVE_6 plus explicit operator approval.</p>
+        <div class="row" style="margin-top:0.75rem">
+          <button class="blocked" type="button" disabled title="Blocked until WAVE_5 + live_publish_allowed">Publish live</button>
+          <button class="blocked" type="button" disabled title="Blocked until WAVE_6 + live_ads_allowed">Launch ads / change budget</button>
+        </div>
       </section>
     </main>
     <script>
       const brandEl = document.getElementById("brand");
-      const readinessEl = document.getElementById("readiness");
-      const resultEl = document.getElementById("result");
-      const gatesBadge = document.getElementById("gatesBadge");
+      const STORAGE_KEY = "mos.panel.active_brand";
+
+      function activeBrand() {
+        return brandEl.value;
+      }
+
+      function clearBrandSurfaces() {
+        document.getElementById("readyStatus").textContent = "Loading " + activeBrand() + "…";
+        document.getElementById("readyScore").textContent = "—";
+        document.getElementById("readyGuardian").textContent = "—";
+        document.getElementById("readyGaps").innerHTML = "";
+        document.getElementById("drafts").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("inbox").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("audit").textContent = "Loading " + activeBrand() + " only…";
+      }
+
+      async function api(path, opts) {
+        const res = await fetch(path, opts);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        return data;
+      }
+
+      function badgeClass(ok) {
+        return ok ? "badge ok" : "badge danger";
+      }
 
       async function loadBrands() {
-        const res = await fetch("/api/brands");
-        const data = await res.json();
+        const data = await api("/api/brands");
         brandEl.innerHTML = "";
+        const saved = sessionStorage.getItem(STORAGE_KEY);
         for (const b of data.brands.filter((x) => x.status === "ACTIVE")) {
           const opt = document.createElement("option");
           opt.value = b.brand_id;
           opt.textContent = b.display_name + " (" + b.brand_id + ")";
           brandEl.appendChild(opt);
         }
-        gatesBadge.textContent =
-          "live_publish=" + data.gates.live_publish_allowed +
-          " · live_ads=" + data.gates.live_ads_allowed;
+        if (saved && [...brandEl.options].some((o) => o.value === saved)) {
+          brandEl.value = saved;
+        }
+        document.getElementById("publishBadge").textContent =
+          "live_publish=" + (data.gates.live_publish_allowed ? "ON" : "OFF");
+        document.getElementById("adsBadge").textContent =
+          "live_ads=" + (data.gates.live_ads_allowed ? "ON" : "OFF");
+        document.getElementById("waveBadge").textContent =
+          (data.gates.enabled_waves || []).join(" · ");
       }
 
-      document.getElementById("readinessBtn").onclick = async () => {
-        const brand_id = brandEl.value;
-        const res = await fetch("/api/readiness?brand_id=" + encodeURIComponent(brand_id));
-        readinessEl.textContent = JSON.stringify(await res.json(), null, 2);
-      };
+      async function loadReadiness() {
+        const brand_id = activeBrand();
+        const d = await api("/api/readiness?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        document.getElementById("readyStatus").textContent = d.readiness_status;
+        document.getElementById("readyScore").textContent = d.overall_score;
+        const g = document.getElementById("readyGuardian");
+        g.textContent = d.guardian_passed ? "passed" : "rejected";
+        g.className = d.guardian_passed ? "badge ok" : "badge danger";
+        const gaps = [
+          ...(d.critical_blockers || []).map((x) => "Blocker: " + x),
+          ...(d.missing || []).slice(0, 6).map((x) => "MISSING: " + x),
+          ...(d.next_actions || []).slice(0, 3),
+        ].slice(0, 10);
+        document.getElementById("readyGaps").innerHTML = gaps.map((x) => "<li>" + escapeHtml(x) + "</li>").join("");
+      }
 
-      document.getElementById("runBtn").onclick = async () => {
-        const brand_id = brandEl.value;
+      async function loadDrafts() {
+        const brand_id = activeBrand();
+        const d = await api("/api/campaigns?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = d.campaigns || [];
+        if (!rows.length) {
+          document.getElementById("drafts").textContent = "No drafts for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("drafts").innerHTML =
+          "<table><thead><tr><th>When</th><th>Objective</th><th>Guardian</th><th>Status</th></tr></thead><tbody>" +
+          rows.map((c) => {
+            if (c.brand_id !== brand_id) return "";
+            return "<tr><td>" + escapeHtml((c.created_at || "").slice(0, 19)) +
+              "</td><td>" + escapeHtml(c.objective) +
+              "</td><td>" + (c.guardian_passed ? "passed" : "rejected") +
+              "</td><td>" + escapeHtml(c.status) + (c.approvable ? " · approvable" : "") +
+              "</td></tr>";
+          }).join("") +
+          "</tbody></table>";
+      }
+
+      async function loadInbox() {
+        const brand_id = activeBrand();
+        const d = await api("/api/approvals?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = d.approvals || [];
+        if (!rows.length) {
+          document.getElementById("inbox").textContent = "Inbox empty for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("inbox").innerHTML = rows.map((a) => {
+          if (a.brand_id !== brand_id) return "";
+          return '<div class="item"><div><strong>' + escapeHtml(a.level) + "</strong> · " +
+            escapeHtml(a.decision) +
+            (a.campaign_id ? " · campaign " + a.campaign_id.slice(0, 8) : "") +
+            "</div>" +
+            (a.rationale ? '<div class="muted">' + escapeHtml(a.rationale) + "</div>" : "") +
+            '<div class="actions">' +
+            '<button type="button" data-approve="' + a.approval_id + '">Approve (internal)</button>' +
+            '<button class="secondary" type="button" data-reject="' + a.approval_id + '">Reject</button>' +
+            "</div></div>";
+        }).join("");
+        document.getElementById("inbox").querySelectorAll("[data-approve]").forEach((btn) => {
+          btn.onclick = () => decide(btn.getAttribute("data-approve"), "APPROVED");
+        });
+        document.getElementById("inbox").querySelectorAll("[data-reject]").forEach((btn) => {
+          btn.onclick = () => decide(btn.getAttribute("data-reject"), "REJECTED");
+        });
+      }
+
+      async function loadAudit() {
+        const brand_id = activeBrand();
+        const d = await api("/api/audit?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = (d.events || []).slice(0, 20);
+        if (!rows.length) {
+          document.getElementById("audit").textContent = "No events for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("audit").innerHTML = rows.map((e) => {
+          if (e.brand_id && e.brand_id !== brand_id) return "";
+          return '<div class="item"><span class="badge">' + escapeHtml(e.event_type) +
+            "</span> " + escapeHtml(e.message) +
+            '<div class="muted">' + escapeHtml((e.timestamp || "").slice(0, 19)) + "</div></div>";
+        }).join("");
+      }
+
+      async function refreshBrand() {
+        sessionStorage.setItem(STORAGE_KEY, activeBrand());
+        clearBrandSurfaces();
+        await Promise.all([loadReadiness(), loadDrafts(), loadInbox(), loadAudit()]);
+      }
+
+      async function decide(approval_id, decision) {
+        const rationale = prompt(
+          decision === "APPROVED"
+            ? "Internal Level ≤1 approval rationale (does not publish):"
+            : "Reject rationale:",
+        );
+        if (!rationale || !rationale.trim()) return;
+        const brand_id = activeBrand();
+        const res = await fetch("/api/approvals/" + approval_id + "/decide", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ brand_id, decision, rationale: rationale.trim() }),
+        });
+        const data = await res.json();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await refreshBrand();
+      }
+
+      async function run(path) {
+        const brand_id = activeBrand();
         const objective = document.getElementById("objective").value;
-        const res = await fetch("/api/run-objective", {
+        document.getElementById("runResult").textContent = "Running " + path + " for " + brand_id + "…";
+        const res = await fetch(path, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ brand_id, objective }),
         });
-        resultEl.textContent = JSON.stringify(await res.json(), null, 2);
-      };
+        const data = await res.json();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await refreshBrand();
+      }
 
-      loadBrands().catch((e) => {
-        readinessEl.textContent = String(e);
-      });
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
+      document.getElementById("directorBtn").onclick = () => run("/api/run-objective");
+      document.getElementById("reloadReady").onclick = () => loadReadiness();
+      brandEl.onchange = () => refreshBrand();
+
+      loadBrands()
+        .then(refreshBrand)
+        .catch((e) => {
+          document.getElementById("readyStatus").textContent = String(e);
+        });
     </script>
   </body>
 </html>

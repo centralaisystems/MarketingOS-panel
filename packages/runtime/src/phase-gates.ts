@@ -9,11 +9,15 @@ import { resolveBrandsRoot } from "./brand-loader.js";
 
 const DEFAULT_GATES: PhaseGateState = PhaseGateStateSchema.parse({
   updated_at: new Date().toISOString(),
-  enabled_waves: ["WAVE_1_REGISTRY", "WAVE_2_CONTENT_FACTORY"],
+  enabled_waves: [
+    "WAVE_1_REGISTRY",
+    "WAVE_2_CONTENT_FACTORY",
+    "WAVE_3_DB_PANEL",
+  ],
   live_publish_allowed: false,
   live_ads_allowed: false,
   notes:
-    "Only Wave 1 (registry) and Wave 2 (draft/pipeline content factory) are enabled. Waves 3–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
+    "Waves 1–3 enabled: registry, draft content factory, ops data plane + thin operator panel. Waves 4–8 remain scaffolded. Live publish/ads stay OFF until explicit operator approval.",
 });
 
 function gatesPath(brandsRoot?: string): string {
