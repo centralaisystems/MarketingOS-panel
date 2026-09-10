@@ -4,48 +4,56 @@
   "updated_at": "2026-08-14T07:54:29.714Z",
   "logo": {
     "status": "MISSING",
-    "notes": "Do not manufacture a design system"
+    "notes": "Do not manufacture a design system",
+    "time_sensitive": false
   },
   "colors": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": {
       "noir": "#15110f",
       "bronze": "#9a7b4f",
       "note": "Default --brand-* tokens from brand-kit / globals.css"
     },
-    "notes": "NOX FORM default brand palette tokens.",
-    "source_type": "INTERNAL_DOCUMENT",
-    "source_reference": "NOXFORM:src/lib/branding/brand-kit.ts",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Verified as current source defaults in src/lib/branding/brand-kit.ts and src/app/globals.css, not as an immutable future palette. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-09a | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NF-09a",
     "observed_at": "2026-08-14T07:54:29.709Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "typography": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": {
       "primary": "Archivo",
       "editorial": "Fraunces"
     },
-    "notes": "Brand typography defaults in brand-kit.ts / layout fonts.",
-    "source_type": "INTERNAL_DOCUMENT",
-    "source_reference": "NOXFORM:src/lib/branding/brand-kit.ts",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Verified as current source typography in the brand kit and production layout. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-09b | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NF-09b",
     "observed_at": "2026-08-14T07:54:29.709Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "imagery": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "photography": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "graphic_style": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "layout_characteristics": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "prohibited_treatments": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   }
 }

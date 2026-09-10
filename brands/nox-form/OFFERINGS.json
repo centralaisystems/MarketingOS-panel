@@ -6,13 +6,14 @@
     {
       "id": "svc-interior-architecture",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Interior Architecture",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service list. Luxury Furnishing means NOX FORM studio FF&E, not Villa Glory retail. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06 | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -26,7 +27,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -56,7 +58,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -72,13 +75,14 @@
     {
       "id": "svc-turnkey-fit-out",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Turnkey Fit-Out",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service at https://www.noxform.design/. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06b | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06b",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -92,7 +96,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -122,7 +127,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -138,13 +144,14 @@
     {
       "id": "svc-luxury-furnishing",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Luxury Furnishing",
-        "notes": "Studio FF&E service (siteConfig.services) — NOT Villa Glory retail catalog. Isolation mandatory.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official studio FF&E service; not Villa Glory retail. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06c | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06c",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -158,7 +165,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -188,7 +196,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -204,13 +213,14 @@
     {
       "id": "svc-bespoke-joinery",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Bespoke Joinery",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service at https://www.noxform.design/. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06d | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06d",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -224,7 +234,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -254,7 +265,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -270,13 +282,14 @@
     {
       "id": "svc-material-curation",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Material Curation",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service at https://www.noxform.design/. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06e | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06e",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -290,7 +303,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -320,7 +334,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -336,13 +351,14 @@
     {
       "id": "svc-visualization-cgi",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Visualization & CGI",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service at https://www.noxform.design/. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06f | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06f",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -356,7 +372,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -386,7 +403,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -402,13 +420,14 @@
     {
       "id": "svc-lighting-design",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Lighting Design",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service at https://www.noxform.design/. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06g | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06g",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -422,7 +441,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -452,7 +472,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -468,13 +489,14 @@
     {
       "id": "svc-project-management",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Project Management",
-        "notes": "From siteConfig.services / serviceCategories.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official service at https://www.noxform.design/. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-06h | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-06h",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -488,7 +510,8 @@
         "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
         "status": "UNVERIFIED",
@@ -518,7 +541,8 @@
         "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
         "status": "UNVERIFIED",

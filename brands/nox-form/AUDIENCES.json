@@ -7,13 +7,14 @@
       "id": "private-villas-residences",
       "role": "PRIMARY",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Private villa / residence clients",
-        "notes": "From siteConfig.description.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official description and consultation copy explicitly focus on private villas and residences. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-07a | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-07a",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
@@ -30,19 +31,24 @@
         "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
         "status": "UNVERIFIED",
@@ -63,40 +69,49 @@
       "id": "hospitality",
       "role": "SECONDARY",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Hospitality space clients",
-        "notes": "Named in siteConfig.description.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official description explicitly names selected hospitality spaces. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-07b | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-07b",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     }
   ],
   "personas": {
     "status": "MISSING",
-    "notes": "Do not fabricate personas"
+    "notes": "Do not fabricate personas",
+    "time_sensitive": false
   }
 }

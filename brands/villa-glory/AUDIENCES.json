@@ -7,13 +7,14 @@
       "id": "private-clients",
       "role": "PRIMARY",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Private clients",
-        "notes": "From About audience sentence.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official homepage focuses on villas, apartments, private residences, and private consultation. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-06a | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-06a",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
@@ -31,19 +32,24 @@
         "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
         "status": "UNVERIFIED",
@@ -64,75 +70,92 @@
       "id": "developers",
       "role": "SECONDARY",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Developers",
-        "notes": "Named audience on About.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Property developers confirmed as an approved customer group by Ahmet Oney. | Prior evidence: OFFICIAL_WEBSITE / Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-06b",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "design-professionals",
       "role": "SECONDARY",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Design professionals",
-        "notes": "Named audience on About; Professional Tools referenced in privacy copy.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Supported by the current public Trade Program navigation and the customer-facing About source. Developer audience remains unresolved separately. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-06c | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-06c",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     }
   ],
   "personas": {
     "status": "MISSING",
-    "notes": "Do not fabricate personas"
+    "notes": "Do not fabricate personas",
+    "time_sensitive": false
   }
 }

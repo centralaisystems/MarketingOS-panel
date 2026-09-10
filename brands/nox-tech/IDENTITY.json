@@ -3,13 +3,14 @@
   "module": "identity",
   "updated_at": "2026-08-14T08:00:00.000Z",
   "official_name": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "NOX TECH",
-    "notes": "Internal product identity. | README title NOX TECH AI.",
-    "source_type": "INTERNAL_DOCUMENT",
-    "source_reference": "Nox-tech-ai:README.md",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Official public brand name confirmed as NOX TECH by Ahmet Oney. NOX TECH AI wording in the source is stale and not approved branding. | Prior evidence: INTERNAL_DOCUMENT / Nox-tech-ai:README.md | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NT-01",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "short_name": {
@@ -28,13 +29,14 @@
     "time_sensitive": false
   },
   "description": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "Internal software sales and implementation platform to manage the client lifecycle from discovery through proposal to implementation.",
-    "notes": "Documented product story — not yet marketing-approved. | README product one-liner.",
-    "source_type": "INTERNAL_DOCUMENT",
-    "source_reference": "Nox-tech-ai:README.md",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Verified from README and implemented workflow, then approved by Ahmet Oney for routine marketing without ROI, guarantee, or unapproved package claims. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NT-02 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NT-02",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "location_markets": {

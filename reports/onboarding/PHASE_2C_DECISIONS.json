@@ -1,0 +1,1104 @@
+{
+  "version": "phase2c",
+  "generated_at": "2026-08-14T10:24:54.000Z",
+  "notes": "Human approval pass completed by Ahmet Oney after the evidence audit. Supported business facts are approved for routine marketing; ROI, guarantees, undocumented exclusivity, unverified inventory or partnerships, private client information, and rejected NOX TECH package claims remain prohibited. All four brands are separate businesses and cross-brand sharing remains disabled.",
+  "decisions": [
+    {
+      "id": "LQ-01",
+      "brand_id": "LOTIN",
+      "field": "identity.official_name",
+      "candidate_value": "LOTIN",
+      "decision": "EDIT",
+      "corrected_value": "Lotin Real Estate",
+      "operator_notes": "Current public identity on https://lotin.ae/ (observed 2026-08-14). Ahmet Oney confirmed the exact legal entity name separately as Lotin Real Estate LLC.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-01b",
+      "brand_id": "LOTIN",
+      "field": "identity.legal_operating_relationship",
+      "decision": "EDIT",
+      "corrected_value": "Lotin Real Estate LLC",
+      "operator_notes": "Exact legal entity name confirmed by Ahmet Oney on 2026-08-14.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-02",
+      "brand_id": "LOTIN",
+      "field": "identity.description",
+      "decision": "EDIT",
+      "corrected_value": "Lotin Real Estate is a UAE-based real estate brokerage and advisory firm serving property investors, home buyers, international buyers entering Dubai, property owners and sellers, with residential sales, leasing, property management, sales representation, and private real-estate portfolio advisory.",
+      "operator_notes": "Low-risk normalization of the current public services plus the operator-confirmed customer scope. Private real-estate portfolio advisory does not mean holding client funds or managing securities or investment funds.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-03",
+      "brand_id": "LOTIN",
+      "field": "offerings.items[0].name",
+      "candidate_value": "property investment opportunities",
+      "decision": "EDIT",
+      "corrected_value": "Off-plan property brokerage",
+      "operator_notes": "Current public service at https://lotin.ae/. Out of scope: fund management, guaranteed returns, undocumented exclusivity, and unverified developer authorization.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-03b",
+      "brand_id": "LOTIN",
+      "field": "offerings.items[1].name",
+      "candidate_value": "buyer/seller support",
+      "decision": "EDIT",
+      "corrected_value": "Buying and selling brokerage",
+      "operator_notes": "Current public service at https://lotin.ae/ (observed 2026-08-14).",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-03c",
+      "brand_id": "LOTIN",
+      "field": "offerings.items[2].name",
+      "candidate_value": "developer-related offerings",
+      "decision": "EDIT",
+      "corrected_value": "Leasing brokerage and property management",
+      "operator_notes": "Current public services at https://lotin.ae/ (observed 2026-08-14).",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-03d",
+      "brand_id": "LOTIN",
+      "field": "offerings.items[3].name",
+      "candidate_value": "market intelligence",
+      "decision": "EDIT",
+      "corrected_value": "Sales representation and private real-estate portfolio advisory",
+      "operator_notes": "Current public services plus operator confirmation. This is property portfolio advisory only; it does not include holding client funds or managing securities or investment funds.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-04",
+      "brand_id": "LOTIN",
+      "field": "identity.location_markets",
+      "candidate_value": [
+        "Dubai",
+        "UAE"
+      ],
+      "decision": "EDIT",
+      "corrected_value": [
+        "UAE"
+      ],
+      "operator_notes": "The current official site describes UAE-wide services and a Dubai office. Specific emirate/city campaign permissions remain subject to live inventory or mandate evidence.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-05",
+      "brand_id": "LOTIN",
+      "field": "audiences.segments[0].label",
+      "decision": "EDIT",
+      "corrected_value": "Property investors and private real-estate portfolio clients",
+      "operator_notes": "Confirmed by Ahmet Oney. Real-estate portfolio advisory only; no fund or securities management claim.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-05b",
+      "brand_id": "LOTIN",
+      "field": "audiences.segments[1].label",
+      "decision": "EDIT",
+      "corrected_value": "Home buyers, including international buyers entering Dubai",
+      "operator_notes": "Confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-05c",
+      "brand_id": "LOTIN",
+      "field": "audiences.segments[2].label",
+      "decision": "EDIT",
+      "corrected_value": "Property owners and sellers",
+      "operator_notes": "Confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-08",
+      "brand_id": "LOTIN",
+      "field": "positioning.category",
+      "candidate_value": "real_estate",
+      "decision": "EDIT",
+      "corrected_value": "real_estate_brokerage_and_advisory",
+      "operator_notes": "Direct category wording on https://lotin.ae/; generic orientation corrected without adopting promotional superiority claims.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-09",
+      "brand_id": "LOTIN",
+      "field": "cta.items[0].label",
+      "decision": "EDIT",
+      "corrected_value": "Book a consultation",
+      "operator_notes": "Primary CTA confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-10",
+      "brand_id": "LOTIN",
+      "field": "identity.languages",
+      "candidate_value": [
+        "en",
+        "ar"
+      ],
+      "decision": "EDIT",
+      "corrected_value": [
+        "en"
+      ],
+      "operator_notes": "English is the primary language for UAE marketing. Campaigns targeting markets outside the UAE may use the target country's local language after translation review.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-11",
+      "brand_id": "LOTIN",
+      "field": "claims.prohibited_claims",
+      "candidate_value": [
+        "Do not invent ROI or guaranteed returns",
+        "Do not fabricate inventory, pricing, or developer partnerships",
+        "Time-sensitive property facts require fresh evidence",
+        "Avoid unlicensed financial/regulatory claims"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Verified as MarketingOS operating restrictions, not as public advertising copy. No ROI/return guarantees, fabricated inventory/pricing/partnerships, or unsupported regulatory claims.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "LQ-11b",
+      "brand_id": "LOTIN",
+      "field": "claims.investment_financial_restrictions",
+      "candidate_value": [
+        "No ROI guarantees",
+        "No fabricated returns",
+        "Fresh evidence for property facts"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Verified as conservative investment-claim controls. Business/legal disclosures still require operator or counsel confirmation.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "lotin_questionnaire",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-01",
+      "brand_id": "VILLA_GLORY",
+      "field": "identity.official_name",
+      "candidate_value": "Villa Glory",
+      "decision": "VERIFY",
+      "operator_notes": "Confirmed by the current official site https://villagloryfurniture.com/ and the customer-facing Shopify source.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": [
+        "vg-1"
+      ]
+    },
+    {
+      "id": "VG-02",
+      "brand_id": "VILLA_GLORY",
+      "field": "identity.description",
+      "candidate_value": "Villa Glory is a UAE luxury furniture and interiors destination offering curated collections, bespoke furniture, showroom consultation, and project support.",
+      "decision": "EDIT",
+      "corrected_value": "Villa Glory is a UAE luxury furniture and complete home living destination for villas, apartments, and private residences.",
+      "operator_notes": "Updated to the current official homepage wording; removes the older Phase 2B emphasis on project support as the lead description.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": [
+        "vg-2"
+      ]
+    },
+    {
+      "id": "VG-03",
+      "brand_id": "VILLA_GLORY",
+      "field": "identity.location_markets",
+      "candidate_value": [
+        "UAE",
+        "Dubai",
+        "Sharjah"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Current official Stores page lists active private showrooms and addresses in Dubai and Sharjah: https://villagloryfurniture.com/pages/stores (observed 2026-08-14).",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": [
+        "vg-3"
+      ]
+    },
+    {
+      "id": "VG-04",
+      "brand_id": "VILLA_GLORY",
+      "field": "positioning.positioning_statement",
+      "candidate_value": "UAE luxury furniture and interiors destination with curated collections, bespoke furniture, showroom consultation, and project support for private clients, developers, and design professionals.",
+      "decision": "EDIT",
+      "corrected_value": "UAE luxury furniture and complete home living destination combining curated collections, custom and bespoke options, material guidance, and private consultation for residences.",
+      "operator_notes": "Normalized from the current official homepage and Stores page; developer audience removed because it is not sufficiently confirmed on the current public site.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": [
+        "vg-5"
+      ]
+    },
+    {
+      "id": "VG-04b",
+      "brand_id": "VILLA_GLORY",
+      "field": "positioning.category",
+      "candidate_value": "luxury_furniture_and_interiors",
+      "decision": "VERIFY",
+      "operator_notes": "Current official homepage presents Luxury Furniture, Interiors, and Complete Home Living.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": [
+        "vg-4"
+      ]
+    },
+    {
+      "id": "VG-05",
+      "brand_id": "VILLA_GLORY",
+      "field": "positioning.differentiation",
+      "candidate_value": [
+        "Dubai and Sharjah showrooms",
+        "Curated + bespoke furniture",
+        "Private Concierge / professional project support",
+        "Quote-first commerce (no standard online checkout)"
+      ],
+      "decision": "EDIT",
+      "corrected_value": [
+        "Private showrooms in Dubai and Sharjah",
+        "Curated collections plus custom and bespoke options",
+        "Private Concierge and appointment-led consultation",
+        "Quote-first product enquiries; no standard online checkout"
+      ],
+      "operator_notes": "Current official homepage/Stores page plus the Shopify PRODUCT_CONTENT_MODEL.md. These are operating characteristics, not superiority claims.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": [
+        "vg-6"
+      ]
+    },
+    {
+      "id": "VG-06a",
+      "brand_id": "VILLA_GLORY",
+      "field": "audiences.segments[0].label",
+      "candidate_value": "Private clients",
+      "decision": "VERIFY",
+      "operator_notes": "Current official homepage focuses on villas, apartments, private residences, and private consultation.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-06b",
+      "brand_id": "VILLA_GLORY",
+      "field": "audiences.segments[1].label",
+      "candidate_value": "Developers",
+      "decision": "VERIFY",
+      "operator_notes": "Property developers confirmed as an approved customer group by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-06c",
+      "brand_id": "VILLA_GLORY",
+      "field": "audiences.segments[2].label",
+      "candidate_value": "Design professionals",
+      "decision": "VERIFY",
+      "operator_notes": "Supported by the current public Trade Program navigation and the customer-facing About source. Developer audience remains unresolved separately.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[0].name",
+      "candidate_value": "Living",
+      "decision": "VERIFY",
+      "operator_notes": "Category only, not SKU availability. Current official homepage lists Living, Dining, Bedroom, Lighting, Décor, Outdoor, Office, and Custom & Bespoke.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07b",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[1].name",
+      "candidate_value": "Dining",
+      "decision": "VERIFY",
+      "operator_notes": "Category only, not SKU availability; listed on the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07c",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[2].name",
+      "candidate_value": "Bedroom",
+      "decision": "VERIFY",
+      "operator_notes": "Category only, not SKU availability; listed on the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07d",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[3].name",
+      "candidate_value": "Lighting",
+      "decision": "VERIFY",
+      "operator_notes": "Category only, not SKU availability; listed on the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07e",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[4].name",
+      "candidate_value": "Decor",
+      "decision": "EDIT",
+      "corrected_value": "Décor",
+      "operator_notes": "Category only, not SKU availability; spelling aligned to the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07f",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[5].name",
+      "candidate_value": "Outdoor",
+      "decision": "VERIFY",
+      "operator_notes": "Category only, not SKU availability; listed on the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07g",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[6].name",
+      "candidate_value": "Office",
+      "decision": "VERIFY",
+      "operator_notes": "Category only, not SKU availability; listed on the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-07h",
+      "brand_id": "VILLA_GLORY",
+      "field": "offerings.items[7].name",
+      "candidate_value": "Custom Made",
+      "decision": "EDIT",
+      "corrected_value": "Custom & Bespoke",
+      "operator_notes": "Category only, not SKU availability; wording aligned to the current official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-08",
+      "brand_id": "VILLA_GLORY",
+      "field": "cta.items[0].label",
+      "candidate_value": "Request Private Quote",
+      "decision": "VERIFY",
+      "operator_notes": "Primary CTA confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "VG-09",
+      "brand_id": "VILLA_GLORY",
+      "field": "identity.website",
+      "decision": "EDIT",
+      "corrected_value": "https://villagloryfurniture.com",
+      "operator_notes": "Current public site observed 2026-08-14. The myshopify.com hostname remains an internal commerce identifier, not the marketing URL.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "villa_glory",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-01",
+      "brand_id": "NOX_FORM",
+      "field": "identity.official_name",
+      "candidate_value": "NOX FORM",
+      "decision": "VERIFY",
+      "operator_notes": "Confirmed by current source and live official site https://www.noxform.design/ (observed 2026-08-14).",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-1"
+      ]
+    },
+    {
+      "id": "NF-02",
+      "brand_id": "NOX_FORM",
+      "field": "identity.legal_operating_relationship",
+      "candidate_value": "A Division of Woodex Global LLC",
+      "decision": "VERIFY",
+      "operator_notes": "Operating relationship confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-2"
+      ]
+    },
+    {
+      "id": "NF-03",
+      "brand_id": "NOX_FORM",
+      "field": "identity.description",
+      "candidate_value": "NOX FORM is a Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality spaces.",
+      "decision": "VERIFY",
+      "operator_notes": "Exact current meta/site description in NOXFORM src/lib/content.ts and on https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-3"
+      ]
+    },
+    {
+      "id": "NF-03b",
+      "brand_id": "NOX_FORM",
+      "field": "positioning.positioning_statement",
+      "candidate_value": "Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality — designing the next era of spatial living.",
+      "decision": "VERIFY",
+      "operator_notes": "Supported by the current official homepage description, tagline, and service framing. Business truth only; not separate advertising approval.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-7"
+      ]
+    },
+    {
+      "id": "NF-04",
+      "brand_id": "NOX_FORM",
+      "field": "identity.location_markets",
+      "candidate_value": [
+        "Dubai",
+        "UAE"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Current official site lists the studio at Dubai Investment Park 2, Dubai, UAE.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-4"
+      ]
+    },
+    {
+      "id": "NF-05a",
+      "brand_id": "NOX_FORM",
+      "field": "identity.website",
+      "candidate_value": "https://www.noxform.design",
+      "decision": "VERIFY",
+      "operator_notes": "Live official domain confirmed 2026-08-14.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-5"
+      ]
+    },
+    {
+      "id": "NF-05b",
+      "brand_id": "NOX_FORM",
+      "field": "identity.contact_channels",
+      "candidate_value": {
+        "email": "studio@noxform.design",
+        "phone": "+971 50 834 4351",
+        "whatsapp": "+971 50 834 4351"
+      },
+      "decision": "VERIFY",
+      "operator_notes": "Phone, email, and WhatsApp are consistent between current source and the live official contact block.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-6"
+      ]
+    },
+    {
+      "id": "NF-06",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[0].name",
+      "candidate_value": "Interior Architecture",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service list. Luxury Furnishing means NOX FORM studio FF&E, not Villa Glory retail.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06b",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[1].name",
+      "candidate_value": "Turnkey Fit-Out",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service at https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06c",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[2].name",
+      "candidate_value": "Luxury Furnishing",
+      "decision": "VERIFY",
+      "operator_notes": "Current official studio FF&E service; not Villa Glory retail.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06d",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[3].name",
+      "candidate_value": "Bespoke Joinery",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service at https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06e",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[4].name",
+      "candidate_value": "Material Curation",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service at https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06f",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[5].name",
+      "candidate_value": "Visualization & CGI",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service at https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06g",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[6].name",
+      "candidate_value": "Lighting Design",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service at https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-06h",
+      "brand_id": "NOX_FORM",
+      "field": "offerings.items[7].name",
+      "candidate_value": "Project Management",
+      "decision": "VERIFY",
+      "operator_notes": "Current official service at https://www.noxform.design/.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-07a",
+      "brand_id": "NOX_FORM",
+      "field": "audiences.segments[0].label",
+      "candidate_value": "Private villa / residence clients",
+      "decision": "VERIFY",
+      "operator_notes": "Current official description and consultation copy explicitly focus on private villas and residences.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-3"
+      ]
+    },
+    {
+      "id": "NF-07b",
+      "brand_id": "NOX_FORM",
+      "field": "audiences.segments[1].label",
+      "candidate_value": "Hospitality space clients",
+      "decision": "VERIFY",
+      "operator_notes": "Current official description explicitly names selected hospitality spaces.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": [
+        "nf-3"
+      ]
+    },
+    {
+      "id": "NF-08",
+      "brand_id": "NOX_FORM",
+      "field": "voice.tone",
+      "candidate_value": [
+        "Refined",
+        "Atmospheric",
+        "Material-honest",
+        "Professional studio"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Approved brand tone confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-09a",
+      "brand_id": "NOX_FORM",
+      "field": "visual.colors",
+      "candidate_value": {
+        "noir": "#15110f",
+        "bronze": "#9a7b4f",
+        "note": "Default --brand-* tokens from brand-kit / globals.css"
+      },
+      "decision": "VERIFY",
+      "operator_notes": "Verified as current source defaults in src/lib/branding/brand-kit.ts and src/app/globals.css, not as an immutable future palette.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-09b",
+      "brand_id": "NOX_FORM",
+      "field": "visual.typography",
+      "candidate_value": {
+        "primary": "Archivo",
+        "editorial": "Fraunces"
+      },
+      "decision": "VERIFY",
+      "operator_notes": "Verified as current source typography in the brand kit and production layout.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-10",
+      "brand_id": "NOX_FORM",
+      "field": "cta.items[0].label",
+      "candidate_value": "Start a Project",
+      "decision": "VERIFY",
+      "operator_notes": "Current primary project-acquisition CTA in source and on the live official homepage.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NF-11",
+      "brand_id": "NOX_FORM",
+      "field": "claims.client_confidentiality_restrictions",
+      "decision": "EDIT",
+      "corrected_value": [
+        "Do not name clients or publish private project details, locations, budgets, drawings, renders, or photographs without documented client authorization.",
+        "Publicly released projects may be referenced only using approved materials."
+      ],
+      "operator_notes": "Confidentiality rule approved by Ahmet Oney.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_form",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NT-01",
+      "brand_id": "NOX_TECH",
+      "field": "identity.official_name",
+      "candidate_value": "NOX TECH",
+      "decision": "VERIFY",
+      "operator_notes": "Official public brand name confirmed as NOX TECH by Ahmet Oney. NOX TECH AI wording in the source is stale and not approved branding.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_brand",
+      "evidence_candidate_ids": [
+        "nt-1"
+      ]
+    },
+    {
+      "id": "NT-02",
+      "brand_id": "NOX_TECH",
+      "field": "identity.description",
+      "candidate_value": "Internal software sales and implementation platform to manage the client lifecycle from discovery through proposal to implementation.",
+      "decision": "VERIFY",
+      "operator_notes": "Verified from README and implemented workflow, then approved by Ahmet Oney for routine marketing without ROI, guarantee, or unapproved package claims.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_brand",
+      "evidence_candidate_ids": [
+        "nt-2"
+      ]
+    },
+    {
+      "id": "NT-03",
+      "brand_id": "NOX_TECH",
+      "field": "positioning.positioning_statement",
+      "candidate_value": "AI-assisted sales and implementation platform spanning discovery, module marketplace, proposals, and delivery tracking (per README).",
+      "decision": "VERIFY",
+      "operator_notes": "Verified from README and implemented product flows, then approved by Ahmet Oney for routine marketing without ROI, guarantee, or unapproved package claims.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_brand",
+      "evidence_candidate_ids": [
+        "nt-3"
+      ]
+    },
+    {
+      "id": "NT-04",
+      "brand_id": "NOX_TECH",
+      "field": "offerings.items[0].name",
+      "candidate_value": "CRM Core (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+      "decision": "REJECT",
+      "operator_notes": "Rejected as a commercial offering. CRM Core is observed in seed/static catalog code, but no approved sellable SKU list was found.",
+      "marketing_approved": false,
+      "requires_marketing_approval": true,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_commercial",
+      "evidence_candidate_ids": [
+        "nt-mod-0"
+      ]
+    },
+    {
+      "id": "NT-05",
+      "brand_id": "NOX_TECH",
+      "field": "offerings.items[1].name",
+      "candidate_value": "Sales Pipeline (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
+      "decision": "REJECT",
+      "operator_notes": "Rejected as a commercial offering. Sales Pipeline is technically present but not established as a marketed/sold package.",
+      "marketing_approved": false,
+      "requires_marketing_approval": true,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_capabilities",
+      "evidence_candidate_ids": [
+        "nt-mod-1"
+      ]
+    },
+    {
+      "id": "NT-06",
+      "brand_id": "NOX_TECH",
+      "field": "claims.approved_claims",
+      "candidate_value": "marketing-data.ts contains quantified ROI estimate strings (e.g. 180–240% ROI)",
+      "decision": "REJECT",
+      "operator_notes": "Rejected for approved marketing claims. No substantiation was found for any quantified ROI string; marketing_approved remains false.",
+      "marketing_approved": false,
+      "requires_marketing_approval": true,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_marketing_claims",
+      "evidence_candidate_ids": [
+        "nt-roi"
+      ]
+    },
+    {
+      "id": "NT-06b",
+      "brand_id": "NOX_TECH",
+      "field": "claims.claims_requiring_evidence",
+      "candidate_value": "marketing-data.ts contains quantified ROI estimate strings (e.g. 180–240% ROI)",
+      "decision": "EDIT",
+      "corrected_value": [
+        "180–240% ROI within 18 months",
+        "200–280% ROI via agent productivity",
+        "150–200% ROI via reduced cost variance",
+        "160–220% ROI",
+        "170–230% ROI"
+      ],
+      "operator_notes": "Exact static ROI strings observed in src/lib/marketing-data.ts. Stored only as claims requiring evidence; not approved for use.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_marketing_claims",
+      "evidence_candidate_ids": [
+        "nt-roi"
+      ]
+    },
+    {
+      "id": "NT-07",
+      "brand_id": "NOX_TECH",
+      "field": "claims.prohibited_claims",
+      "candidate_value": [
+        "Do not claim guaranteed ROI percentages without MARKETING_APPROVED evidence",
+        "Do not claim every seeded module is a commercially offered product",
+        "OBSERVED_IN_CODE ≠ MARKETING_APPROVED"
+      ],
+      "decision": "VERIFY",
+      "operator_notes": "Verified as MarketingOS operating restrictions that preserve the distinction between code presence, commercial availability, and marketing approval.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_marketing_claims",
+      "evidence_candidate_ids": [
+        "nt-4"
+      ]
+    },
+    {
+      "id": "NT-08",
+      "brand_id": "NOX_TECH",
+      "field": "audiences.segments[0].label",
+      "candidate_value": "Businesses needing sales/implementation tooling",
+      "decision": "EDIT",
+      "corrected_value": "Businesses needing custom AI, automation, sales, or implementation tools",
+      "operator_notes": "Primary customer group confirmed by Ahmet Oney.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_audience",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "NT-09",
+      "brand_id": "NOX_TECH",
+      "field": "cta.items[0].label",
+      "decision": "EDIT",
+      "corrected_value": "Book Discovery",
+      "operator_notes": "Current public-marketing CTA in source; route is the configured Calendly discovery URL. This verifies current implementation, not production integration health.",
+      "marketing_approved": true,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "nox_tech_cta",
+      "evidence_candidate_ids": []
+    },
+    {
+      "id": "XB-01",
+      "brand_id": "VILLA_GLORY",
+      "field": "relationships.rel-vg-nf-orientation",
+      "candidate_value": {
+        "related_brand": "NOX_FORM",
+        "type": "RELATED_COMPANY",
+        "permissions": {
+          "internal_knowledge": null,
+          "public_mention": null,
+          "content_collaboration": null,
+          "asset_sharing": null,
+          "lead_referral": null
+        }
+      },
+      "decision": "REJECT",
+      "corrected_value": {
+        "permissions": {
+          "internal_knowledge": false,
+          "public_mention": false,
+          "content_collaboration": false,
+          "asset_sharing": false,
+          "lead_referral": false
+        }
+      },
+      "operator_notes": "REJECTED by Ahmet Oney: all four brands are separate businesses. No cross-brand internal knowledge, public association, content collaboration, asset sharing, or lead referral is authorized.",
+      "marketing_approved": false,
+      "requires_marketing_approval": false,
+      "decided_by": "Ahmet Oney",
+      "decided_at": "2026-08-14T10:24:54.000Z",
+      "category": "cross_brand",
+      "evidence_candidate_ids": []
+    }
+  ]
+}

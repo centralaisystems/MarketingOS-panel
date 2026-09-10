@@ -6,13 +6,14 @@
     {
       "id": "demo",
       "label": {
-        "status": "UNVERIFIED",
-        "value": "Request demo",
-        "notes": "CTA hint — confirm brand-appropriate wording",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Book Discovery",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public-marketing CTA in source; route is the configured Calendly discovery URL. This verifies current implementation, not production integration health. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NT-09 | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NT-09",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "intent": {
@@ -21,8 +22,8 @@
         "notes": "Intent orientation",
         "source_type": "AI_INFERENCE",
         "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "confidence": "LOW",
         "time_sensitive": false
       },
       "brand_appropriate": true
@@ -35,8 +36,8 @@
         "notes": "CTA hint — confirm brand-appropriate wording",
         "source_type": "AI_INFERENCE",
         "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "confidence": "LOW",
         "time_sensitive": false
       },
       "intent": {
@@ -45,8 +46,8 @@
         "notes": "Intent orientation",
         "source_type": "AI_INFERENCE",
         "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "confidence": "LOW",
         "time_sensitive": false
       },
       "brand_appropriate": true
@@ -59,8 +60,8 @@
         "notes": "CTA hint — confirm brand-appropriate wording",
         "source_type": "AI_INFERENCE",
         "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "confidence": "LOW",
         "time_sensitive": false
       },
       "intent": {
@@ -69,8 +70,8 @@
         "notes": "Intent orientation",
         "source_type": "AI_INFERENCE",
         "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "confidence": "LOW",
         "time_sensitive": false
       },
       "brand_appropriate": true

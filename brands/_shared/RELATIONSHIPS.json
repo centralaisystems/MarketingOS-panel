@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-08-14T07:54:29.725Z",
+  "updated_at": "2026-08-14T10:27:38.660Z",
   "relationships": [
     {
       "relationship_id": "rel-vg-nf-orientation",
       "from_brand_id": "VILLA_GLORY",
       "to_brand_id": "NOX_FORM",
       "type": "RELATED_COMPANY",
-      "description": "Villa Glory (furniture / product / quote-first retail) is related in group context to NOX FORM (architecture / interior design / turnkey studio). Knowledge, tone, audiences, services, products, CTAs, and pillars must not merge. Asset reuse requires SHARED_ASSET_WITH_PERMISSION and usage_permission=true. Pending APPROVE_CROSS_BRAND_RELATIONSHIP.",
+      "description": "REJECTED by Ahmet Oney: all four brands are separate businesses. No cross-brand internal knowledge, public association, content collaboration, asset sharing, or lead referral is authorized.",
       "usage_permission": false,
-      "source_type": "AI_INFERENCE",
-      "source_reference": "marketing_os_phase2_orientation",
-      "confidence": "LOW",
-      "status": "UNVERIFIED",
+      "source_type": "INTERNAL_OPERATOR",
+      "source_reference": "operator:Ahmet Oney:XB-01",
+      "confidence": "VERIFIED",
+      "status": "REVOKED",
       "created_at": "2026-08-14T08:00:00.000Z"
     }
   ]

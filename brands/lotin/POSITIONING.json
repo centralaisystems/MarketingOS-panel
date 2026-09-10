@@ -3,30 +3,36 @@
   "module": "positioning",
   "updated_at": "2026-08-14T08:00:00.000Z",
   "category": {
-    "status": "UNVERIFIED",
-    "value": "real_estate",
-    "notes": "Category orientation from master brief",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "status": "VERIFIED",
+    "value": "real_estate_brokerage_and_advisory",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Direct category wording on https://lotin.ae/; generic orientation corrected without adopting promotional superiority claims. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-08 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-08",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "positioning_statement": {
     "status": "MISSING",
-    "notes": "Approved positioning statement required"
+    "notes": "Approved positioning statement required",
+    "time_sensitive": false
   },
   "differentiation": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "value_proposition": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "desired_perception": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "market_level": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "geographic_positioning": {
     "status": "UNVERIFIED",
@@ -37,8 +43,8 @@
     "notes": "From brief orientation",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   },
   "marketing_direction_note": "Real estate, investment opportunities, buyers/investors, sellers, developers, market intelligence and qualified lead generation. Orientation only — not verified."

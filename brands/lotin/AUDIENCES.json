@@ -7,105 +7,129 @@
       "id": "aud-1",
       "role": "PRIMARY",
       "label": {
-        "status": "UNVERIFIED",
-        "value": "property investors",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Property investors and private real-estate portfolio clients",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Confirmed by Ahmet Oney. Real-estate portfolio advisory only; no fund or securities management claim. | Prior evidence: AI_INFERENCE / marketing_os_master_brief_orientation | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-05",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "aud-2",
       "role": "SECONDARY",
       "label": {
-        "status": "UNVERIFIED",
-        "value": "buyers",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Home buyers, including international buyers entering Dubai",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Confirmed by Ahmet Oney. | Prior evidence: AI_INFERENCE / marketing_os_master_brief_orientation | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-05b",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "aud-3",
       "role": "SECONDARY",
       "label": {
-        "status": "UNVERIFIED",
-        "value": "sellers",
-        "notes": "Audience label from brief — not persona-validated",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Property owners and sellers",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Confirmed by Ahmet Oney. | Prior evidence: AI_INFERENCE / marketing_os_master_brief_orientation | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-05c",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
@@ -117,35 +141,43 @@
         "notes": "Audience label from brief — not persona-validated",
         "source_type": "AI_INFERENCE",
         "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "confidence": "LOW",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     }
   ],
   "personas": {
     "status": "MISSING",
-    "notes": "Do not fabricate personas"
+    "notes": "Do not fabricate personas",
+    "time_sensitive": false
   }
 }

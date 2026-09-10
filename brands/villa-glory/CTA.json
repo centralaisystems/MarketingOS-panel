@@ -6,13 +6,14 @@
     {
       "id": "request-private-quote",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Primary quote-first CTA.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Primary CTA confirmed by Ahmet Oney. | Prior evidence: INTERNAL_DOCUMENT / Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "intent": {

@@ -6,13 +6,8 @@
     {
       "id": "obs-crm-core",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "CRM Core (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
-        "notes": "Seed/module catalog presence only.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
-        "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "status": "MISSING",
+        "notes": "OPERATOR_REJECTED by Ahmet Oney: Rejected as a commercial offering. CRM Core is observed in seed/static catalog code, but no approved sellable SKU list was found.",
         "time_sensitive": false
       },
       "category": {
@@ -36,28 +31,27 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "obs-sales-pipeline",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "Sales Pipeline (OBSERVED_IN_CODE — not MARKETING_APPROVED)",
-        "notes": "Seed/module catalog presence only.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Nox-tech-ai:supabase/seeds/batches/all-modules.json",
-        "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "status": "MISSING",
+        "notes": "OPERATOR_REJECTED by Ahmet Oney: Rejected as a commercial offering. Sales Pipeline is technically present but not established as a marketed/sold package.",
         "time_sensitive": false
       },
       "category": {
@@ -81,16 +75,20 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
@@ -126,16 +124,20 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
@@ -171,16 +173,20 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
@@ -216,16 +222,20 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     }
   ]

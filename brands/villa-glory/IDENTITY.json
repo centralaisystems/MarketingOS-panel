@@ -3,13 +3,14 @@
   "module": "identity",
   "updated_at": "2026-08-14T08:00:00.000Z",
   "official_name": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "Villa Glory",
-    "notes": "Public storefront About copy; legal entity still unknown. | About page brand name Villa Glory.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Confirmed by the current official site https://villagloryfurniture.com/ and the customer-facing Shopify source. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-01 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:VG-01",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "short_name": {
@@ -28,32 +29,40 @@
     "time_sensitive": false
   },
   "description": {
-    "status": "UNVERIFIED",
-    "value": "Villa Glory is a UAE luxury furniture and interiors destination offering curated collections, bespoke furniture, showroom consultation, and project support.",
-    "notes": "Website description pending operator VERIFY. | Lead paragraph on About page.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+    "status": "VERIFIED",
+    "value": "Villa Glory is a UAE luxury furniture and complete home living destination for villas, apartments, and private residences.",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Updated to the current official homepage wording; removes the older Phase 2B emphasis on project support as the lead description. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-02 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:VG-02",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "location_markets": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "UAE",
       "Dubai",
       "Sharjah"
     ],
-    "notes": "Geographic claims from About. | UAE destination; Dubai & Sharjah showrooms stated.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current official Stores page lists active private showrooms and addresses in Dubai and Sharjah: https://villagloryfurniture.com/pages/stores (observed 2026-08-14). | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-03 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:VG-03",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "website": {
-    "status": "MISSING",
-    "notes": "Official website URL required",
+    "status": "VERIFIED",
+    "value": "https://villagloryfurniture.com",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public site observed 2026-08-14. The myshopify.com hostname remains an internal commerce identifier, not the marketing URL. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-09 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:VG-09",
+    "observed_at": "2026-08-14T10:00:35.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "contact_channels": {

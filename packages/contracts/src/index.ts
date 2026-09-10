@@ -13,6 +13,7 @@ export * from "./onboarding.js";
 export * from "./relationships.js";
 export * from "./ingestion.js";
 export * from "./phase2b.js";
+export * from "./phase2c.js";
 export * from "./utm.js";
 export * from "./localization.js";
 export * from "./pii.js";

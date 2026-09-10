@@ -13,13 +13,14 @@
     "time_sensitive": false
   },
   "positioning_statement": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "Dubai-based architecture, interior design, and turnkey delivery studio for private villas, residences, and hospitality — designing the next era of spatial living.",
-    "notes": "Website positioning; keep distinct from Villa Glory retail. | description + tagline combined.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "NOXFORM:src/lib/content.ts",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Supported by the current official homepage description, tagline, and service framing. Business truth only; not separate advertising approval. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-03b | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NF-03b",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "differentiation": {

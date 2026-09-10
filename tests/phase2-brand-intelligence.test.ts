@@ -20,6 +20,22 @@ import {
   InMemoryAuditSink,
 } from "@marketing-os/runtime";
 
+function downgradeVerifiedFields(value: unknown): void {
+  if (Array.isArray(value)) {
+    for (const item of value) downgradeVerifiedFields(item);
+    return;
+  }
+  if (!value || typeof value !== "object") return;
+
+  const record = value as Record<string, unknown>;
+  if (record.status === "VERIFIED") {
+    record.status = "UNVERIFIED";
+    record.confidence = "MEDIUM";
+    delete record.verified_at;
+  }
+  for (const child of Object.values(record)) downgradeVerifiedFields(child);
+}
+
 describe("Phase 2 provenance", () => {
   it("rejects VERIFIED with AI_INFERENCE", () => {
     expect(() =>
@@ -140,7 +156,8 @@ describe("Phase 2 brand packs & readiness", () => {
   });
 
   it("does not score highly on unverified population alone", () => {
-    const pack = loadBrandPack("LOTIN");
+    const pack = structuredClone(loadBrandPack("LOTIN"));
+    downgradeVerifiedFields(pack);
     const report = computeBrandReadiness("LOTIN", pack, "GAP_ANALYSIS", {
       passed: true,
       reasons: [],

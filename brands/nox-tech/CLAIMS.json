@@ -4,31 +4,39 @@
   "updated_at": "2026-08-14T08:00:00.000Z",
   "approved_claims": {
     "status": "MISSING",
-    "notes": "No approved claims yet",
+    "notes": "OPERATOR_REJECTED by Ahmet Oney: Rejected for approved marketing claims. No substantiation was found for any quantified ROI string; marketing_approved remains false.",
     "time_sensitive": false
   },
   "claims_requiring_evidence": {
-    "status": "UNVERIFIED",
-    "value": "marketing-data.ts contains quantified ROI estimate strings (e.g. 180–240% ROI)",
-    "notes": "PUBLICLY_CLAIMED in code assets — requires APPROVE_MARKETING_CLAIM before approved use. | Static ROI estimate copy in marketing-data.ts.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "Nox-tech-ai:src/lib/marketing-data.ts",
+    "status": "VERIFIED",
+    "value": [
+      "180–240% ROI within 18 months",
+      "200–280% ROI via agent productivity",
+      "150–200% ROI via reduced cost variance",
+      "160–220% ROI",
+      "170–230% ROI"
+    ],
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Exact static ROI strings observed in src/lib/marketing-data.ts. Stored only as claims requiring evidence; not approved for use. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NT-06b | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NT-06b",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "LOW",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "prohibited_claims": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "Do not claim guaranteed ROI percentages without MARKETING_APPROVED evidence",
       "Do not claim every seeded module is a commercially offered product",
       "OBSERVED_IN_CODE ≠ MARKETING_APPROVED"
     ],
-    "notes": "Policy guardrails for NOX TECH claims. | Capability vs claim policy.",
-    "source_type": "INTERNAL_DOCUMENT",
-    "source_reference": "MarketingOS:docs/phase-0/CRITICAL_REVIEW.md",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Verified as MarketingOS operating restrictions that preserve the distinction between code presence, commercial availability, and marketing approval. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NT-07 | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NT-07",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "regulatory_considerations": {

@@ -6,13 +6,14 @@
     {
       "id": "room-living",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Living",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability. Current official homepage lists Living, Dining, Bedroom, Lighting, Décor, Outdoor, Office, and Custom & Bespoke. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07 | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -36,7 +37,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -58,8 +60,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -75,13 +77,14 @@
     {
       "id": "room-dining",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Dining",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; listed on the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07b | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07b",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -105,7 +108,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -127,8 +131,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -144,13 +148,14 @@
     {
       "id": "room-bedroom",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Bedroom",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; listed on the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07c | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07c",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -174,7 +179,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -196,8 +202,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -213,13 +219,14 @@
     {
       "id": "room-lighting",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Lighting",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; listed on the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07d | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07d",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -243,7 +250,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -265,8 +273,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -282,13 +290,14 @@
     {
       "id": "room-decor",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "Decor",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "status": "VERIFIED",
+        "value": "Décor",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; spelling aligned to the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07e | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07e",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -312,7 +321,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -334,8 +344,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -351,13 +361,14 @@
     {
       "id": "room-outdoor",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Outdoor",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; listed on the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07f | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07f",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -381,7 +392,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -403,8 +415,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -420,13 +432,14 @@
     {
       "id": "room-office",
       "name": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Office",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; listed on the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07g | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07g",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -450,7 +463,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -472,8 +486,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",
@@ -489,13 +503,14 @@
     {
       "id": "room-custom-made",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "Custom Made",
-        "notes": "Room collection title from COLLECTION_STRUCTURE.md.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/COLLECTION_STRUCTURE.md",
+        "status": "VERIFIED",
+        "value": "Custom & Bespoke",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Category only, not SKU availability; wording aligned to the current official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:VG-07h | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-07h",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
@@ -519,7 +534,8 @@
         "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
         "status": "UNVERIFIED",
@@ -541,8 +557,8 @@
         "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
         "observed_at": "2026-08-14T07:54:29.709Z",
         "confidence": "MEDIUM",
-        "time_sensitive": true,
-        "review_after_days": 90
+        "review_after_days": 90,
+        "time_sensitive": true
       },
       "cta": {
         "status": "UNVERIFIED",

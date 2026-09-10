@@ -3,41 +3,49 @@
   "module": "voice",
   "updated_at": "2026-08-14T07:54:29.713Z",
   "personality": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "tone": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "Refined",
       "Atmospheric",
       "Material-honest",
       "Professional studio"
     ],
-    "notes": "Tone inferred from public description language — distinct from Villa Glory retail tone. Do not merge.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "NOXFORM:src/lib/content.ts",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Approved brand tone confirmed by Ahmet Oney. | Prior evidence: OFFICIAL_WEBSITE / NOXFORM:src/lib/content.ts | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:NF-08",
     "observed_at": "2026-08-14T07:54:29.709Z",
-    "confidence": "LOW",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "vocabulary": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "preferred_terminology": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "prohibited_terminology": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "writing_examples": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "cta_style": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "language_differences": {
     "status": "MISSING",
-    "notes": "EN/AR/TR tone differences unknown"
+    "notes": "EN/AR/TR tone differences unknown",
+    "time_sensitive": false
   },
   "locale_guidance": []
 }

@@ -18,7 +18,8 @@
     "onboard-brand": "tsx scripts/onboard-brand.ts",
     "onboard-all": "tsx scripts/onboard-all-brands.ts",
     "generate-brand-packs": "tsx scripts/generate-brand-packs.ts",
-    "phase2b-populate": "tsx scripts/phase2b-populate.ts"
+    "phase2b-populate": "tsx scripts/phase2b-populate.ts",
+    "apply-brand-decisions": "tsx scripts/apply-brand-decisions.ts"
   },
   "dependencies": {
     "@marketing-os/contracts": "workspace:*",

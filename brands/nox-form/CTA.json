@@ -6,13 +6,14 @@
     {
       "id": "start-a-project",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Start a Project",
-        "notes": "primaryCta.label",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "NOXFORM:src/lib/content.ts",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current primary project-acquisition CTA in source and on the live official homepage. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:NF-10 | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NF-10",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "intent": {

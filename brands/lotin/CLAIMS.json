@@ -4,47 +4,54 @@
   "updated_at": "2026-08-14T08:00:00.000Z",
   "approved_claims": {
     "status": "MISSING",
-    "notes": "No approved claims yet"
+    "notes": "No approved claims yet",
+    "time_sensitive": false
   },
   "claims_requiring_evidence": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "prohibited_claims": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "Do not invent ROI or guaranteed returns",
       "Do not fabricate inventory, pricing, or developer partnerships",
       "Time-sensitive property facts require fresh evidence",
       "Avoid unlicensed financial/regulatory claims"
     ],
-    "notes": "Precautionary restrictions from Phase 1/brief — expand with legal review",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Verified as MarketingOS operating restrictions, not as public advertising copy. No ROI/return guarantees, fabricated inventory/pricing/partnerships, or unsupported regulatory claims. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-11 | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-11",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "regulatory_considerations": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "pricing_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   },
   "investment_financial_restrictions": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "No ROI guarantees",
       "No fabricated returns",
       "Fresh evidence for property facts"
     ],
-    "notes": "LOTIN financial claim care from brief",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Verified as conservative investment-claim controls. Business/legal disclosures still require operator or counsel confirmation. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-11b | marketing_approved=false (VERIFY ≠ advertising approval)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-11b",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "client_confidentiality_restrictions": {
-    "status": "MISSING"
+    "status": "MISSING",
+    "time_sensitive": false
   }
 }

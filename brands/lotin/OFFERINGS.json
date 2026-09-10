@@ -6,129 +6,157 @@
     {
       "id": "offer-1",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "property investment opportunities",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Off-plan property brokerage",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public service at https://lotin.ae/. Out of scope: fund management, guaranteed returns, undocumented exclusivity, and unverified developer authorization. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-03 | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-03",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
         "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "notes": "Pricing must be verified; time-sensitive",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "offer-2",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "buyer/seller support",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Buying and selling brokerage",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public service at https://lotin.ae/ (observed 2026-08-14). | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-03b | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-03b",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
         "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "notes": "Pricing must be verified; time-sensitive",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "offer-3",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "developer-related offerings",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Leasing brokerage and property management",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public services at https://lotin.ae/ (observed 2026-08-14). | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-03c | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-03c",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
         "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "notes": "Pricing must be verified; time-sensitive",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     },
     {
       "id": "offer-4",
       "name": {
-        "status": "UNVERIFIED",
-        "value": "market intelligence",
-        "notes": "Offer label from brief — not a verified catalog item",
-        "source_type": "AI_INFERENCE",
-        "source_reference": "marketing_os_master_brief_orientation",
-        "confidence": "LOW",
+        "status": "VERIFIED",
+        "value": "Sales representation and private real-estate portfolio advisory",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public services plus operator confirmation. This is property portfolio advisory only; it does not include holding client funds or managing securities or investment funds. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-03d | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:LQ-03d",
         "observed_at": "2026-08-14T08:00:00.000Z",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "category": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "description": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "audience": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pricing": {
         "status": "MISSING",
-        "notes": "Pricing must be verified; time-sensitive"
+        "notes": "Pricing must be verified; time-sensitive",
+        "time_sensitive": false
       },
       "cta": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     }
   ]

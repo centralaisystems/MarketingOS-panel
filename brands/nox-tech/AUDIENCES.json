@@ -7,40 +7,49 @@
       "id": "businesses-sales-implementation",
       "role": "PRIMARY",
       "label": {
-        "status": "UNVERIFIED",
-        "value": "Businesses needing sales/implementation tooling",
-        "notes": "Weak ICP hint from README — operator must refine.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Nox-tech-ai:README.md",
+        "status": "VERIFIED",
+        "value": "Businesses needing custom AI, automation, sales, or implementation tools",
+        "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Primary customer group confirmed by Ahmet Oney. | Prior evidence: INTERNAL_DOCUMENT / Nox-tech-ai:README.md | marketing_approved=true (explicit)",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:NT-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-08-14T10:24:54.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "geography": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "needs": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "pain_points": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "motivations": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "objections": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "buying_triggers": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       },
       "preferred_channels": {
-        "status": "MISSING"
+        "status": "MISSING",
+        "time_sensitive": false
       }
     }
   ],
   "personas": {
     "status": "MISSING",
-    "notes": "Do not fabricate personas"
+    "notes": "Do not fabricate personas",
+    "time_sensitive": false
   }
 }

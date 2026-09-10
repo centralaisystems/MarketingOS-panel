@@ -3,13 +3,14 @@
   "module": "identity",
   "updated_at": "2026-08-14T08:00:00.000Z",
   "official_name": {
-    "status": "UNVERIFIED",
-    "value": "LOTIN",
-    "notes": "Display name from brief only — legal name MISSING",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "status": "VERIFIED",
+    "value": "Lotin Real Estate",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Current public identity on https://lotin.ae/ (observed 2026-08-14). Ahmet Oney confirmed the exact legal entity name separately as Lotin Real Estate LLC. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-01 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-01",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "short_name": {
@@ -18,50 +19,66 @@
     "notes": "Short name assumed from display — unverified",
     "source_type": "AI_INFERENCE",
     "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "confidence": "LOW",
     "time_sensitive": false
   },
   "legal_operating_relationship": {
-    "status": "MISSING",
-    "notes": "Legal/operating relationship unknown"
+    "status": "VERIFIED",
+    "value": "Lotin Real Estate LLC",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Exact legal entity name confirmed by Ahmet Oney on 2026-08-14. | Prior notes: Legal/operating relationship unknown | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-01b",
+    "observed_at": "2026-08-14T10:24:54.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
+    "time_sensitive": false
   },
   "description": {
-    "status": "MISSING",
-    "notes": "Approved brand description required"
+    "status": "VERIFIED",
+    "value": "Lotin Real Estate is a UAE-based real estate brokerage and advisory firm serving property investors, home buyers, international buyers entering Dubai, property owners and sellers, with residential sales, leasing, property management, sales representation, and private real-estate portfolio advisory.",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: Low-risk normalization of the current public services plus the operator-confirmed customer scope. Private real-estate portfolio advisory does not mean holding client funds or managing securities or investment funds. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-02 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-02",
+    "observed_at": "2026-08-14T10:00:35.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
+    "time_sensitive": false
   },
   "location_markets": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
-      "Dubai",
       "UAE"
     ],
-    "notes": "Geographic focus from brief orientation only",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: The current official site describes UAE-wide services and a Dubai office. Specific emirate/city campaign permissions remain subject to live inventory or mandate evidence. | Prior evidence: INTERNAL_OPERATOR / operator:operator_delegated_codex_evidence_audit:LQ-04 | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-04",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "website": {
     "status": "MISSING",
-    "notes": "Official website URL required"
+    "notes": "Official website URL required",
+    "time_sensitive": false
   },
   "contact_channels": {
     "status": "MISSING",
-    "notes": "Contact channels unknown"
+    "notes": "Contact channels unknown",
+    "time_sensitive": false
   },
   "languages": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
-      "en",
-      "ar"
+      "en"
     ],
-    "notes": "Default locales from brief orientation",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "confidence": "LOW",
+    "notes": "OPERATOR_VERIFIED by Ahmet Oney | Notes: English is the primary language for UAE marketing. Campaigns targeting markets outside the UAE may use the target country's local language after translation review. | Prior evidence: AI_INFERENCE / marketing_os_master_brief_orientation | marketing_approved=true (explicit)",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:LQ-10",
     "observed_at": "2026-08-14T08:00:00.000Z",
+    "verified_at": "2026-08-14T10:24:54.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   }
 }
