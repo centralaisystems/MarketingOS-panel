@@ -1,7 +1,8 @@
 /**
- * Thin dedicated Marketing OS operator panel (Wave 3–4).
+ * Thin dedicated Marketing OS operator panel (Wave 3–4b).
  * Own app/URL — not embedded in NOX TECH admin.
- * Wave 4 analytics/assets are read-only. Live publish/ads stay blocked.
+ * Wave 4 analytics/assets are read-only. Wave 4b Drive ingest is metadata-only.
+ * Live publish/ads stay blocked.
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFileSync } from "node:fs";
@@ -9,6 +10,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   createAssetCatalog,
+  createDriveAssetSource,
   createOpsStore,
   handlePanelApi,
   type PanelApiContext,
@@ -28,9 +30,12 @@ const assets = createAssetCatalog({
   seedFixtures: process.env.MOS_ASSETS_SEED !== "false",
 });
 
+const drive = createDriveAssetSource();
+
 const ctx: PanelApiContext = {
   store,
   assets,
+  drive,
   writeReport: process.env.MOS_PANEL_WRITE_REPORT !== "false",
 };
 
@@ -91,5 +96,5 @@ const server = createServer(async (req, res) => {
 
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Marketing OS operator panel http://127.0.0.1:${PORT}`);
-  console.log("Wave 4 read-only analytics/assets. Live publish/ads remain blocked.");
+  console.log("Wave 4b Drive ingest is fixture/read-only. Live publish/ads remain blocked.");
 });

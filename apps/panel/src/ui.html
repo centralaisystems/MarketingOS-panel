@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts + read-only Wave 4 analytics/assets. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts + read-only Wave 4 / 4b analytics and Drive ingest. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -187,10 +187,21 @@
       </section>
 
       <section class="span-2">
+        <h2>Drive asset pipeline (Wave 4b)</h2>
+        <p class="muted">One registered Drive folder per brand. Read-only metadata ingest. Fixture mode by default. Approved-* is folder-contract metadata — not a VERIFIED commercial claim.</p>
+        <div class="row" style="margin-top:0.5rem">
+          <button id="driveSyncBtn" type="button">Sync brand assets</button>
+          <span class="badge" id="driveBadge">Drive —</span>
+        </div>
+        <div id="driveStatus" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
+      <section class="span-2">
         <h2>Asset library (metadata)</h2>
         <p class="muted">Object-storage pointers only. Binaries stay out of Git. Filter unused approved stills when needed.</p>
         <div class="row" style="margin-top:0.5rem">
           <button class="secondary" id="unusedLivingBtn" type="button">Villa Glory unused living-room (instagram)</button>
+          <button class="secondary" id="driveAssetsBtn" type="button">Show Drive-ingested</button>
         </div>
         <div id="assets" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
@@ -209,7 +220,7 @@
 
       <section>
         <h2>Later waves — blocked</h2>
-        <p class="muted">Wave 4 is read-only. Live social publish and ad spend stay off until WAVE_5 / WAVE_6 plus explicit operator approval.</p>
+        <p class="muted">Wave 4/4b stay read-only. Live social publish and ad spend stay off until WAVE_5 / WAVE_6 plus explicit operator approval.</p>
         <div class="row" style="margin-top:0.75rem">
           <button class="blocked" type="button" disabled title="Blocked until WAVE_5 + live_publish_allowed">Publish live</button>
           <button class="blocked" type="button" disabled title="Blocked until WAVE_6 + live_ads_allowed">Launch ads / change budget</button>
@@ -233,6 +244,7 @@
         document.getElementById("inbox").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("audit").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("assets").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("driveStatus").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
       }
@@ -365,17 +377,58 @@
           return;
         }
         document.getElementById("assets").innerHTML =
-          "<table><thead><tr><th>Title</th><th>Kind</th><th>Status</th><th>Tags</th><th>URI</th></tr></thead><tbody>" +
+          "<table><thead><tr><th>Title</th><th>Kind</th><th>Status</th><th>Folder</th><th>Tags</th><th>URI</th></tr></thead><tbody>" +
           rows.map((a) => {
             if (a.brand_id !== brand_id) return "";
             return "<tr><td>" + escapeHtml(a.title) +
               "</td><td>" + escapeHtml(a.kind) +
               "</td><td>" + escapeHtml(a.approval_status) +
+              "</td><td>" + escapeHtml(a.folder_role || "—") +
               "</td><td>" + escapeHtml((a.usage_tags || []).join(", ")) +
               "</td><td class=\"muted\">" + escapeHtml(a.storage_uri) +
               "</td></tr>";
           }).join("") +
           "</tbody></table>";
+      }
+
+      async function loadDriveStatus() {
+        const brand_id = activeBrand();
+        const d = await api("/api/drive-sync?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const badge = document.getElementById("driveBadge");
+        badge.textContent = d.configured
+          ? (d.contract && d.contract.valid ? "contract OK · " + d.source : "contract incomplete")
+          : "not configured";
+        badge.className = "badge " + (d.configured && d.contract && d.contract.valid ? "ok" : "warn");
+        const roles = (d.assets || []).reduce((acc, a) => {
+          const role = a.folder_role || "unknown";
+          acc[role] = (acc[role] || 0) + 1;
+          return acc;
+        }, {});
+        const roleLine = Object.keys(roles).map((k) => k + "=" + roles[k]).join(" · ") || "none ingested";
+        document.getElementById("driveStatus").innerHTML =
+          "<div class=\"item\"><strong>" + escapeHtml(brand_id) + "</strong> · read_only=" +
+          String(d.read_only) +
+          " · source=" + escapeHtml(d.source || "") +
+          "</div>" +
+          "<div class=\"muted\">" + escapeHtml(d.folder_url || "No folder URL on registry") + "</div>" +
+          "<div class=\"muted\">" + escapeHtml(d.message || "") + "</div>" +
+          "<div class=\"muted\">Ingested " + String(d.ingested_count || 0) +
+          " · " + escapeHtml(roleLine) + "</div>";
+      }
+
+      async function syncDrive() {
+        const brand_id = activeBrand();
+        document.getElementById("driveStatus").textContent = "Syncing " + brand_id + "…";
+        const res = await fetch("/api/drive-sync", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ brand_id }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await Promise.all([loadDriveStatus(), loadAssets("source=drive")]);
       }
 
       async function loadAnalytics() {
@@ -430,6 +483,7 @@
           loadInbox(),
           loadAudit(),
           loadAssets(),
+          loadDriveStatus(),
           loadAnalytics(),
           loadAiVisibility(),
         ]);
@@ -484,6 +538,12 @@
           return;
         }
         loadAssets("usage_tag=living-room&platform=instagram&unused_only=true&approval_status=APPROVED");
+      };
+      document.getElementById("driveAssetsBtn").onclick = () => loadAssets("source=drive");
+      document.getElementById("driveSyncBtn").onclick = () => {
+        syncDrive().catch((e) => {
+          document.getElementById("driveStatus").textContent = String(e);
+        });
       };
       brandEl.onchange = () => refreshBrand();
 

@@ -44,4 +44,5 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 - `pnpm verify-output -- --file path/to/result.json`
 - `pnpm onboard-brand -- LOTIN`
 - `pnpm panel` — operator UI at http://127.0.0.1:8787
+- `pnpm sync-brand-assets -- --brand VILLA_GLORY` — Wave 4b Drive metadata ingest (fixture default)
 - `pnpm demo` — Phase 1 demonstration scenarios A–E
