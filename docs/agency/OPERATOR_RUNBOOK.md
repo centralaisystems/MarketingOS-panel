@@ -102,16 +102,16 @@ A brand with `automation_enabled=false` records `DIGEST_BLOCKED` and does not wr
 
 ## Attach a real Drive folder (no secrets in git)
 
-Committed registry keeps fixture folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`, `fixture-nox-form-root`, `fixture-nox-tech-root`). Do not commit tokens or live folder ids.
+Committed registry keeps fixture folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`, `fixture-nox-form-root`, `fixture-nox-tech-root`) and the Villa Glory fixture `@example.test` owner inbox. Do not commit tokens, live folder ids, or production inboxes.
 
 1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored via `*.local.json`).
-2. Patch only the brand you are attaching: `asset_drive_folder_url` / `asset_drive_folder_id`.
-3. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local`.
+2. Patch only the brand you are attaching: `asset_drive_folder_url` / `asset_drive_folder_id`, and optionally `owner_email` / `owner_cc`.
+3. On Railway (no gitignored file), set `MOS_REGISTRY_LOCAL_JSON` to that same JSON shape, or the per-brand vars `MOS_OWNER_EMAIL_<BRAND_ID>`, `MOS_OWNER_CC_<BRAND_ID>` (comma-separated), `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>`. Env wins over the local file. `/api/brands` then shows the overlay, not the fixture ids.
 4. For live listing (`MOS_DRIVE_SOURCE=google_drive`): Railway should set `MOS_DRIVE_SERVICE_ACCOUNT_JSON` to the full GCP SA JSON secret and share the folder with that `client_email` as Viewer. Locally use `MOS_DRIVE_SERVICE_ACCOUNT_FILE` or a short-lived `MOS_DRIVE_ACCESS_TOKEN`. Do not commit the JSON. This does not unlock live publish or ads.
 
 The folder must contain `brand-kit/`, `approved-stills/`, `approved-video/`, `raw-inbox/`, `generated/`. See [`ASSET_PIPELINE.md`](./ASSET_PIPELINE.md).
 
-LOTIN / NOX FORM / NOX TECH owner review and Wave 8 automation stay **off** in git. To dry-run locally, patch `REGISTRY.local.json` with `@example.test` addresses from the example overlay — never a production inbox.
+LOTIN / NOX FORM / NOX TECH owner review and Wave 8 automation stay **off** in git. To dry-run locally, patch `REGISTRY.local.json` (or `MOS_REGISTRY_LOCAL_JSON`) with `@example.test` addresses from the example overlay — never a production inbox.
 
 ## Request live unlock later
 

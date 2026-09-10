@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import {
+  clearBrandRegistryCache,
   createAssetCatalog,
   handlePanelApi,
   MemoryOpsStore,
@@ -179,6 +180,50 @@ describe("Wave 3 panel API", () => {
     expect(body.gates.enabled_waves).toContain("WAVE_8_AUTOMATION_DASHBOARD");
     expect(body.gates.live_publish_allowed).toBe(false);
     rmSync(c.reportRoot ?? "", { recursive: true, force: true });
+  });
+
+  describe("registry env overlay on /api/brands", () => {
+    afterEach(() => {
+      delete process.env.MOS_REGISTRY_LOCAL_JSON;
+      delete process.env.MOS_OWNER_EMAIL_VILLA_GLORY;
+      delete process.env.MOS_OWNER_CC_VILLA_GLORY;
+      delete process.env.MOS_DRIVE_FOLDER_ID_VILLA_GLORY;
+      delete process.env.MOS_DRIVE_FOLDER_URL_VILLA_GLORY;
+      clearBrandRegistryCache();
+    });
+
+    it("surfaces Railway overlay fields for Villa Glory", async () => {
+      process.env.MOS_REGISTRY_LOCAL_JSON = JSON.stringify({
+        brands: [
+          {
+            brand_id: "VILLA_GLORY",
+            owner_email: "villa-glory-panel@example.test",
+            owner_cc: ["villa-glory-panel-cc@example.test"],
+            asset_drive_folder_id: "panel-env-folder",
+            asset_drive_folder_url:
+              "https://drive.google.com/drive/folders/panel-env-folder",
+          },
+        ],
+      });
+      clearBrandRegistryCache();
+      const c = ctx();
+      const res = await api(c, "GET", "/api/brands");
+      expect(res.status).toBe(200);
+      const villa = (
+        res.body as {
+          brands: Array<{
+            brand_id: string;
+            owner_email?: string;
+            owner_cc?: string[];
+            asset_drive_folder_id?: string;
+          }>;
+        }
+      ).brands.find((b) => b.brand_id === "VILLA_GLORY");
+      expect(villa?.owner_email).toBe("villa-glory-panel@example.test");
+      expect(villa?.owner_cc).toEqual(["villa-glory-panel-cc@example.test"]);
+      expect(villa?.asset_drive_folder_id).toBe("panel-env-folder");
+      rmSync(c.reportRoot ?? "", { recursive: true, force: true });
+    });
   });
 
   it("lists asset metadata and analytics/AI visibility without write side effects", async () => {

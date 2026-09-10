@@ -33,7 +33,10 @@ Copy `.env.example` → `.env.local`. Never commit secrets.
 | `MOS_DRIVE_SERVICE_ACCOUNT_JSON` | If live Drive on Railway | Full GCP SA JSON string (secret). Do not commit. |
 | `MOS_DRIVE_SERVICE_ACCOUNT_FILE` | Local live Drive | Path to the same JSON. Gitignored; prefer `**/secrets/**`. |
 | `MOS_DRIVE_ACCESS_TOKEN` | Local/dev fallback | Short-lived user OAuth Bearer (~1h). Not suitable for Railway. |
-| `MOS_DRIVE_FOLDER_URL_VILLA_GLORY` | Optional | Real Drive folder URL **without** editing committed `REGISTRY.json`. |
+| `MOS_REGISTRY_LOCAL_JSON` | Optional | JSON string, same shape as `REGISTRY.local.json`. Railway overlay for `owner_email` / `owner_cc` / Drive folder fields without a gitignored file. |
+| `MOS_OWNER_EMAIL_VILLA_GLORY` | Optional | Convenience: overlay `owner_email` for Villa Glory. |
+| `MOS_OWNER_CC_VILLA_GLORY` | Optional | Convenience: comma-separated `owner_cc`. |
+| `MOS_DRIVE_FOLDER_URL_VILLA_GLORY` | Optional | Real Drive folder URL **without** editing committed `REGISTRY.json`. Also shown on `/api/brands`. |
 | `MOS_DRIVE_FOLDER_ID_VILLA_GLORY` | Optional | Same, id only. |
 | `MOS_FIGMA_SOURCE` / `MOS_HIGGSFIELD_SOURCE` / `MOS_VIDEO_SOURCE` | No | Fixture default. |
 | `MOS_LIVE_PUBLISH` / `MOS_LIVE_ADS` | Must stay unset/false | Operator unlock + `PHASE_GATES` required before any live path. |
@@ -91,11 +94,11 @@ Any host that runs `pnpm start` and injects `PORT` works (Fly, Railway, a VM). V
 
 ## Drive folders (no secrets in git)
 
-Committed registry keeps **fixture** folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`, `fixture-nox-form-root`, `fixture-nox-tech-root`). Attach a real folder without committing tokens:
+Committed registry keeps **fixture** folder ids (`fixture-villa-glory-root`, `fixture-lotin-root`, `fixture-nox-form-root`, `fixture-nox-tech-root`) and the Villa Glory fixture `@example.test` owner inbox. Attach a real folder / owner inbox without committing tokens:
 
 1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored via `*.local.json`).
-2. Set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand you are attaching.
-3. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local`.
+2. Set `asset_drive_folder_url` / `asset_drive_folder_id` (and optionally `owner_email` / `owner_cc`) on the brand you are attaching.
+3. Or set env (Railway has no gitignored file): `MOS_REGISTRY_LOCAL_JSON` (same JSON shape) and/or `MOS_OWNER_EMAIL_<BRAND_ID>`, `MOS_OWNER_CC_<BRAND_ID>` (comma-separated), `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>`. Env wins over the local file; the JSON blob wins over per-brand convenience vars. `/api/brands` reads the merged registry.
 4. For `MOS_DRIVE_SOURCE=google_drive` on Railway, set `MOS_DRIVE_SERVICE_ACCOUNT_JSON` to the full GCP service-account JSON (secret). Locally you may use `MOS_DRIVE_SERVICE_ACCOUNT_FILE` or a short-lived `MOS_DRIVE_ACCESS_TOKEN`.
 5. Share each brand folder with the service-account `client_email` as **Viewer**. Ingest is read-only (`drive.readonly`); this does not unlock live publish or ads.
 
@@ -110,7 +113,7 @@ The folder must contain `brand-kit/`, `approved-stills/`, `approved-video/`, `ra
 1. Create a service account. Enable the Google Drive API on the project. Do not grant project-wide Drive admin.
 2. Download the JSON key once. Store it as the Railway secret `MOS_DRIVE_SERVICE_ACCOUNT_JSON` (the full JSON string). Never commit the file.
 3. Share each brand Drive folder with the JSON `client_email` as **Viewer** (or add the SA to a Shared drive as Viewer).
-4. Set `MOS_DRIVE_SOURCE=google_drive` and the per-brand folder overlay (`MOS_DRIVE_FOLDER_URL_<BRAND_ID>` or gitignored `REGISTRY.local.json`).
+4. Set `MOS_DRIVE_SOURCE=google_drive` and the per-brand folder overlay (`MOS_REGISTRY_LOCAL_JSON`, `MOS_DRIVE_FOLDER_URL_<BRAND_ID>`, or gitignored `REGISTRY.local.json`).
 5. Runtime mints a short-lived Bearer with scope `https://www.googleapis.com/auth/drive.readonly`. Listing stays inside the registered folder. This does **not** enable live publish or ads.
 
 Local override: `MOS_DRIVE_SERVICE_ACCOUNT_FILE=/path/to/sa.json` (keep the file under a gitignored `secrets/` directory) or a user OAuth `MOS_DRIVE_ACCESS_TOKEN` for a one-off laptop session.
