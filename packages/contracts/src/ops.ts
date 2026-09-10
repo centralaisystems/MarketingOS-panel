@@ -10,6 +10,7 @@ import {
   OwnerReviewRequestSchema,
 } from "./owner-review.js";
 import { SocialPublishOutboxRecordSchema } from "./social-publish.js";
+import { AdOutboxItemSchema, AdStagingJobSchema } from "./paid-ads.js";
 
 /** Campaign row in the Wave 3 ops data plane (file/memory or Supabase). */
 export const OpsCampaignStatusSchema = z.enum([
@@ -89,5 +90,7 @@ export const OpsSnapshotSchema = z.object({
   owner_decisions: z.array(OwnerReviewDecisionSchema).default([]),
   email_outbox: z.array(EmailOutboxItemSchema).default([]),
   social_outbox: z.array(SocialPublishOutboxRecordSchema).default([]),
+  ad_outbox: z.array(AdOutboxItemSchema).default([]),
+  ad_staging_jobs: z.array(AdStagingJobSchema).default([]),
 });
 export type OpsSnapshot = z.infer<typeof OpsSnapshotSchema>;

@@ -9,6 +9,8 @@ import {
   FigmaArrangeJobSchema,
   HiggsfieldGenerateJobSchema,
   VideoProduceJobSchema,
+  AdOutboxItemSchema,
+  AdStagingJobSchema,
   BrandIdSchema,
   BrandRegistryEntrySchema,
   EvidenceSchema,
@@ -395,5 +397,72 @@ describe("contracts", () => {
     expect(job.output.rendered_video).toBe(false);
     expect(job.output.published).toBe(false);
     expect(job.output.desktop_control).toBe(false);
+  });
+
+  it("validates Wave 6 staging jobs and outbox as recommendation-only", () => {
+    const now = new Date().toISOString();
+    const campaign_id = randomUUID();
+    const pack_id = randomUUID();
+    const draft = {
+      brand_id: "VILLA_GLORY" as const,
+      platform: "META" as const,
+      environment: "non-prod" as const,
+      adapter: "meta_ads_staging" as const,
+      objective: "Qualified villa enquiries",
+      audience_notes: [],
+      creative_notes: [],
+      test_plan: [],
+      budget: {
+        kind: "RECOMMENDATION" as const,
+        notes: ["WAVE_6 staging only"],
+        mutation_allowed: false as const,
+        launch_allowed: false as const,
+      },
+      campaign_id,
+      pack_id,
+      launch_allowed: false as const,
+    };
+    const job = AdStagingJobSchema.parse({
+      job_id: randomUUID(),
+      brand_id: "VILLA_GLORY",
+      platform: "META",
+      action: "LAUNCH",
+      mode: "STAGING",
+      status: "STAGING_RECORDED",
+      campaign_id,
+      pack_id,
+      outbox_id: randomUUID(),
+      campaign_draft: draft,
+      budget: draft.budget,
+      actor: "panel-operator",
+      rationale: "Stage only",
+      live_ads: false,
+      created_at: now,
+    });
+    expect(job.live_ads).toBe(false);
+    expect(job.budget.mutation_allowed).toBe(false);
+    const outbox = AdOutboxItemSchema.parse({
+      outbox_id: randomUUID(),
+      brand_id: "VILLA_GLORY",
+      platform: "META",
+      action: "LAUNCH",
+      mode: "STAGING",
+      status: "STAGING_RECORDED",
+      staging: true,
+      would_launch: true,
+      campaign_id,
+      pack_id,
+      campaign_draft: draft,
+      budget: draft.budget,
+      actor: "panel-operator",
+      rationale: "Stage only",
+      live_ads: false,
+      created_at: now,
+    });
+    expect(outbox.would_mutate_budget).toBe(false);
+    expect(outbox.external_side_effects).toBe(false);
+    expect(() =>
+      AdOutboxItemSchema.parse({ ...outbox, live_ads: true }),
+    ).toThrow();
   });
 });

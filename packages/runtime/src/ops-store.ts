@@ -20,6 +20,8 @@ import {
   OwnerReviewRequestSchema,
   PHASE1_MAX_EXECUTABLE_LEVEL,
   SocialPublishOutboxRecordSchema,
+  AdOutboxItemSchema,
+  AdStagingJobSchema,
   type AgentId,
   type ApprovalLevel,
   type AuditEvent,
@@ -38,6 +40,8 @@ import {
   type OwnerReviewRequest,
   type OwnerReviewStatus,
   type SocialPublishOutboxRecord,
+  type AdOutboxItem,
+  type AdStagingJob,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
 import { BrandIsolationError } from "./brand-loader.js";
@@ -145,6 +149,13 @@ export interface OpsStore {
     brand_id: BrandId,
     outbox_id: string,
   ): SocialPublishOutboxRecord | null;
+
+  insertAdOutbox(brand_id: BrandId, record: AdOutboxItem): AdOutboxItem;
+  listAdOutbox(brand_id: BrandId, opts?: { limit?: number }): AdOutboxItem[];
+  getAdOutbox(brand_id: BrandId, outbox_id: string): AdOutboxItem | null;
+
+  insertAdStagingJob(brand_id: BrandId, record: AdStagingJob): AdStagingJob;
+  listAdStagingJobs(brand_id: BrandId, opts?: { limit?: number }): AdStagingJob[];
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -185,6 +196,8 @@ export class MemoryOpsStore implements OpsStore {
   protected ownerDecisions: OwnerReviewDecision[] = [];
   protected emailOutbox: EmailOutboxItem[] = [];
   protected socialOutbox: SocialPublishOutboxRecord[] = [];
+  protected adOutbox: AdOutboxItem[] = [];
+  protected adStagingJobs: AdStagingJob[] = [];
 
   insertCampaign(brand_id: BrandId, record: OpsCampaignRecord): OpsCampaignRecord {
     const parsed = OpsCampaignRecordSchema.parse(record);
@@ -483,6 +496,44 @@ export class MemoryOpsStore implements OpsStore {
     return found;
   }
 
+  insertAdOutbox(brand_id: BrandId, record: AdOutboxItem): AdOutboxItem {
+    const parsed = AdOutboxItemSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.adOutbox.push(parsed);
+    return parsed;
+  }
+
+  listAdOutbox(brand_id: BrandId, opts?: { limit?: number }): AdOutboxItem[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(this.adOutbox.filter((e) => e.brand_id === brand_id)).slice(
+      0,
+      limit,
+    );
+  }
+
+  getAdOutbox(brand_id: BrandId, outbox_id: string): AdOutboxItem | null {
+    const found = this.adOutbox.find((e) => e.outbox_id === outbox_id);
+    if (!found || found.brand_id !== brand_id) return null;
+    return found;
+  }
+
+  insertAdStagingJob(brand_id: BrandId, record: AdStagingJob): AdStagingJob {
+    const parsed = AdStagingJobSchema.parse(record);
+    assertSameBrand(brand_id, parsed.brand_id);
+    this.adStagingJobs.push(parsed);
+    return parsed;
+  }
+
+  listAdStagingJobs(
+    brand_id: BrandId,
+    opts?: { limit?: number },
+  ): AdStagingJob[] {
+    const limit = opts?.limit ?? DEFAULT_LIST_LIMIT;
+    return newestFirst(
+      this.adStagingJobs.filter((e) => e.brand_id === brand_id),
+    ).slice(0, limit);
+  }
+
   /** Test helper — never used by panel HTTP. */
   exportSnapshot(): OpsSnapshot {
     return OpsSnapshotSchema.parse({
@@ -495,6 +546,8 @@ export class MemoryOpsStore implements OpsStore {
       owner_decisions: this.ownerDecisions,
       email_outbox: this.emailOutbox,
       social_outbox: this.socialOutbox,
+      ad_outbox: this.adOutbox,
+      ad_staging_jobs: this.adStagingJobs,
     });
   }
 }
@@ -525,6 +578,8 @@ export class FileOpsStore extends MemoryOpsStore {
     this.ownerDecisions = snap.owner_decisions;
     this.emailOutbox = snap.email_outbox;
     this.socialOutbox = snap.social_outbox;
+    this.adOutbox = snap.ad_outbox;
+    this.adStagingJobs = snap.ad_staging_jobs;
   }
 
   private persist(): void {
@@ -647,6 +702,21 @@ export class FileOpsStore extends MemoryOpsStore {
     record: SocialPublishOutboxRecord,
   ): SocialPublishOutboxRecord {
     const row = super.insertSocialOutbox(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertAdOutbox(brand_id: BrandId, record: AdOutboxItem): AdOutboxItem {
+    const row = super.insertAdOutbox(brand_id, record);
+    this.persist();
+    return row;
+  }
+
+  override insertAdStagingJob(
+    brand_id: BrandId,
+    record: AdStagingJob,
+  ): AdStagingJob {
+    const row = super.insertAdStagingJob(brand_id, record);
     this.persist();
     return row;
   }

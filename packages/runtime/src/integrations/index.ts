@@ -34,7 +34,10 @@ export function dryRunSocialPublish(
   });
 }
 
-/** Wave 6 — staging ad launch stub (always blocked until live_ads_allowed). */
+/**
+ * Wave 6 — staging ad launch stub (store-less).
+ * Full outbox/job path lives in `paid-ads.ts`. Live spend stays blocked.
+ */
 export function stagingLaunchAd(input: {
   brand_id: string;
   recommendation: PaidRecommendation;

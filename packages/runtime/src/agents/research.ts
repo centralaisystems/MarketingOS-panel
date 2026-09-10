@@ -9,6 +9,7 @@ import {
 } from "@marketing-os/contracts";
 import { assertAgentCapability } from "../capabilities.js";
 import type { AuditSink } from "../audit.js";
+import { envForResearchAgent } from "../paid-ads-tokens.js";
 
 export type LocalEvidenceInput = {
   summary: string;
@@ -50,13 +51,26 @@ export function runResearchIntelligence(
   }
 
   // Explicitly refuse external write / fabricate paths
-  const forbidden = assertAgentCapability(
+  assertAgentCapability(
     "A03_RESEARCH_INTELLIGENCE",
     "LAUNCH_AD",
     audit,
     { brand_id: task.brand_id, task_id: task.task_id },
   );
-  // LAUNCH_AD should fail — expected; we just ensure matrix denies it (side effect: audit)
+  assertAgentCapability(
+    "A03_RESEARCH_INTELLIGENCE",
+    "CHANGE_AD_BUDGET",
+    audit,
+    { brand_id: task.brand_id, task_id: task.task_id },
+  );
+  // Bound research context: ad write tokens are stripped even if process.env holds them for the ads adapter.
+  const researchEnv = envForResearchAgent();
+  if (
+    researchEnv.META_ADS_ACCESS_TOKEN ||
+    researchEnv.GOOGLE_ADS_DEVELOPER_TOKEN
+  ) {
+    throw new Error("Research agent received ad write tokens");
+  }
 
   const missing = listMissingKnowledge(profile);
   const evidence: Evidence[] = suppliedEvidence.map((e, i) => ({
