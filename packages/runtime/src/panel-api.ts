@@ -129,6 +129,13 @@ import {
   WAVE7_VILLA_GLORY_FORM_FIXTURE,
   WAVE7_VILLA_GLORY_WHATSAPP_FIXTURE,
 } from "./fixtures/wave7-crm.js";
+import {
+  AutomationDigestInputError,
+  AutomationDisabledError,
+  buildExecutiveDashboard,
+  listAutomationDigestsForBrand,
+  runAutomationDigest,
+} from "./automation.js";
 
 export type PanelRequest = {
   method: string;
@@ -207,7 +214,7 @@ function liveBlockedBody(message?: string) {
     status: "LIVE_BLOCKED",
     message:
       message ??
-      "Live publish and live ads stay OFF. Wave 5 Instagram dry-run, Wave 6 paid staging, and Wave 7 CRM fixtures are available; live fire requires the matching live_* flag, operator env flag, and Level 2 (publish) / Level 3 (ads) approval.",
+      "Live publish and live ads stay OFF. Wave 5 Instagram dry-run, Wave 6 paid staging, Wave 7 CRM fixtures, and Wave 8 digests (dry-run email) are available; live fire requires the matching live_* flag, operator env flag, and Level 2 (publish) / Level 3 (ads) approval.",
   };
 }
 
@@ -226,7 +233,9 @@ export async function handlePanelApi(
         status: 200,
         body: {
           ok: true,
-          wave: isWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot))
+          wave: isWaveEnabled("WAVE_8_AUTOMATION_DASHBOARD", brandsRootOpt(ctx.brandsRoot))
+            ? "WAVE_8_AUTOMATION_DASHBOARD"
+            : isWaveEnabled("WAVE_7_CRM", brandsRootOpt(ctx.brandsRoot))
             ? "WAVE_7_CRM"
             : isWaveEnabled("WAVE_6_PAID_ADS", brandsRootOpt(ctx.brandsRoot))
             ? "WAVE_6_PAID_ADS"
@@ -410,6 +419,15 @@ export async function handlePanelApi(
     }
     if (method === "POST" && path === "/api/leads/ingest-fixtures") {
       return postIngestLeadFixtures(req, ctx);
+    }
+    if (method === "GET" && path === "/api/dashboard") {
+      return getDashboard(req, ctx);
+    }
+    if (method === "GET" && path === "/api/digests") {
+      return getDigests(req, ctx);
+    }
+    if (method === "POST" && path === "/api/digests") {
+      return await postDigest(req, ctx);
     }
     if (
       method === "POST" &&
@@ -860,6 +878,15 @@ function mapError(e: unknown): PanelResponse {
   }
   if (e instanceof CrmInputError) {
     return jsonError(400, e.message);
+  }
+  if (e instanceof AutomationDigestInputError) {
+    return jsonError(400, e.message);
+  }
+  if (e instanceof AutomationDisabledError) {
+    return jsonError(403, e.message, {
+      brand_id: e.brand_id,
+      automation_enabled: false,
+    });
   }
   if (e instanceof PaidAdsLiveBlockedError) {
     return {
@@ -1628,6 +1655,78 @@ function postIngestLeadFixtures(
       opportunities: ingested.opportunities,
       agent_summaries: ingested.agent_summaries,
       attribution: listCampaignAttribution(ctx.store, ingested.brand_id),
+    },
+  };
+}
+
+function getDashboard(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_8_AUTOMATION_DASHBOARD", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const dashboard = buildExecutiveDashboard({
+    brand_id,
+    store: ctx.store,
+    ...brandsRootOpt(ctx.brandsRoot),
+  });
+  return {
+    status: 200,
+    body: {
+      ...dashboard,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
+function getDigests(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_8_AUTOMATION_DASHBOARD", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      live_publish: false,
+      live_ads: false,
+      items: listAutomationDigestsForBrand(ctx.store, brand_id),
+    },
+  };
+}
+
+async function postDigest(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+): Promise<PanelResponse> {
+  assertWaveEnabled("WAVE_8_AUTOMATION_DASHBOARD", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const body = asRecord(req.body);
+  const periodRaw = typeof body.period === "string" ? body.period : undefined;
+  const result = await runAutomationDigest({
+    brand_id,
+    store: ctx.store,
+    ...(periodRaw ? { period: periodRaw } : {}),
+    ...brandsRootOpt(ctx.brandsRoot),
+    ...(ctx.email ? { email: ctx.email } : {}),
+  });
+  if (result.status === "BLOCKED") {
+    return {
+      status: 403,
+      body: {
+        ...result,
+        error: result.blocked_reason ?? "DIGEST_BLOCKED",
+        message:
+          result.blocked_reason === "AUTOMATION_DISABLED"
+            ? `Automation is disabled for ${brand_id}. Set automation_enabled on the registry entry.`
+            : result.blocked_reason === "OWNER_EMAIL_DISABLED"
+              ? `Owner email is disabled for ${brand_id}. Digests respect owner_email_enabled.`
+              : `owner_email is not set for ${brand_id}.`,
+      },
+    };
+  }
+  return {
+    status: 200,
+    body: {
+      ...result,
+      live_publish: false,
+      live_ads: false,
     },
   };
 }

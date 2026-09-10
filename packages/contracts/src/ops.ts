@@ -16,6 +16,7 @@ import {
   OpportunitySchema,
 } from "./crm.js";
 import { AdOutboxItemSchema, AdStagingJobSchema } from "./paid-ads.js";
+import { AutomationDigestRecordSchema } from "./automation.js";
 
 /** Campaign row in the Wave 3 ops data plane (file/memory or Supabase). */
 export const OpsCampaignStatusSchema = z.enum([
@@ -100,5 +101,6 @@ export const OpsSnapshotSchema = z.object({
   leads: z.array(LeadSchema).default([]),
   lead_events: z.array(LeadEventSchema).default([]),
   opportunities: z.array(OpportunitySchema).default([]),
+  automation_digests: z.array(AutomationDigestRecordSchema).default([]),
 });
 export type OpsSnapshot = z.infer<typeof OpsSnapshotSchema>;

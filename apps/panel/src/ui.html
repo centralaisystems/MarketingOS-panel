@@ -119,13 +119,30 @@
         max-height: 220px;
       }
       .score { font-size: 1.6rem; font-weight: 650; }
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+      @media (max-width: 900px) { .metrics { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 560px) { .metrics { grid-template-columns: 1fr; } }
+      .metric {
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 0.75rem;
+        min-height: 5.5rem;
+      }
+      .metric .label { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+      .metric .n { font-size: 1.45rem; font-weight: 650; margin: 0.25rem 0 0.15rem; }
+      .metric .hint { color: var(--muted); font-size: 0.75rem; }
     </style>
   </head>
   <body>
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts, owner review, Wave 4/4b pipeline, Wave 5 Instagram dry-run, Wave 6 paid staging, and Wave 7 CRM leads. Live publish/ads stay OFF. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — executive dashboard, drafts, owner review, Wave 4/4b pipeline, Wave 5–7 dry-run/staging/CRM, Wave 8 automation digests. Live publish/ads stay OFF. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -134,9 +151,29 @@
         <span class="badge danger" id="publishBadge">live_publish=OFF</span>
         <span class="badge danger" id="adsBadge">live_ads=OFF</span>
         <span class="badge" id="waveBadge">WAVE_3</span>
+        <span class="badge" id="automationBadge">automation=—</span>
       </div>
     </header>
     <main>
+      <section class="span-2">
+        <h2>Today</h2>
+        <p class="muted">Executive snapshot for the active brand only. Counts and opaque refs — no raw email or phone. Digests dry-run to the owner-review outbox when <code>automation_enabled</code> and <code>owner_email_enabled</code> are on.</p>
+        <div class="metrics" id="todayMetrics" style="margin-top:0.75rem">
+          <div class="metric"><div class="label">Campaigns</div><div class="n" id="mCampaigns">—</div><div class="hint" id="mCampaignsHint">drafts</div></div>
+          <div class="metric"><div class="label">Approvals pending</div><div class="n" id="mApprovals">—</div><div class="hint">Level ≤1 inbox</div></div>
+          <div class="metric"><div class="label">Owner reviews</div><div class="n" id="mReviews">—</div><div class="hint">pending</div></div>
+          <div class="metric"><div class="label">Social / ads outbox</div><div class="n" id="mOutbox">—</div><div class="hint">dry-run / staging</div></div>
+          <div class="metric"><div class="label">Leads attributed</div><div class="n" id="mLeads">—</div><div class="hint" id="mLeadsHint">counts only</div></div>
+          <div class="metric"><div class="label">Costs</div><div class="n" id="mCosts">OFF</div><div class="hint">placeholder — not live spend</div></div>
+        </div>
+        <div class="row" style="margin-top:0.75rem">
+          <button id="automationDigestBtn" type="button">Run daily digest</button>
+          <button class="secondary" id="weeklyDigestBtn" type="button">Run weekly digest</button>
+          <span class="badge" id="digestBadge">digest —</span>
+        </div>
+        <div id="digestStatus" class="muted" style="margin-top:0.65rem">No digest run this session.</div>
+      </section>
+
       <section>
         <h2>Readiness / gaps</h2>
         <div class="row">
@@ -172,12 +209,12 @@
       </section>
 
       <section>
-        <h2>Recent campaign drafts</h2>
+        <h2>Campaigns</h2>
         <div id="drafts" class="muted">Loading…</div>
       </section>
 
       <section>
-        <h2>Approval inbox (Level ≤1)</h2>
+        <h2>Approvals</h2>
         <div id="inbox" class="muted">Loading…</div>
       </section>
 
@@ -268,9 +305,16 @@
       </section>
 
       <section>
-        <h2>Analytics (read-only)</h2>
+        <h2>Analytics</h2>
         <p class="muted">GA4 / GSC / social / ads fixture adapters. write_scopes stays empty. Values are MISSING placeholders, not live traffic.</p>
+        <div id="analyticsSummary" class="muted" style="margin-top:0.5rem"></div>
         <div id="analytics" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
+      <section>
+        <h2>Costs</h2>
+        <p class="muted">Read-only placeholder. Wave 6 staging counts only. Not live Meta/Google spend. Live ads stay OFF.</p>
+        <div id="costs" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
       <section>
@@ -341,7 +385,7 @@
 
       <section>
         <h2>Later waves — blocked</h2>
-        <p class="muted">Waves 5–7 are on (Instagram dry-run, paid staging, CRM fixtures). Live Instagram fire and live ad spend stay off until live_publish_allowed / live_ads_allowed plus explicit operator approval. Automation remains scaffolded.</p>
+        <p class="muted">Waves 5–8 are on (Instagram dry-run, paid staging, CRM fixtures, automation digests). Live Instagram fire and live ad spend stay off until live_publish_allowed / live_ads_allowed plus explicit operator approval. No production cron — use the digest buttons or <code>pnpm run-digest</code>.</p>
         <div class="row" style="margin-top:0.75rem">
           <button class="blocked" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
           <button class="blocked" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch ads / change budget</button>
@@ -381,7 +425,15 @@
         document.getElementById("leadsList").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("runResult").textContent = "No run yet. Actions stay on the selected brand_id only.";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("analyticsSummary").textContent = "";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("costs").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("mCampaigns").textContent = "—";
+        document.getElementById("mApprovals").textContent = "—";
+        document.getElementById("mReviews").textContent = "—";
+        document.getElementById("mOutbox").textContent = "—";
+        document.getElementById("mLeads").textContent = "—";
+        document.getElementById("digestStatus").textContent = "Loading " + activeBrand() + " only…";
       }
 
       async function api(path, opts) {
@@ -851,7 +903,69 @@
           loadLeads(),
           loadAnalytics(),
           loadAiVisibility(),
+          loadDashboard(),
         ]);
+      }
+
+      async function loadDashboard() {
+        const brand_id = activeBrand();
+        const d = await api("/api/dashboard?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const today = d.today || {};
+        document.getElementById("mCampaigns").textContent = today.campaign_count ?? 0;
+        document.getElementById("mCampaignsHint").textContent =
+          (today.draft_count ?? 0) + " DRAFT · " + ((d.campaigns && d.campaigns.approvable) || 0) + " approvable";
+        document.getElementById("mApprovals").textContent = today.pending_approval_count ?? 0;
+        document.getElementById("mReviews").textContent = today.pending_owner_review_count ?? 0;
+        document.getElementById("mOutbox").textContent =
+          (today.social_outbox_count ?? 0) + " / " + (today.ad_outbox_count ?? 0);
+        document.getElementById("mLeads").textContent = today.attributed_lead_count ?? 0;
+        document.getElementById("mLeadsHint").textContent =
+          (today.lead_count ?? 0) + " total · counts only · no raw PII";
+        document.getElementById("mCosts").textContent = d.costs && d.costs.live_spend ? "LIVE" : "OFF";
+        const autoOn = d.automation_enabled === true;
+        const ownerOn = d.owner_email_enabled === true;
+        const autoBadge = document.getElementById("automationBadge");
+        autoBadge.textContent = "automation=" + (autoOn ? "ON" : "OFF");
+        autoBadge.className = autoOn ? "badge ok" : "badge";
+        document.getElementById("analyticsSummary").textContent =
+          d.analytics ? d.analytics.note : "";
+        document.getElementById("costs").innerHTML =
+          "<div class=\"item\"><strong>status=" + escapeHtml((d.costs && d.costs.status) || "PLACEHOLDER") +
+          "</strong> · live_spend=" + String(Boolean(d.costs && d.costs.live_spend)) +
+          "<div class=\"muted\">" + escapeHtml((d.costs && d.costs.note) || "") + "</div>" +
+          "<div class=\"muted\">Staged recommendations: " +
+          String((d.costs && d.costs.staged_recommendation_count) || 0) + "</div></div>";
+        const latest = d.latest_digest;
+        document.getElementById("digestBadge").textContent = latest
+          ? latest.status + " · " + latest.period
+          : "no digest yet";
+        document.getElementById("digestStatus").textContent = latest
+          ? "Latest " + latest.period + " digest " + latest.status + " at " + (latest.created_at || "").slice(0, 19) +
+            (latest.blocked_reason ? " (" + latest.blocked_reason + ")" : "") + "."
+          : "No digest recorded for " + brand_id + ". Kill switch automation_enabled=" + String(autoOn) +
+            ", owner_email_enabled=" + String(ownerOn) + ".";
+        document.getElementById("automationDigestBtn").disabled = !autoOn;
+        document.getElementById("weeklyDigestBtn").disabled = !autoOn;
+      }
+
+      async function runAutomationDigest(period) {
+        const brand_id = activeBrand();
+        const res = await fetch("/api/digests", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ brand_id, period: period || "daily" }),
+        });
+        const data = await res.json();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        if (!res.ok) {
+          document.getElementById("digestStatus").textContent =
+            (data.error || "DIGEST_BLOCKED") + " — " + (data.message || res.statusText);
+          return;
+        }
+        document.getElementById("digestStatus").textContent =
+          (data.period || period) + " digest " + data.status + " for " + brand_id + " (dry-run outbox).";
+        await Promise.all([loadDashboard(), loadOwnerReviews(), loadAudit()]);
       }
 
       async function decide(approval_id, decision) {
@@ -1159,6 +1273,16 @@
       document.getElementById("reloadReady").onclick = () => loadReadiness();
       document.getElementById("digestBtn").onclick = () => {
         sendDigest().catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
+      document.getElementById("automationDigestBtn").onclick = () => {
+        runAutomationDigest("daily").catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
+      document.getElementById("weeklyDigestBtn").onclick = () => {
+        runAutomationDigest("weekly").catch((e) => {
           document.getElementById("runResult").textContent = String(e);
         });
       };

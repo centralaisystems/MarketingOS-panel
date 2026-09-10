@@ -176,6 +176,7 @@ describe("Wave 3 panel API", () => {
     expect(body.gates.enabled_waves).toContain("WAVE_5_SOCIAL_PUBLISH");
     expect(body.gates.enabled_waves).toContain("WAVE_6_PAID_ADS");
     expect(body.gates.enabled_waves).toContain("WAVE_7_CRM");
+    expect(body.gates.enabled_waves).toContain("WAVE_8_AUTOMATION_DASHBOARD");
     expect(body.gates.live_publish_allowed).toBe(false);
     rmSync(c.reportRoot ?? "", { recursive: true, force: true });
   });

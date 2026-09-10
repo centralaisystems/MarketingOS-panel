@@ -8,7 +8,7 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 
 ## Phase
 
-**Phase 2 complete through 2D; Agency Waves 1–7 enabled (Wave 8 scaffolded).** Provenance-enforced brand packs. Multi-brand registry enabled (`brands/_shared/REGISTRY.json`). Wave 5 Instagram dry-run and Wave 6 Meta/Google paid staging write outbox + audit only. Wave 7 CRM stores opaque `pii_ref` leads + campaign attribution (Villa Glory fixtures). No live publishing or ads until phase gates allow. Do not enable `live_publish_allowed` / `live_ads_allowed` without explicit approval.
+**Phase 2 complete through 2D; Agency Waves 1–8 enabled (dry-run / fixture).** Provenance-enforced brand packs. Multi-brand registry enabled (`brands/_shared/REGISTRY.json`). Wave 5 Instagram dry-run and Wave 6 Meta/Google paid staging write outbox + audit only. Wave 7 CRM stores opaque `pii_ref` leads + campaign attribution (Villa Glory fixtures). Wave 8 scheduled digests + executive dashboard use Owner Review / Resend dry-run (`MOS_EMAIL_MODE=dry_run`); per-brand `automation_enabled` kill switch. No live publishing or ads until phase gates allow. Do not enable `live_publish_allowed` / `live_ads_allowed` without explicit approval.
 
 ## Required workflow
 
@@ -48,4 +48,5 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 - `pnpm arrange-figma -- --brand VILLA_GLORY --sync` — Wave 4b Figma arrange from brand-kit + approved stills (fixture default)
 - `pnpm fill-higgsfield-gaps -- --brand VILLA_GLORY --sync` — Wave 4b Higgsfield fill-gaps when approved stills are insufficient (fixture default)
 - `pnpm produce-video -- --brand VILLA_GLORY --sync` — Wave 4b video export package from approved stills (fixture default; CapCut/Adobe stubs are recipes only)
+- `pnpm run-digest -- --brand VILLA_GLORY --period daily` — Wave 8 automation digest (fixture / dry-run outbox)
 - `pnpm demo` — Phase 1 demonstration scenarios A–E

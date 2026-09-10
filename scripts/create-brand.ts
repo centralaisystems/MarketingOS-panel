@@ -47,10 +47,11 @@ function main(): void {
   const driveFolderId = arg("--drive-folder-id");
   const ownerEmail = arg("--owner-email");
   const enableOwnerEmail = process.argv.includes("--enable-owner-email");
+  const enableAutomation = process.argv.includes("--enable-automation");
 
   if (!idRaw || !slug || !name) {
     console.error(
-      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID] [--owner-email EMAIL] [--enable-owner-email]',
+      'Usage: pnpm create-brand -- --id ACME --slug acme --name "Acme Co" [--locales en,ar] [--drive-folder-url URL] [--drive-folder-id ID] [--owner-email EMAIL] [--enable-owner-email] [--enable-automation]',
     );
     process.exit(1);
   }
@@ -70,6 +71,7 @@ function main(): void {
     ...(driveFolderId ? { asset_drive_folder_id: driveFolderId } : {}),
     ...(ownerEmail ? { owner_email: ownerEmail } : {}),
     ...(enableOwnerEmail ? { owner_email_enabled: true } : {}),
+    ...(enableAutomation ? { automation_enabled: true } : {}),
   });
 
   clearBrandRegistryCache();

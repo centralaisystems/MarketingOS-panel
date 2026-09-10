@@ -15,4 +15,5 @@
 - Persist opaque `pii_ref` / vault references on leads, events, and opportunities — never raw email, phone, name, or WhatsApp ids.
 - Do not put PII into prompts, agent logs, audit metadata, or global memory.
 - Agent-facing summaries may include `pii_ref` plus `ClassifiedField` redacted placeholders (`value_present`, no values).
+- Wave 8 automation digests and the executive dashboard use lead **counts** only. Do not copy raw email/phone into digest payload, copy, audit metadata, or dashboard JSON.
 - `EXPORT_PII` capability is denied to all Phase 1 agents.
