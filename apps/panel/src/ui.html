@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — dry-run drafts only. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts + read-only Wave 4 analytics/assets. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -186,9 +186,30 @@
         <div id="audit" class="muted">Loading…</div>
       </section>
 
+      <section class="span-2">
+        <h2>Asset library (metadata)</h2>
+        <p class="muted">Object-storage pointers only. Binaries stay out of Git. Filter unused approved stills when needed.</p>
+        <div class="row" style="margin-top:0.5rem">
+          <button class="secondary" id="unusedLivingBtn" type="button">Villa Glory unused living-room (instagram)</button>
+        </div>
+        <div id="assets" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
+      <section>
+        <h2>Analytics (read-only)</h2>
+        <p class="muted">GA4 / GSC / social / ads fixture adapters. write_scopes stays empty. Values are MISSING placeholders, not live traffic.</p>
+        <div id="analytics" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
+      <section>
+        <h2>AI search visibility (read-only)</h2>
+        <p class="muted">Probe questions + observed presence. Recommendations only — never invents VERIFIED commercial claims. Fixture probes, no live AI-answer calls.</p>
+        <div id="aiVisibility" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
       <section>
         <h2>Later waves — blocked</h2>
-        <p class="muted">These controls cannot fire. Live social publish and ad spend stay off until WAVE_5 / WAVE_6 plus explicit operator approval.</p>
+        <p class="muted">Wave 4 is read-only. Live social publish and ad spend stay off until WAVE_5 / WAVE_6 plus explicit operator approval.</p>
         <div class="row" style="margin-top:0.75rem">
           <button class="blocked" type="button" disabled title="Blocked until WAVE_5 + live_publish_allowed">Publish live</button>
           <button class="blocked" type="button" disabled title="Blocked until WAVE_6 + live_ads_allowed">Launch ads / change budget</button>
@@ -211,6 +232,9 @@
         document.getElementById("drafts").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("inbox").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("audit").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("assets").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
       }
 
       async function api(path, opts) {
@@ -330,10 +354,85 @@
         }).join("");
       }
 
+      async function loadAssets(extraQuery) {
+        const brand_id = activeBrand();
+        const q = extraQuery ? "&" + extraQuery : "";
+        const d = await api("/api/assets?brand_id=" + encodeURIComponent(brand_id) + q);
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = d.assets || [];
+        if (!rows.length) {
+          document.getElementById("assets").textContent = "No asset metadata for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("assets").innerHTML =
+          "<table><thead><tr><th>Title</th><th>Kind</th><th>Status</th><th>Tags</th><th>URI</th></tr></thead><tbody>" +
+          rows.map((a) => {
+            if (a.brand_id !== brand_id) return "";
+            return "<tr><td>" + escapeHtml(a.title) +
+              "</td><td>" + escapeHtml(a.kind) +
+              "</td><td>" + escapeHtml(a.approval_status) +
+              "</td><td>" + escapeHtml((a.usage_tags || []).join(", ")) +
+              "</td><td class=\"muted\">" + escapeHtml(a.storage_uri) +
+              "</td></tr>";
+          }).join("") +
+          "</tbody></table>";
+      }
+
+      async function loadAnalytics() {
+        const brand_id = activeBrand();
+        const d = await api("/api/analytics?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const scopes = (d.write_scopes || []).length ? (d.write_scopes || []).join(",") : "[]";
+        const providers = (d.providers || []).map((p) => {
+          const keys = (p.rows || []).map((r) => r.metric_key + "=" + r.value + " (" + r.knowledge_status + ")").join(", ");
+          return "<div class=\"item\"><strong>" + escapeHtml(p.provider) +
+            "</strong> · connected=" + p.connected +
+            " · write_scopes=[]<div class=\"muted\">" + escapeHtml(keys || "no rows") + "</div></div>";
+        }).join("");
+        document.getElementById("analytics").innerHTML =
+          "<div class=\"badge " + (d.live_keys_used ? "danger" : "ok") + "\">live_keys=" +
+          (d.live_keys_used ? "ON" : "OFF") + "</div> " +
+          "<div class=\"badge ok\">write_scopes=" + escapeHtml(scopes) + "</div>" +
+          "<div class=\"muted\" style=\"margin-top:0.5rem\">UTM valid " +
+          (d.utm_health && d.utm_health.rows_with_valid_utm) +
+          " · missing/invalid " +
+          (d.utm_health && d.utm_health.rows_missing_or_invalid_utm) +
+          "</div>" + providers;
+      }
+
+      async function loadAiVisibility() {
+        const brand_id = activeBrand();
+        const d = await api("/api/ai-visibility?brand_id=" + encodeURIComponent(brand_id));
+        if (d.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const probes = (d.probes || []).map((p) => {
+          if (p.brand_id !== brand_id) return "";
+          const recs = (p.recommendations || []).map((r) => "<li>" + escapeHtml(r.text) + "</li>").join("");
+          return "<div class=\"item\"><span class=\"badge\">" + escapeHtml(p.presence) +
+            "</span> <strong>" + escapeHtml(p.surface) + "</strong> · " +
+            escapeHtml(p.question) +
+            "<div class=\"muted\">" + escapeHtml(p.observation && p.observation.text) + "</div>" +
+            (recs ? "<ul class=\"gaps\">" + recs + "</ul>" : "") + "</div>";
+        }).join("");
+        document.getElementById("aiVisibility").innerHTML =
+          "<div class=\"badge ok\">invented_verified_claims=" +
+          String(d.invented_verified_claims) + "</div> " +
+          "<div class=\"badge ok\">live_probe=" + String(d.live_probe) + "</div>" +
+          "<div class=\"muted\" style=\"margin-top:0.5rem\">" + escapeHtml(d.summary || "") + "</div>" +
+          probes;
+      }
+
       async function refreshBrand() {
         sessionStorage.setItem(STORAGE_KEY, activeBrand());
         clearBrandSurfaces();
-        await Promise.all([loadReadiness(), loadDrafts(), loadInbox(), loadAudit()]);
+        await Promise.all([
+          loadReadiness(),
+          loadDrafts(),
+          loadInbox(),
+          loadAudit(),
+          loadAssets(),
+          loadAnalytics(),
+          loadAiVisibility(),
+        ]);
       }
 
       async function decide(approval_id, decision) {
@@ -378,6 +477,14 @@
       document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
       document.getElementById("directorBtn").onclick = () => run("/api/run-objective");
       document.getElementById("reloadReady").onclick = () => loadReadiness();
+      document.getElementById("unusedLivingBtn").onclick = () => {
+        if (activeBrand() !== "VILLA_GLORY") {
+          document.getElementById("assets").textContent =
+            "Unused living-room filter is a Villa Glory fixture query. Switch brand to Villa Glory.";
+          return;
+        }
+        loadAssets("usage_tag=living-room&platform=instagram&unused_only=true&approval_status=APPROVED");
+      };
       brandEl.onchange = () => refreshBrand();
 
       loadBrands()

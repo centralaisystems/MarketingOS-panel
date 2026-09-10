@@ -34,6 +34,11 @@ data/ops/*.json
 data/ops/*.tmp
 !data/ops/.gitkeep
 
+# Wave 4 asset metadata catalog (binaries never in Git)
+data/assets/*.json
+data/assets/*.tmp
+!data/assets/.gitkeep
+
 # Generated onboarding reports (optional local)
 # reports/ is committed for Phase 2 gap snapshot — keep JSON only
 

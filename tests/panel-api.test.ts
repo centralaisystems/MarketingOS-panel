@@ -3,14 +3,21 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import {
+  createAssetCatalog,
   handlePanelApi,
   MemoryOpsStore,
+  WAVE4_ASSET_IDS,
   type PanelApiContext,
 } from "@marketing-os/runtime";
 
 function ctx(store = new MemoryOpsStore()): PanelApiContext {
   const reportRoot = mkdtempSync(join(tmpdir(), "mos-panel-reports-"));
-  return { store, writeReport: false, reportRoot };
+  return {
+    store,
+    assets: createAssetCatalog({ seedFixtures: true }),
+    writeReport: false,
+    reportRoot,
+  };
 }
 
 async function api(
@@ -164,7 +171,115 @@ describe("Wave 3 panel API", () => {
       expect.arrayContaining(["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"]),
     );
     expect(body.gates.enabled_waves).toContain("WAVE_3_DB_PANEL");
+    expect(body.gates.enabled_waves).toContain("WAVE_4_ANALYTICS_ASSETS");
     expect(body.gates.live_publish_allowed).toBe(false);
+    rmSync(c.reportRoot ?? "", { recursive: true, force: true });
+  });
+
+  it("lists asset metadata and analytics/AI visibility without write side effects", async () => {
+    const c = ctx();
+    const assets = await api(c, "GET", "/api/assets", {
+      query: {
+        brand_id: "VILLA_GLORY",
+        usage_tag: "living-room",
+        unused_only: "true",
+        approval_status: "APPROVED",
+        platform: "instagram",
+      },
+    });
+    expect(assets.status).toBe(200);
+    const assetBody = assets.body as {
+      brand_id: string;
+      write_scopes: unknown[];
+      stores_binaries_in_git: boolean;
+      assets: Array<{ asset_id: string; brand_id: string }>;
+    };
+    expect(assetBody.brand_id).toBe("VILLA_GLORY");
+    expect(assetBody.write_scopes).toEqual([]);
+    expect(assetBody.stores_binaries_in_git).toBe(false);
+    expect(assetBody.assets.every((a) => a.brand_id === "VILLA_GLORY")).toBe(true);
+    expect(assetBody.assets.map((a) => a.asset_id)).toEqual(
+      expect.arrayContaining([
+        WAVE4_ASSET_IDS.VG_LIVING_UNUSED_A,
+        WAVE4_ASSET_IDS.VG_LIVING_UNUSED_B,
+      ]),
+    );
+    expect(assetBody.assets.map((a) => a.asset_id)).not.toContain(
+      WAVE4_ASSET_IDS.VG_LIVING_USED,
+    );
+
+    const lotinAssets = await api(c, "GET", "/api/assets", {
+      query: { brand_id: "LOTIN" },
+    });
+    expect(
+      (lotinAssets.body as { assets: Array<{ brand_id: string; asset_id: string }> })
+        .assets
+        .every((a) => a.brand_id === "LOTIN"),
+    ).toBe(true);
+    expect(
+      (lotinAssets.body as { assets: Array<{ asset_id: string }> }).assets.some(
+        (a) => a.asset_id === WAVE4_ASSET_IDS.VG_LIVING_UNUSED_A,
+      ),
+    ).toBe(false);
+
+    const crossAsset = await api(
+      c,
+      "GET",
+      `/api/assets/${WAVE4_ASSET_IDS.VG_LIVING_UNUSED_A}`,
+      { query: { brand_id: "LOTIN" } },
+    );
+    expect(crossAsset.status).toBe(404);
+
+    const analytics = await api(c, "GET", "/api/analytics", {
+      query: { brand_id: "VILLA_GLORY" },
+    });
+    expect(analytics.status).toBe(200);
+    const snap = analytics.body as {
+      brand_id: string;
+      write_scopes: unknown[];
+      live_keys_used: boolean;
+      providers: Array<{ rows: Array<{ brand_id: string }> }>;
+    };
+    expect(snap.brand_id).toBe("VILLA_GLORY");
+    expect(snap.write_scopes).toEqual([]);
+    expect(snap.live_keys_used).toBe(false);
+    expect(
+      snap.providers.every((p) => p.rows.every((r) => r.brand_id === "VILLA_GLORY")),
+    ).toBe(true);
+
+    const visibility = await api(c, "GET", "/api/ai-visibility", {
+      query: { brand_id: "VILLA_GLORY" },
+    });
+    expect(visibility.status).toBe(200);
+    const vis = visibility.body as {
+      brand_id: string;
+      invented_verified_claims: boolean;
+      live_probe: boolean;
+      write_scopes: unknown[];
+    };
+    expect(vis.brand_id).toBe("VILLA_GLORY");
+    expect(vis.invented_verified_claims).toBe(false);
+    expect(vis.live_probe).toBe(false);
+    expect(vis.write_scopes).toEqual([]);
+
+    const writeAnalytics = await api(c, "POST", "/api/analytics/write", {
+      body: { brand_id: "VILLA_GLORY", event: "purchase" },
+    });
+    expect(writeAnalytics.status).toBe(403);
+    expect((writeAnalytics.body as { write_scopes: unknown[] }).write_scopes).toEqual(
+      [],
+    );
+
+    const writeAssets = await api(c, "POST", "/api/assets", {
+      body: { brand_id: "VILLA_GLORY", bytes: "nope" },
+    });
+    expect(writeAssets.status).toBe(403);
+
+    const liveProbe = await api(c, "POST", "/api/ai-visibility/probe", {
+      body: { brand_id: "VILLA_GLORY", question: "What is Villa Glory?" },
+    });
+    expect(liveProbe.status).toBe(403);
+
     rmSync(c.reportRoot ?? "", { recursive: true, force: true });
   });
 });

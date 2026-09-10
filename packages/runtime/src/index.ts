@@ -33,4 +33,9 @@ export * from "./integrations/index.js";
 export * from "./ops-store.js";
 export * from "./ops-persist.js";
 export * from "./panel-api.js";
+export * from "./assets.js";
+export * from "./analytics.js";
+export * from "./ai-visibility.js";
+export * from "./utm-contract.js";
+export * from "./fixtures/wave4-assets.js";
 

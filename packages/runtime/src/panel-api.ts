@@ -11,9 +11,19 @@ import {
 import { buildCampaignPack } from "./campaign-factory.js";
 import { runMarketingDirector } from "./agents/director.js";
 import { runBrandOnboarding } from "./onboarding.js";
-import { assertWaveEnabled, loadPhaseGates } from "./phase-gates.js";
+import { assertWaveEnabled, isWaveEnabled, loadPhaseGates } from "./phase-gates.js";
 import { CrossBrandDeniedError, OpsAuditSink, type OpsStore } from "./ops-store.js";
 import { decideInboxApproval, persistCampaignPack, persistDirectorRun } from "./ops-persist.js";
+import {
+  createAssetCatalog,
+  type AssetCatalog,
+  type AssetListFilter,
+} from "./assets.js";
+import { AnalyticsWriteBlockedError, readAnalyticsSnapshot } from "./analytics.js";
+import {
+  AiSearchWriteBlockedError,
+  runAiSearchVisibilityCheck,
+} from "./ai-visibility.js";
 
 export type PanelRequest = {
   method: string;
@@ -29,6 +39,7 @@ export type PanelResponse = {
 
 export type PanelApiContext = {
   store: OpsStore;
+  assets?: AssetCatalog;
   brandsRoot?: string;
   writeReport?: boolean;
   reportRoot?: string;
@@ -97,7 +108,10 @@ export async function handlePanelApi(
         status: 200,
         body: {
           ok: true,
-          wave: "WAVE_3_DB_PANEL",
+          wave: isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
+            ? "WAVE_4_ANALYTICS_ASSETS"
+            : "WAVE_3_DB_PANEL",
+          enabled_waves: gates.enabled_waves,
           live_publish_allowed: gates.live_publish_allowed,
           live_ads_allowed: gates.live_ads_allowed,
         },
@@ -146,6 +160,29 @@ export async function handlePanelApi(
     if (method === "GET" && path === "/api/tasks") {
       return listTasks(req, ctx);
     }
+    if (method === "GET" && path === "/api/assets") {
+      return listAssets(req, ctx);
+    }
+    const assetMatch = path.match(new RegExp(`^/api/assets/(${UUID_RE})$`));
+    if (method === "GET" && assetMatch?.[1]) {
+      return getAsset(req, ctx, assetMatch[1]);
+    }
+    if (method === "GET" && path === "/api/analytics") {
+      return getAnalytics(req, ctx);
+    }
+    if (method === "GET" && path === "/api/ai-visibility") {
+      return getAiVisibility(req, ctx);
+    }
+    if (
+      method === "POST" &&
+      (path === "/api/analytics" ||
+        path === "/api/analytics/write" ||
+        path === "/api/assets" ||
+        path === "/api/ai-visibility" ||
+        path === "/api/ai-visibility/probe")
+    ) {
+      return wave4WriteBlocked(path);
+    }
     if (
       method === "POST" &&
       (path === "/api/publish" ||
@@ -162,7 +199,114 @@ export async function handlePanelApi(
   }
 }
 
+function wave4WriteBlocked(path: string): PanelResponse {
+  const message =
+    path.includes("analytics")
+      ? "Analytics adapters are read-only. write_scopes is empty."
+      : path.includes("assets")
+        ? "Asset binaries stay out of Git. Metadata POST/upload is not enabled in Wave 4."
+        : "AI search visibility is read-only. Live probes are not enabled.";
+  return {
+    status: 403,
+    body: {
+      error: "WAVE_4_READ_ONLY",
+      message,
+      write_scopes: [],
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
+function requireAssets(ctx: PanelApiContext): AssetCatalog {
+  if (!ctx.assets) {
+    ctx.assets = createAssetCatalog({ backend: "memory", seedFixtures: true });
+  }
+  return ctx.assets;
+}
+
+function listAssets(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const catalog = requireAssets(ctx);
+  const filter: AssetListFilter = {};
+  const approval = req.searchParams.get("approval_status");
+  if (approval === "DRAFT" || approval === "APPROVED" || approval === "ARCHIVED") {
+    filter.approval_status = approval;
+  }
+  const kind = req.searchParams.get("kind");
+  if (
+    kind === "IMAGE" ||
+    kind === "VIDEO" ||
+    kind === "DOCUMENT" ||
+    kind === "AUDIO" ||
+    kind === "OTHER"
+  ) {
+    filter.kind = kind;
+  }
+  const tag = req.searchParams.get("usage_tag");
+  if (tag) filter.usage_tags = [tag];
+  const platform = req.searchParams.get("platform");
+  if (platform) filter.platform = platform;
+  if (req.searchParams.get("unused_only") === "true") {
+    filter.unused_only = true;
+  }
+  const assets = catalog.listMetadata(brand_id, filter);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      write_scopes: [],
+      stores_binaries_in_git: catalog.stores_binaries_in_git,
+      assets,
+    },
+  };
+}
+
+function getAsset(
+  req: PanelRequest,
+  ctx: PanelApiContext,
+  asset_id: string,
+): PanelResponse {
+  assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const catalog = requireAssets(ctx);
+  const asset = catalog.getMetadata(brand_id, asset_id);
+  if (!asset) {
+    return jsonError(404, "asset not found", { brand_id, asset_id });
+  }
+  return {
+    status: 200,
+    body: {
+      ...asset,
+      pointer: catalog.resolvePointer(brand_id, asset_id),
+      usage: catalog.listUsage(brand_id, asset_id),
+      write_scopes: [],
+    },
+  };
+}
+
+function getAnalytics(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const snapshot = readAnalyticsSnapshot(brand_id, brandsRootOpt(ctx.brandsRoot));
+  return { status: 200, body: snapshot };
+}
+
+function getAiVisibility(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const report = runAiSearchVisibilityCheck(
+    brand_id,
+    brandsRootOpt(ctx.brandsRoot),
+  );
+  return { status: 200, body: report };
+}
+
 function mapError(e: unknown): PanelResponse {
+  if (e instanceof AnalyticsWriteBlockedError || e instanceof AiSearchWriteBlockedError) {
+    return jsonError(403, e.message, { write_scopes: [] });
+  }
   if (e instanceof CrossBrandDeniedError) {
     return jsonError(403, "CROSS_BRAND_DENIED", {
       message: e.message,

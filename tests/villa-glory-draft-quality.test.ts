@@ -192,6 +192,7 @@ describe("Villa Glory Wave 2 draft quality", () => {
       "WAVE_1_REGISTRY",
       "WAVE_2_CONTENT_FACTORY",
       "WAVE_3_DB_PANEL",
+      "WAVE_4_ANALYTICS_ASSETS",
     ]);
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);

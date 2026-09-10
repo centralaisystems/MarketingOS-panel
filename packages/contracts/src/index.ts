@@ -21,4 +21,7 @@ export * from "./audit.js";
 export * from "./agent-contract.js";
 export * from "./agency.js";
 export * from "./ops.js";
+export * from "./assets.js";
+export * from "./analytics.js";
+export * from "./ai-visibility.js";
 
