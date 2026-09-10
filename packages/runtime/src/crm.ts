@@ -15,13 +15,13 @@ export function createLeadDraft(input: {
   source: LeadRecord["source"];
   campaign_id?: string;
 }): LeadRecord {
-  assertWaveEnabled("WAVE_7_CRM");
-  const brand_id = assertRegisteredBrandId(input.brand_id);
   if (/@|\+?\d{8,}/.test(input.pii_ref)) {
     throw new Error(
       "pii_ref looks like raw contact data — use an opaque vault reference instead",
     );
   }
+  assertWaveEnabled("WAVE_7_CRM");
+  const brand_id = assertRegisteredBrandId(input.brand_id);
   return LeadRecordSchema.parse({
     lead_id: randomUUID(),
     brand_id,

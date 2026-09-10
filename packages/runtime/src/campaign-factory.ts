@@ -8,7 +8,11 @@ import {
 } from "@marketing-os/contracts";
 import { loadBrandContext } from "./brand-loader.js";
 import { loadBrandPack } from "./brand-pack.js";
-import { assertRegisteredBrandId, slugForBrandId } from "./brand-registry.js";
+import {
+  assertRegisteredBrandId,
+  brandsRootOpt,
+  slugForBrandId,
+} from "./brand-registry.js";
 import { assertWaveEnabled } from "./phase-gates.js";
 import type { AuditSink } from "./audit.js";
 import { InMemoryAuditSink } from "./audit.js";
@@ -30,12 +34,11 @@ export function buildCampaignPack(input: {
   writeReport?: boolean;
   reportRoot?: string;
 }): CampaignPack {
-  assertWaveEnabled("WAVE_2_CONTENT_FACTORY", {
-    brandsRoot: input.brandsRoot,
-  });
-  const brand_id = assertRegisteredBrandId(input.brand_id, {
-    brandsRoot: input.brandsRoot,
-  });
+  assertWaveEnabled("WAVE_2_CONTENT_FACTORY", brandsRootOpt(input.brandsRoot));
+  const brand_id = assertRegisteredBrandId(
+    input.brand_id,
+    brandsRootOpt(input.brandsRoot),
+  );
   const audit = input.audit ?? new InMemoryAuditSink();
   const requested_by = input.requested_by ?? "operator";
 
@@ -97,7 +100,19 @@ export function buildCampaignPack(input: {
   );
   const paid = runPaidGrowthRecommend(paidTask, pack, audit);
 
-  const guardian = runBrandGuardian(content, profile, audit, contentTask);
+  const reviewedSubjects = [
+    { subject: "content", verdict: runBrandGuardian(content, profile, audit, contentTask) },
+    { subject: "social", verdict: runBrandGuardian(social, profile, audit, socialTask) },
+    { subject: "creative", verdict: runBrandGuardian(creative, profile, audit, creativeTask) },
+  ] as const;
+  const guardianReasons = reviewedSubjects.flatMap(({ subject, verdict }) => {
+    if (verdict.passed) return [];
+    if (verdict.reasons.length === 0) {
+      return [`${subject}: Guardian rejected without reasons`];
+    }
+    return verdict.reasons.map((reason) => `${subject}: ${reason}`);
+  });
+  const guardianPassed = reviewedSubjects.every(({ verdict }) => verdict.passed);
 
   const campaign = CampaignPackSchema.parse({
     pack_id: randomUUID(),
@@ -118,15 +133,17 @@ export function buildCampaignPack(input: {
     },
     paid_recommendations: paid,
     guardian: {
-      passed: guardian.passed,
-      reasons: guardian.reasons,
+      passed: guardianPassed,
+      reasons: guardianReasons,
+      reviewed: reviewedSubjects.map(({ subject }) => subject),
     },
+    approvable: guardianPassed,
     live_publish: false,
     live_ads: false,
   });
 
   if (input.writeReport !== false) {
-    const slug = slugForBrandId(brand_id, { brandsRoot: input.brandsRoot });
+    const slug = slugForBrandId(brand_id, brandsRootOpt(input.brandsRoot));
     const root =
       input.reportRoot ??
       join(

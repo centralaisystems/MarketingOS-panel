@@ -26,6 +26,7 @@ import {
 import { resolveBrandsRoot } from "./brand-loader.js";
 import {
   assertRegisteredBrandId,
+  brandsRootOpt,
   slugForBrandId,
 } from "./brand-registry.js";
 import type { AuditSink } from "./audit.js";
@@ -73,10 +74,10 @@ export function loadBrandPack(
   audit?: AuditSink,
   opts?: { brandsRoot?: string; applyStale?: boolean },
 ): BrandPack {
-  const id = assertRegisteredBrandId(brandId, { brandsRoot: opts?.brandsRoot });
+  const id = assertRegisteredBrandId(brandId, brandsRootOpt(opts?.brandsRoot));
   const root = join(
     resolveBrandsRoot(opts?.brandsRoot),
-    slugForBrandId(id, { brandsRoot: opts?.brandsRoot }),
+    slugForBrandId(id, brandsRootOpt(opts?.brandsRoot)),
   );
 
   const required = [
@@ -151,10 +152,10 @@ export function loadOnboardingRecord(
   brandId: BrandId,
   opts?: { brandsRoot?: string },
 ): OnboardingRecord {
-  const id = assertRegisteredBrandId(brandId, { brandsRoot: opts?.brandsRoot });
+  const id = assertRegisteredBrandId(brandId, brandsRootOpt(opts?.brandsRoot));
   const path = join(
     resolveBrandsRoot(opts?.brandsRoot),
-    slugForBrandId(id, { brandsRoot: opts?.brandsRoot }),
+    slugForBrandId(id, brandsRootOpt(opts?.brandsRoot)),
     "ONBOARDING.json",
   );
   if (!existsSync(path)) {

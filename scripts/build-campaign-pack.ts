@@ -46,6 +46,7 @@ console.log(
       pack_id: pack.pack_id,
       brand_id: pack.brand_id,
       guardian: pack.guardian,
+      approvable: pack.approvable,
       live_publish: pack.live_publish,
       live_ads: pack.live_ads,
       path: outPath,

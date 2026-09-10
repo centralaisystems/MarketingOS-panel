@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { BrandIdSchema } from "./ids.js";
 
 /**
  * Knowledge field verification status.
@@ -79,9 +80,7 @@ export const EvidenceSchema = z.object({
   kind: ClaimKindSchema,
   confidence: ConfidenceSchema,
   sources: z.array(SourceSchema).default([]),
-  brand_id: z
-    .enum(["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"])
-    .optional(),
+  brand_id: BrandIdSchema.optional(),
   collected_at: z.string().datetime().optional(),
 });
 export type Evidence = z.infer<typeof EvidenceSchema>;

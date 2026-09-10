@@ -12,7 +12,11 @@ import {
 } from "@marketing-os/contracts";
 import { loadBrandPack } from "./brand-pack.js";
 import { resolveBrandsRoot } from "./brand-loader.js";
-import { listBrandIds, slugForBrandId } from "./brand-registry.js";
+import {
+  brandsRootOpt,
+  listBrandIds,
+  slugForBrandId,
+} from "./brand-registry.js";
 import { detectAndRecordConflict } from "./conflicts.js";
 import { filterPlaceholderCandidates } from "./phase2b-filters.js";
 import { verifyBrandIntelligence } from "./onboarding.js";
@@ -73,7 +77,7 @@ export function loadEvidenceLedger(
 ): EvidenceLedger {
   const path = join(
     resolveBrandsRoot(opts?.brandsRoot),
-    slugForBrandId(brandId, { brandsRoot: opts?.brandsRoot }),
+    slugForBrandId(brandId, brandsRootOpt(opts?.brandsRoot)),
     "EVIDENCE_LEDGER.json",
   );
   return EvidenceLedgerSchema.parse(
@@ -176,7 +180,7 @@ export function applyEvidenceLedger(
   if (opts?.write) {
     const root = join(
       resolveBrandsRoot(opts.brandsRoot),
-      slugForBrandId(brandId, { brandsRoot: opts.brandsRoot }),
+      slugForBrandId(brandId, brandsRootOpt(opts.brandsRoot)),
     );
     const fileMap: Record<string, string> = {
       identity: "IDENTITY.json",
@@ -311,7 +315,7 @@ export function guardianReviewAllBrands(opts?: {
   audit?: AuditSink;
 }): Record<BrandId, { passed: boolean; reasons: string[] }> {
   const out = {} as Record<BrandId, { passed: boolean; reasons: string[] }>;
-  for (const id of listBrandIds({ brandsRoot: opts?.brandsRoot })) {
+  for (const id of listBrandIds(brandsRootOpt(opts?.brandsRoot))) {
     const pack = loadBrandPack(id, opts?.audit, {
       ...(opts?.brandsRoot ? { brandsRoot: opts.brandsRoot } : {}),
     });

@@ -69,8 +69,8 @@ const server = createServer(async (req, res) => {
         readiness: result.report.readiness_status,
         score: result.report.overall_score,
         blockers: result.report.critical_blockers,
-        verified: result.report.verified?.length ?? result.report.verified_count,
-        guardian_passed: result.guardian.passed,
+        verified: result.report.verified.length,
+        guardian_passed: result.report.guardian_passed,
       });
     }
     if (req.method === "POST" && url.pathname === "/api/run-objective") {
@@ -91,6 +91,7 @@ const server = createServer(async (req, res) => {
         pack_id: pack.pack_id,
         brand_id: pack.brand_id,
         guardian: pack.guardian,
+        approvable: pack.approvable,
         live_publish: pack.live_publish,
         live_ads: pack.live_ads,
         social_calendar: pack.social_calendar,
