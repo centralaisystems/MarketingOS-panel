@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-10T12:00:00.000Z",
+  "updated_at": "2026-09-10T14:00:00.000Z",
   "brands": [
     {
       "brand_id": "LOTIN",
@@ -13,7 +13,9 @@
         "en",
         "ar"
       ],
-      "created_at": "2026-08-14T08:00:00.000Z"
+      "created_at": "2026-08-14T08:00:00.000Z",
+      "asset_drive_folder_id": "fixture-lotin-root",
+      "asset_drive_folder_url": "https://drive.google.com/drive/folders/fixture-lotin-root"
     },
     {
       "brand_id": "VILLA_GLORY",

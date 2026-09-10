@@ -4,6 +4,13 @@
       "brand_id": "VILLA_GLORY",
       "asset_drive_folder_url": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID",
       "asset_drive_folder_id": "YOUR_FOLDER_ID"
+    },
+    {
+      "brand_id": "LOTIN",
+      "owner_email": "lotin-owner@example.test",
+      "owner_cc": ["lotin-cc@example.test"],
+      "owner_email_enabled": true,
+      "automation_enabled": true
     }
   ]
 }

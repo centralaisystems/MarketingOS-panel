@@ -34,11 +34,25 @@
    ```
    `create-brand` always writes `owner_email_enabled` and `automation_enabled` (both default `false` unless the enable flags are passed). `automation_enabled` is the Wave 8 digest kill switch. Emailing still requires `owner_email_enabled`. See [`AUTOMATION.md`](./AUTOMATION.md).
 
-   Villa Glory's committed registry keeps the **fixture** Drive folder. Attach a real folder without committing secrets:
+   Villa Glory and LOTIN committed registries keep **fixture** Drive folders (`fixture-villa-glory-root`, `fixture-lotin-root`). Attach a real folder without committing secrets:
 
-   1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored) and set `asset_drive_folder_url` / `asset_drive_folder_id` on the `VILLA_GLORY` patch only.
-   2. Or set `MOS_DRIVE_FOLDER_URL_VILLA_GLORY` / `MOS_DRIVE_FOLDER_ID_VILLA_GLORY` in `.env.local`.
+   1. Copy `brands/_shared/REGISTRY.local.json.example` → `brands/_shared/REGISTRY.local.json` (gitignored) and set `asset_drive_folder_url` / `asset_drive_folder_id` on the brand patch only.
+   2. Or set `MOS_DRIVE_FOLDER_URL_<BRAND_ID>` / `MOS_DRIVE_FOLDER_ID_<BRAND_ID>` in `.env.local` (example: `MOS_DRIVE_FOLDER_URL_VILLA_GLORY`, `MOS_DRIVE_FOLDER_URL_LOTIN`).
    3. Keep `MOS_DRIVE_ACCESS_TOKEN` in `.env.local` when using `MOS_DRIVE_SOURCE=google_drive`.
+
+   LOTIN owner review / Wave 8 automation stay **off** in the committed registry (no real inbox). To opt in locally or in tests, patch `REGISTRY.local.json` with `@example.test` addresses:
+
+   ```json
+   {
+     "brand_id": "LOTIN",
+     "owner_email": "lotin-owner@example.test",
+     "owner_cc": ["lotin-cc@example.test"],
+     "owner_email_enabled": true,
+     "automation_enabled": true
+   }
+   ```
+
+   Then `pnpm run-digest -- --brand LOTIN --period daily` dry-runs like Villa Glory. Do not commit a production owner address.
 
    See [`PRODUCTION.md`](./PRODUCTION.md).
 
@@ -62,9 +76,13 @@ Verify (dry-run only):
 curl -s http://127.0.0.1:8787/api/health
 curl -s http://127.0.0.1:8787/api/brands
 curl -s "http://127.0.0.1:8787/api/readiness?brand_id=VILLA_GLORY"
+curl -s "http://127.0.0.1:8787/api/readiness?brand_id=LOTIN"
 curl -s -X POST http://127.0.0.1:8787/api/campaign-packs \
   -H 'content-type: application/json' \
   -d '{"brand_id":"VILLA_GLORY","objective":"Draft social plan for qualified enquiries"}'
+curl -s -X POST http://127.0.0.1:8787/api/campaign-packs \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"LOTIN","objective":"Draft a qualified-enquiry plan for UAE property consultations"}'
 curl -s "http://127.0.0.1:8787/api/campaigns?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/approvals?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/audit?brand_id=VILLA_GLORY"
@@ -75,8 +93,11 @@ curl -s -X POST http://127.0.0.1:8787/api/drive-sync \
   -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
 curl -s "http://127.0.0.1:8787/api/drive-sync?brand_id=VILLA_GLORY"
 curl -s "http://127.0.0.1:8787/api/assets?brand_id=VILLA_GLORY&source=drive"
-# LOTIN must not see Villa Glory Drive rows
+curl -s -X POST http://127.0.0.1:8787/api/drive-sync \
+  -H 'content-type: application/json' -d '{"brand_id":"LOTIN"}'
 curl -s "http://127.0.0.1:8787/api/assets?brand_id=LOTIN&source=drive"
+# LOTIN Drive rows must not appear under Villa Glory, and vice versa
+curl -s "http://127.0.0.1:8787/api/assets?brand_id=VILLA_GLORY&source=drive"
 curl -s -X POST http://127.0.0.1:8787/api/figma-arrange \
   -H 'content-type: application/json' \
   -d '{"brand_id":"VILLA_GLORY","source_asset_ids":["'"$STILL_ID"'"],"layout_brief":"Instagram grid from approved stills. No commercial claims."}'

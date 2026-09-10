@@ -18,7 +18,7 @@ Do not set `live_publish_allowed` or `live_ads_allowed` to true without an expli
 
 | Flag | Where | Effect |
 |------|--------|--------|
-| `automation_enabled` | Registry entry (default `false`) | Per-brand kill switch. Villa Glory fixture is `true`. When false, `runAutomationDigest` records `DIGEST_BLOCKED` and **does not write email outbox**. |
+| `automation_enabled` | Registry entry (default `false`) | Per-brand kill switch. Villa Glory fixture is `true`. LOTIN stays `false` in the committed registry — enable with `REGISTRY.local.json` or `--enable-automation` (use `@example.test`). When false, `runAutomationDigest` records `DIGEST_BLOCKED` and **does not write email outbox**. |
 | `owner_email_enabled` | Registry entry | Required **only when emailing**. Dashboard still loads. |
 | `WAVE_8_AUTOMATION_DASHBOARD` | `PHASE_GATES.json` | Global wave gate. |
 
@@ -34,6 +34,8 @@ No production cron is installed. Same function is safe to call later from cron.
 ```bash
 pnpm run-digest -- --brand VILLA_GLORY --period daily
 pnpm run-digest -- --brand VILLA_GLORY --period weekly
+# LOTIN is blocked until automation_enabled + owner_email_enabled are opted in locally
+# pnpm run-digest -- --brand LOTIN --period daily
 ```
 
 Panel:
