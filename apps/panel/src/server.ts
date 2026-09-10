@@ -69,7 +69,7 @@ const server = createServer(async (req, res) => {
         readiness: result.report.readiness_status,
         score: result.report.overall_score,
         blockers: result.report.critical_blockers,
-        verified: result.report.verified?.length ?? result.report.verified_count,
+        verified: result.report.verified.length,
         guardian_passed: result.report.guardian_passed,
       });
     }
