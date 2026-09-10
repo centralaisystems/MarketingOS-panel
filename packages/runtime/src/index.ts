@@ -17,6 +17,7 @@ export * from "./phase2b-populate.js";
 export * from "./phase2c-apply.js";
 export * from "./phase-gates.js";
 export * from "./campaign-factory.js";
+export * from "./pack-draft-signals.js";
 export * from "./crm.js";
 export * from "./automation.js";
 export * from "./agents/brand-strategist.js";

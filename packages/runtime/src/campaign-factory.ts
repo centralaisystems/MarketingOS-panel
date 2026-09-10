@@ -66,7 +66,7 @@ export function buildCampaignPack(input: {
     requested_by,
     researchTask.task_id,
   );
-  const strategy = runBrandStrategist(strategyTask, profile, audit);
+  const strategy = runBrandStrategist(strategyTask, profile, audit, pack);
 
   const contentTask = createContentTask(
     brand_id,
@@ -74,7 +74,7 @@ export function buildCampaignPack(input: {
     requested_by,
     strategyTask.task_id,
   );
-  const content = runContentCopy(contentTask, profile, audit);
+  const content = runContentCopy(contentTask, profile, audit, pack);
 
   const socialTask = createSocialTask(
     brand_id,
