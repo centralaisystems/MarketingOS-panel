@@ -22,28 +22,31 @@ import {
   type PackDraftSignals,
 } from "../pack-draft-signals.js";
 
-function draftFromPack(
-  task: Task,
-  profile: BrandProfile,
-  pack: BrandPack,
-): {
+type ContentDraft = {
   headline: string;
   body: string;
-  cta: string;
-  restrictions: string;
+  cta: unknown;
+  restrictions: unknown;
   toneKnown: boolean;
   ctaKnown: boolean;
   claimsKnown: boolean;
   missing: string[];
-  signals: PackDraftSignals;
-} {
+  signals?: PackDraftSignals;
+};
+
+function draftFromPack(
+  task: Task,
+  profile: BrandProfile,
+  pack: BrandPack,
+): ContentDraft {
   const signals = extractPackDraftSignals(pack);
   const name = packDisplayName(signals, profile.display_name);
   const category = packCategoryLabel(signals);
+  const categoryStatus = signals.category?.status;
   const categoryLine = category
-    ? isVerifiedFact(signals.category)
+    ? categoryStatus === "VERIFIED"
       ? category
-      : `${category} [${signals.category?.status}]`
+      : `${category} [${categoryStatus}]`
     : undefined;
 
   const headline = (
@@ -141,9 +144,10 @@ function draftFromPack(
     );
   }
 
-  if (signals.geographic_positioning && !isVerifiedFact(signals.geographic_positioning)) {
+  const geo = signals.geographic_positioning;
+  if (geo && geo.status !== "VERIFIED") {
     lines.push(
-      `Geographic positioning ${signals.geographic_positioning.status}: ${renderCited(signals.geographic_positioning)} — do not treat as exclusive market proof.`,
+      `Geographic positioning ${geo.status}: ${renderCited(geo)} — do not treat as exclusive market proof.`,
     );
   }
 
@@ -198,16 +202,7 @@ function draftFromPack(
 function draftFromProfile(
   task: Task,
   profile: BrandProfile,
-): {
-  headline: string;
-  body: string;
-  cta: unknown;
-  restrictions: unknown;
-  toneKnown: boolean;
-  ctaKnown: boolean;
-  claimsKnown: boolean;
-  missing: string[];
-} {
+): ContentDraft {
   const toneKnown = profile.tone.status !== "MISSING";
   const ctaKnown = profile.cta_library.status !== "MISSING";
   const claimsKnown = profile.claims_restrictions.status !== "MISSING";
@@ -280,38 +275,43 @@ export function runContentCopy(
   const drafted = pack
     ? draftFromPack(task, profile, pack)
     : draftFromProfile(task, profile);
+  const packSignals = drafted.signals;
 
-  const statements = [
+  const statements: Array<{
+    text: string;
+    kind: "FACT" | "OBSERVATION";
+    confidence: "MEDIUM" | "VERIFIED";
+    evidence_ids: string[];
+  }> = [
     {
       text: "Draft copy contains no invented brand claims; MISSING fields called out.",
-      kind: "OBSERVATION" as const,
-      confidence: "MEDIUM" as const,
+      kind: "OBSERVATION",
+      confidence: "MEDIUM",
       evidence_ids: [],
     },
   ];
 
-  if (pack && "signals" in drafted && drafted.signals) {
-    const { signals } = drafted;
-    if (isVerifiedFact(signals.positioning_statement)) {
+  if (packSignals) {
+    if (isVerifiedFact(packSignals.positioning_statement)) {
       statements.push({
-        text: `Positioning cited from brand pack: ${renderCitedValue(signals.positioning_statement.value)}`,
-        kind: "FACT" as const,
-        confidence: "VERIFIED" as const,
+        text: `Positioning cited from brand pack: ${renderCitedValue(packSignals.positioning_statement.value)}`,
+        kind: "FACT",
+        confidence: "VERIFIED",
         evidence_ids: [],
       });
     }
-    if (isVerifiedFact(signals.tone)) {
+    if (isVerifiedFact(packSignals.tone)) {
       statements.push({
-        text: `Voice tone cited from brand pack: ${renderCitedValue(signals.tone.value)}`,
-        kind: "FACT" as const,
-        confidence: "VERIFIED" as const,
+        text: `Voice tone cited from brand pack: ${renderCitedValue(packSignals.tone.value)}`,
+        kind: "FACT",
+        confidence: "VERIFIED",
         evidence_ids: [],
       });
     }
   }
 
-  const name = pack
-    ? packDisplayName(extractPackDraftSignals(pack), profile.display_name)
+  const name = packSignals
+    ? packDisplayName(packSignals, profile.display_name)
     : profile.display_name;
 
   return AgentResultSchema.parse({
@@ -329,8 +329,7 @@ export function runContentCopy(
         body: drafted.body,
         cta: drafted.cta,
         invented_claims: false,
-        pack_citations:
-          pack && "signals" in drafted ? citedPathsUsed(drafted.signals) : [],
+        pack_citations: packSignals ? citedPathsUsed(packSignals) : [],
         compliance_notes:
           typeof drafted.restrictions === "string"
             ? drafted.restrictions

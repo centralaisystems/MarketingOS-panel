@@ -234,30 +234,8 @@ export function extractPackDraftSignals(pack: BrandPack): PackDraftSignals {
     pack.visual.imagery.status !== "MISSING" ||
     pack.visual.photography.status !== "MISSING";
 
-  return {
+  const signals: PackDraftSignals = {
     brand_id: pack.brand_id,
-    official_name: citeField(pack.identity.official_name, "identity.official_name"),
-    description: citeField(pack.identity.description, "identity.description"),
-    markets: citeField(pack.identity.location_markets, "identity.location_markets"),
-    category: citeField(pack.positioning.category, "positioning.category"),
-    positioning_statement: citeField(
-      pack.positioning.positioning_statement,
-      "positioning.positioning_statement",
-    ),
-    differentiation: citeField(
-      pack.positioning.differentiation,
-      "positioning.differentiation",
-    ),
-    geographic_positioning: citeField(
-      pack.positioning.geographic_positioning,
-      "positioning.geographic_positioning",
-    ),
-    tone: citeField(pack.voice.tone, "voice.tone"),
-    prohibited_claims: citeField(
-      pack.claims.prohibited_claims,
-      "claims.prohibited_claims",
-    ),
-    approved_claims: citeField(pack.claims.approved_claims, "claims.approved_claims"),
     offerings,
     audiences,
     ctas,
@@ -266,6 +244,42 @@ export function extractPackDraftSignals(pack: BrandPack): PackDraftSignals {
     visual_kit_present,
     missing_paths,
   };
+
+  const official_name = citeField(pack.identity.official_name, "identity.official_name");
+  const description = citeField(pack.identity.description, "identity.description");
+  const markets = citeField(pack.identity.location_markets, "identity.location_markets");
+  const category = citeField(pack.positioning.category, "positioning.category");
+  const positioning_statement = citeField(
+    pack.positioning.positioning_statement,
+    "positioning.positioning_statement",
+  );
+  const differentiation = citeField(
+    pack.positioning.differentiation,
+    "positioning.differentiation",
+  );
+  const geographic_positioning = citeField(
+    pack.positioning.geographic_positioning,
+    "positioning.geographic_positioning",
+  );
+  const tone = citeField(pack.voice.tone, "voice.tone");
+  const prohibited_claims = citeField(
+    pack.claims.prohibited_claims,
+    "claims.prohibited_claims",
+  );
+  const approved_claims = citeField(pack.claims.approved_claims, "claims.approved_claims");
+
+  if (official_name) signals.official_name = official_name;
+  if (description) signals.description = description;
+  if (markets) signals.markets = markets;
+  if (category) signals.category = category;
+  if (positioning_statement) signals.positioning_statement = positioning_statement;
+  if (differentiation) signals.differentiation = differentiation;
+  if (geographic_positioning) signals.geographic_positioning = geographic_positioning;
+  if (tone) signals.tone = tone;
+  if (prohibited_claims) signals.prohibited_claims = prohibited_claims;
+  if (approved_claims) signals.approved_claims = approved_claims;
+
+  return signals;
 }
 
 export function citedPathsUsed(signals: PackDraftSignals): string[] {

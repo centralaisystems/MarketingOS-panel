@@ -10,7 +10,6 @@ import { assertAgentCapability } from "../capabilities.js";
 import type { AuditSink } from "../audit.js";
 import {
   extractPackDraftSignals,
-  isVerifiedFact,
   packCategoryLabel,
   primaryCta,
   renderCited,
@@ -68,14 +67,16 @@ export function runPaidGrowthRecommend(
       .map((a) => `${a.role} (VERIFIED): ${a.label}`),
     ...signals.audiences.flatMap((a) => {
       const notes: string[] = [];
-      if (a.geography && !isVerifiedFact(a.geography)) {
+      const geography = a.geography;
+      const preferred = a.preferred_channels;
+      if (geography && geography.status !== "VERIFIED") {
         notes.push(
-          `${a.label} geography ${a.geography.status}: ${renderCited(a.geography)} — not exclusive market proof`,
+          `${a.label} geography ${geography.status}: ${renderCited(geography)} — not exclusive market proof`,
         );
       }
-      if (a.preferred_channels && !isVerifiedFact(a.preferred_channels)) {
+      if (preferred && preferred.status !== "VERIFIED") {
         notes.push(
-          `${a.label} preferred channels ${a.preferred_channels.status}: ${renderCited(a.preferred_channels)}`,
+          `${a.label} preferred channels ${preferred.status}: ${renderCited(preferred)}`,
         );
       }
       return notes;

@@ -107,7 +107,7 @@ describe("Villa Glory Wave 2 draft quality", () => {
     expect(body).toMatch(/Living|Custom & Bespoke/);
     expect(body).toMatch(/Private clients/);
     expect(body).toMatch(/Request Private Quote/);
-    expect(body).toMatch(/Do not invent product specs/);
+    expect(body).toMatch(/do not invent product specs/i);
     expect(body).toMatch(/MISSING/);
     expect(content.invented_claims).toBe(false);
     expect(content.pack_citations).toEqual(
