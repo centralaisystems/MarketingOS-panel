@@ -1,10 +1,9 @@
 #!/usr/bin/env tsx
-/** Run onboard-brand for all four brands and write a combined gap report. */
+/** Run onboard-brand for all ACTIVE registry brands and write a combined gap report. */
 import { writeFileSync, mkdirSync } from "node:fs";
-import { BrandIdSchema, type BrandId } from "@marketing-os/contracts";
-import { runBrandOnboarding } from "@marketing-os/runtime";
+import { listBrandIds, runBrandOnboarding } from "@marketing-os/runtime";
 
-const brands = BrandIdSchema.options as BrandId[];
+const brands = listBrandIds();
 const reports = brands.map((brand_id) => {
   const r = runBrandOnboarding(brand_id);
   return {

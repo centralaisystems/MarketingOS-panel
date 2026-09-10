@@ -1,3 +1,4 @@
+export * from "./brand-registry.js";
 export * from "./audit.js";
 export * from "./capabilities.js";
 export * from "./workflow.js";
@@ -14,8 +15,18 @@ export * from "./onboarding.js";
 export * from "./phase2b-filters.js";
 export * from "./phase2b-populate.js";
 export * from "./phase2c-apply.js";
+export * from "./phase-gates.js";
+export * from "./campaign-factory.js";
+export * from "./crm.js";
+export * from "./automation.js";
 export * from "./agents/brand-strategist.js";
 export * from "./agents/research.js";
 export * from "./agents/content.js";
 export * from "./agents/brand-guardian.js";
 export * from "./agents/director.js";
+export * from "./agents/social.js";
+export * from "./agents/creative.js";
+export * from "./agents/paid-growth.js";
+export * from "./agents/competitor.js";
+export * from "./integrations/index.js";
+

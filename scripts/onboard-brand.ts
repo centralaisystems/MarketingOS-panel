@@ -6,22 +6,27 @@
 import { writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { BrandIdSchema } from "@marketing-os/contracts";
-import { InMemoryAuditSink, runBrandOnboarding } from "@marketing-os/runtime";
+import {
+  InMemoryAuditSink,
+  assertRegisteredBrandId,
+  listBrandIds,
+  runBrandOnboarding,
+} from "@marketing-os/runtime";
 
 function resolveBrandArg(): string {
   const idxBrand = process.argv.indexOf("--brand");
   if (idxBrand >= 0 && process.argv[idxBrand + 1]) {
     return process.argv[idxBrand + 1]!;
   }
-  const known = process.argv.find((a) =>
-    ["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"].includes(a),
-  );
-  if (known) return known;
-  console.error("Usage: pnpm onboard-brand -- LOTIN");
+  const known = listBrandIds();
+  const found = process.argv.find((a) => known.includes(a));
+  if (found) return found;
+  console.error(`Usage: pnpm onboard-brand -- <BRAND_ID>`);
+  console.error(`Known brands: ${known.join(", ")}`);
   process.exit(1);
 }
 
-const brand_id = BrandIdSchema.parse(resolveBrandArg());
+const brand_id = assertRegisteredBrandId(BrandIdSchema.parse(resolveBrandArg()));
 const audit = new InMemoryAuditSink();
 const result = runBrandOnboarding(brand_id, { audit });
 

@@ -1,7 +1,6 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import {
-  BrandIdSchema,
   BrandPackSchema,
   IdentityModuleSchema,
   PositioningModuleSchema,
@@ -25,15 +24,12 @@ import {
   type ProvenancedField,
 } from "@marketing-os/contracts";
 import { resolveBrandsRoot } from "./brand-loader.js";
+import {
+  assertRegisteredBrandId,
+  slugForBrandId,
+} from "./brand-registry.js";
 import type { AuditSink } from "./audit.js";
 import { applyStaleness } from "./staleness.js";
-
-const SLUG: Record<BrandId, string> = {
-  LOTIN: "lotin",
-  VILLA_GLORY: "villa-glory",
-  NOX_FORM: "nox-form",
-  NOX_TECH: "nox-tech",
-};
 
 function readJson(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8")) as unknown;
@@ -77,8 +73,11 @@ export function loadBrandPack(
   audit?: AuditSink,
   opts?: { brandsRoot?: string; applyStale?: boolean },
 ): BrandPack {
-  const id = BrandIdSchema.parse(brandId);
-  const root = join(resolveBrandsRoot(opts?.brandsRoot), SLUG[id]);
+  const id = assertRegisteredBrandId(brandId, { brandsRoot: opts?.brandsRoot });
+  const root = join(
+    resolveBrandsRoot(opts?.brandsRoot),
+    slugForBrandId(id, { brandsRoot: opts?.brandsRoot }),
+  );
 
   const required = [
     ["IDENTITY.json", IdentityModuleSchema],
@@ -152,10 +151,10 @@ export function loadOnboardingRecord(
   brandId: BrandId,
   opts?: { brandsRoot?: string },
 ): OnboardingRecord {
-  const id = BrandIdSchema.parse(brandId);
+  const id = assertRegisteredBrandId(brandId, { brandsRoot: opts?.brandsRoot });
   const path = join(
     resolveBrandsRoot(opts?.brandsRoot),
-    SLUG[id],
+    slugForBrandId(id, { brandsRoot: opts?.brandsRoot }),
     "ONBOARDING.json",
   );
   if (!existsSync(path)) {

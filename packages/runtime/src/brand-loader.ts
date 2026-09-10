@@ -2,7 +2,6 @@ import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  BrandIdSchema,
   BrandProfileSchema,
   listMissingKnowledge,
   type BrandId,
@@ -10,20 +9,18 @@ import {
   type CrossBrandOperation,
 } from "@marketing-os/contracts";
 import type { AuditSink } from "./audit.js";
+import {
+  assertRegisteredBrandId,
+  brandDisplayNames as registryDisplayNames,
+  listBrandEntries,
+  slugForBrandId,
+} from "./brand-registry.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const BRAND_SLUG: Record<BrandId, string> = {
-  LOTIN: "lotin",
-  VILLA_GLORY: "villa-glory",
-  NOX_FORM: "nox-form",
-  NOX_TECH: "nox-tech",
-};
 
 /** Resolve brands directory: repo root /brands */
 export function resolveBrandsRoot(override?: string): string {
   if (override) return override;
-  // packages/runtime/src -> repo root
   return join(__dirname, "../../../brands");
 }
 
@@ -47,7 +44,9 @@ export function loadBrandContext(
     additionalBrandIds?: BrandId[];
   },
 ): { profile: BrandProfile; loaded_brand_ids: BrandId[]; missing: string[] } {
-  const parsedId = BrandIdSchema.parse(brandId);
+  const parsedId = assertRegisteredBrandId(brandId, {
+    brandsRoot: opts?.brandsRoot,
+  });
 
   if (opts?.additionalBrandIds?.length) {
     if (!opts.crossBrand?.authorized) {
@@ -65,7 +64,7 @@ export function loadBrandContext(
   }
 
   const root = resolveBrandsRoot(opts?.brandsRoot);
-  const slug = BRAND_SLUG[parsedId];
+  const slug = slugForBrandId(parsedId, { brandsRoot: opts?.brandsRoot });
   const path = join(root, slug, "profile.json");
 
   if (!existsSync(path)) {
@@ -83,7 +82,6 @@ export function loadBrandContext(
 
   const loaded: BrandId[] = [parsedId];
   if (opts?.crossBrand?.authorized && opts.additionalBrandIds) {
-    // Explicit multi-brand only when authorized — still load separately, never merge silently
     for (const id of opts.additionalBrandIds) {
       if (id !== parsedId) loaded.push(id);
     }
@@ -101,25 +99,24 @@ export function loadBrandContext(
   return { profile, loaded_brand_ids: loaded, missing };
 }
 
-export function brandDisplayNames(): Record<BrandId, string> {
-  return {
-    LOTIN: "LOTIN",
-    VILLA_GLORY: "Villa Glory",
-    NOX_FORM: "NOX FORM",
-    NOX_TECH: "NOX TECH",
-  };
+export function brandDisplayNames(brandsRoot?: string): Record<string, string> {
+  return registryDisplayNames({ brandsRoot });
 }
 
 /** Foreign brand tokens used for contamination scanning. */
-export function foreignBrandTokens(active: BrandId): string[] {
-  const names = brandDisplayNames();
-  return (Object.keys(names) as BrandId[])
-    .filter((id) => id !== active)
-    .flatMap((id) => [
-      id,
-      names[id],
-      names[id].toLowerCase(),
-      BRAND_SLUG[id],
-      BRAND_SLUG[id].replace("-", " "),
+export function foreignBrandTokens(
+  active: BrandId,
+  brandsRoot?: string,
+): string[] {
+  const names = brandDisplayNames(brandsRoot);
+  return listBrandEntries({ brandsRoot })
+    .filter((b) => b.brand_id !== active)
+    .flatMap((b) => [
+      b.brand_id,
+      b.display_name,
+      b.display_name.toLowerCase(),
+      b.slug,
+      b.slug.replace(/-/g, " "),
+      ...b.aliases,
     ]);
 }

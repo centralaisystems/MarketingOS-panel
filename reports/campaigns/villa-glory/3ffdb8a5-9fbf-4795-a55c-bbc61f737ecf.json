@@ -1,0 +1,445 @@
+{
+  "pack_id": "3ffdb8a5-9fbf-4795-a55c-bbc61f737ecf",
+  "brand_id": "VILLA_GLORY",
+  "objective": "Draft one-week consultation social plan",
+  "generated_at": "2026-09-10T06:42:17.901Z",
+  "approval_level_cap": "LEVEL_1",
+  "research": {
+    "task_id": "5694308b-b50d-4588-9fe1-215b0b3b10ae",
+    "brand_id": "VILLA_GLORY",
+    "agent": "A03_RESEARCH_INTELLIGENCE",
+    "summary": "Research gap analysis for Villa Glory: no fabricated findings; 7 requirements logged.",
+    "deliverables": [
+      {
+        "type": "research_brief",
+        "brand_id": "VILLA_GLORY",
+        "mode": "local_evidence_only",
+        "evidence_count": 0,
+        "fabricated": false,
+        "external_fetch": false
+      }
+    ],
+    "evidence": [],
+    "statements": [
+      {
+        "text": "No local evidence supplied. Research agent will not invent market facts.",
+        "kind": "OBSERVATION",
+        "confidence": "HIGH",
+        "evidence_ids": []
+      },
+      {
+        "text": "External research integrations are deferred; REQUEST_EXTERNAL_RESEARCH recorded as requirements only.",
+        "kind": "FACT",
+        "confidence": "VERIFIED",
+        "evidence_ids": []
+      }
+    ],
+    "sources": [],
+    "assumptions": [
+      "Phase 1 research does not call external APIs or scrape websites."
+    ],
+    "risks": [
+      "Acting on strategy without external research may miss market realities."
+    ],
+    "confidence": "LOW",
+    "recommended_next_action": "Fulfill research_requirements or proceed with clearly labeled assumptions only.",
+    "recommended_approval_level": "LEVEL_0",
+    "missing_information": [
+      "brand.positioning",
+      "brand.personas",
+      "brand.markets",
+      "brand.competitors",
+      "brand.tone",
+      "brand.visual_guidelines",
+      "brand.content_pillars",
+      "brand.channels",
+      "brand.seo",
+      "brand.paid_media",
+      "brand.cta_library",
+      "brand.historical_learnings"
+    ],
+    "research_requirements": [
+      {
+        "question": "Provide local evidence pack or authorize later-phase external research",
+        "reason": "No supplied evidence — refusing to fabricate market claims",
+        "priority": "HIGH"
+      },
+      {
+        "question": "What verified market evidence supports: \"Draft one-week consultation social plan\"?",
+        "reason": "No production research integrations in Phase 1; external research must be supplied or requested.",
+        "priority": "HIGH"
+      },
+      {
+        "question": "Onboard brand knowledge field: positioning",
+        "reason": "Field status is MISSING for Villa Glory",
+        "priority": "HIGH"
+      },
+      {
+        "question": "Onboard brand knowledge field: personas",
+        "reason": "Field status is MISSING for Villa Glory",
+        "priority": "HIGH"
+      },
+      {
+        "question": "Onboard brand knowledge field: markets",
+        "reason": "Field status is MISSING for Villa Glory",
+        "priority": "HIGH"
+      },
+      {
+        "question": "Onboard brand knowledge field: competitors",
+        "reason": "Field status is MISSING for Villa Glory",
+        "priority": "HIGH"
+      },
+      {
+        "question": "Onboard brand knowledge field: tone",
+        "reason": "Field status is MISSING for Villa Glory",
+        "priority": "HIGH"
+      }
+    ],
+    "capabilities_used": [
+      "READ_BRAND_CONTEXT",
+      "READ_RESEARCH",
+      "PRODUCE_INTERNAL_ANALYSIS",
+      "REQUEST_EXTERNAL_RESEARCH"
+    ],
+    "contamination_flags": [],
+    "created_at": "2026-09-10T06:42:17.900Z"
+  },
+  "competitor": {
+    "task_id": "dbc6eb89-80f9-4ac0-8414-ef36b72859c8",
+    "brand_id": "VILLA_GLORY",
+    "agent": "A04_COMPETITOR_INTELLIGENCE",
+    "summary": "Competitor intelligence (internal) for VILLA_GLORY.",
+    "deliverables": [
+      {
+        "type": "competitor_brief",
+        "brand_id": "VILLA_GLORY",
+        "approval_level": "LEVEL_1",
+        "notes": "No verified competitors in brand pack — do not invent rival names for public attack ads.",
+        "invent_competitors": false
+      }
+    ],
+    "evidence": [],
+    "statements": [],
+    "sources": [],
+    "assumptions": [
+      "Competitor names for public attack ads require separate approval."
+    ],
+    "risks": [],
+    "confidence": "LOW",
+    "recommended_next_action": "Use for internal strategy only",
+    "recommended_approval_level": "LEVEL_1",
+    "missing_information": [
+      "competitors.competitors"
+    ],
+    "research_requirements": [],
+    "capabilities_used": [
+      "READ_BRAND_CONTEXT",
+      "READ_COMPETITORS",
+      "PRODUCE_INTERNAL_ANALYSIS"
+    ],
+    "contamination_flags": [],
+    "created_at": "2026-09-10T06:42:17.900Z"
+  },
+  "strategy": {
+    "task_id": "129d2dbb-9f4b-41dc-9b80-ea70c274f486",
+    "brand_id": "VILLA_GLORY",
+    "agent": "A02_BRAND_STRATEGIST",
+    "summary": "Strategy outline for Villa Glory. Missing knowledge fields: 12.",
+    "deliverables": [
+      {
+        "type": "campaign_strategy_outline",
+        "brand_id": "VILLA_GLORY",
+        "objective": "Draft one-week consultation social plan",
+        "known_positioning": null,
+        "known_audiences": [
+          "customers",
+          "enquiries",
+          "sales prospects"
+        ],
+        "known_tone": null,
+        "channel_reasoning": "Channel mix cannot be finalized until brand channels are onboarded.",
+        "offer_messaging": "CTA/offer library MISSING — use generic inquiry CTA only; do not invent discounts or guarantees.",
+        "missing_for_strategy": [
+          "positioning",
+          "personas",
+          "markets",
+          "competitors",
+          "tone",
+          "visual_guidelines",
+          "content_pillars",
+          "channels",
+          "seo",
+          "paid_media",
+          "cta_library",
+          "historical_learnings"
+        ]
+      }
+    ],
+    "evidence": [],
+    "statements": [
+      {
+        "text": "Campaign direction for Villa Glory: Draft one-week consultation social plan",
+        "kind": "RECOMMENDATION",
+        "confidence": "MEDIUM",
+        "evidence_ids": []
+      },
+      {
+        "text": "Positioning status: MISSING",
+        "kind": "OBSERVATION",
+        "confidence": "LOW",
+        "evidence_ids": []
+      },
+      {
+        "text": "Audience status: UNVERIFIED: [\"customers\",\"enquiries\",\"sales prospects\"]",
+        "kind": "OBSERVATION",
+        "confidence": "LOW",
+        "evidence_ids": []
+      }
+    ],
+    "sources": [],
+    "assumptions": [
+      "Positioning is MISSING — strategy uses only objective wording and must not invent brand claims.",
+      "Audience/persona details are incomplete — channel and offer recommendations are provisional."
+    ],
+    "risks": [
+      "High risk of inaccurate positioning if strategy is executed before brand onboarding."
+    ],
+    "confidence": "LOW",
+    "recommended_next_action": "Complete brand onboarding for MISSING fields before production creative.",
+    "recommended_approval_level": "LEVEL_1",
+    "missing_information": [
+      "brand.positioning",
+      "brand.personas",
+      "brand.markets",
+      "brand.competitors",
+      "brand.tone",
+      "brand.visual_guidelines",
+      "brand.content_pillars",
+      "brand.channels",
+      "brand.seo",
+      "brand.paid_media",
+      "brand.cta_library",
+      "brand.historical_learnings"
+    ],
+    "research_requirements": [],
+    "capabilities_used": [
+      "READ_BRAND_CONTEXT",
+      "PRODUCE_STRATEGY"
+    ],
+    "contamination_flags": [],
+    "created_at": "2026-09-10T06:42:17.900Z"
+  },
+  "content_drafts": [
+    {
+      "task_id": "76030342-07d8-4ede-8125-47c5809ca7e1",
+      "brand_id": "VILLA_GLORY",
+      "agent": "A05_CONTENT_COPY",
+      "summary": "Draft campaign messaging concepts for Villa Glory (internal only).",
+      "deliverables": [
+        {
+          "type": "draft_copy_pack",
+          "brand_id": "VILLA_GLORY",
+          "language": "en",
+          "approval_level": "LEVEL_1",
+          "headline": "Villa Glory: Draft one-week consultation social plan",
+          "body": "Draft concept for Villa Glory only.\nObjective: Draft one-week consultation social plan\nTone guidance: Tone MISSING — use neutral professional draft; do not invent brand voice traits.\nCTA: Enquire for details (generic — CTA library MISSING)\n\nThis is LEVEL_1 draft copy for internal review. Not approved for publishing.",
+          "cta": "Enquire for details (generic — CTA library MISSING)",
+          "invented_claims": false,
+          "compliance_notes": "[\"Do not invent product specs, prices, or stock\",\"Do not claim materials/certifications without verification\"]"
+        }
+      ],
+      "evidence": [],
+      "statements": [
+        {
+          "text": "Draft copy contains no invented brand claims; MISSING fields called out.",
+          "kind": "OBSERVATION",
+          "confidence": "MEDIUM",
+          "evidence_ids": []
+        }
+      ],
+      "sources": [],
+      "assumptions": [
+        "Brand tone is MISSING — draft is provisional.",
+        "CTA library MISSING — generic enquiry CTA used."
+      ],
+      "risks": [
+        "Publishing this draft without Guardian + Level 2 approval is forbidden."
+      ],
+      "confidence": "LOW",
+      "recommended_next_action": "Run Brand Guardian verification before any human approval request.",
+      "recommended_approval_level": "LEVEL_1",
+      "missing_information": [
+        "brand.tone",
+        "brand.cta_library"
+      ],
+      "research_requirements": [],
+      "capabilities_used": [
+        "READ_BRAND_CONTEXT",
+        "PRODUCE_DRAFT_CONTENT"
+      ],
+      "contamination_flags": [],
+      "created_at": "2026-09-10T06:42:17.900Z"
+    }
+  ],
+  "social_calendar": {
+    "task_id": "b93b38fb-8de6-4ac3-bc6d-c9fe3a090a34",
+    "brand_id": "VILLA_GLORY",
+    "agent": "A06_SOCIAL_MANAGER",
+    "summary": "Social calendar draft (internal, not scheduled) for VILLA_GLORY.",
+    "deliverables": [
+      {
+        "type": "social_calendar_draft",
+        "brand_id": "VILLA_GLORY",
+        "approval_level": "LEVEL_1",
+        "live_publish": false,
+        "tone": [
+          "Refined",
+          "Warm",
+          "Consultative",
+          "Premium"
+        ],
+        "channel_count": 0,
+        "week": [
+          {
+            "day": "Mon",
+            "idea": "Hook related to: Draft one-week consultation social plan",
+            "caption_hint": "Draft campaign messaging concepts for Villa Glory (internal only)."
+          },
+          {
+            "day": "Wed",
+            "idea": "Proof / process / product story (verified facts only)",
+            "caption_hint": "Cite brand pack; no invented claims"
+          },
+          {
+            "day": "Fri",
+            "idea": "CTA / conversation starter",
+            "caption_hint": "Use approved CTA library when present"
+          }
+        ]
+      }
+    ],
+    "evidence": [],
+    "statements": [],
+    "sources": [],
+    "assumptions": [
+      "Calendar is a draft plan — not scheduled or published."
+    ],
+    "risks": [],
+    "confidence": "MEDIUM",
+    "recommended_next_action": "Human review before any scheduling",
+    "recommended_approval_level": "LEVEL_1",
+    "missing_information": [
+      "channels.channels"
+    ],
+    "research_requirements": [],
+    "capabilities_used": [
+      "READ_BRAND_CONTEXT",
+      "PRODUCE_DRAFT_CONTENT"
+    ],
+    "contamination_flags": [],
+    "created_at": "2026-09-10T06:42:17.901Z"
+  },
+  "creative_briefs": [
+    {
+      "task_id": "7fb772c8-98a1-4e20-8cf2-8bccff426fb5",
+      "brand_id": "VILLA_GLORY",
+      "agent": "A07_CREATIVE_DIRECTOR",
+      "summary": "Creative brief (internal) for VILLA_GLORY.",
+      "deliverables": [
+        {
+          "type": "creative_brief",
+          "brand_id": "VILLA_GLORY",
+          "approval_level": "LEVEL_1",
+          "objective": "Draft one-week consultation social plan",
+          "visual_direction": "Visual kit MISSING — keep creative direction generic until kit verified",
+          "do_not": [
+            "Invent product specs, prices, or ROI",
+            "Use foreign brand imagery or names"
+          ]
+        }
+      ],
+      "evidence": [],
+      "statements": [],
+      "sources": [],
+      "assumptions": [],
+      "risks": [],
+      "confidence": "LOW",
+      "recommended_next_action": "Produce assets only after human brief approval",
+      "recommended_approval_level": "LEVEL_1",
+      "missing_information": [
+        "visual.colors"
+      ],
+      "research_requirements": [],
+      "capabilities_used": [
+        "READ_BRAND_CONTEXT",
+        "PRODUCE_CREATIVE_BRIEF"
+      ],
+      "contamination_flags": [],
+      "created_at": "2026-09-10T06:42:17.901Z"
+    }
+  ],
+  "video_briefs": [],
+  "seo_plan": {
+    "status": "STUB",
+    "note": "SEO runtime reserved for later Wave 2 expansion"
+  },
+  "paid_recommendations": {
+    "task_id": "2b77c565-4f36-4350-a0d0-b045f6a7721d",
+    "brand_id": "VILLA_GLORY",
+    "agent": "A10_PAID_GROWTH",
+    "summary": "Paid growth recommendations only (no launch) for VILLA_GLORY.",
+    "deliverables": [
+      {
+        "type": "paid_recommendation",
+        "brand_id": "VILLA_GLORY",
+        "approval_level": "LEVEL_1",
+        "recommendation": {
+          "brand_id": "VILLA_GLORY",
+          "platform": "META",
+          "objective": "Draft one-week consultation social plan",
+          "audience_notes": [
+            "Build audiences from VERIFIED brand pack segments only",
+            "Do not upload PII to ad platforms from Marketing OS prompts"
+          ],
+          "creative_notes": [
+            "Use Guardian-passed drafts only",
+            "No ROI/guarantee language"
+          ],
+          "budget_notes": [
+            "Budget changes require WAVE_6 + Level 3 — not available in recommend mode"
+          ],
+          "test_plan": [
+            "A/B creative hook vs proof",
+            "Measure CPL/CPA in read-only analytics (Wave 4+)"
+          ],
+          "launch_allowed": false
+        },
+        "launch_allowed": false
+      }
+    ],
+    "evidence": [],
+    "statements": [],
+    "sources": [],
+    "assumptions": [
+      "No live ad account writes in this wave."
+    ],
+    "risks": [],
+    "confidence": "MEDIUM",
+    "recommended_next_action": "Human review; launch blocked until Wave 6 approval",
+    "recommended_approval_level": "LEVEL_1",
+    "missing_information": [],
+    "research_requirements": [],
+    "capabilities_used": [
+      "READ_BRAND_CONTEXT",
+      "PRODUCE_STRATEGY"
+    ],
+    "contamination_flags": [],
+    "created_at": "2026-09-10T06:42:17.901Z"
+  },
+  "guardian": {
+    "passed": true,
+    "reasons": []
+  },
+  "live_publish": false,
+  "live_ads": false
+}

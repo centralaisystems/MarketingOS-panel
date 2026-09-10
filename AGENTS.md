@@ -8,7 +8,7 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 
 ## Phase
 
-**Phase 2 — Brand Intelligence.** Provenance-enforced brand packs. No production integrations. No publishing. No ads. No customer contact. Do not start Phase 3 without approval.
+**Phase 2 complete through 2D; Agency Waves 1–8 scaffolding in progress.** Provenance-enforced brand packs. Multi-brand registry enabled (`brands/_shared/REGISTRY.json`). No live publishing or ads until phase gates allow. Do not enable `live_publish_allowed` / `live_ads_allowed` without explicit approval.
 
 ## Required workflow
 
@@ -18,25 +18,30 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 4. Run Brand Guardian on outputs intended for humans or later publishing.
 5. Mark MISSING / UNVERIFIED / VERIFIED honestly. Never invent brand facts.
 6. Run tests after behavior changes (`pnpm test`).
+7. Add companies with `pnpm create-brand` — do not hardcode brand IDs in new code.
 
 ## Non-negotiable constraints
 
 - Every operational object carries `brand_id`.
-- Never load all four brand contexts into one task unless an explicit authorized cross-brand operation exists.
-- AI may research (local evidence), draft, recommend, and verify. AI may **not** publish, spend, contact customers, or change production websites in Phase 1.
-- Level 2 and Level 3 actions may be planned but **execution is blocked**.
-- Default memory scope is `BRAND`. Global promotion requires Guardian + human Level 2 (blocked in Phase 1 persistence).
+- Never load all brand contexts into one task unless an explicit authorized cross-brand operation exists.
+- AI may research (local evidence), draft, recommend, and verify. AI may **not** publish, spend, contact customers, or change production websites until the matching wave gate is enabled.
+- Level 2 and Level 3 actions may be planned but **execution is blocked** unless gates + approval allow.
+- Default memory scope is `BRAND`. Global promotion requires Guardian + human Level 2.
 - Never put secrets, tokens, or PII into prompts, logs, fixtures, or memory.
 - Do not modify sibling brand product repositories.
 
 ## Packages
 
 - `packages/contracts` — Zod schema authority
-- `packages/runtime` — orchestration, isolation, approval, guardian
+- `packages/runtime` — orchestration, isolation, approval, guardian, campaign factory
+- `apps/panel` — thin operator panel (Wave 3)
 
 ## Commands
 
+- `pnpm create-brand -- --id ACME --slug acme --name "Acme Co"`
 - `pnpm run-objective -- --brand LOTIN --objective "..."`
+- `pnpm build-campaign-pack -- --brand LOTIN --objective "..."`
 - `pnpm verify-output -- --file path/to/result.json`
 - `pnpm onboard-brand -- LOTIN`
+- `pnpm panel` — operator UI at http://127.0.0.1:8787
 - `pnpm demo` — Phase 1 demonstration scenarios A–E

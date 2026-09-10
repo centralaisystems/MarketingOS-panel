@@ -1,13 +1,38 @@
 import { z } from "zod";
 
-/** Four strictly isolated brand contexts. */
-export const BrandIdSchema = z.enum([
-  "LOTIN",
-  "VILLA_GLORY",
-  "NOX_FORM",
-  "NOX_TECH",
-]);
+/**
+ * Brand id format — SCREAMING_SNAKE.
+ * Membership in the live set is enforced via brands/_shared/REGISTRY.json at runtime.
+ */
+export const BrandIdSchema = z
+  .string()
+  .regex(
+    /^[A-Z][A-Z0-9_]*$/,
+    "brand_id must be SCREAMING_SNAKE (A-Z, digits, underscore)",
+  );
 export type BrandId = z.infer<typeof BrandIdSchema>;
+
+export const BrandRegistryEntrySchema = z.object({
+  brand_id: BrandIdSchema,
+  slug: z
+    .string()
+    .regex(
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+      "slug must be lowercase kebab-case",
+    ),
+  display_name: z.string().min(1),
+  aliases: z.array(z.string().min(1)).default([]),
+  status: z.enum(["ACTIVE", "ARCHIVED"]).default("ACTIVE"),
+  default_locales: z.array(z.string().min(1)).default(["en"]),
+  created_at: z.string().datetime().optional(),
+});
+export type BrandRegistryEntry = z.infer<typeof BrandRegistryEntrySchema>;
+
+export const BrandRegistrySchema = z.object({
+  updated_at: z.string().datetime(),
+  brands: z.array(BrandRegistryEntrySchema).min(1),
+});
+export type BrandRegistry = z.infer<typeof BrandRegistrySchema>;
 
 export const AgentIdSchema = z.enum([
   "A01_MARKETING_DIRECTOR",

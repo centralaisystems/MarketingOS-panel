@@ -12,17 +12,11 @@ import {
 } from "@marketing-os/contracts";
 import { loadBrandPack } from "./brand-pack.js";
 import { resolveBrandsRoot } from "./brand-loader.js";
+import { listBrandIds, slugForBrandId } from "./brand-registry.js";
 import { detectAndRecordConflict } from "./conflicts.js";
 import { filterPlaceholderCandidates } from "./phase2b-filters.js";
 import { verifyBrandIntelligence } from "./onboarding.js";
 import type { AuditSink } from "./audit.js";
-
-const SLUG: Record<BrandId, string> = {
-  LOTIN: "lotin",
-  VILLA_GLORY: "villa-glory",
-  NOX_FORM: "nox-form",
-  NOX_TECH: "nox-tech",
-};
 
 function setByPath(obj: Record<string, unknown>, path: string, value: unknown): void {
   const parts = path.split(".");
@@ -79,7 +73,7 @@ export function loadEvidenceLedger(
 ): EvidenceLedger {
   const path = join(
     resolveBrandsRoot(opts?.brandsRoot),
-    SLUG[brandId],
+    slugForBrandId(brandId, { brandsRoot: opts?.brandsRoot }),
     "EVIDENCE_LEDGER.json",
   );
   return EvidenceLedgerSchema.parse(
@@ -180,7 +174,10 @@ export function applyEvidenceLedger(
 
   const written: string[] = [];
   if (opts?.write) {
-    const root = join(resolveBrandsRoot(opts.brandsRoot), SLUG[brandId]);
+    const root = join(
+      resolveBrandsRoot(opts.brandsRoot),
+      slugForBrandId(brandId, { brandsRoot: opts.brandsRoot }),
+    );
     const fileMap: Record<string, string> = {
       identity: "IDENTITY.json",
       positioning: "POSITIONING.json",
@@ -314,7 +311,7 @@ export function guardianReviewAllBrands(opts?: {
   audit?: AuditSink;
 }): Record<BrandId, { passed: boolean; reasons: string[] }> {
   const out = {} as Record<BrandId, { passed: boolean; reasons: string[] }>;
-  for (const id of ["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"] as BrandId[]) {
+  for (const id of listBrandIds({ brandsRoot: opts?.brandsRoot })) {
     const pack = loadBrandPack(id, opts?.audit, {
       ...(opts?.brandsRoot ? { brandsRoot: opts.brandsRoot } : {}),
     });

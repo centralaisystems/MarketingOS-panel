@@ -14,17 +14,14 @@ import {
   loadOnboardingRecord,
 } from "./brand-pack.js";
 import { resolveBrandsRoot } from "./brand-loader.js";
+import {
+  listBrandIds,
+  slugForBrandId,
+} from "./brand-registry.js";
 import { computeBrandReadiness } from "./readiness.js";
 import { verifyBrandIntelligence } from "./onboarding.js";
 import type { AuditSink } from "./audit.js";
 import { InMemoryAuditSink } from "./audit.js";
-
-const SLUG: Record<BrandId, string> = {
-  LOTIN: "lotin",
-  VILLA_GLORY: "villa-glory",
-  NOX_FORM: "nox-form",
-  NOX_TECH: "nox-tech",
-};
 
 const MODULE_FILE: Record<string, string> = {
   identity: "IDENTITY.json",
@@ -296,7 +293,7 @@ export function applyBrandDecisions(
   if (opts?.write !== false) {
     for (const [brandId, mods] of dirtyByBrand) {
       const pack = packs.get(brandId)!;
-      const root = join(brandsRoot, SLUG[brandId]);
+      const root = join(brandsRoot, slugForBrandId(brandId, { brandsRoot }));
       for (const mod of mods) {
         const file = MODULE_FILE[mod];
         if (!file) continue;
@@ -309,7 +306,7 @@ export function applyBrandDecisions(
   }
 
   const readiness: Record<string, unknown> = {};
-  for (const id of ["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"] as BrandId[]) {
+  for (const id of listBrandIds({ brandsRoot })) {
     const pack = loadBrandPack(id, audit, { brandsRoot });
     const onboarding = loadOnboardingRecord(id, { brandsRoot });
     const g = verifyBrandIntelligence(pack, audit);

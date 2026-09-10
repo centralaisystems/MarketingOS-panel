@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marketing OS — Operator Panel</title>
+    <style>
+      :root {
+        --bg: #0f1412;
+        --panel: #1a221e;
+        --text: #e8efe9;
+        --muted: #9aafa3;
+        --accent: #c4a574;
+        --line: #2a3730;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+        background: radial-gradient(1200px 600px at 10% -10%, #24332c, var(--bg));
+        color: var(--text);
+        min-height: 100vh;
+      }
+      header, main { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+      h1 { font-weight: 600; letter-spacing: 0.02em; margin: 0 0 0.25rem; }
+      p.lead { color: var(--muted); margin-top: 0; }
+      .row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: end; }
+      label { display: grid; gap: 0.35rem; font-size: 0.85rem; color: var(--muted); }
+      select, input, textarea, button {
+        font: inherit;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--text);
+        padding: 0.55rem 0.75rem;
+      }
+      textarea { width: 100%; min-height: 90px; }
+      button {
+        background: var(--accent);
+        color: #1a140c;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      section {
+        margin-top: 1.25rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: color-mix(in srgb, var(--panel) 88%, black);
+      }
+      pre {
+        overflow: auto;
+        background: #0b100e;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.8rem;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Marketing OS</h1>
+      <p class="lead">Thin operator panel — drafts & readiness only. Live publish/ads blocked.</p>
+      <span class="badge" id="gatesBadge">loading gates…</span>
+    </header>
+    <main>
+      <section>
+        <div class="row">
+          <label>Brand
+            <select id="brand"></select>
+          </label>
+          <button id="readinessBtn" type="button">Load readiness</button>
+        </div>
+        <pre id="readiness">Select a brand.</pre>
+      </section>
+      <section>
+        <label>Objective
+          <textarea id="objective" placeholder="e.g. Draft a one-week social plan for spring enquiry leads"></textarea>
+        </label>
+        <div class="row" style="margin-top:0.75rem">
+          <button id="runBtn" type="button">Run campaign pack</button>
+        </div>
+        <pre id="result">No run yet.</pre>
+      </section>
+    </main>
+    <script>
+      const brandEl = document.getElementById("brand");
+      const readinessEl = document.getElementById("readiness");
+      const resultEl = document.getElementById("result");
+      const gatesBadge = document.getElementById("gatesBadge");
+
+      async function loadBrands() {
+        const res = await fetch("/api/brands");
+        const data = await res.json();
+        brandEl.innerHTML = "";
+        for (const b of data.brands.filter((x) => x.status === "ACTIVE")) {
+          const opt = document.createElement("option");
+          opt.value = b.brand_id;
+          opt.textContent = b.display_name + " (" + b.brand_id + ")";
+          brandEl.appendChild(opt);
+        }
+        gatesBadge.textContent =
+          "live_publish=" + data.gates.live_publish_allowed +
+          " · live_ads=" + data.gates.live_ads_allowed;
+      }
+
+      document.getElementById("readinessBtn").onclick = async () => {
+        const brand_id = brandEl.value;
+        const res = await fetch("/api/readiness?brand_id=" + encodeURIComponent(brand_id));
+        readinessEl.textContent = JSON.stringify(await res.json(), null, 2);
+      };
+
+      document.getElementById("runBtn").onclick = async () => {
+        const brand_id = brandEl.value;
+        const objective = document.getElementById("objective").value;
+        const res = await fetch("/api/run-objective", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ brand_id, objective }),
+        });
+        resultEl.textContent = JSON.stringify(await res.json(), null, 2);
+      };
+
+      loadBrands().catch((e) => {
+        readinessEl.textContent = String(e);
+      });
+    </script>
+  </body>
+</html>

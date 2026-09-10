@@ -1,25 +1,14 @@
 /**
  * Conservative entity name normalization for brand aliases.
- * Does not aggressively merge people/projects/companies when uncertain.
+ * Alias map is built from brands/_shared/REGISTRY.json.
  */
 
-const BRAND_ALIAS_MAP: Record<string, string> = {
-  "nox form": "NOX_FORM",
-  noxform: "NOX_FORM",
-  "nox-form": "NOX_FORM",
-  "nox tech": "NOX_TECH",
-  noxtech: "NOX_TECH",
-  "nox-tech": "NOX_TECH",
-  "nox tech ai": "NOX_TECH",
-  "villa glory": "VILLA_GLORY",
-  villaglory: "VILLA_GLORY",
-  "villa-glory": "VILLA_GLORY",
-  lotin: "LOTIN",
-};
+import { buildBrandAliasMap } from "./brand-registry.js";
 
 export function normalizeBrandAlias(raw: string): string | undefined {
+  const map = buildBrandAliasMap();
   const key = raw.trim().toLowerCase().replace(/\s+/g, " ");
-  return BRAND_ALIAS_MAP[key] ?? BRAND_ALIAS_MAP[key.replace(/[\s-]/g, "")];
+  return map[key] ?? map[key.replace(/[\s-]/g, "")];
 }
 
 export function areLikelySameBrandName(a: string, b: string): boolean {

@@ -19,7 +19,10 @@
     "onboard-all": "tsx scripts/onboard-all-brands.ts",
     "generate-brand-packs": "tsx scripts/generate-brand-packs.ts",
     "phase2b-populate": "tsx scripts/phase2b-populate.ts",
-    "apply-brand-decisions": "tsx scripts/apply-brand-decisions.ts"
+    "apply-brand-decisions": "tsx scripts/apply-brand-decisions.ts",
+    "create-brand": "tsx scripts/create-brand.ts",
+    "build-campaign-pack": "tsx scripts/build-campaign-pack.ts",
+    "panel": "pnpm --filter @marketing-os/panel start"
   },
   "dependencies": {
     "@marketing-os/contracts": "workspace:*",

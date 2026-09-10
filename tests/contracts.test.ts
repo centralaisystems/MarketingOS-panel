@@ -14,9 +14,11 @@ import {
 } from "@marketing-os/contracts";
 
 describe("contracts", () => {
-  it("accepts valid BrandId and rejects invalid", () => {
+  it("accepts valid BrandId format and rejects invalid format", () => {
     expect(BrandIdSchema.parse("LOTIN")).toBe("LOTIN");
-    expect(() => BrandIdSchema.parse("ACME")).toThrow();
+    expect(BrandIdSchema.parse("ACME_CO")).toBe("ACME_CO");
+    expect(() => BrandIdSchema.parse("acme")).toThrow();
+    expect(() => BrandIdSchema.parse("Lotin")).toThrow();
   });
 
   it("validates Task with brand_id", () => {

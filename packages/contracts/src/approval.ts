@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { BrandIdSchema } from "./ids.js";
 
 /**
  * Approval levels.
@@ -51,7 +52,7 @@ export type OperatorRef = z.infer<typeof OperatorRefSchema>;
 
 export const ApprovalDecisionSchema = z.object({
   approval_id: z.string().uuid(),
-  brand_id: z.enum(["LOTIN", "VILLA_GLORY", "NOX_FORM", "NOX_TECH"]),
+  brand_id: BrandIdSchema,
   task_id: z.string().uuid().optional(),
   level: ApprovalLevelSchema,
   decision: z.enum(["PENDING", "APPROVED", "REJECTED", "BLOCKED"]),

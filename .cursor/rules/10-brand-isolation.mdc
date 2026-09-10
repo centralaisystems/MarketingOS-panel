@@ -5,8 +5,9 @@ alwaysApply: true
 
 # Brand isolation
 
-- Every task and result must include `brand_id`: LOTIN | VILLA_GLORY | NOX_FORM | NOX_TECH.
+- Every task and result must include `brand_id` from `brands/_shared/REGISTRY.json` (SCREAMING_SNAKE).
 - Load only the active brand profile unless an explicit authorized cross-brand operation exists.
 - Never mix facts, voice, campaigns, or customers across brands.
 - Reject outputs that contain foreign brand contamination.
 - Default marketing memory scope is BRAND; do not auto-promote to GLOBAL.
+- Add new companies with `pnpm create-brand` — do not hardcode a closed brand enum in new code.
