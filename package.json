@@ -28,7 +28,8 @@
     "arrange-figma": "tsx scripts/arrange-figma.ts",
     "fill-higgsfield-gaps": "tsx scripts/fill-higgsfield-gaps.ts",
     "produce-video": "tsx scripts/produce-video.ts",
-    "run-digest": "tsx scripts/run-digest.ts"
+    "run-digest": "tsx scripts/run-digest.ts",
+    "smoke:brands": "tsx scripts/smoke-brands.ts"
   },
   "dependencies": {
     "@marketing-os/contracts": "workspace:*",

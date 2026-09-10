@@ -2,6 +2,8 @@
 
 Honest Node deploy of the existing operator panel. This is **not** a live publishing or ads system.
 
+Day-1 operator path (start panel, switch brands, build pack, owner-review dry-run, digest, Drive overlay, what stays blocked): [`OPERATOR_RUNBOOK.md`](./OPERATOR_RUNBOOK.md). Fixture check for every ACTIVE registry brand: `pnpm smoke:brands`.
+
 **Do not enable live publish or live ads without an explicit operator unlock.**
 
 `reports/agency/PHASE_GATES.json` must keep:

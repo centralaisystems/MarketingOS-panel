@@ -50,4 +50,5 @@ Optimize for: **business result → marketing → leads → sales → revenue �
 - `pnpm fill-higgsfield-gaps -- --brand VILLA_GLORY --sync` — Wave 4b Higgsfield fill-gaps when approved stills are insufficient (fixture default)
 - `pnpm produce-video -- --brand VILLA_GLORY --sync` — Wave 4b video export package from approved stills (fixture default; CapCut/Adobe stubs are recipes only)
 - `pnpm run-digest -- --brand VILLA_GLORY --period daily` — Wave 8 automation digest (fixture / dry-run outbox)
+- `pnpm smoke:brands` — fixture Drive sync + short campaign pack for every ACTIVE registry brand (no live publish/ads)
 - `pnpm demo` — Phase 1 demonstration scenarios A–E

@@ -56,9 +56,13 @@
 
    **Multi-brand parity:** Villa Glory is the full fixture operator path. LOTIN, NOX FORM, and NOX TECH share the thinner path: committed fixture Drive → `pnpm sync-brand-assets` → Wave 2 packs from VERIFIED `extractPackDraftSignals` fields only → digest dry-run via local overlay. Live publish/ads stay false. NOX TECH packs must not treat rejected seed modules or ROI strings as VERIFIED commercial claims.
 
+   Day-1 operator path for the four fixture brands: [`OPERATOR_RUNBOOK.md`](./OPERATOR_RUNBOOK.md). All-brands fixture smoke (ACTIVE registry list): `pnpm smoke:brands`.
+
    See [`PRODUCTION.md`](./PRODUCTION.md).
 
 ## Operator panel (Wave 3–4 usable thin UI)
+
+Day-1 steps (switch brand, pack, owner review, digest, blocked live paths): [`OPERATOR_RUNBOOK.md`](./OPERATOR_RUNBOOK.md).
 
 The panel is a **dedicated Marketing OS app** (`pnpm panel` → http://127.0.0.1:8787). It is not embedded in NOX TECH admin.
 
