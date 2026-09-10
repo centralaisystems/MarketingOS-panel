@@ -91,9 +91,17 @@ curl -s -X POST http://127.0.0.1:8787/api/campaigns/$CAMPAIGN_ID/owner-review \
 curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=VILLA_GLORY"
 # LOTIN must not see Villa Glory outbox
 curl -s "http://127.0.0.1:8787/api/email-outbox?brand_id=LOTIN"
-# Wave 4 writes and live endpoints must stay 403
+# Wave 5 Instagram dry-run (requires INTERNAL_APPROVED pack + APPROVED asset)
+curl -s "http://127.0.0.1:8787/api/publish/calendar?brand_id=VILLA_GLORY"
+curl -s -X POST http://127.0.0.1:8787/api/publish/dry-run \
+  -H 'content-type: application/json' \
+  -d '{"brand_id":"VILLA_GLORY","campaign_id":"'"$CAMPAIGN_ID"'","calendar_item_key":"Mon","rationale":"Dry-run schedule only"}'
+curl -s "http://127.0.0.1:8787/api/publish/outbox?brand_id=VILLA_GLORY"
+# LOTIN must not see Villa Glory social outbox
+curl -s "http://127.0.0.1:8787/api/publish/outbox?brand_id=LOTIN"
+# Live endpoints must stay 403 while live_publish_allowed is false
 curl -s -o /dev/null -w "%{http_code}\n" -X POST http://127.0.0.1:8787/api/publish \
   -H 'content-type: application/json' -d '{"brand_id":"VILLA_GLORY"}'
 ```
 
-Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false). Do not enable WAVE_5+ without an explicit gate decision. Never invent VERIFIED brand facts from the panel.
+Live publish/ads remain blocked by `reports/agency/PHASE_GATES.json` (`live_publish_allowed` / `live_ads_allowed` false) and `MOS_LIVE_PUBLISH` (defaults false). Wave 5 dry-run does not post to Instagram. Never invent VERIFIED brand facts from the panel.

@@ -125,7 +125,7 @@
     <header>
       <div>
         <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — drafts, owner review, Drive ingest, Figma arrange, and Higgsfield fill-gaps. Not embedded in NOX TECH admin.</p>
+        <p class="sub">Dedicated operator panel — drafts, owner review, Wave 4/4b pipeline, and Wave 5 Instagram dry-run. Live publish stays OFF. Not embedded in NOX TECH admin.</p>
       </div>
       <div class="row">
         <label>Active brand
@@ -279,11 +279,31 @@
         <div id="aiVisibility" class="muted" style="margin-top:0.75rem">Loading…</div>
       </section>
 
+      <section class="span-2">
+        <h2>Social publish (Wave 5 dry-run)</h2>
+        <p class="muted">Villa Glory first channel: Instagram (non-prod fixture). Schedule from an INTERNAL_APPROVED pack calendar item + APPROVED assets. Records the intended payload in the outbox. No Instagram API call. Live fire stays 403 while live_publish_allowed is false.</p>
+        <div id="socialEligible" class="muted" style="margin-top:0.75rem">Loading…</div>
+        <div class="row" style="margin-top:0.65rem">
+          <label>Campaign
+            <select id="socialCampaign"></select>
+          </label>
+          <label>Calendar item
+            <select id="socialCalendarItem"></select>
+          </label>
+        </div>
+        <div class="row" style="margin-top:0.65rem">
+          <button id="socialDryRunBtn" type="button">Approve &amp; schedule (dry-run)</button>
+          <button class="blocked" id="socialLiveBtn" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
+          <span class="badge danger" id="socialBadge">dry-run only</span>
+        </div>
+        <div id="socialOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
+      </section>
+
       <section>
         <h2>Later waves — blocked</h2>
-        <p class="muted">Wave 4/4b stay read-only. Live social publish and ad spend stay off until WAVE_5 / WAVE_6 plus explicit operator approval.</p>
+        <p class="muted">Wave 5 dry-run is on. Live Instagram fire and ad spend stay off until live_publish_allowed / WAVE_6 plus explicit operator approval.</p>
         <div class="row" style="margin-top:0.75rem">
-          <button class="blocked" type="button" disabled title="Blocked until WAVE_5 + live_publish_allowed">Publish live</button>
+          <button class="blocked" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
           <button class="blocked" type="button" disabled title="Blocked until WAVE_6 + live_ads_allowed">Launch ads / change budget</button>
         </div>
       </section>
@@ -313,6 +333,8 @@
         document.getElementById("higgsfieldJobs").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("videoStills").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("videoJobs").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("socialEligible").textContent = "Loading " + activeBrand() + " only…";
+        document.getElementById("socialOutbox").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("runResult").textContent = "No run yet. Actions stay on the selected brand_id only.";
         document.getElementById("analytics").textContent = "Loading " + activeBrand() + " only…";
         document.getElementById("aiVisibility").textContent = "Loading " + activeBrand() + " only…";
@@ -780,6 +802,7 @@
           loadFigmaArrange(),
           loadHiggsfieldGaps(),
           loadVideoPackages(),
+          loadSocialPublish(),
           loadAnalytics(),
           loadAiVisibility(),
         ]);
@@ -850,6 +873,92 @@
         document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
       }
 
+      let socialEligibleItems = [];
+
+      function fillSocialCalendarSelect() {
+        const campaignEl = document.getElementById("socialCampaign");
+        const itemEl = document.getElementById("socialCalendarItem");
+        const selected = socialEligibleItems.find((row) => row.campaign_id === campaignEl.value);
+        itemEl.innerHTML = "";
+        for (const item of (selected && selected.calendar) || []) {
+          const opt = document.createElement("option");
+          opt.value = item.key;
+          opt.textContent = item.key + " — " + String(item.idea || item.caption).slice(0, 72);
+          itemEl.appendChild(opt);
+        }
+      }
+
+      async function loadSocialPublish() {
+        const brand_id = activeBrand();
+        const calendar = await api("/api/publish/calendar?brand_id=" + encodeURIComponent(brand_id));
+        if (calendar.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        socialEligibleItems = calendar.items || [];
+        const campaignEl = document.getElementById("socialCampaign");
+        campaignEl.innerHTML = "";
+        if (!socialEligibleItems.length) {
+          document.getElementById("socialEligible").textContent =
+            "No INTERNAL_APPROVED calendar items for " + brand_id + ". Approve a Guardian-passed pack first.";
+        } else {
+          for (const row of socialEligibleItems) {
+            const opt = document.createElement("option");
+            opt.value = row.campaign_id;
+            opt.textContent = row.objective + " · " + row.status;
+            campaignEl.appendChild(opt);
+          }
+          document.getElementById("socialEligible").textContent =
+            String(socialEligibleItems.length) + " approved pack(s) ready for Instagram dry-run. Live fire stays blocked.";
+        }
+        fillSocialCalendarSelect();
+
+        const outbox = await api("/api/publish/outbox?brand_id=" + encodeURIComponent(brand_id));
+        if (outbox.brand_id !== brand_id) throw new Error("CROSS_BRAND_DENIED");
+        const rows = outbox.items || [];
+        if (!rows.length) {
+          document.getElementById("socialOutbox").textContent = "No dry-run outbox rows for " + brand_id + ".";
+          return;
+        }
+        document.getElementById("socialOutbox").innerHTML = rows.map((row) => {
+          if (row.brand_id && row.brand_id !== brand_id) return "";
+          return '<div class="item"><span class="badge">' + escapeHtml(row.status) +
+            "</span> " + escapeHtml(row.channel) + " · " + escapeHtml((row.caption || "").slice(0, 96)) +
+            '<div class="muted">' + escapeHtml((row.created_at || "").slice(0, 19)) +
+            " · live=" + String(row.live_publish) + "</div></div>";
+        }).join("");
+      }
+
+      async function scheduleSocialDryRun() {
+        const brand_id = activeBrand();
+        const campaign_id = document.getElementById("socialCampaign").value;
+        const calendar_item_key = document.getElementById("socialCalendarItem").value;
+        if (!campaign_id || !calendar_item_key) {
+          document.getElementById("runResult").textContent =
+            "Approve a campaign pack first, then select a calendar item.";
+          return;
+        }
+        const rationale = prompt(
+          "Dry-run schedule rationale (does not publish live):",
+        );
+        if (!rationale || !rationale.trim()) return;
+        document.getElementById("runResult").textContent =
+          "Recording Instagram dry-run for " + brand_id + "…";
+        const res = await fetch("/api/publish/dry-run", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            brand_id,
+            campaign_id,
+            calendar_item_key,
+            actor: "panel-operator",
+            rationale: rationale.trim(),
+            dry_run: true,
+            live: false,
+          }),
+        });
+        const data = await res.json();
+        document.getElementById("runResult").textContent = JSON.stringify(data, null, 2);
+        await loadSocialPublish();
+      }
+
       document.getElementById("packBtn").onclick = () => run("/api/campaign-packs");
       document.getElementById("directorBtn").onclick = () => run("/api/run-objective");
       document.getElementById("reloadReady").onclick = () => loadReadiness();
@@ -890,6 +999,12 @@
         });
       };
       document.getElementById("videoGeneratedBtn").onclick = () => loadAssets("source=video");
+      document.getElementById("socialCampaign").onchange = () => fillSocialCalendarSelect();
+      document.getElementById("socialDryRunBtn").onclick = () => {
+        scheduleSocialDryRun().catch((e) => {
+          document.getElementById("runResult").textContent = String(e);
+        });
+      };
       brandEl.onchange = () => refreshBrand();
 
       loadBrands()

@@ -29,4 +29,5 @@ export * from "./assets.js";
 export * from "./drive-assets.js";
 export * from "./analytics.js";
 export * from "./ai-visibility.js";
+export * from "./social-publish.js";
 

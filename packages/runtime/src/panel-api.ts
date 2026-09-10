@@ -11,7 +11,12 @@ import {
 import { buildCampaignPack } from "./campaign-factory.js";
 import { runMarketingDirector } from "./agents/director.js";
 import { runBrandOnboarding } from "./onboarding.js";
-import { assertWaveEnabled, isWaveEnabled, loadPhaseGates } from "./phase-gates.js";
+import {
+  assertWaveEnabled,
+  isLivePublishOperatorFlagOn,
+  isWaveEnabled,
+  loadPhaseGates,
+} from "./phase-gates.js";
 import { CrossBrandDeniedError, OpsAuditSink, type OpsStore } from "./ops-store.js";
 import { decideInboxApproval, persistCampaignPack, persistDirectorRun } from "./ops-persist.js";
 import {
@@ -89,6 +94,14 @@ import {
   produceVideoPackage,
   VideoProduceInputError,
 } from "./video-produce.js";
+import {
+  attemptLiveSocialPublish,
+  listEligibleSocialPublishItems,
+  scheduleSocialPublishDryRun,
+  SocialPublishInputError,
+  SocialPublishLiveBlockedError,
+} from "./social-publish.js";
+import { WAVE5_INSTAGRAM_CHANNEL } from "./fixtures/wave5-instagram.js";
 
 export type PanelRequest = {
   method: string;
@@ -155,15 +168,18 @@ function brandFromQueryOrBody(
   return requireBrandId(query ?? body, ctx);
 }
 
-function liveBlockedBody() {
+function liveBlockedBody(message?: string) {
   return {
     live_publish: false,
     live_ads: false,
     live_publish_allowed: false,
     live_ads_allowed: false,
+    live_publish_operator_flag: isLivePublishOperatorFlagOn(),
     blocked: true,
+    status: "LIVE_BLOCKED",
     message:
-      "Live publish and live ads stay OFF. Wave 5/6 gates plus explicit operator approval are required.",
+      message ??
+      "Live publish and live ads stay OFF. Wave 5 dry-run is available; live fire requires live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval.",
   };
 }
 
@@ -182,14 +198,17 @@ export async function handlePanelApi(
         status: 200,
         body: {
           ok: true,
-          wave: isWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot))
-            ? "WAVE_4B_ASSET_PIPELINE"
-            : isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
-              ? "WAVE_4_ANALYTICS_ASSETS"
-              : "WAVE_3_DB_PANEL",
+          wave: isWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot))
+            ? "WAVE_5_SOCIAL_PUBLISH"
+            : isWaveEnabled("WAVE_4B_ASSET_PIPELINE", brandsRootOpt(ctx.brandsRoot))
+              ? "WAVE_4B_ASSET_PIPELINE"
+              : isWaveEnabled("WAVE_4_ANALYTICS_ASSETS", brandsRootOpt(ctx.brandsRoot))
+                ? "WAVE_4_ANALYTICS_ASSETS"
+                : "WAVE_3_DB_PANEL",
           enabled_waves: gates.enabled_waves,
           live_publish_allowed: gates.live_publish_allowed,
           live_ads_allowed: gates.live_ads_allowed,
+          live_publish_operator_flag: isLivePublishOperatorFlagOn(),
           email_mode: resolveEmailMode(),
         },
       };
@@ -320,6 +339,15 @@ export async function handlePanelApi(
     if (method === "GET" && path === "/api/email-outbox") {
       return listEmailOutbox(req, ctx);
     }
+    if (method === "GET" && path === "/api/publish/calendar") {
+      return getSocialPublishCalendar(req, ctx);
+    }
+    if (method === "GET" && path === "/api/publish/outbox") {
+      return listSocialOutbox(req, ctx);
+    }
+    if (method === "POST" && path === "/api/publish/dry-run") {
+      return postSocialPublishDryRun(req, ctx);
+    }
     if (
       method === "POST" &&
       (path === "/api/analytics" ||
@@ -330,13 +358,10 @@ export async function handlePanelApi(
     ) {
       return wave4WriteBlocked(path);
     }
-    if (
-      method === "POST" &&
-      (path === "/api/publish" ||
-        path === "/api/ads/launch" ||
-        path === "/api/live-publish" ||
-        path === "/api/live-ads")
-    ) {
+    if (method === "POST" && (path === "/api/publish" || path === "/api/live-publish")) {
+      return postLiveSocialPublish(req, ctx);
+    }
+    if (method === "POST" && (path === "/api/ads/launch" || path === "/api/live-ads")) {
       return { status: 403, body: liveBlockedBody() };
     }
 
@@ -757,6 +782,15 @@ function mapError(e: unknown): PanelResponse {
   }
   if (e instanceof VideoProduceInputError) {
     return jsonError(400, e.message);
+  }
+  if (e instanceof SocialPublishInputError) {
+    return jsonError(400, e.message);
+  }
+  if (e instanceof SocialPublishLiveBlockedError) {
+    return {
+      status: 403,
+      body: liveBlockedBody(e.message),
+    };
   }
   if (e instanceof OwnerEmailDisabledError || e instanceof OwnerEmailMissingError) {
     return jsonError(403, e.message, {
@@ -1184,4 +1218,114 @@ function listEmailOutbox(req: PanelRequest, ctx: PanelApiContext): PanelResponse
       items: ctx.store.listOutbox(brand_id),
     },
   };
+}
+
+function socialPublishOpts(ctx: PanelApiContext) {
+  return {
+    store: ctx.store,
+    assets: requireAssets(ctx),
+    ...brandsRootOpt(ctx.brandsRoot),
+  };
+}
+
+function getSocialPublishCalendar(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  const campaign_id = req.searchParams.get("campaign_id") ?? undefined;
+  const listed = listEligibleSocialPublishItems({
+    ...socialPublishOpts(ctx),
+    brand_id,
+    ...(campaign_id ? { campaign_id } : {}),
+  });
+  return {
+    status: 200,
+    body: {
+      ...listed,
+      fixture_channel: WAVE5_INSTAGRAM_CHANNEL,
+      live_publish: false,
+      live_ads: false,
+    },
+  };
+}
+
+function listSocialOutbox(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot));
+  const brand_id = requireBrandId(req.searchParams.get("brand_id"), ctx);
+  return {
+    status: 200,
+    body: {
+      brand_id,
+      channel: WAVE5_INSTAGRAM_CHANNEL.channel,
+      live_publish_allowed: false,
+      live_publish: false,
+      items: ctx.store.listSocialOutbox(brand_id),
+    },
+  };
+}
+
+function postSocialPublishDryRun(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  assertWaveEnabled("WAVE_5_SOCIAL_PUBLISH", brandsRootOpt(ctx.brandsRoot));
+  const body = asRecord(req.body);
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  const campaign_id = typeof body.campaign_id === "string" ? body.campaign_id : "";
+  const calendar_item_key =
+    typeof body.calendar_item_key === "string" ? body.calendar_item_key : "";
+  const actor =
+    typeof body.actor === "string" && body.actor.trim()
+      ? body.actor.trim()
+      : "panel-operator";
+  const rationale = typeof body.rationale === "string" ? body.rationale.trim() : "";
+  if (!campaign_id) {
+    return jsonError(400, "campaign_id required");
+  }
+  if (!calendar_item_key) {
+    return jsonError(400, "calendar_item_key required");
+  }
+  if (!rationale) {
+    return jsonError(400, "rationale required");
+  }
+  const asset_ids = Array.isArray(body.asset_ids)
+    ? body.asset_ids.filter((id): id is string => typeof id === "string")
+    : [];
+  const result = scheduleSocialPublishDryRun(
+    {
+      brand_id,
+      campaign_id,
+      calendar_item_key,
+      channel: "INSTAGRAM",
+      asset_ids,
+      actor,
+      rationale,
+      dry_run: true,
+      live: false,
+      ...(typeof body.scheduled_at === "string" ? { scheduled_at: body.scheduled_at } : {}),
+    },
+    socialPublishOpts(ctx),
+  );
+  return { status: 200, body: result };
+}
+
+function postLiveSocialPublish(req: PanelRequest, ctx: PanelApiContext): PanelResponse {
+  const body = asRecord(req.body);
+  const brand_id = brandFromQueryOrBody(req, ctx);
+  try {
+    attemptLiveSocialPublish(
+      {
+        brand_id,
+        ...(typeof body.campaign_id === "string" ? { campaign_id: body.campaign_id } : {}),
+        ...(typeof body.outbox_id === "string" ? { outbox_id: body.outbox_id } : {}),
+        actor:
+          typeof body.actor === "string" && body.actor.trim()
+            ? body.actor.trim()
+            : "panel-operator",
+      },
+      socialPublishOpts(ctx),
+    );
+  } catch (e) {
+    if (e instanceof SocialPublishLiveBlockedError) {
+      return { status: 403, body: liveBlockedBody(e.message) };
+    }
+    throw e;
+  }
+  return { status: 403, body: liveBlockedBody() };
 }

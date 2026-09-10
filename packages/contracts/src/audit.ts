@@ -40,6 +40,8 @@ export const AuditEventSchema = z.object({
     "HIGGSFIELD_GENERATE_SKIPPED",
     "VIDEO_PRODUCE_REQUESTED",
     "VIDEO_PRODUCE_COMPLETED",
+    "SOCIAL_PUBLISH_DRY_RUN",
+    "SOCIAL_PUBLISH_LIVE_BLOCKED",
     "ERROR",
   ]),
   message: z.string().min(1),

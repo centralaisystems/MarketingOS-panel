@@ -98,7 +98,7 @@ describe("Wave 2 campaign factory", () => {
 });
 
 describe("Wave 5-8 gated foundations", () => {
-  it("keeps Wave 1–4 enabled and live flags off", () => {
+  it("keeps Wave 1–5 dry-run enabled and live flags off", () => {
     const gates = loadPhaseGates();
     expect(gates.enabled_waves).toEqual([
       "WAVE_1_REGISTRY",
@@ -106,22 +106,22 @@ describe("Wave 5-8 gated foundations", () => {
       "WAVE_3_DB_PANEL",
       "WAVE_4_ANALYTICS_ASSETS",
       "WAVE_4B_ASSET_PIPELINE",
+      "WAVE_5_SOCIAL_PUBLISH",
     ]);
-    expect(gates.enabled_waves).not.toContain("WAVE_5_SOCIAL_PUBLISH");
     expect(gates.enabled_waves).not.toContain("WAVE_6_PAID_ADS");
     expect(gates.live_publish_allowed).toBe(false);
     expect(gates.live_ads_allowed).toBe(false);
   });
 
-  it("blocks wave 5–8 execution until those waves are enabled", () => {
-    expect(() =>
-      dryRunSocialPublish({
-        brand_id: "LOTIN",
-        channel: "INSTAGRAM",
-        caption: "Internal draft caption only",
-        dry_run: true,
-      }),
-    ).toThrow(/WAVE_5_SOCIAL_PUBLISH/);
+  it("allows Wave 5 dry-run planning and still blocks waves 6–8", () => {
+    const dry = dryRunSocialPublish({
+      brand_id: "LOTIN",
+      channel: "INSTAGRAM",
+      caption: "Internal draft caption only",
+      dry_run: true,
+    });
+    expect(dry.status).toBe("DRY_RUN_OK");
+    expect(dry.would_publish).toBe(true);
     expect(() =>
       createLeadDraft({
         brand_id: "LOTIN",

@@ -72,4 +72,4 @@ Panel: `pnpm panel` → Drive asset pipeline → Arrange in Figma → Fill gaps 
 
 - Every ingested or generated row carries `brand_id`. LOTIN cannot read Villa Glory Drive assets, Figma jobs, Higgsfield jobs, or video packages.
 - Binaries stay out of Git (`mos://drive/...`, `mos://figma/...`, `mos://higgsfield/...`, `mos://video/...` pointers only).
-- `WAVE_4B_ASSET_PIPELINE` is enabled alongside Wave 4. `WAVE_5` / `WAVE_6` and `live_publish_allowed` / `live_ads_allowed` stay off.
+- `WAVE_4B_ASSET_PIPELINE` is enabled alongside Wave 4. Wave 5 Instagram dry-run is enabled; `live_publish_allowed` / `live_ads_allowed` and Wave 6 stay off.
