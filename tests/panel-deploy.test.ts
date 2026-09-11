@@ -98,4 +98,56 @@ describe("panel deploy bind + health", () => {
       });
     }
   });
+
+  it("serves the operator shell, shared CSS, and keeps live controls disabled", async () => {
+    const c = panelCtx();
+    temps.push(c.reportRoot);
+    const server = createPanelHttpServer(c, { port: 0, host: "127.0.0.1" });
+    await new Promise<void>((resolve) => {
+      server.listen(0, "127.0.0.1", () => resolve());
+    });
+    try {
+      const { port } = server.address() as AddressInfo;
+      const htmlRes = await fetch(`http://127.0.0.1:${port}/`);
+      expect(htmlRes.ok).toBe(true);
+      expect(htmlRes.headers.get("content-type")).toMatch(/text\/html/);
+      const html = await htmlRes.text();
+      expect(html).toContain('class="sidebar"');
+      expect(html).toContain('href="/panel.css"');
+      expect(html).not.toContain("IBM Plex");
+      for (const id of [
+        "brand",
+        "packBtn",
+        "driveSyncBtn",
+        "socialLiveBtn",
+        "adsLiveBtn",
+        "publishBadge",
+        "adsBadge",
+      ]) {
+        expect(html).toContain(`id="${id}"`);
+      }
+      expect(html).toMatch(/id="socialLiveBtn"[^>]*\bdisabled\b/);
+      expect(html).toMatch(/id="adsLiveBtn"[^>]*\bdisabled\b/);
+      expect(html).toContain("live_publish=OFF");
+      expect(html).toContain("live_ads=OFF");
+
+      const cssRes = await fetch(`http://127.0.0.1:${port}/panel.css`);
+      expect(cssRes.ok).toBe(true);
+      expect(cssRes.headers.get("content-type")).toMatch(/text\/css/);
+      const css = await cssRes.text();
+      expect(css).toContain("--bg:");
+      expect(css).toContain(".sidebar");
+
+      const reviewRes = await fetch(`http://127.0.0.1:${port}/owner-review`);
+      expect(reviewRes.ok).toBe(true);
+      const review = await reviewRes.text();
+      expect(review).toContain('href="/panel.css"');
+      expect(review).toContain("id=\"approveBtn\"");
+      expect(review).not.toContain("IBM Plex");
+    } finally {
+      await new Promise<void>((resolve, reject) => {
+        server.close((err) => (err ? reject(err) : resolve()));
+      });
+    }
+  });
 });

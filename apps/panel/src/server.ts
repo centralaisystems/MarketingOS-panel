@@ -104,6 +104,10 @@ function ownerReviewPage(): string {
   return readFileSync(join(__dirname, "owner-review.html"), "utf8");
 }
 
+function panelCss(): string {
+  return readFileSync(join(__dirname, "panel.css"), "utf8");
+}
+
 export function createPanelHttpServer(
   ctx: PanelApiContext,
   bind = resolvePanelBind(),
@@ -116,6 +120,9 @@ export function createPanelHttpServer(
       }
       if (req.method === "GET" && url.pathname === "/owner-review") {
         return send(res, 200, ownerReviewPage(), "text/html");
+      }
+      if (req.method === "GET" && url.pathname === "/panel.css") {
+        return send(res, 200, panelCss(), "text/css");
       }
       const body =
         req.method === "POST" || req.method === "PUT" || req.method === "PATCH"

@@ -29,7 +29,7 @@ Expect `ok: true`, `live_publish_allowed: false`, `live_ads_allowed: false`. Hos
 
 ## 2. Switch brands
 
-Use the header **Active brand** select. The panel loads **only** that `brand_id` (Today, campaigns, approvals, leads, assets, outboxes, digests). Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`.
+Use the sidebar **Active brand** select. The panel loads **only** that `brand_id` (Dashboard, campaigns, approvals, leads, assets, outboxes, digests). Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`.
 
 CLI equivalent: pass `--brand <BRAND_ID>` on each command. Never load another brand's pack into the same task.
 
