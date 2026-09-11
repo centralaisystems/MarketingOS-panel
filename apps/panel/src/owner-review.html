@@ -4,104 +4,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Marketing OS — Owner review</title>
-    <style>
-      :root {
-        --bg: #0b0d10;
-        --panel: #14181d;
-        --panel-2: #1b2128;
-        --text: #e8edf2;
-        --muted: #8b96a3;
-        --line: #2a323c;
-        --accent: #6ee7d2;
-        --accent-ink: #06221c;
-        --warn: #e8c07a;
-        --danger: #f07178;
-        --ok: #7fd99a;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-        background:
-          radial-gradient(900px 480px at 0% -10%, #16302c 0%, transparent 55%),
-          var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-      }
-      main {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 1.5rem;
-      }
-      h1 { font-size: 1.15rem; margin: 0 0 0.4rem; }
-      .sub { color: var(--muted); font-size: 0.85rem; margin: 0 0 1rem; }
-      section {
-        padding: 1rem;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: color-mix(in srgb, var(--panel) 92%, black);
-      }
-      .badge {
-        display: inline-flex;
-        padding: 0.2rem 0.55rem;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        color: var(--muted);
-        font-size: 0.72rem;
-      }
-      .badge.ok { color: var(--ok); }
-      .badge.danger { color: var(--danger); }
-      .muted { color: var(--muted); font-size: 0.82rem; }
-      ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.85rem; }
-      label { display: grid; gap: 0.3rem; font-size: 0.78rem; color: var(--muted); margin-top: 0.85rem; }
-      textarea, button {
-        font: inherit;
-        border-radius: 8px;
-        border: 1px solid var(--line);
-        background: var(--panel-2);
-        color: var(--text);
-        padding: 0.5rem 0.7rem;
-      }
-      textarea { width: 100%; min-height: 96px; resize: vertical; }
-      button {
-        background: var(--accent);
-        color: var(--accent-ink);
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-      }
-      button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
-      .row { display: flex; gap: 0.65rem; flex-wrap: wrap; margin-top: 0.85rem; }
-      pre {
-        overflow: auto;
-        background: #080a0c;
-        padding: 0.65rem;
-        border-radius: 8px;
-        font-size: 0.75rem;
-        max-height: 180px;
-      }
-    </style>
+    <link rel="stylesheet" href="/panel.css" />
   </head>
   <body>
-    <main>
+    <main class="owner-page">
       <h1>Owner review</h1>
-      <p class="sub">Tokenized materials review. Approve or request changes with a note. Live publish and live ads stay OFF.</p>
-      <section>
+      <p class="sub">Tokenized materials review. Approve or request changes. Live publish and live ads stay off.</p>
+      <section class="card">
         <div id="summary" class="muted">Loading review…</div>
         <label>Change note (required to request changes)
           <textarea id="note" placeholder="What should the team revise?"></textarea>
         </label>
-        <div class="row">
+        <div class="row" style="margin-top:0.85rem">
           <button id="approveBtn" type="button">Approve</button>
           <button class="secondary" id="changesBtn" type="button">Request changes</button>
         </div>
-        <pre id="result">No decision yet.</pre>
+        <details class="run-log inline" id="runLog">
+          <summary>Decision log</summary>
+          <pre id="result">No decision yet.</pre>
+        </details>
       </section>
     </main>
     <script>
       const token = new URLSearchParams(location.search).get("token") || "";
       const summary = document.getElementById("summary");
       const result = document.getElementById("result");
+      const runLog = document.getElementById("runLog");
 
       function escapeHtml(s) {
         return String(s)
@@ -160,6 +88,7 @@
       async function decide(decision) {
         const note = document.getElementById("note").value;
         result.textContent = "Submitting " + decision + "…";
+        runLog.open = true;
         const res = await fetch("/api/owner-review/decide", {
           method: "POST",
           headers: { "content-type": "application/json" },

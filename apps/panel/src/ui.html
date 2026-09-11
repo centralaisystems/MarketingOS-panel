@@ -4,394 +4,379 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Marketing OS — Operator Panel</title>
-    <style>
-      :root {
-        --bg: #0b0d10;
-        --panel: #14181d;
-        --panel-2: #1b2128;
-        --text: #e8edf2;
-        --muted: #8b96a3;
-        --line: #2a323c;
-        --accent: #6ee7d2;
-        --accent-ink: #06221c;
-        --warn: #e8c07a;
-        --danger: #f07178;
-        --ok: #7fd99a;
-        --blocked: #6b7280;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-        background:
-          radial-gradient(900px 480px at 0% -10%, #16302c 0%, transparent 55%),
-          var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-      }
-      header {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: space-between;
-        align-items: end;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1.25rem 1.5rem 0.5rem;
-        border-bottom: 1px solid var(--line);
-      }
-      h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.04em; margin: 0; }
-      .sub { color: var(--muted); font-size: 0.85rem; margin: 0.2rem 0 0; }
-      main {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem 1.5rem 2.5rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-      @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
-      .span-2 { grid-column: 1 / -1; }
-      section {
-        padding: 1rem;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: color-mix(in srgb, var(--panel) 92%, black);
-      }
-      h2 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 0.75rem; }
-      .row { display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: end; }
-      label { display: grid; gap: 0.3rem; font-size: 0.78rem; color: var(--muted); }
-      select, input, textarea, button {
-        font: inherit;
-        border-radius: 8px;
-        border: 1px solid var(--line);
-        background: var(--panel-2);
-        color: var(--text);
-        padding: 0.5rem 0.7rem;
-      }
-      textarea { width: 100%; min-height: 88px; resize: vertical; }
-      button {
-        background: var(--accent);
-        color: var(--accent-ink);
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-      }
-      button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
-      button:disabled, button.blocked {
-        background: #2a3038;
-        color: var(--blocked);
-        cursor: not-allowed;
-        border: 1px dashed var(--line);
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.2rem 0.55rem;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        color: var(--muted);
-        font-size: 0.72rem;
-      }
-      .badge.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
-      .badge.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--line)); }
-      .badge.danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, var(--line)); }
-      .muted { color: var(--muted); font-size: 0.82rem; }
-      ul.gaps { margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.82rem; }
-      table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-      th, td { text-align: left; padding: 0.4rem 0.25rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-      th { color: var(--muted); font-weight: 500; }
-      .item {
-        padding: 0.55rem 0;
-        border-bottom: 1px solid var(--line);
-        font-size: 0.82rem;
-      }
-      .item:last-child { border-bottom: none; }
-      .actions { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
-      pre {
-        overflow: auto;
-        background: #080a0c;
-        padding: 0.65rem;
-        border-radius: 8px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 0.75rem;
-        max-height: 220px;
-      }
-      .score { font-size: 1.6rem; font-weight: 650; }
-      .metrics {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.75rem;
-      }
-      @media (max-width: 900px) { .metrics { grid-template-columns: 1fr 1fr; } }
-      @media (max-width: 560px) { .metrics { grid-template-columns: 1fr; } }
-      .metric {
-        background: var(--panel-2);
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        padding: 0.75rem;
-        min-height: 5.5rem;
-      }
-      .metric .label { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
-      .metric .n { font-size: 1.45rem; font-weight: 650; margin: 0.25rem 0 0.15rem; }
-      .metric .hint { color: var(--muted); font-size: 0.75rem; }
-    </style>
+    <link rel="stylesheet" href="/panel.css" />
   </head>
   <body>
-    <header>
-      <div>
-        <h1>Marketing OS</h1>
-        <p class="sub">Dedicated operator panel — executive dashboard, drafts, owner review, Wave 4/4b pipeline, Wave 5–7 dry-run/staging/CRM, Wave 8 automation digests. Live publish/ads stay OFF. Not embedded in NOX TECH admin.</p>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand-mark">
+          <div class="mark" aria-hidden="true">M</div>
+          <div>
+            <strong>Marketing OS</strong>
+            <span>Operator panel</span>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Operator sections">
+          <div class="nav-label">Overview</div>
+          <a href="#dashboard" data-nav="dashboard" class="active">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+            Dashboard
+          </a>
+          <div class="nav-label">Day-1</div>
+          <a href="#campaigns" data-nav="campaigns">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h7.5L19 8v12.5H7z"/><path d="M14.5 3.5V8H19"/><path d="M10 12h6M10 16h6"/></svg>
+            Campaigns
+          </a>
+          <a href="#approvals" data-nav="approvals">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.5 2.4 2.4 4.6-5"/></svg>
+            Approvals
+          </a>
+          <a href="#review" data-nav="review">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+            Owner review
+          </a>
+          <a href="#assets" data-nav="assets">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m4 16 4.5-4.5 3.5 3.5 2.5-2.5L20 17"/><circle cx="9" cy="9" r="1.3"/></svg>
+            Assets
+          </a>
+          <div class="nav-label">More</div>
+          <a href="#studio" data-nav="studio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5-8 4.5z"/><path d="m4 12 8 4.5L20 12"/><path d="m4 15.5 8 4.5 8-4.5"/></svg>
+            Studio
+          </a>
+          <a href="#publish" data-nav="publish">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="M13 5l7 7-7 7"/></svg>
+            Publish
+          </a>
+          <a href="#leads" data-nav="leads">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M4 19c.4-3 2.4-4.5 5-4.5s4.6 1.5 5 4.5"/><circle cx="17" cy="9" r="2.3"/><path d="M20.5 19c-.3-2.2-1.6-3.4-3.5-3.6"/></svg>
+            Leads
+          </a>
+          <a href="#insights" data-nav="insights">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16"/><path d="M7 16V9"/><path d="M12 16V6"/><path d="M17 16v-4"/></svg>
+            Insights
+          </a>
+          <a href="#automation" data-nav="automation">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4.5L15 15"/></svg>
+            Automation
+          </a>
+        </nav>
+        <div class="sidebar-foot">
+          <label>Active brand
+            <select id="brand"></select>
+          </label>
+          <div class="gates">
+            <span class="badge quiet danger" id="publishBadge">live_publish=OFF</span>
+            <span class="badge quiet danger" id="adsBadge">live_ads=OFF</span>
+            <span class="badge quiet" id="waveBadge">WAVE_3</span>
+            <span class="badge quiet" id="automationBadge">automation=—</span>
+          </div>
+        </div>
+      </aside>
+      <div class="app">
+        <header class="topbar">
+          <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p class="sub" id="pageSub">Your campaign pipeline at a glance — active brand only.</p>
+          </div>
+          <button id="headerCta" type="button">New campaign pack</button>
+        </header>
+        <main class="content">
+          <div class="view is-active" data-view="dashboard">
+            <div class="metrics" id="todayMetrics">
+              <div class="metric">
+                <div class="metric-top">
+                  <div class="label">Campaigns</div>
+                  <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h7.5L19 8v12.5H7z"/><path d="M14.5 3.5V8H19"/></svg></span>
+                </div>
+                <div class="n" id="mCampaigns">—</div>
+                <div class="hint" id="mCampaignsHint">drafts</div>
+              </div>
+              <div class="metric">
+                <div class="metric-top">
+                  <div class="label">Approvals pending</div>
+                  <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.5 2.4 2.4 4.6-5"/></svg></span>
+                </div>
+                <div class="n" id="mApprovals">—</div>
+                <div class="hint">Level ≤1 inbox</div>
+              </div>
+              <div class="metric">
+                <div class="metric-top">
+                  <div class="label">Owner reviews</div>
+                  <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
+                </div>
+                <div class="n" id="mReviews">—</div>
+                <div class="hint">pending</div>
+              </div>
+              <div class="metric">
+                <div class="metric-top">
+                  <div class="label">Social / ads outbox</div>
+                  <span class="metric-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M13 5l7 7-7 7"/></svg></span>
+                </div>
+                <div class="n" id="mOutbox">—</div>
+                <div class="hint">dry-run / staging</div>
+              </div>
+            </div>
+            <div class="grid-2">
+              <section class="card">
+                <h2>Readiness</h2>
+                <p class="lead">Gaps for the active brand only.</p>
+                <div class="stat-row">
+                  <div>
+                    <div class="muted">Status</div>
+                    <div id="readyStatus">Select a brand.</div>
+                  </div>
+                  <div>
+                    <div class="muted">Score</div>
+                    <div class="score" id="readyScore">—</div>
+                  </div>
+                  <div>
+                    <div class="muted">Guardian</div>
+                    <div id="readyGuardian">—</div>
+                  </div>
+                </div>
+                <ul class="gaps" id="readyGaps"></ul>
+                <div class="row" style="margin-top:0.9rem">
+                  <button class="secondary" id="reloadReady" type="button">Refresh</button>
+                </div>
+              </section>
+              <section class="card">
+                <h2>New campaign pack</h2>
+                <p class="lead">Villa Glory first. No invented prices, awards, or ROI.</p>
+                <label>Objective
+                  <textarea id="objective" placeholder="Draft a one-week social plan for spring enquiry leads"></textarea>
+                </label>
+                <div class="row" style="margin-top:0.75rem">
+                  <button id="packBtn" type="button">Build campaign pack</button>
+                  <button class="secondary" id="directorBtn" type="button">Run director</button>
+                </div>
+              </section>
+            </div>
+            <section class="card">
+              <h2>Drive sync</h2>
+              <p class="lead">Read-only metadata ingest. Fixture mode by default.</p>
+              <div class="row">
+                <button id="driveSyncBtn" type="button">Sync brand assets</button>
+                <a class="muted" href="#assets" data-nav="assets">Open asset library</a>
+                <span class="badge quiet" id="driveBadge">Drive —</span>
+              </div>
+              <div id="driveStatus" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="campaigns">
+            <section class="card">
+              <h2>Campaigns</h2>
+              <p class="lead">Drafts for the active brand. Send Guardian-passed packs to owner review.</p>
+              <div id="drafts" class="muted">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="approvals">
+            <section class="card">
+              <h2>Approvals</h2>
+              <p class="lead">Internal Level ≤1 only. Approval does not publish or spend.</p>
+              <div id="inbox" class="muted">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="review">
+            <section class="card">
+              <h2>Owner review</h2>
+              <p class="lead">Templated mail. Dry-run writes the outbox — not live spend.</p>
+              <div class="row">
+                <button class="secondary" id="digestBtn" type="button">Send progress digest</button>
+              </div>
+              <div id="ownerReviews" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="assets">
+            <section class="card">
+              <h2>Asset library</h2>
+              <p class="lead">Object-storage pointers only. Binaries stay out of Git.</p>
+              <div class="row">
+                <button class="secondary" id="unusedLivingBtn" type="button">Unused living-room (Villa Glory)</button>
+                <button class="secondary" id="driveAssetsBtn" type="button">Show Drive-ingested</button>
+              </div>
+              <div id="assets" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="studio">
+            <section class="card">
+              <h2>Arrange in Figma</h2>
+              <p class="lead">Places approved stills on a brand-kit layout. Fixture default. Output stays GENERATED / UNVERIFIED / DRAFT.</p>
+              <label>Layout brief
+                <textarea id="figmaBrief" placeholder="Instagram grid from approved stills + brand-kit. No commercial claims."></textarea>
+              </label>
+              <div id="figmaStills" class="muted check-list" style="margin-top:0.75rem">Loading…</div>
+              <div class="row" style="margin-top:0.65rem">
+                <button id="figmaArrangeBtn" type="button">Arrange in Figma</button>
+                <button class="secondary" id="figmaGeneratedBtn" type="button">Show generated</button>
+                <span class="badge quiet" id="figmaBadge">Figma —</span>
+              </div>
+              <div id="figmaJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+            <section class="card">
+              <h2>Fill gaps (Higgsfield)</h2>
+              <p class="lead">Generates a still only when approved coverage leaves a gap. VERIFIED pack voice only.</p>
+              <label>Gap brief
+                <textarea id="higgsfieldBrief" placeholder="Story still 9:16. No commercial claims."></textarea>
+              </label>
+              <div id="higgsfieldGaps" class="muted" style="margin-top:0.75rem">Loading…</div>
+              <div class="row" style="margin-top:0.65rem">
+                <button id="higgsfieldFillBtn" type="button">Fill gaps</button>
+                <button class="secondary" id="higgsfieldGeneratedBtn" type="button">Show generated</button>
+                <span class="badge quiet" id="higgsfieldBadge">Higgsfield —</span>
+              </div>
+              <div id="higgsfieldJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+            <section class="card">
+              <h2>Produce video package</h2>
+              <p class="lead">Recipe only — not a rendered video and not uploaded. Live publish stays off.</p>
+              <label>Video brief
+                <textarea id="videoBrief" placeholder="Reel from approved stills. No commercial claims."></textarea>
+              </label>
+              <label>Target format
+                <select id="videoFormat">
+                  <option value="reel">reel (9:16)</option>
+                  <option value="story">story (9:16)</option>
+                  <option value="feed">feed (1:1)</option>
+                </select>
+              </label>
+              <div id="videoStills" class="muted check-list" style="margin-top:0.75rem">Loading…</div>
+              <div class="row" style="margin-top:0.65rem">
+                <button id="videoProduceBtn" type="button">Produce video package</button>
+                <button class="secondary" id="videoGeneratedBtn" type="button">Show packages</button>
+                <span class="badge quiet" id="videoBadge">Video —</span>
+              </div>
+              <div id="videoJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="publish">
+            <section class="card">
+              <h2>Social publish</h2>
+              <p class="lead">Instagram dry-run records the intended payload. No network call. Live fire stays 403.</p>
+              <div id="socialEligible" class="muted">Loading…</div>
+              <div class="row" style="margin-top:0.65rem">
+                <label>Campaign
+                  <select id="socialCampaign"></select>
+                </label>
+                <label>Calendar item
+                  <select id="socialCalendarItem"></select>
+                </label>
+              </div>
+              <div class="row" style="margin-top:0.65rem">
+                <button id="socialDryRunBtn" type="button">Approve &amp; schedule (dry-run)</button>
+                <button class="blocked" id="socialLiveBtn" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
+                <span class="badge quiet" id="socialBadge">dry-run only</span>
+              </div>
+              <div id="socialOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+            <section class="card">
+              <h2>Paid ads</h2>
+              <p class="lead">Stage a Meta or Google draft. Budget is a recommendation. Live launch stays 403.</p>
+              <div id="adsEligible" class="muted">Loading…</div>
+              <div class="row" style="margin-top:0.65rem">
+                <label>Campaign
+                  <select id="adsCampaign"></select>
+                </label>
+                <label>Platform
+                  <select id="adsPlatform">
+                    <option value="META">META</option>
+                    <option value="GOOGLE">GOOGLE</option>
+                  </select>
+                </label>
+              </div>
+              <div class="row" style="margin-top:0.65rem">
+                <button id="adsStageBtn" type="button">Stage (dry-run)</button>
+                <button class="secondary" id="adsBudgetBtn" type="button">Stage budget recommendation</button>
+                <button class="blocked" id="adsLiveBtn" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch live</button>
+                <span class="badge quiet" id="adsStageBadge">staging only</span>
+              </div>
+              <div id="adsOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+            <section class="card">
+              <h2>Live actions</h2>
+              <p class="lead">Waves 5–8 are on as dry-run / staging. Live Instagram and live spend stay off until an explicit unlock.</p>
+              <div class="row">
+                <button class="blocked" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
+                <button class="blocked" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch ads / change budget</button>
+              </div>
+            </section>
+          </div>
+
+          <div class="view" data-view="leads">
+            <div class="metrics solo">
+              <div class="metric"><div class="label">Leads attributed</div><div class="n" id="mLeads">—</div><div class="hint" id="mLeadsHint">counts only</div></div>
+            </div>
+            <section class="card">
+              <h2>Leads</h2>
+              <p class="lead">Opaque pii_ref only — no raw email or phone. Villa Glory fixtures first.</p>
+              <div class="row">
+                <label>Campaign
+                  <select id="leadsCampaign"></select>
+                </label>
+              </div>
+              <div class="row" style="margin-top:0.65rem">
+                <button id="leadsFixtureBtn" type="button">Load Villa Glory fixtures</button>
+                <span class="badge quiet" id="leadsBadge">pii_ref only</span>
+              </div>
+              <div id="leadsAttribution" class="muted" style="margin-top:0.75rem">Loading…</div>
+              <div id="leadsList" class="muted" style="margin-top:0.75rem">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="insights">
+            <div class="metrics solo">
+              <div class="metric"><div class="label">Costs</div><div class="n" id="mCosts">OFF</div><div class="hint">placeholder — not live spend</div></div>
+            </div>
+            <div class="grid-2">
+              <section class="card">
+                <h2>Analytics</h2>
+                <p class="lead">Fixture adapters. write_scopes stays empty. Values are MISSING placeholders.</p>
+                <div id="analyticsSummary" class="muted"></div>
+                <div id="analytics" class="muted" style="margin-top:0.75rem">Loading…</div>
+              </section>
+              <section class="card">
+                <h2>Costs</h2>
+                <p class="lead">Staging counts only. Not live Meta/Google spend.</p>
+                <div id="costs" class="muted">Loading…</div>
+              </section>
+            </div>
+            <section class="card">
+              <h2>AI search visibility</h2>
+              <p class="lead">Observed presence and recommendations. No invented VERIFIED claims. No live AI-answer calls.</p>
+              <div id="aiVisibility" class="muted">Loading…</div>
+            </section>
+          </div>
+
+          <div class="view" data-view="automation">
+            <section class="card">
+              <h2>Digests</h2>
+              <p class="lead">Count-only. Dry-run to the owner-review outbox when automation and owner email are on.</p>
+              <div class="row">
+                <button id="automationDigestBtn" type="button">Run daily digest</button>
+                <button class="secondary" id="weeklyDigestBtn" type="button">Run weekly digest</button>
+                <span class="badge quiet" id="digestBadge">digest —</span>
+              </div>
+              <div id="digestStatus" class="muted" style="margin-top:0.65rem">No digest run this session.</div>
+            </section>
+            <section class="card">
+              <h2>Audit trail</h2>
+              <p class="lead">Recent events for the active brand.</p>
+              <div id="audit" class="muted">Loading…</div>
+            </section>
+          </div>
+        </main>
       </div>
-      <div class="row">
-        <label>Active brand
-          <select id="brand"></select>
-        </label>
-        <span class="badge danger" id="publishBadge">live_publish=OFF</span>
-        <span class="badge danger" id="adsBadge">live_ads=OFF</span>
-        <span class="badge" id="waveBadge">WAVE_3</span>
-        <span class="badge" id="automationBadge">automation=—</span>
-      </div>
-    </header>
-    <main>
-      <section class="span-2">
-        <h2>Today</h2>
-        <p class="muted">Executive snapshot for the active brand only. Counts and opaque refs — no raw email or phone. Digests dry-run to the owner-review outbox when <code>automation_enabled</code> and <code>owner_email_enabled</code> are on.</p>
-        <div class="metrics" id="todayMetrics" style="margin-top:0.75rem">
-          <div class="metric"><div class="label">Campaigns</div><div class="n" id="mCampaigns">—</div><div class="hint" id="mCampaignsHint">drafts</div></div>
-          <div class="metric"><div class="label">Approvals pending</div><div class="n" id="mApprovals">—</div><div class="hint">Level ≤1 inbox</div></div>
-          <div class="metric"><div class="label">Owner reviews</div><div class="n" id="mReviews">—</div><div class="hint">pending</div></div>
-          <div class="metric"><div class="label">Social / ads outbox</div><div class="n" id="mOutbox">—</div><div class="hint">dry-run / staging</div></div>
-          <div class="metric"><div class="label">Leads attributed</div><div class="n" id="mLeads">—</div><div class="hint" id="mLeadsHint">counts only</div></div>
-          <div class="metric"><div class="label">Costs</div><div class="n" id="mCosts">OFF</div><div class="hint">placeholder — not live spend</div></div>
-        </div>
-        <div class="row" style="margin-top:0.75rem">
-          <button id="automationDigestBtn" type="button">Run daily digest</button>
-          <button class="secondary" id="weeklyDigestBtn" type="button">Run weekly digest</button>
-          <span class="badge" id="digestBadge">digest —</span>
-        </div>
-        <div id="digestStatus" class="muted" style="margin-top:0.65rem">No digest run this session.</div>
-      </section>
-
-      <section>
-        <h2>Readiness / gaps</h2>
-        <div class="row">
-          <div>
-            <div class="muted">Status</div>
-            <div id="readyStatus">Select a brand.</div>
-          </div>
-          <div>
-            <div class="muted">Score</div>
-            <div class="score" id="readyScore">—</div>
-          </div>
-          <div>
-            <div class="muted">Guardian</div>
-            <div id="readyGuardian">—</div>
-          </div>
-        </div>
-        <ul class="gaps" id="readyGaps"></ul>
-        <div class="row" style="margin-top:0.75rem">
-          <button class="secondary" id="reloadReady" type="button">Refresh readiness</button>
-        </div>
-      </section>
-
-      <section>
-        <h2>Run for active brand</h2>
-        <label>Objective
-          <textarea id="objective" placeholder="Draft a one-week social plan for spring enquiry leads"></textarea>
-        </label>
-        <div class="row" style="margin-top:0.75rem">
-          <button id="packBtn" type="button">Build campaign pack</button>
-          <button class="secondary" id="directorBtn" type="button">Run objective (director)</button>
-        </div>
-        <pre id="runResult">No run yet. Actions stay on the selected brand_id only.</pre>
-      </section>
-
-      <section>
-        <h2>Campaigns</h2>
-        <div id="drafts" class="muted">Loading…</div>
-      </section>
-
-      <section>
-        <h2>Approvals</h2>
-        <div id="inbox" class="muted">Loading…</div>
-      </section>
-
-      <section>
-        <h2>Owner review</h2>
-        <p class="muted">Templated emails only. Dry-run writes the outbox. Live ads content is a stub — not live spend.</p>
-        <div class="row" style="margin-top:0.5rem">
-          <button class="secondary" id="digestBtn" type="button">Send progress digest</button>
-        </div>
-        <div id="ownerReviews" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section>
-        <h2>Audit trail</h2>
-        <div id="audit" class="muted">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Drive asset pipeline (Wave 4b)</h2>
-        <p class="muted">One registered Drive folder per brand. Read-only metadata ingest. Fixture mode by default. Approved-* is folder-contract metadata — not a VERIFIED commercial claim.</p>
-        <div class="row" style="margin-top:0.5rem">
-          <button id="driveSyncBtn" type="button">Sync brand assets</button>
-          <span class="badge" id="driveBadge">Drive —</span>
-        </div>
-        <div id="driveStatus" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Arrange in Figma</h2>
-        <p class="muted">Villa Glory first. Places approved stills on a brand-kit layout. Fixture mode by default — no live Figma token required. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Live publish stays OFF.</p>
-        <label style="margin-top:0.65rem">Layout brief
-          <textarea id="figmaBrief" placeholder="Instagram grid from approved stills + brand-kit. No commercial claims."></textarea>
-        </label>
-        <div id="figmaStills" class="muted" style="margin-top:0.75rem">Loading…</div>
-        <div class="row" style="margin-top:0.65rem">
-          <button id="figmaArrangeBtn" type="button">Arrange in Figma</button>
-          <button class="secondary" id="figmaGeneratedBtn" type="button">Show generated</button>
-          <span class="badge" id="figmaBadge">Figma —</span>
-        </div>
-        <div id="figmaJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Fill gaps (Higgsfield)</h2>
-        <p class="muted">Villa Glory first. Generates a net-new still only when approved stills / brand-kit leave a usage_tag or aspect gap. Fixture mode by default — no Higgsfield key required. Prompt uses VERIFIED pack voice/positioning/offerings only. Generated rows stay GENERATED / UNVERIFIED / DRAFT. Live publish stays OFF.</p>
-        <label style="margin-top:0.65rem">Gap brief
-          <textarea id="higgsfieldBrief" placeholder="Story still 9:16. No commercial claims."></textarea>
-        </label>
-        <div id="higgsfieldGaps" class="muted" style="margin-top:0.75rem">Loading…</div>
-        <div class="row" style="margin-top:0.65rem">
-          <button id="higgsfieldFillBtn" type="button">Fill gaps (Higgsfield)</button>
-          <button class="secondary" id="higgsfieldGeneratedBtn" type="button">Show generated</button>
-          <span class="badge" id="higgsfieldBadge">Higgsfield —</span>
-        </div>
-        <div id="higgsfieldJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Produce video package</h2>
-        <p class="muted">Villa Glory first. Assembles an export package / project recipe from approved stills and Guardian-ready generated stills. Fixture mode by default — CapCut/Adobe stubs emit the same recipe and do not control desktop apps. On-screen captions use VERIFIED pack voice only. Output stays GENERATED / UNVERIFIED / DRAFT. Not a rendered video. Not uploaded to Instagram. Live publish stays OFF.</p>
-        <label style="margin-top:0.65rem">Video brief
-          <textarea id="videoBrief" placeholder="Reel from approved stills. No commercial claims."></textarea>
-        </label>
-        <label style="margin-top:0.45rem">Target format
-          <select id="videoFormat">
-            <option value="reel">reel (9:16)</option>
-            <option value="story">story (9:16)</option>
-            <option value="feed">feed (1:1)</option>
-          </select>
-        </label>
-        <div id="videoStills" class="muted" style="margin-top:0.75rem">Loading…</div>
-        <div class="row" style="margin-top:0.65rem">
-          <button id="videoProduceBtn" type="button">Produce video package</button>
-          <button class="secondary" id="videoGeneratedBtn" type="button">Show packages</button>
-          <span class="badge" id="videoBadge">Video —</span>
-        </div>
-        <div id="videoJobs" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Asset library (metadata)</h2>
-        <p class="muted">Object-storage pointers only. Binaries stay out of Git. Filter unused approved stills when needed.</p>
-        <div class="row" style="margin-top:0.5rem">
-          <button class="secondary" id="unusedLivingBtn" type="button">Villa Glory unused living-room (instagram)</button>
-          <button class="secondary" id="driveAssetsBtn" type="button">Show Drive-ingested</button>
-        </div>
-        <div id="assets" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section>
-        <h2>Analytics</h2>
-        <p class="muted">GA4 / GSC / social / ads fixture adapters. write_scopes stays empty. Values are MISSING placeholders, not live traffic.</p>
-        <div id="analyticsSummary" class="muted" style="margin-top:0.5rem"></div>
-        <div id="analytics" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section>
-        <h2>Costs</h2>
-        <p class="muted">Read-only placeholder. Wave 6 staging counts only. Not live Meta/Google spend. Live ads stay OFF.</p>
-        <div id="costs" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section>
-        <h2>AI search visibility (read-only)</h2>
-        <p class="muted">Probe questions + observed presence. Recommendations only — never invents VERIFIED commercial claims. Fixture probes, no live AI-answer calls.</p>
-        <div id="aiVisibility" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Social publish (Wave 5 dry-run)</h2>
-        <p class="muted">Villa Glory first channel: Instagram (non-prod fixture). Schedule from an INTERNAL_APPROVED pack calendar item + APPROVED assets. Records the intended payload in the outbox. No Instagram API call. Live fire stays 403 while live_publish_allowed is false.</p>
-        <div id="socialEligible" class="muted" style="margin-top:0.75rem">Loading…</div>
-        <div class="row" style="margin-top:0.65rem">
-          <label>Campaign
-            <select id="socialCampaign"></select>
-          </label>
-          <label>Calendar item
-            <select id="socialCalendarItem"></select>
-          </label>
-        </div>
-        <div class="row" style="margin-top:0.65rem">
-          <button id="socialDryRunBtn" type="button">Approve &amp; schedule (dry-run)</button>
-          <button class="blocked" id="socialLiveBtn" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
-          <span class="badge danger" id="socialBadge">dry-run only</span>
-        </div>
-        <div id="socialOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Paid ads (Wave 6 staging)</h2>
-        <p class="muted">Villa Glory first. Recommend from an INTERNAL_APPROVED pack, then stage a Meta or Google campaign draft. Budget is recommendation-only. No ad network call. Live launch stays 403 while live_ads_allowed is false.</p>
-        <div id="adsEligible" class="muted" style="margin-top:0.75rem">Loading…</div>
-        <div class="row" style="margin-top:0.65rem">
-          <label>Campaign
-            <select id="adsCampaign"></select>
-          </label>
-          <label>Platform
-            <select id="adsPlatform">
-              <option value="META">META</option>
-              <option value="GOOGLE">GOOGLE</option>
-            </select>
-          </label>
-        </div>
-        <div class="row" style="margin-top:0.65rem">
-          <button id="adsStageBtn" type="button">Stage (dry-run)</button>
-          <button class="secondary" id="adsBudgetBtn" type="button">Stage budget recommendation</button>
-          <button class="blocked" id="adsLiveBtn" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch live</button>
-          <span class="badge danger" id="adsStageBadge">staging only</span>
-        </div>
-        <div id="adsOutbox" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section class="span-2">
-        <h2>Leads (Wave 7 CRM)</h2>
-        <p class="muted">Villa Glory first. Fixture form / WhatsApp adapters tokenize inbound contact fields into opaque pii_ref. Panel and agent summaries never show raw email or phone. Attribution joins leads to the active brand's campaigns via campaign_id / UTM. Live WhatsApp and form webhooks are out of scope.</p>
-        <div class="row" style="margin-top:0.65rem">
-          <label>Campaign
-            <select id="leadsCampaign"></select>
-          </label>
-        </div>
-        <div class="row" style="margin-top:0.65rem">
-          <button id="leadsFixtureBtn" type="button">Load Villa Glory fixtures</button>
-          <span class="badge" id="leadsBadge">pii_ref only</span>
-        </div>
-        <div id="leadsAttribution" class="muted" style="margin-top:0.75rem">Loading…</div>
-        <div id="leadsList" class="muted" style="margin-top:0.75rem">Loading…</div>
-      </section>
-
-      <section>
-        <h2>Later waves — blocked</h2>
-        <p class="muted">Waves 5–8 are on (Instagram dry-run, paid staging, CRM fixtures, automation digests). Live Instagram fire and live ad spend stay off until live_publish_allowed / live_ads_allowed plus explicit operator approval. No production cron — use the digest buttons or <code>pnpm run-digest</code>.</p>
-        <div class="row" style="margin-top:0.75rem">
-          <button class="blocked" type="button" disabled title="Blocked until live_publish_allowed + MOS_LIVE_PUBLISH + Level 2 approval">Publish live</button>
-          <button class="blocked" type="button" disabled title="Blocked until live_ads_allowed + MOS_LIVE_ADS + Level 3 approval">Launch ads / change budget</button>
-        </div>
-      </section>
-    </main>
+    </div>
+    <details class="run-log" id="runLog">
+      <summary>Run log</summary>
+      <pre id="runResult">No run yet. Actions stay on the selected brand_id only.</pre>
+    </details>
     <script>
       const brandEl = document.getElementById("brand");
       const STORAGE_KEY = "mos.panel.active_brand";
@@ -464,8 +449,10 @@
           "live_publish=" + (data.gates.live_publish_allowed ? "ON" : "OFF");
         document.getElementById("adsBadge").textContent =
           "live_ads=" + (data.gates.live_ads_allowed ? "ON" : "OFF");
-        document.getElementById("waveBadge").textContent =
-          (data.gates.enabled_waves || []).join(" · ");
+        const waves = data.gates.enabled_waves || [];
+        const waveBadge = document.getElementById("waveBadge");
+        waveBadge.textContent = waves.length ? "Waves 1–8" : "waves —";
+        waveBadge.title = waves.join(" · ");
       }
 
       async function loadReadiness() {
@@ -927,7 +914,7 @@
         const ownerOn = d.owner_email_enabled === true;
         const autoBadge = document.getElementById("automationBadge");
         autoBadge.textContent = "automation=" + (autoOn ? "ON" : "OFF");
-        autoBadge.className = autoOn ? "badge ok" : "badge";
+        autoBadge.className = autoOn ? "badge ok" : "badge quiet";
         document.getElementById("analyticsSummary").textContent =
           d.analytics ? d.analytics.note : "";
         document.getElementById("costs").innerHTML =
@@ -1305,19 +1292,28 @@
           document.getElementById("figmaJobs").textContent = String(e);
         });
       };
-      document.getElementById("figmaGeneratedBtn").onclick = () => loadAssets("source=figma");
+      document.getElementById("figmaGeneratedBtn").onclick = () => {
+        loadAssets("source=figma");
+        showView("assets");
+      };
       document.getElementById("higgsfieldFillBtn").onclick = () => {
         fillHiggsfield().catch((e) => {
           document.getElementById("higgsfieldJobs").textContent = String(e);
         });
       };
-      document.getElementById("higgsfieldGeneratedBtn").onclick = () => loadAssets("source=higgsfield");
+      document.getElementById("higgsfieldGeneratedBtn").onclick = () => {
+        loadAssets("source=higgsfield");
+        showView("assets");
+      };
       document.getElementById("videoProduceBtn").onclick = () => {
         produceVideo().catch((e) => {
           document.getElementById("videoJobs").textContent = String(e);
         });
       };
-      document.getElementById("videoGeneratedBtn").onclick = () => loadAssets("source=video");
+      document.getElementById("videoGeneratedBtn").onclick = () => {
+        loadAssets("source=video");
+        showView("assets");
+      };
       document.getElementById("socialCampaign").onchange = () => fillSocialCalendarSelect();
       document.getElementById("socialDryRunBtn").onclick = () => {
         scheduleSocialDryRun().catch((e) => {
@@ -1340,6 +1336,88 @@
         });
       };
       brandEl.onchange = () => refreshBrand();
+
+      const VIEWS = {
+        dashboard: {
+          title: "Dashboard",
+          sub: "Your campaign pipeline at a glance — active brand only.",
+        },
+        campaigns: {
+          title: "Campaigns",
+          sub: "Draft packs, Guardian status, and owner-review handoff.",
+        },
+        approvals: {
+          title: "Approvals",
+          sub: "Level ≤1 internal inbox. Does not publish or spend.",
+        },
+        review: {
+          title: "Owner review",
+          sub: "Templated dry-run mail. Live publish and ads stay off.",
+        },
+        assets: {
+          title: "Assets",
+          sub: "Drive ingest and catalog metadata — binaries stay out of Git.",
+        },
+        studio: {
+          title: "Studio",
+          sub: "Figma, Higgsfield, and video recipes. Fixture mode by default.",
+        },
+        publish: {
+          title: "Publish",
+          sub: "Instagram dry-run and paid staging. Live fire stays blocked.",
+        },
+        leads: {
+          title: "Leads",
+          sub: "Opaque pii_ref only. Counts and campaign attribution.",
+        },
+        insights: {
+          title: "Insights",
+          sub: "Fixture analytics, cost placeholders, and AI-search notes.",
+        },
+        automation: {
+          title: "Automation",
+          sub: "Scheduled digests and the audit trail. Kill switch per brand.",
+        },
+      };
+
+      function showView(name) {
+        const key = VIEWS[name] ? name : "dashboard";
+        document.querySelectorAll(".view").forEach((el) => {
+          el.classList.toggle("is-active", el.getAttribute("data-view") === key);
+        });
+        document.querySelectorAll("[data-nav]").forEach((el) => {
+          const on = el.getAttribute("data-nav") === key;
+          el.classList.toggle("active", on);
+          if (on) el.setAttribute("aria-current", "page");
+          else el.removeAttribute("aria-current");
+        });
+        document.getElementById("pageTitle").textContent = VIEWS[key].title;
+        document.getElementById("pageSub").textContent = VIEWS[key].sub;
+        if (location.hash.slice(1) !== key) {
+          history.replaceState(null, "", "#" + key);
+        }
+      }
+
+      document.querySelectorAll("[data-nav]").forEach((el) => {
+        el.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          showView(el.getAttribute("data-nav"));
+        });
+      });
+      window.addEventListener("hashchange", () => showView(location.hash.slice(1)));
+      document.getElementById("headerCta").onclick = () => {
+        showView("dashboard");
+        document.getElementById("objective").focus();
+      };
+
+      const runPre = document.getElementById("runResult");
+      const runLog = document.getElementById("runLog");
+      new MutationObserver(() => {
+        const text = runPre.textContent || "";
+        if (text && !text.startsWith("No run yet")) runLog.open = true;
+      }).observe(runPre, { childList: true, characterData: true, subtree: true });
+
+      showView(location.hash.slice(1) || "dashboard");
 
       loadBrands()
         .then(refreshBrand)
