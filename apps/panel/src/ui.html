@@ -449,8 +449,10 @@
           "live_publish=" + (data.gates.live_publish_allowed ? "ON" : "OFF");
         document.getElementById("adsBadge").textContent =
           "live_ads=" + (data.gates.live_ads_allowed ? "ON" : "OFF");
-        document.getElementById("waveBadge").textContent =
-          (data.gates.enabled_waves || []).join(" · ");
+        const waves = data.gates.enabled_waves || [];
+        const waveBadge = document.getElementById("waveBadge");
+        waveBadge.textContent = waves.length ? "Waves 1–8" : "waves —";
+        waveBadge.title = waves.join(" · ");
       }
 
       async function loadReadiness() {

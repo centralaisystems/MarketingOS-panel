@@ -165,9 +165,14 @@ button, input, select, textarea {
 }
 
 .gates {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+  display: grid;
+  gap: 0.1rem;
+}
+
+.gates .badge {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .app {
