@@ -346,6 +346,8 @@ button:disabled, button.blocked {
   font-size: 0.7rem;
 }
 
+.badge[hidden] { display: none !important; }
+
 .badge.ok {
   color: var(--ok);
   background: var(--ok-bg);
@@ -432,7 +434,7 @@ tr:last-child td { border-bottom: none; }
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
 }
 
