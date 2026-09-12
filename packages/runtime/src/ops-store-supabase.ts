@@ -68,6 +68,8 @@ export const OPS_REMOTE_TABLES = [
   "lead_events",
   "opportunities",
   "automation_digests",
+  "assets",
+  "asset_usage",
 ] as const;
 export type OpsRemoteTable = (typeof OPS_REMOTE_TABLES)[number];
 

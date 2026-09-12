@@ -1,7 +1,7 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "cta",
-  "updated_at": "2026-08-14T07:54:29.713Z",
+  "updated_at": "2026-09-12T04:00:00.000Z",
   "items": [
     {
       "id": "request-private-quote",
@@ -17,13 +17,14 @@
         "time_sensitive": false
       },
       "intent": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "quotation",
-        "notes": "Quote-first commerce model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Matches VERIFIED primary CTA Request Private Quote (VG-08) and quote-first differentiation (VG-05).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "brand_appropriate": true
@@ -31,13 +32,14 @@
     {
       "id": "private-concierge",
       "label": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Private Concierge",
-        "notes": "Mentioned on About and privacy policy.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Named in VERIFIED differentiation (VG-05). Label only — no SLA or coverage claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "intent": {

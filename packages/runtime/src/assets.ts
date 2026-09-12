@@ -23,6 +23,7 @@ import {
   type BrandId,
 } from "@marketing-os/contracts";
 import { CrossBrandDeniedError } from "./ops-store.js";
+import { resolveOpsStoreBackend } from "./ops-store-backend.js";
 import { seedWave4AssetFixtures } from "./fixtures/wave4-assets.js";
 
 export class AssetBinaryInGitError extends Error {
@@ -60,6 +61,8 @@ export interface AssetCatalog extends AssetStorageAdapter {
   listMetadata(brand_id: BrandId, filter?: AssetListFilter): AssetRecord[];
   recordUsage(brand_id: BrandId, usage: AssetUsageRecord): AssetUsageRecord;
   listUsage(brand_id: BrandId, asset_id?: string): AssetUsageRecord[];
+  /** Write-through backends (Supabase) flush queued upserts. File/memory no-op. */
+  flush(): Promise<void>;
 }
 
 function assertSameBrand(active: BrandId, recordBrand: BrandId): void {
@@ -174,6 +177,10 @@ export class MemoryAssetCatalog implements AssetCatalog {
     });
   }
 
+  async flush(): Promise<void> {
+    return;
+  }
+
   exportSnapshot(): AssetCatalogSnapshot {
     return AssetCatalogSnapshotSchema.parse({
       assets: this.assets,
@@ -222,9 +229,36 @@ export class FileAssetCatalog extends MemoryAssetCatalog {
     this.persist();
     return row;
   }
+
+  override async flush(): Promise<void> {
+    this.persist();
+  }
 }
 
-export type AssetCatalogBackend = "memory" | "file";
+export const ASSET_CATALOG_BACKENDS = ["memory", "file", "supabase"] as const;
+export type AssetCatalogBackend = (typeof ASSET_CATALOG_BACKENDS)[number];
+
+/**
+ * Asset catalog backend. MOS_ASSETS_STORE wins; otherwise follows MOS_OPS_STORE
+ * so Railway `ops_store=supabase` also persists Drive metadata.
+ */
+export function resolveAssetCatalogBackend(
+  raw?: string | undefined,
+): AssetCatalogBackend {
+  const explicit = (raw ?? process.env.MOS_ASSETS_STORE ?? "").trim().toLowerCase();
+  if (explicit === "memory" || explicit === "file" || explicit === "supabase") {
+    return explicit;
+  }
+  if (explicit) {
+    throw new Error(
+      `Unknown asset catalog backend "${explicit}". Use MOS_ASSETS_STORE=file|memory|supabase.`,
+    );
+  }
+  const ops = resolveOpsStoreBackend();
+  if (ops === "memory") return "memory";
+  if (ops === "supabase") return "supabase";
+  return "file";
+}
 
 export function createAssetCatalog(opts?: {
   backend?: AssetCatalogBackend;
@@ -232,12 +266,42 @@ export function createAssetCatalog(opts?: {
   seedFixtures?: boolean;
 }): AssetCatalog {
   const backend = opts?.backend ?? "memory";
+  if (backend === "supabase") {
+    throw new Error(
+      "MOS_ASSETS_STORE=supabase requires createAssetCatalogAsync() so the adapter can hydrate from PostgREST. File/memory stay sync and remain the `pnpm test` default.",
+    );
+  }
   const catalog =
     backend === "file"
       ? new FileAssetCatalog(opts?.dir ?? join(process.cwd(), "data", "assets"))
       : new MemoryAssetCatalog();
   if (opts?.seedFixtures && catalog.listMetadata("VILLA_GLORY").length === 0) {
     seedWave4AssetFixtures(catalog);
+  }
+  return catalog;
+}
+
+export async function createAssetCatalogAsync(opts?: {
+  backend?: AssetCatalogBackend;
+  dir?: string;
+  seedFixtures?: boolean;
+  remote?: import("./ops-store-supabase.js").OpsRemoteClient;
+}): Promise<AssetCatalog> {
+  const backend = opts?.backend ?? resolveAssetCatalogBackend();
+  if (backend !== "supabase") {
+    return createAssetCatalog({
+      backend,
+      ...(opts?.dir ? { dir: opts.dir } : {}),
+      ...(opts?.seedFixtures !== undefined ? { seedFixtures: opts.seedFixtures } : {}),
+    });
+  }
+  const { createSupabaseOpsRemoteFromEnv } = await import("./ops-store-supabase.js");
+  const { SupabaseAssetCatalog } = await import("./assets-store-supabase.js");
+  const remote = opts?.remote ?? createSupabaseOpsRemoteFromEnv();
+  const catalog = await SupabaseAssetCatalog.connect(remote);
+  if (opts?.seedFixtures && catalog.listMetadata("VILLA_GLORY").length === 0) {
+    seedWave4AssetFixtures(catalog);
+    await catalog.flush();
   }
   return catalog;
 }

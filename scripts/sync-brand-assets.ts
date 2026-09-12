@@ -12,8 +12,9 @@
 import { join } from "node:path";
 import {
   assertRegisteredBrandId,
-  createAssetCatalog,
+  createAssetCatalogAsync,
   createDriveAssetSource,
+  resolveAssetCatalogBackend,
   syncBrandAssets,
 } from "@marketing-os/runtime";
 import type { DriveSourceMode } from "@marketing-os/contracts";
@@ -39,8 +40,8 @@ async function main(): Promise<void> {
   }
   const brand_id = assertRegisteredBrandId(brandRaw);
   const sourceMode = resolveSourceMode();
-  const catalog = createAssetCatalog({
-    backend: process.env.MOS_OPS_BACKEND === "memory" ? "memory" : "file",
+  const catalog = await createAssetCatalogAsync({
+    backend: resolveAssetCatalogBackend(),
     dir: process.env.MOS_ASSETS_DIR ?? join(process.cwd(), "data", "assets"),
     seedFixtures: process.env.MOS_ASSETS_SEED !== "false",
   });
@@ -51,6 +52,7 @@ async function main(): Promise<void> {
       sourceMode === undefined ? {} : { mode: sourceMode },
     ),
   });
+  await catalog.flush();
   console.log(JSON.stringify(result, null, 2));
   if (!result.configured || !result.contract.valid) {
     process.exitCode = 1;

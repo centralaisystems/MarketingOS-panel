@@ -1,7 +1,7 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "audiences",
-  "updated_at": "2026-08-14T07:54:29.712Z",
+  "updated_at": "2026-09-12T04:00:00.000Z",
   "segments": [
     {
       "id": "private-clients",
@@ -18,17 +18,18 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE",
           "Dubai",
           "Sharjah"
         ],
-        "notes": "Showroom geography; not exclusive market proof.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Same markets as VERIFIED identity.location_markets (VG-03). Not exclusive coverage.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "needs": {

@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  createAssetCatalog,
+  createAssetCatalogAsync,
   createDriveAssetSource,
   createEmailAdapter,
   createFigmaArrangeAdapter,
@@ -20,7 +20,10 @@ import {
   createVideoProducerAdapter,
   createVideoProduceJobStore,
   handlePanelApi,
+  rehydrateConfiguredDriveBrands,
+  resolveAssetCatalogBackend,
   resolveOpsStoreBackend,
+  shouldBootSyncDrive,
   type PanelApiContext,
 } from "@marketing-os/runtime";
 
@@ -42,28 +45,29 @@ export async function createPanelContext(): Promise<PanelApiContext> {
     backend,
     dir: process.env.MOS_OPS_DIR ?? join(process.cwd(), "data", "ops"),
   });
-  const catalogBackend = backend === "memory" ? "memory" : "file";
+  const assetsBackend = resolveAssetCatalogBackend();
+  const jobBackend = backend === "memory" || assetsBackend === "memory" ? "memory" : "file";
   return {
     store,
-    assets: createAssetCatalog({
-      backend: catalogBackend,
+    assets: await createAssetCatalogAsync({
+      backend: assetsBackend,
       dir: process.env.MOS_ASSETS_DIR ?? join(process.cwd(), "data", "assets"),
       seedFixtures: process.env.MOS_ASSETS_SEED !== "false",
     }),
     drive: createDriveAssetSource(),
     figma: createFigmaArrangeAdapter(),
     figmaJobs: createFigmaArrangeJobStore({
-      backend: catalogBackend,
+      backend: jobBackend,
       dir: process.env.MOS_FIGMA_DIR ?? join(process.cwd(), "data", "figma"),
     }),
     higgsfield: createHiggsfieldAdapter(),
     higgsfieldJobs: createHiggsfieldGenerateJobStore({
-      backend: catalogBackend,
+      backend: jobBackend,
       dir: process.env.MOS_HIGGSFIELD_DIR ?? join(process.cwd(), "data", "higgsfield"),
     }),
     video: createVideoProducerAdapter(),
     videoJobs: createVideoProduceJobStore({
-      backend: catalogBackend,
+      backend: jobBackend,
       dir: process.env.MOS_VIDEO_DIR ?? join(process.cwd(), "data", "video"),
     }),
     email: createEmailAdapter(),
@@ -149,16 +153,28 @@ export function createPanelHttpServer(
 export async function startPanel(): Promise<void> {
   const bind = resolvePanelBind();
   const ctx = await createPanelContext();
+  const assetsStore = resolveAssetCatalogBackend();
+  if (shouldBootSyncDrive() && ctx.assets && ctx.drive) {
+    const boot = await rehydrateConfiguredDriveBrands({
+      catalog: ctx.assets,
+      source: ctx.drive,
+    });
+    await ctx.assets.flush();
+    const ingested = boot.reduce((sum, row) => sum + row.ingested, 0);
+    console.log(
+      `drive_boot_sync brands=${boot.map((row) => row.brand_id).join(",") || "none"} ingested=${ingested}`,
+    );
+  }
   const server = createPanelHttpServer(ctx, bind);
   await new Promise<void>((resolveListen) => {
     server.listen(bind.port, bind.host, () => resolveListen());
   });
   console.log(`Marketing OS operator panel http://${bind.host}:${bind.port}`);
   console.log(
-    `ops_store=${resolveOpsStoreBackend()} email_mode=${process.env.MOS_EMAIL_MODE ?? "dry_run"}`,
+    `ops_store=${resolveOpsStoreBackend()} assets_store=${assetsStore} email_mode=${process.env.MOS_EMAIL_MODE ?? "dry_run"}`,
   );
   console.log(
-    "Waves 5–8 are on (Instagram dry-run, paid staging, CRM fixtures, digest dry-run). Live publish/ads remain blocked.",
+    "Day-1 shell is on. Advanced wave tools stay collapsed. Live publish/ads remain blocked.",
   );
 }
 

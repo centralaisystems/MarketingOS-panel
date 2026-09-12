@@ -3,42 +3,80 @@
   "slug": "villa-glory",
   "display_name": "Villa Glory",
   "identity": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": {
-      "category": "furniture_interiors_lifestyle",
-      "source": "master_build_prompt"
+      "official_name": "Villa Glory",
+      "website": "https://villagloryfurniture.com",
+      "markets": ["UAE", "Dubai", "Sharjah"]
     },
-    "notes": "Category from Marketing OS brief. Full brand kit not imported in Phase 1."
+    "notes": "Synced from BrandPack IDENTITY (VG-01, VG-03, VG-09). Legal operating relationship and contact channels remain MISSING.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
   },
-  "positioning": { "status": "MISSING" },
+  "positioning": {
+    "status": "VERIFIED",
+    "value": "UAE luxury furniture and complete home living destination combining curated collections, custom and bespoke options, material guidance, and private consultation for residences.",
+    "notes": "Synced from BrandPack POSITIONING (VG-04). Value proposition and desired perception remain MISSING.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
+  },
   "products_services": {
-    "status": "UNVERIFIED",
-    "value": ["furniture", "interiors", "lifestyle products", "collections"],
-    "notes": "Labels from brief only — catalog not linked"
+    "status": "VERIFIED",
+    "value": [
+      "Living",
+      "Dining",
+      "Bedroom",
+      "Lighting",
+      "Décor",
+      "Outdoor",
+      "Office",
+      "Custom & Bespoke"
+    ],
+    "notes": "Category names only (VG-07…07h). Not SKU availability, materials, or prices.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
   },
   "audiences": {
-    "status": "UNVERIFIED",
-    "value": ["customers", "enquiries", "sales prospects"],
-    "notes": "Generic from brief"
+    "status": "VERIFIED",
+    "value": ["Private clients", "Developers", "Design professionals"],
+    "notes": "Segment labels only (VG-06a–c). Psychographics and personas remain MISSING.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
   },
-  "personas": { "status": "MISSING" },
-  "markets": { "status": "MISSING" },
+  "personas": { "status": "MISSING", "notes": "Do not fabricate personas" },
+  "markets": {
+    "status": "VERIFIED",
+    "value": ["UAE", "Dubai", "Sharjah"],
+    "notes": "Showroom markets from VG-03. Not exclusive national coverage.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
+  },
   "competitors": { "status": "MISSING" },
-  "tone": { "status": "MISSING" },
-  "visual_guidelines": { "status": "MISSING" },
+  "tone": {
+    "status": "VERIFIED",
+    "value": ["Refined", "Warm", "Consultative", "Premium"],
+    "notes": "Phase 2D VG-2D-01. Voice kit details remain MISSING.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
+  },
+  "visual_guidelines": {
+    "status": "MISSING",
+    "notes": "Drive brand-kit lists logo/colors files; values are not extracted in Git."
+  },
   "content_pillars": { "status": "MISSING" },
-  "channels": { "status": "MISSING" },
+  "channels": { "status": "MISSING", "notes": "No verified handles or URLs in this repo." },
   "seo": { "status": "MISSING" },
   "paid_media": { "status": "MISSING" },
-  "cta_library": { "status": "MISSING" },
+  "cta_library": {
+    "status": "VERIFIED",
+    "value": ["Request Private Quote", "Private Concierge"],
+    "notes": "VG-08 and VG-05. Contact CTA stays UNVERIFIED.",
+    "last_verified_at": "2026-09-12T04:00:00.000Z"
+  },
   "claims_restrictions": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": [
       "Do not invent product specs, prices, or stock",
       "Do not claim materials/certifications without verification"
-    ]
+    ],
+    "notes": "Phase 2D VG-2D-02 prohibited-claims guardrail. Approved commercial claims remain MISSING.",
+    "last_verified_at": "2026-08-14T10:24:54.000Z"
   },
   "historical_learnings": { "status": "MISSING" },
   "default_locales": ["en", "ar"],
-  "updated_at": "2026-08-14T07:15:51Z"
+  "updated_at": "2026-09-12T04:00:00.000Z"
 }

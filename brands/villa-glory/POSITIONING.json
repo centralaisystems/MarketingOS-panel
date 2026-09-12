@@ -1,7 +1,7 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "positioning",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-09-12T04:00:00.000Z",
   "category": {
     "status": "VERIFIED",
     "value": "luxury_furniture_and_interiors",
@@ -59,13 +59,14 @@
     "time_sensitive": false
   },
   "geographic_positioning": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "Dubai and Sharjah showrooms; UAE-focused destination",
-    "notes": "Website geography. | Showroom geography on About.",
-    "source_type": "OFFICIAL_WEBSITE",
-    "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+    "notes": "Restates VERIFIED location_markets (VG-03) and differentiation showrooms (VG-05). Not a claim of exclusive national coverage.",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:VG-03",
     "observed_at": "2026-08-14T07:54:14.995Z",
-    "confidence": "MEDIUM",
+    "verified_at": "2026-09-12T04:00:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "marketing_direction_note": "Furniture, interiors, collections/products, craftsmanship, lifestyle inspiration and enquiries/sales. Product/furniture/lifestyle-led. Keep separate from NOX FORM (design/project studio). Keep separate from NOX FORM. Villa Glory is product/furniture/lifestyle-led; NOX FORM is design/project/expertise-led."

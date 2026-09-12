@@ -39,6 +39,7 @@ export * from "./ops-store-supabase.js";
 export * from "./ops-persist.js";
 export * from "./panel-api.js";
 export * from "./assets.js";
+export * from "./assets-store-supabase.js";
 export * from "./analytics.js";
 export * from "./ai-visibility.js";
 export * from "./utm-contract.js";

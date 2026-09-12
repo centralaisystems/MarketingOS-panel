@@ -1,7 +1,7 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "offerings",
-  "updated_at": "2026-08-14T07:54:29.713Z",
+  "updated_at": "2026-09-12T04:00:00.000Z",
   "items": [
     {
       "id": "room-living",
@@ -41,36 +41,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -112,36 +115,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -183,36 +189,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -254,36 +263,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -325,36 +337,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -396,36 +411,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -467,36 +485,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     },
@@ -538,36 +559,39 @@
         "time_sensitive": false
       },
       "geography": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": [
           "UAE"
         ],
-        "notes": "Implied by storefront markets.",
-        "source_type": "OFFICIAL_WEBSITE",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/imports/pages-content/about.html",
+        "notes": "Category listed on the UAE official site. Same markets as VG-03. Not a stock or shipping claim.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-03",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "LOW",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       },
       "pricing": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Price on request / quote-first",
-        "notes": "PRODUCT_CONTENT_MODEL: quote-first luxury.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Operating characteristic from VERIFIED differentiation (VG-05). No numeric price.",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-05",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "review_after_days": 90,
         "time_sensitive": true
       },
       "cta": {
-        "status": "UNVERIFIED",
+        "status": "VERIFIED",
         "value": "Request Private Quote",
-        "notes": "Quote-first CTA from product content model.",
-        "source_type": "INTERNAL_DOCUMENT",
-        "source_reference": "Villa-Glory:Villa-Glory-Commerce-Ops/docs/PRODUCT_CONTENT_MODEL.md",
+        "notes": "Same as VERIFIED primary CTA (VG-08).",
+        "source_type": "INTERNAL_OPERATOR",
+        "source_reference": "operator:Ahmet Oney:VG-08",
         "observed_at": "2026-08-14T07:54:29.709Z",
-        "confidence": "MEDIUM",
+        "verified_at": "2026-09-12T04:00:00.000Z",
+        "confidence": "VERIFIED",
         "time_sensitive": false
       }
     }

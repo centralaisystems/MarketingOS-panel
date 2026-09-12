@@ -1,7 +1,7 @@
 {
   "brand_id": "VILLA_GLORY",
   "module": "identity",
-  "updated_at": "2026-08-14T08:00:00.000Z",
+  "updated_at": "2026-09-12T04:00:00.000Z",
   "official_name": {
     "status": "VERIFIED",
     "value": "Villa Glory",
@@ -14,13 +14,14 @@
     "time_sensitive": false
   },
   "short_name": {
-    "status": "UNVERIFIED",
+    "status": "VERIFIED",
     "value": "Villa Glory",
-    "notes": "Short name assumed from display — unverified",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
+    "notes": "Same string as VERIFIED official_name (VG-01). Not a separate legal or trading name.",
+    "source_type": "INTERNAL_OPERATOR",
+    "source_reference": "operator:Ahmet Oney:VG-01",
     "observed_at": "2026-08-14T08:00:00.000Z",
-    "confidence": "LOW",
+    "verified_at": "2026-09-12T04:00:00.000Z",
+    "confidence": "VERIFIED",
     "time_sensitive": false
   },
   "legal_operating_relationship": {
@@ -76,11 +77,11 @@
       "en",
       "ar"
     ],
-    "notes": "Default locales from brief orientation",
-    "source_type": "AI_INFERENCE",
-    "source_reference": "marketing_os_master_brief_orientation",
-    "observed_at": "2026-08-14T08:00:00.000Z",
-    "confidence": "LOW",
+    "notes": "Registry default_locales for VILLA_GLORY. Not a verified public-site language audit.",
+    "source_type": "INTERNAL_DOCUMENT",
+    "source_reference": "brands/_shared/REGISTRY.json",
+    "observed_at": "2026-09-12T04:00:00.000Z",
+    "confidence": "MEDIUM",
     "time_sensitive": false
   }
 }
