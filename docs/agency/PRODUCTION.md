@@ -22,6 +22,9 @@ Copy `.env.example` → `.env.local`. Never commit secrets.
 | `PORT` / `PANEL_PORT` | Host bind | `PORT` wins (container / PaaS). Default `8787`. |
 | `HOST` / `MOS_PANEL_HOST` | Host bind | Default `0.0.0.0` for a simple host. |
 | `MOS_OPS_STORE` | No | `file` (default) / `memory` / `supabase`. `MOS_OPS_BACKEND` still works. |
+| `MOS_ASSETS_STORE` | No | Follows `MOS_OPS_STORE` unless set. Use `supabase` with production ops so Drive ingest survives Railway redeploy. |
+| `MOS_DRIVE_BOOT_SYNC` | No | Default on when `MOS_DRIVE_SOURCE=google_drive`. Re-lists configured Drive folders on panel boot. |
+| `MOS_DRIVE_BOOT_SYNC_BRANDS` | No | Default `VILLA_GLORY`. Comma list or `all`. |
 | `MOS_OPS_DIR` | If `file` | Default `data/ops`. |
 | `SUPABASE_URL` | If `supabase` | Project URL only. |
 | `SUPABASE_SERVICE_ROLE_KEY` | If `supabase` | Server-side only. Application still filters every query by `brand_id`. |
@@ -59,6 +62,14 @@ pnpm panel
 
 The adapter hydrates a memory replica and write-through upserts after each panel request (`flush()`). It does not set live publish/ads flags. Do not point `pnpm test` at a live project.
 
+### Drive ingest durability
+
+`GET /api/drive-sync` reads the **asset catalog**, not Google Drive. Before this track, `MOS_OPS_STORE=supabase` persisted campaigns/approvals while Drive metadata wrote to ephemeral `data/assets/catalog.json` — so Railway redeploys reset `ingested_count` to 0.
+
+Production now uses the same Supabase project for asset metadata (`assets` / `asset_usage`) when `MOS_OPS_STORE=supabase` (or `MOS_ASSETS_STORE=supabase`). Apply `supabase/migrations/` including `202609120001_assets_source_roles.sql`. Manual `POST /api/drive-sync` still works. With `MOS_DRIVE_SOURCE=google_drive`, the panel also re-lists the Villa Glory folder on boot so a cold start is not stuck at 0.
+
+Health includes `assets_store` next to `ops_store`. Expect both `supabase` on Railway. Binaries stay out of Git.
+
 ## Panel host
 
 The panel is the existing Node HTTP app (`apps/panel`). There is no Next.js rewrite.
@@ -77,7 +88,7 @@ curl -s http://127.0.0.1:8787/health
 curl -s http://127.0.0.1:8787/api/health
 ```
 
-Expect `ok: true`, `live_publish_allowed: false`, `live_ads_allowed: false`, and `ops_store` matching `MOS_OPS_STORE`.
+Expect `ok: true`, `live_publish_allowed: false`, `live_ads_allowed: false`, `ops_store` matching `MOS_OPS_STORE`, and `assets_store` matching `MOS_ASSETS_STORE` (or the ops store when unset).
 
 ### Docker
 

@@ -29,6 +29,7 @@ import {
 import { decideInboxApproval, persistCampaignPack, persistDirectorRun } from "./ops-persist.js";
 import {
   createAssetCatalog,
+  resolveAssetCatalogBackend,
   type AssetCatalog,
   type AssetListFilter,
 } from "./assets.js";
@@ -259,6 +260,7 @@ export async function handlePanelApi(
           live_ads_operator_flag: isLiveAdsOperatorFlagOn(),
           email_mode: resolveEmailMode(),
           ops_store: resolveOpsStoreBackend(),
+          assets_store: resolveAssetCatalogBackend(),
         },
       };
     }
@@ -458,6 +460,7 @@ export async function handlePanelApi(
     return mapError(e);
   } finally {
     await ctx.store.flush();
+    if (ctx.assets) await ctx.assets.flush();
   }
 }
 

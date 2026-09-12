@@ -1,32 +1,48 @@
-# Villa Glory — Brand Intelligence gaps (Phase 2)
+# Villa Glory — Brand Intelligence gaps
 
-## Orientation (not verified)
+**brand_id:** `VILLA_GLORY`
 
-Furniture, interiors, collections/products, craftsmanship, lifestyle inspiration and enquiries/sales. Product/furniture/lifestyle-led. Keep separate from NOX FORM (design/project studio).
+Readiness uses BrandPack modules, not this file. Run `pnpm onboard-brand -- VILLA_GLORY` for the live score.
 
-## Separation
+## Already in the pack (do not re-ask)
 
-Keep separate from NOX FORM. Villa Glory is product/furniture/lifestyle-led; NOX FORM is design/project/expertise-led.
+FACT — operator-verified in Phase 2C/2D, plus day-1 restatements of those same facts:
 
+- Official name, description, UAE / Dubai / Sharjah markets, website
+- Category, positioning statement, differentiation (showrooms, concierge, quote-first)
+- Eight category names (Living … Custom & Bespoke)
+- Audience **labels** only: Private clients, Developers, Design professionals
+- Tone: Refined, Warm, Consultative, Premium
+- Primary CTA: Request Private Quote; Private Concierge label
+- Quote-first / price-on-request as an **operating characteristic** (no numeric prices)
+- Prohibited-claims guardrail
+
+## Owner must supply (still MISSING)
+
+Do **not** invent these. Leave MISSING until a source document exists.
+
+1. **Legal operating relationship** — legal entity name and how Villa Glory operates
+2. **Contact channels** — phone, email, WhatsApp, showroom hours (no production inbox in git)
+3. **Value proposition** and **desired perception** — approved external-facing wording
+4. **Audience depth** — needs, pain points, motivations, objections, buying triggers, personas
+5. **Per-offering audience** — who each collection is for
+6. **Voice kit** — vocabulary, examples, EN/AR differences
+7. **Visual brand kit** — logo rules, colors, typography, imagery (Drive files exist as metadata only)
+8. **Active channels** — Instagram / Meta / Google handles, URLs, owners
+9. **Approved claims** and remaining compliance restrictions
+10. **Content pillars, competitors, learnings** — empty modules
 
 ## Do not invent
 
-- Official legal identity, website, contacts
-- Positioning statement and differentiation
-- Product/service catalog details, pricing, stock
-- Personas (unless supplied and verified)
-- Visual design system
-- Channel handles/URLs
-- Historical performance learnings
-- Competitor list without evidence
+- Prices, ROI, awards, partner names
+- SKU availability, materials, certifications
+- VERIFIED commercial claims without an operator source
+- Channel handles or contact details from memory
 
-## Next inputs needed
+## Next action
 
-1. Internal brand/legal identity sheet
-2. Approved messaging / positioning
-3. Current offerings with CTAs
-4. Tone & visual kits if they exist
-5. Active channels
-6. Compliance/claims list signed by an operator
+Provide the owner-only items above, then re-run:
 
-Run: `pnpm onboard-brand -- VILLA_GLORY`
+```bash
+pnpm onboard-brand -- VILLA_GLORY
+```

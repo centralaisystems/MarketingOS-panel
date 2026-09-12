@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import {
   AssetRecordSchema,
+  BrandIdSchema,
   DriveAssetSyncResultSchema,
   DriveSyncStatusSchema,
   type AssetApprovalStatus,
@@ -16,6 +17,7 @@ import {
   assertRegisteredBrandId,
   brandsRootOpt,
   getBrandEntry,
+  listBrandIds,
 } from "./brand-registry.js";
 import { assertWaveEnabled } from "./phase-gates.js";
 import type { AssetCatalog } from "./assets.js";
@@ -316,4 +318,73 @@ export async function syncBrandAssets(input: {
     live_ads: false,
     stores_binaries_in_git: false,
   });
+}
+
+function envFlag(raw: string | undefined): boolean | undefined {
+  const value = raw?.trim().toLowerCase();
+  if (value === "true" || value === "1" || value === "on") return true;
+  if (value === "false" || value === "0" || value === "off") return false;
+  return undefined;
+}
+
+/**
+ * Railway cold starts wipe ephemeral `data/assets`. Re-list Drive on boot when
+ * live Drive is configured, or when MOS_DRIVE_BOOT_SYNC is explicitly on.
+ * Default off for fixture/CI so `pnpm test` does not hit Google.
+ */
+export function shouldBootSyncDrive(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  const explicit = envFlag(env.MOS_DRIVE_BOOT_SYNC);
+  if (explicit !== undefined) return explicit;
+  const source = env.MOS_DRIVE_SOURCE?.trim().toLowerCase();
+  return source === "google_drive" || source === "google";
+}
+
+/**
+ * Day-1 default is Villa Glory only. Other brands stay off unless the operator
+ * sets MOS_DRIVE_BOOT_SYNC_BRANDS (comma list or `all`).
+ */
+export function resolveDriveBootSyncBrandIds(
+  env: NodeJS.ProcessEnv = process.env,
+): BrandId[] | "all-configured" {
+  const raw = env.MOS_DRIVE_BOOT_SYNC_BRANDS?.trim();
+  if (!raw) return ["VILLA_GLORY"];
+  if (raw.toLowerCase() === "all") return "all-configured";
+  return raw
+    .split(",")
+    .map((part) => BrandIdSchema.safeParse(part.trim()))
+    .filter((part): part is { success: true; data: BrandId } => part.success)
+    .map((part) => part.data);
+}
+
+export async function rehydrateConfiguredDriveBrands(input: {
+  catalog: AssetCatalog;
+  source?: DriveAssetSource;
+  brandsRoot?: string;
+  brand_ids?: BrandId[] | "all-configured";
+  env?: NodeJS.ProcessEnv;
+}): Promise<DriveAssetSyncResult[]> {
+  const source = input.source ?? createDriveAssetSource();
+  const requested =
+    input.brand_ids ?? resolveDriveBootSyncBrandIds(input.env ?? process.env);
+  const ids =
+    requested === "all-configured"
+      ? listBrandIds({ ...brandsRootOpt(input.brandsRoot), activeOnly: true })
+      : requested;
+  const results: DriveAssetSyncResult[] = [];
+  for (const brand_id of ids) {
+    if (!resolveBrandDriveFolder(brand_id, brandsRootOpt(input.brandsRoot))) {
+      continue;
+    }
+    results.push(
+      await syncBrandAssets({
+        brand_id,
+        catalog: input.catalog,
+        source,
+        ...brandsRootOpt(input.brandsRoot),
+      }),
+    );
+  }
+  return results;
 }

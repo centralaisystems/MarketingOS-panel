@@ -130,6 +130,9 @@ describe("panel deploy bind + health", () => {
       expect(html).toMatch(/id="adsLiveBtn"[^>]*\bdisabled\b/);
       expect(html).toContain("live_publish=OFF");
       expect(html).toContain("live_ads=OFF");
+      expect(html).toContain("Advanced");
+      expect(html).toContain('class="nav-advanced"');
+      expect(html).not.toContain(">More</div>");
 
       const cssRes = await fetch(`http://127.0.0.1:${port}/panel.css`);
       expect(cssRes.ok).toBe(true);

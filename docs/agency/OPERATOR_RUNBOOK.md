@@ -29,7 +29,7 @@ Expect `ok: true`, `live_publish_allowed: false`, `live_ads_allowed: false`. Hos
 
 ## 2. Switch brands
 
-Use the sidebar **Active brand** select. The panel loads **only** that `brand_id` (Dashboard, campaigns, approvals, leads, assets, outboxes, digests). Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`.
+Use the sidebar **Active brand** select. Day-1 nav is Dashboard, Campaigns, Approvals, Owner review, and Assets. Studio / Publish / Leads / Insights / Automation sit under a collapsed **Advanced** group. The panel loads **only** that `brand_id`. Cross-brand query/body mismatches return `403 CROSS_BRAND_DENIED`.
 
 CLI equivalent: pass `--brand <BRAND_ID>` on each command. Never load another brand's pack into the same task.
 
@@ -79,7 +79,7 @@ Wave 8 Today digest is counts only (no raw email/phone). Kill switch: registry `
 
 Villa Glory is on in git. The other three stay off until a local overlay.
 
-Panel: **Run daily digest** / **Run weekly digest** (Today section).
+Panel: **Owner review** → Send progress digest / Run daily digest / Run weekly digest.
 
 ```bash
 pnpm run-digest -- --brand VILLA_GLORY --period daily

@@ -122,6 +122,35 @@ button, input, select, textarea {
 
 .nav-label:first-child { margin-top: 0.15rem; }
 
+.nav-advanced {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.85rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--line);
+}
+
+.nav-advanced summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.48rem 0.65rem;
+  border-radius: 10px;
+  color: var(--faint);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav-advanced summary::-webkit-details-marker { display: none; }
+
+.nav-advanced summary:hover { background: var(--fill); color: var(--muted); }
+
+.nav-advanced[open] summary { color: var(--muted); }
+
+.nav-advanced a { font-size: 0.84rem; }
+
 .nav a {
   display: flex;
   align-items: center;
@@ -317,6 +346,8 @@ button:disabled, button.blocked {
   font-size: 0.7rem;
 }
 
+.badge[hidden] { display: none !important; }
+
 .badge.ok {
   color: var(--ok);
   background: var(--ok-bg);
@@ -403,7 +434,7 @@ tr:last-child td { border-bottom: none; }
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
 }
 
